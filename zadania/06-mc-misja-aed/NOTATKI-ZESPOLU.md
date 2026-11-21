@@ -19,3 +19,7 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   - opcjonalnie zdjęcie defibrylatora.
 - **Grzan:** Pomysł: AED w pojazdach komunikacji miejskiej. Gdy ktoś potrzebuje AED przy przystanku, kierowca pojazdu z AED mógłby dostać o tym informację.
   - Fakty (ZTM Gdańsk, dane na dane.gov.pl, zbiór 1803): „Baza pojazdów” ma pole `aed`, które ma 278 z 503 pojazdów. Feed „Pozycja GPS pojazdów” podaje na żywo `vehicleCode` i lat/lon. Oba łączą się po `vehicleCode`. Test 21.11.2026 ok. 16:50: 222 pojazdy w trasie, w tym 165 z AED. Inne miasta z AED w pojazdach (wg ZRODLA-DANYCH.md): Kraków ok. 25 pojazdów, Warszawa (autobusy, metro, SKM), Katowice. Dla nich nie znaleziono otwartych danych.
+- **Grzan (decyzja):** Kierunek projektu:
+  - na pewno agregujemy dane o AED;
+  - na pewno chcemy, żeby gminy, urzędy miast i inne instytucje **chciały** publikować na dane.gov.pl dane o defibrylatorach, za które odpowiadają;
+  - **AED w pojazdach (defibrylatory w ruchu) całkowicie pomijamy**, bo nie mieszczą się w zakresie projektu. Wcześniejszy pomysł z powiadamianiem kierowcy jest odrzucony.
