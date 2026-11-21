@@ -39,7 +39,8 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 - **Fundacja Ratuj Życie, Ogólnopolska Mapa AED** (ratujzsercem.pl/Map.aspx): działa od 2011 i trafia do aplikacji Staying Alive. Podawane liczby to 1 605 i 2 192 (2022). ❔
 - **Staying Alive:** aplikacja europejska, polska wersja korzysta z mapy fundacji. ❔
 - **Mapa AED / aedmapa.pl, „AED map – defibrillators”:** aplikacje oparte na OSM.
-- **Yanosik:** użytkownicy mogą zgłaszać AED. ❔
+- **Yanosik** (Yanosik S.A., dawniej Neptis): od 03.2022, razem z ZOSP RP i OSM Polska. Użytkownik przytrzymuje miejsce na mapie, wybiera „defibrylator AED” i zaznacza, czy jest wewnątrz, czy na zewnątrz budynku. Dział mapowy weryfikuje zgłoszenie i **dodaje je do OSM**, więc te dane są w pliku OSM na licencji ODbL. https://yanosik.pl/blog/yanosik-bedzie-ratowal-zycie-kierowcom-wprowadzamy-nowe-funkcje-lld3l47cjuawzoxrn5w0dyue
+  - **Publicznego API ani portalu dla programistów nie znaleźliśmy.** Firma sprzedaje dane partnerom komercyjnym i instytucjom na podstawie umowy (PAP Biznes). Klauzul regulaminu o własności zgłoszeń nie udało się odczytać ❔.
 - **Ratownik:** aplikacja, w której można dodawać AED. ❔
 - **Pierwsza Pomoc LUX MED:** mapa AED. ❔
 
@@ -63,6 +64,15 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 **Własność i udostępnianie**
 - Właścicielem jest ZOSP RP (regulamin §1.2). Aplikację stworzyła i utrzymuje HomerSafe Sp. z o.o. (§1.3). Administratorem danych osobowych jest ZOSP RP. Partnerzy to PZU i Google Cloud.
 - Strona mówi o „otwartej bazie”, ale **nie ma publicznego API, licencji ani eksportu**. Baza zasila też aplikację Reanimator „i inne usługi”.
+- **Pogłębione szukanie (21.11): danych nie ma nigdzie publicznie.** „Otwarta” oznacza, że każdy może dodać AED, a nie że dane można pobrać.
+  - Sprawdzone strony bez wyników: /dolacz/jst/, /dolacz/firma/ (ogólniki, brak panelu i importu dla dysponentów), /aplikacja/rejestr-zmian/ (wspomina „panel administracyjny”, bez szczegółów), wp-json (standardowy WordPress), sitemap.xml.
+  - Inne miejsca bez wyników: dane.gov.pl (0 zbiorów od ZOSP lub HomerSafe), GitHub (0 repozytoriów), homersafe.com (brak wzmianki).
+  - Nie znaleźliśmy umowy o przekazywaniu danych do OSM, Geoportalu ani PRM.
+  - API z regulaminu §5.1 służy do przyjmowania zdarzeń (np. z dyspozytorni), a nie do udostępniania lokalizacji AED.
+  - Blog z 29.03.2026: integracja z PRM i 112 jest „w trakcie prac”.
+  - Blog z 18.10.2026 („Wspólny front dla życia”): list intencyjny „Systemy Ratujące Życie” zapowiada rozwój rejestrów AED i powiązanie dyspozytorni z rejestrem AED. To deklaracja, nie otwarcie danych.
+  - ⚠️ Sprzeczność: blog podaje, że aplikację zbudowali Endava i Google Cloud Polska, a regulamin §1.3 wskazuje HomerSafe. Partnerzy wspierający to m.in. AEDMAX, Philips Polska i InPost.
+  - Dostęp do danych zostaje tylko przez kontakt z ZOSP RP (iod@zosprp.org.pl jest adresem inspektora ochrony danych, a nie kontaktem w sprawie danych AED).
 - Do dopytania w ZOSP i HomerSafe: skąd pochodzi początkowa baza, jak wygląda weryfikacja, licencja i API, integracja z CPR.
 
 ## Miejskie, wojewódzkie i instytucjonalne
