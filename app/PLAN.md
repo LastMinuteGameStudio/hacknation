@@ -114,7 +114,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 | # | Zadanie | Ścieżka | Zależy od | Szac. |
 |---|---|---|---|---|
-| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app + tunnel cloudflared, sieci wg §3 „Wdrożenie i sieć”, bez publikowanych portów), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
+| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app + tunnel cloudflared, konfiguracja wg §3 „Wdrożenie i sieć”, bez publikowanych portów), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
 | A1 | `schema.py`: wczytanie zakres-pol.csv i slowniki.csv | A: rdzeń | T0 | 20 min |
 | A2 | `parsers.py`: CSV (sniff separatora, kodowania cp1250/utf-8, BOM, cudzysłowy) i XLSX (openpyxl) | A | T0 | 45 min |
 | A3 | `mapping.py` + `synonimy.py`: propozycja mapowania z pewnością | A | A1, A2 | 1,5 h |
