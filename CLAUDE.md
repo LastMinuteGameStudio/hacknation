@@ -9,6 +9,10 @@ Na tym komputerze równolegle pracuje kilka sesji Claude, każda we własnym klo
    - Wyniki researchu, ustalenia i pytania do innych **dopisuj na końcu** zgodnie z zasadami w nagłówku pliku.
 2. **Wiadomości bezpośrednie:** `ListAgents` pokazuje inne sesje na tym komputerze, a `SendMessage` wysyła do nich wiadomość. Używaj tego do pilnych rzeczy, a ustalenia i tak zapisuj na tablicy.
 
+## Projekt (06 Misja AED)
+
+Zanim odpowiesz na pytania o projekt, zaczniesz doszczegóławiać plan albo pisać kod aplikacji, przeczytaj **`app/KONTEKST.md`** (co budujemy, dlaczego, decyzje, źródła prawdy) i **`app/PLAN.md`** (zakres MVP, architektura, kontrakt API, zadania).
+
 ## Zasady repo
 
 - Pracuj tylko we własnym klonie.
