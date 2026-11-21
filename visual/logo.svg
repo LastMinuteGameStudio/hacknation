@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="400.00012mm"
+   height="360.00012mm"
+   viewBox="0 0 400.00012 360.00012"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="hacknation paleta.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#ffffff"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.0890853"
+     inkscape:cx="14177.423"
+     inkscape:cy="5590.1479"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:page
+       x="0"
+       y="7.9620147e-37"
+       width="400.00012"
+       height="360.00012"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3496.3555,-1667.6265)">
+    <path
+       id="path4-1"
+       style="fill:#008c15;fill-opacity:1;stroke-width:6.1824;stroke-linecap:round"
+       d="m 3613.5139,1667.6265 a 117.15784,115.33479 0 0 0 -30.3232,3.9318 117.15784,115.33479 0 0 0 -82.844,81.5548 117.15784,115.33479 0 0 0 30.3236,111.4016 l 165.6853,163.1119 165.6856,-163.1119 a 117.15784,115.33479 0 0 0 30.3232,-111.4016 117.15784,115.33479 0 0 0 -82.8417,-81.5548 117.15784,115.33479 0 0 0 -113.1671,29.849 117.15784,115.33479 0 0 0 -82.8417,-33.7808 z m 78.2896,53.2856 a 5.2075159,5.1264839 0 0 1 5.3499,4.5391 l 11.2221,96.327 a 11.726451,11.54398 0 0 0 11.6491,10.2285 h 44.3863 a 6.4311333,6.3310609 0 0 1 5.7387,9.1872 l -66.9636,130.3658 a 5.2788323,5.1966899 0 0 1 -9.9586,-1.7956 l -10.2976,-95.3435 a 11.629457,11.448495 0 0 0 -11.5632,-10.2374 h -42.9511 a 6.544103,6.4422725 0 0 1 -5.8856,-9.2585 l 64.7667,-131.1312 a 5.2075159,5.1264839 0 0 1 4.5069,-2.8814 z"
+       inkscape:export-filename="logo_vertical.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+</svg>
