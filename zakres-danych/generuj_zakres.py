@@ -7,8 +7,10 @@ Wynik (w katalogu skryptu):
   - zakres-pol.csv                    (opis pól, wersja maszynowa)
   - szablon-aed.csv                   (pusty szablon z nagłówkami do wypełnienia)
   - slowniki.csv                      (wartości słownikowe)
+  - szablon-aed.csv-metadata.json     (opis CSVW dla poziomu 4 gwiazdek)
 """
 import csv
+import json
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -17,7 +19,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 OUT = Path(__file__).resolve().parent
-WERSJA = "0.1 (szkic, 2026-11-21)"
+WERSJA = "0.2 (szkic, 2026-11-21)"
 
 # Wymagalność: O = obowiązkowe, Z = zalecane, F = fakultatywne
 # (grupa, pole, nazwa wyświetlana, typ, format/słownik, wymagalność, opis, przykład, OSM, Warszawa 19115, Legionowo / Krosno)
@@ -55,8 +57,10 @@ POLA = [
      "Identyfikator miejscowości z rejestru TERYT.", "0920806", "–", "–", "kod_simc / –"),
     ("Lokalizacja", "kod_ulic", "Kod ULIC ulicy", "tekst", "5 cyfr (TERYT ULIC)", "F",
      "Identyfikator ulicy z rejestru TERYT.", "12345 (przykład)", "–", "–", "– / –"),
-    ("Lokalizacja", "wewnatrz_budynku", "Wewnątrz budynku", "słownik", "słownik: tak_nie", "O",
-     "Czy urządzenie jest wewnątrz budynku (tak) czy na zewnątrz (nie).", "tak", "indoor", "wewnątrz/na zewnątrz", "– / –"),
+    ("Lokalizacja", "adres_uniwersalny", "Adres uniwersalny", "tekst", "wg standardu technicznego dane.gov.pl, rozdz. 3.2 (kody TERYT, współrzędne i numer budynku rozdzielone „|”, jak kolumna AdresCSIOZ w danych adresowych GUGiK)", "F",
+     "Zakodowany adres punktu adresowego do automatycznego odczytu. Standard techniczny portalu go zaleca.", "", "–", "–", "– / –"),
+    ("Lokalizacja", "wewnatrz_budynku", "Wewnątrz budynku", "logiczny", "true / false", "O",
+     "Czy urządzenie jest wewnątrz budynku (true) czy na zewnątrz (false).", "true", "indoor", "wewnątrz/na zewnątrz", "– / –"),
     ("Lokalizacja", "kondygnacja", "Kondygnacja", "liczba całkowita", "0 = parter, -1 = piwnica", "F",
      "Kondygnacja, na której jest urządzenie.", "0", "level", "piętro", "– / –"),
     ("Lokalizacja", "opis_lokalizacji", "Opis miejsca", "tekst", "krótki opis, max ok. 200 znaków", "Z",
@@ -85,8 +89,8 @@ POLA = [
      "Producent urządzenia.", "Philips", "manufacturer", "producent (wolny tekst)", "– / –"),
     ("Urządzenie", "model", "Model", "tekst", "dowolny", "F",
      "Model urządzenia.", "HeartStart FRx", "model", "–", "– / –"),
-    ("Urządzenie", "tryb_pediatryczny", "Elektrody lub tryb dziecięcy", "słownik", "słownik: tak_nie", "F",
-     "Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.", "tak", "–", "–", "– / –"),
+    ("Urządzenie", "tryb_pediatryczny", "Elektrody lub tryb dziecięcy", "logiczny", "true / false", "F",
+     "Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.", "true", "–", "–", "– / –"),
 
     # --- Stan i aktualność ---
     ("Stan i aktualność", "status", "Status urządzenia", "słownik", "słownik: status", "O",
@@ -105,7 +109,7 @@ POLA = [
      "Instytucja odpowiedzialna za urządzenie (właściciel lub zarządca).", "Urząd Miasta Legionowo", "operator", "–", "– / –"),
     ("Dysponent", "dysponent_typ", "Typ dysponenta", "słownik", "słownik: dysponent_typ", "Z",
      "Kategoria dysponenta.", "jst", "operator:type (rzadko)", "–", "– / –"),
-    ("Dysponent", "dysponent_regon", "REGON dysponenta", "tekst", "9 lub 14 cyfr", "F",
+    ("Dysponent", "dysponent_regon", "REGON dysponenta", "tekst", "9 lub 14 cyfr, bez spacji i łączników", "F",
      "REGON instytucji. Ułatwia jednoznaczne powiązanie urządzeń z dysponentem.", "000000000 (przykład)", "–", "–", "– / –"),
     ("Dysponent", "telefon_kontaktowy", "Telefon kontaktowy", "tekst", "+48 NNN NNN NNN; wyłącznie numer służbowy", "Z",
      "Służbowy numer w sprawie urządzenia (np. portiernia, ochrona). Nie podaje się danych osobowych.", "+48 22 000 00 00 (przykład)", "phone / emergency:phone", "–", "– / –"),
@@ -115,14 +119,13 @@ POLA = [
     # --- Metadane rekordu ---
     ("Metadane rekordu", "zrodlo_danych", "Źródło danych", "słownik", "słownik: zrodlo_danych", "O",
      "Skąd pochodzi rekord.", "dysponent", "source", "–", "– / –"),
-    ("Metadane rekordu", "data_aktualizacji", "Data aktualizacji rekordu", "data i czas", "ISO 8601: RRRR-MM-DDTGG:MM:SS+01:00", "O",
-     "Moment ostatniej zmiany rekordu (dowolnego pola).", "2026-11-21T12:00:00+01:00", "@osm_version (pośrednio)", "–", "– / –"),
+    ("Metadane rekordu", "data_aktualizacji", "Data aktualizacji rekordu", "data i czas", "ISO 8601: RRRR-MM-DDTGG:MM:SS (czas lokalny)", "O",
+     "Moment ostatniej zmiany rekordu (dowolnego pola).", "2026-11-21T12:00:00", "@osm_version (pośrednio)", "–", "– / –"),
     ("Metadane rekordu", "uwagi", "Uwagi", "tekst", "dowolny", "F",
      "Dodatkowe informacje.", "", "note / description", "–", "– / –"),
 ]
 
 SLOWNIKI = {
-    "tak_nie": [("tak", "Tak"), ("nie", "Nie")],
     "tak_nie_ograniczony": [("tak", "Tak"), ("nie", "Nie"), ("ograniczony", "Częściowo / z ograniczeniami")],
     "cecha_ulicy": [("ulica", "ul."), ("aleja", "al."), ("plac", "pl."), ("skwer", "skwer"), ("rondo", "rondo"),
                     ("osiedle", "os."), ("bulwar", "bulw."), ("inne", "inna cecha wg TERYT")],
@@ -151,30 +154,46 @@ SLOWNIKI = {
 }
 
 ZASADY = [
-    ("Format pliku", "CSV w kodowaniu UTF-8 (bez BOM), separator: przecinek, zgodnie z RFC 4180. Pierwszy wiersz to nagłówki = nazwy techniczne pól."),
-    ("Jeden wiersz", "Jeden wiersz = jedno urządzenie AED."),
-    ("Współrzędne", "WGS84 (EPSG:4326), dwie osobne kolumny, kropka dziesiętna, kolejność: szerokość, długość."),
-    ("Daty", "ISO 8601 (RRRR-MM-DD, a dla daty i czasu RRRR-MM-DDTGG:MM:SS ze strefą czasową)."),
-    ("Adres", "Każdy element adresu w osobnym polu. Kody TERYT (TERC, SIMC, ULIC) zalecane."),
+    ("Format pliku", "CSV zgodny z RFC 4180: kodowanie UTF-8 (bez BOM), separator przecinek, koniec wiersza CRLF, cudzysłów wokół wartości z przecinkiem lub znakiem nowej linii (standard techniczny dane.gov.pl, rozdz. 4)."),
+    ("Nagłówek", "Dokładnie jeden wiersz nagłówka = nazwy techniczne pól. Każda kolumna ma unikalny, niepusty nagłówek. Każdy wiersz ma tyle samo komórek co nagłówek."),
+    ("Jeden wiersz", "Jeden wiersz = jedno urządzenie AED. Wiersze są od siebie niezależne: wartości powtarzające się w kolejnych wierszach wpisuje się w każdym wierszu."),
+    ("Puste kolumny", "Plik nie może mieć całkowicie pustych kolumn ani wierszy. Pole fakultatywne, którego dysponent nie wypełnia w żadnym rekordzie, pomija się w pliku (zamiast zostawiać pustą kolumnę)."),
+    ("Puste wartości", "Brak wartości w pojedynczym rekordzie = puste pole. Nie wpisywać „brak”, „-”, „0”."),
+    ("Wartości logiczne", "Zapis true / false."),
+    ("Liczby", "Kropka dziesiętna, bez separatorów tysięcy."),
+    ("Współrzędne", "WGS84 (EPSG:4326), dwie osobne kolumny, kolejność: szerokość, długość."),
+    ("Daty", "ISO 8601: RRRR-MM-DD, a dla daty i czasu RRRR-MM-DDTGG:MM:SS."),
+    ("Adres", "Każdy element adresu w osobnym polu (wymóg standardu technicznego, rozdz. 3.2). Kody TERYT (TERC, SIMC, ULIC) i adres uniwersalny zalecane."),
+    ("Identyfikatory", "REGON jako 9 lub 14 cyfr bez spacji i łączników."),
     ("Słowniki", "Pola słownikowe przyjmują tylko kody z arkusza „Słowniki”."),
-    ("Puste wartości", "Brak wartości = puste pole. Nie wpisywać „brak”, „-”, „0”."),
+    ("Poziom otwartości", "CSV zgodny z tymi zasadami odpowiada poziomowi 3★. Poziom 4★ wymaga dodatkowo opisu wg W3C „Model for Tabular Data and Metadata on the Web” (CSVW); dołączony plik szablon-aed.csv-metadata.json zawiera taki opis."),
     ("Dane osobowe", "Bez imion, nazwisk i prywatnych numerów. Kontakt tylko służbowy lub funkcyjny. Kodów do szafek nie publikuje się."),
     ("Wymagalność", "O = obowiązkowe, Z = zalecane, F = fakultatywne."),
     ("Zgodność z OSM", "Kolumna „Odpowiednik OSM” wskazuje tag emergency=defibrillator, co pozwala łączyć zbiór z OpenStreetMap."),
 ]
 
-# Metadane zbioru na dane.gov.pl (propozycja, do potwierdzenia z rozp. Dz.U. 2022 poz. 2415 §6–7 i DCAT-AP-PL).
+# Metadane wg rozporządzenia RM z 22.11.2022 w sprawie portalu danych (Dz.U. 2022 poz. 2415), § 6 (zbiór) i § 7 (zasób).
+# (poziom, element, podstawa, kto wypełnia, weryfikacja automatyczna § 10, proponowana wartość)
 METADANE = [
-    ("Tytuł", "dct:title", "Defibrylatory AED – <nazwa dysponenta>"),
-    ("Opis", "dct:description", "Wykaz automatycznych defibrylatorów zewnętrznych (AED) wraz z lokalizacją, dostępnością i stanem, zgodny z wzorcowym zakresem danych AED."),
-    ("Słowa kluczowe", "dcat:keyword", "AED, defibrylator, pierwsza pomoc, ratownictwo, zdrowie"),
-    ("Kategoria", "dcat:theme", "Zdrowie (HEAL); Rząd i sektor publiczny (GOVE)"),
-    ("Licencja", "dct:license", "CC0 1.0 lub CC BY 4.0 (do ustalenia z MC). Portal dane.gov.pl nie oferuje ODbL, więc danych z OSM nie można wprost włączyć do zbioru."),
-    ("Częstotliwość aktualizacji", "dct:accrualPeriodicity", "co najmniej raz w miesiącu oraz po każdej zmianie"),
-    ("Zasięg przestrzenny", "dct:spatial", "obszar dysponenta (kod TERC)"),
-    ("Dostawca", "dct:publisher", "nazwa dostawcy na dane.gov.pl"),
-    ("Format zasobu", "dct:format", "CSV (UTF-8, RFC 4180); opcjonalnie GeoJSON"),
-    ("Kontakt", "dcat:contactPoint", "adres funkcyjny dostawcy"),
+    ("zbiór", "Tytuł", "§ 6 ust. 1 pkt 1", "dostawca", "tak", "Defibrylatory AED – <nazwa dysponenta>"),
+    ("zbiór", "Słowo kluczowe (min. 1)", "§ 6 ust. 1 pkt 2", "dostawca", "tak", "AED; defibrylator; pierwsza pomoc; ratownictwo; zdrowie"),
+    ("zbiór", "Opis", "§ 6 ust. 1 pkt 3", "dostawca", "tak", "Wykaz automatycznych defibrylatorów zewnętrznych (AED) z lokalizacją, dostępnością i stanem, zgodny z wzorcowym zakresem danych AED."),
+    ("zbiór", "Częstotliwość aktualizacji", "§ 6 ust. 1 pkt 4", "dostawca", "tak", "co miesiąc (oraz po każdej zmianie urządzenia)"),
+    ("zbiór", "Kategoria", "§ 6 ust. 1 pkt 5", "dostawca", "tak", "Zdrowie"),
+    ("zbiór", "Warunki ponownego wykorzystywania (art. 14–15 ustawy)", "§ 6 ust. 1 pkt 6", "dostawca, o ile dotyczy", "nie", "Licencja CC0 1.0 lub CC BY 4.0 (do ustalenia z MC). Portal nie oferuje ODbL, więc danych z OSM nie można wprost włączyć do zbioru."),
+    ("zbiór", "Źródło (URL)", "§ 6 ust. 1 pkt 7", "dostawca, o ile dotyczy", "nie", "adres strony dysponenta z wykazem AED (jeśli istnieje)"),
+    ("zbiór", "Logotyp", "§ 6 ust. 1 pkt 8", "dostawca, o ile dotyczy", "nie", "logotyp akcji (do przygotowania)"),
+    ("zbiór", "Oznaczenie danych badawczych", "§ 6 ust. 1 pkt 9", "dostawca, o ile dotyczy", "tak", "nie"),
+    ("zbiór", "Oznaczenie danych dynamicznych", "§ 6 ust. 1 pkt 10", "dostawca, o ile dotyczy", "tak", "nie (do potwierdzenia, jeśli status urządzeń ma być aktualizowany na bieżąco)"),
+    ("zbiór", "Oznaczenie danych o wysokiej wartości", "§ 6 ust. 1 pkt 11", "dostawca, o ile dotyczy", "tak", "nie (do potwierdzenia z MC)"),
+    ("zbiór", "Identyfikator, informacja o dostawcy, data udostępnienia, data aktualizacji", "§ 6 ust. 3", "portal (automatycznie)", "–", "–"),
+    ("zasób", "Tytuł", "§ 7 ust. 1 pkt 1", "dostawca", "tak", "Defibrylatory AED – <nazwa dysponenta> – CSV"),
+    ("zasób", "Opis", "§ 7 ust. 1 pkt 2", "dostawca", "tak", "Plik CSV zgodny z wzorcowym zakresem danych AED, wersja " + WERSJA.split(" ")[0] + "."),
+    ("zasób", "Dane na dzień", "§ 7 ust. 1 pkt 3", "dostawca", "tak", "data stanu danych, RRRR-MM-DD"),
+    ("zasób", "Znaki umowne", "§ 7 ust. 1 pkt 4", "dostawca, o ile dotyczy", "nie", "nie dotyczy"),
+    ("zasób", "Lokalizacja danych (podział terytorialny)", "§ 7 ust. 1 pkt 5", "dostawca, o ile dotyczy", "nie", "obszar dysponenta (gmina, powiat, województwo lub cała Polska)"),
+    ("zasób", "Język danych", "§ 7 ust. 1 pkt 6", "dostawca", "tak", "polski"),
+    ("zasób", "Identyfikator, format, data udostępnienia, typ, źródło, poziom otwartości", "§ 7 ust. 3", "portal (automatycznie)", "–", "–"),
 ]
 
 # Przykładowe rekordy. Rekord 1 to dane rzeczywiste z dane.gov.pl (Legionowo, CC0); pola, których źródło nie ma, pozostają puste.
@@ -187,22 +206,22 @@ PRZYKLADY = [
      "uwagi": "Dane rzeczywiste: dane.gov.pl, zasób 2625221 (CC0). Kod TERC uzupełniony do 7 cyfr (źródło podaje 6 cyfr: 140801). Pozostałe pola puste, bo nie ma ich w źródle."},
     {"id_aed": "PRZYKLAD-0002", "szerokosc_geograficzna": "52.229676", "dlugosc_geograficzna": "21.012229",
      "nazwa_obiektu": "Szkoła Podstawowa nr 999 (przykład)", "cecha_ulicy": "ulica", "nazwa_ulicy": "Przykładowa",
-     "nr_budynku": "1", "kod_pocztowy": "00-001", "miejscowosc": "Warszawa", "wewnatrz_budynku": "tak", "kondygnacja": "0",
+     "nr_budynku": "1", "kod_pocztowy": "00-001", "miejscowosc": "Warszawa", "wewnatrz_budynku": "true", "kondygnacja": "0",
      "opis_lokalizacji": "Hol główny, przy portierni", "dostepnosc": "na_prosbe", "dostepny_24_7": "nie",
      "godziny_dostepnosci": "Mo-Fr 07:00-17:00; Sa-Su,PH off", "zabezpieczenie": "szafka_otwarta",
      "instrukcja_dostepu": "Wejście główne, poprosić portiera", "dostepnosc_wozek": "tak", "producent": "Philips",
-     "model": "HeartStart FRx", "tryb_pediatryczny": "tak", "status": "sprawny", "data_weryfikacji": "2026-11-15",
+     "model": "HeartStart FRx", "tryb_pediatryczny": "true", "status": "sprawny", "data_weryfikacji": "2026-11-15",
      "data_przegladu": "2026-03-01", "data_waznosci_elektrod": "2028-05-31", "data_waznosci_baterii": "2029-01-31",
      "dysponent_nazwa": "Szkoła Podstawowa nr 999 (przykład)", "dysponent_typ": "edukacja",
      "telefon_kontaktowy": "+48 22 000 00 00", "email_kontaktowy": "aed@example.edu.pl", "zrodlo_danych": "dysponent",
-     "data_aktualizacji": "2026-11-21T12:00:00+01:00", "uwagi": "REKORD FIKCYJNY – przykład wypełnienia"},
+     "data_aktualizacji": "2026-11-21T12:00:00", "uwagi": "REKORD FIKCYJNY – przykład wypełnienia"},
     {"id_aed": "PRZYKLAD-0003", "osm_id": "node/1", "szerokosc_geograficzna": "50.061947", "dlugosc_geograficzna": "19.936856",
      "nazwa_obiektu": "Przystanek przykładowy", "nazwa_ulicy": "Przykładowa", "miejscowosc": "Kraków",
-     "wewnatrz_budynku": "nie", "opis_lokalizacji": "Szafka na ścianie wiaty, od strony jezdni", "dostepnosc": "publiczny",
+     "wewnatrz_budynku": "false", "opis_lokalizacji": "Szafka na ścianie wiaty, od strony jezdni", "dostepnosc": "publiczny",
      "dostepny_24_7": "tak", "godziny_dostepnosci": "24/7", "zabezpieczenie": "szafka_kod",
      "instrukcja_dostepu": "Kod do szafki podaje dyspozytor pod numerem 112", "status": "tymczasowo_niedostepny",
      "data_weryfikacji": "2026-10-02", "dysponent_nazwa": "Przykładowy Zarząd Transportu", "dysponent_typ": "transport",
-     "zrodlo_danych": "zgloszenie_zweryfikowane", "data_aktualizacji": "2026-11-20T08:30:00+01:00",
+     "zrodlo_danych": "zgloszenie_zweryfikowane", "data_aktualizacji": "2026-11-20T08:30:00",
      "uwagi": "REKORD FIKCYJNY – urządzenie zabrane do serwisu po użyciu"},
 ]
 
@@ -237,14 +256,14 @@ def main():
     ws["A1"].font = Font(bold=True, size=14)
     ws.append(["Wersja", WERSJA])
     ws.append(["Cel", "Jednolity zakres danych, w którym każdy dysponent AED udostępnia dane na portalu dane.gov.pl, tak by dało się je połączyć w jeden ogólnopolski zbiór."])
-    ws.append(["Arkusze", "Zakres danych – opis pól; Słowniki – dozwolone wartości; Szablon – nagłówki do wypełnienia; Przykłady – przykładowe rekordy; Metadane zbioru – propozycja opisu zbioru na dane.gov.pl."])
+    ws.append(["Arkusze", "Zakres danych – opis pól; Słowniki – dozwolone wartości; Szablon – nagłówki do wypełnienia; Przykłady – przykładowe rekordy; Metadane zbioru – elementy metadanych wg § 6–7 rozporządzenia o portalu danych z proponowanymi wartościami."])
     ws.append([])
     ws.append(["Zasady"])
     ws.cell(row=ws.max_row, column=1).font = Font(bold=True)
     for k, v in ZASADY:
         ws.append([k, v])
     ws.append([])
-    ws.append(["Podstawy", "Standard techniczny dane.gov.pl; Rozporządzenie RM Dz.U. 2022 poz. 2415; DCAT-AP-PL; tagowanie OSM emergency=defibrillator; schematy zbiorów Legionowo, Krosno i Warszawa (19115); wzorce The Circuit (UK) i Hjertestarter (DK)."])
+    ws.append(["Podstawy", "Standard techniczny dane.gov.pl (rozdz. 3–4); Rozporządzenie RM w sprawie portalu danych, Dz.U. 2022 poz. 2415 (§ 6, 7, 10); W3C CSVW; DCAT-AP-PL; tagowanie OSM emergency=defibrillator; schematy zbiorów Legionowo, Krosno i Warszawa (19115); wzorce The Circuit (UK) i Hjertestarter (DK)."])
     ws.append(["Licencja zakresu", "Do ustalenia (proponowane CC0 1.0)."])
     for row in ws.iter_rows(min_row=2):
         for c in row:
@@ -277,10 +296,11 @@ def main():
     for i, n in enumerate(nazwy, 1):
         ws.cell(row=1, column=i).fill = REQ_FILL[wym[n]]
         ws.cell(row=1, column=i).font = Font(bold=True)
-    # listy rozwijane dla pól słownikowych
+    # listy rozwijane dla pól słownikowych i logicznych
+    typy = {p[1]: p[3] for p in POLA}
     for i, n in enumerate(nazwy, 1):
-        if n in slownik_pola:
-            kody = ",".join(k for k, _ in SLOWNIKI[slownik_pola[n]])
+        if n in slownik_pola or typy[n] == "logiczny":
+            kody = "true,false" if typy[n] == "logiczny" else ",".join(k for k, _ in SLOWNIKI[slownik_pola[n]])
             dv = DataValidation(type="list", formula1=f'"{kody}"', allow_blank=True)
             col = get_column_letter(i)
             dv.add(f"{col}2:{col}1000")
@@ -292,7 +312,8 @@ def main():
         ws.append([r.get(n, "") for n in nazwy])
 
     ws = wb.create_sheet("Metadane zbioru")
-    naglowek(ws, ["Element", "Właściwość DCAT-AP-PL", "Proponowana wartość"], [26, 26, 90])
+    naglowek(ws, ["Poziom", "Element metadanych", "Podstawa (Dz.U. 2022 poz. 2415)", "Kto wypełnia",
+                  "Weryfikowane automatycznie (§ 10)", "Proponowana wartość"], [10, 34, 22, 22, 16, 70])
     for row in METADANE:
         ws.append(list(row))
         for c in ws[ws.max_row]:
@@ -314,6 +335,27 @@ def main():
         for nazwa, wartosci in SLOWNIKI.items():
             for kod, zn in wartosci:
                 w.writerow([nazwa, kod, zn])
+
+    # Opis CSVW (W3C Tabular Data and Metadata) dla poziomu 4 gwiazdek
+    xsd = {"tekst": "string", "słownik": "string", "URL": "anyURI", "liczba dziesiętna": "decimal",
+           "liczba całkowita": "integer", "logiczny": "boolean", "data": "date", "data i czas": "dateTime"}
+    csvw = {
+        "@context": ["http://www.w3.org/ns/csvw", {"@language": "pl"}],
+        "url": "szablon-aed.csv",
+        "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
+        "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja " + WERSJA,
+        "dialect": {"encoding": "utf-8", "delimiter": ",", "header": True, "lineTerminators": ["\r\n"]},
+        "tableSchema": {
+            "columns": [{"name": p[1], "titles": p[2], "dc:description": p[6],
+                         "datatype": xsd[p[3]], "required": p[5] == "O"} for p in POLA],
+            "primaryKey": "id_aed",
+        },
+    }
+    for c in csvw["tableSchema"]["columns"]:
+        if c["name"] in slownik_pola:
+            c["datatype"] = {"base": "string", "format": "|".join(k for k, _ in SLOWNIKI[slownik_pola[c["name"]]])}
+    with open(OUT / "szablon-aed.csv-metadata.json", "w", encoding="utf-8") as f:
+        json.dump(csvw, f, ensure_ascii=False, indent=2)
 
     print(f"{xlsx.name}: {len(POLA)} pól ({sum(1 for p in POLA if p[5]=='O')} O, "
           f"{sum(1 for p in POLA if p[5]=='Z')} Z, {sum(1 for p in POLA if p[5]=='F')} F), "

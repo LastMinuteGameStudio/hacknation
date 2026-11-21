@@ -14,30 +14,31 @@ lp,grupa,pole,nazwa,typ,format,wymagalnosc,opis,przyklad,osm,warszawa_19115,legi
 13,Lokalizacja,kod_terc,Kod TERC gminy,tekst,"7 cyfr (TERYT TERC, z rodzajem gminy)",Z,"Kod gminy z rejestru TERYT. Pozwala agregować dane według gmin, powiatów i województw.",1408011,–,– (dzielnica tekstem),kod_terc (6 cyfr) / –
 14,Lokalizacja,kod_simc,Kod SIMC miejscowości,tekst,"7 cyfr (TERYT SIMC), z zerami wiodącymi",Z,Identyfikator miejscowości z rejestru TERYT.,0920806,–,–,kod_simc / –
 15,Lokalizacja,kod_ulic,Kod ULIC ulicy,tekst,5 cyfr (TERYT ULIC),F,Identyfikator ulicy z rejestru TERYT.,12345 (przykład),–,–,– / –
-16,Lokalizacja,wewnatrz_budynku,Wewnątrz budynku,słownik,słownik: tak_nie,O,Czy urządzenie jest wewnątrz budynku (tak) czy na zewnątrz (nie).,tak,indoor,wewnątrz/na zewnątrz,– / –
-17,Lokalizacja,kondygnacja,Kondygnacja,liczba całkowita,"0 = parter, -1 = piwnica",F,"Kondygnacja, na której jest urządzenie.",0,level,piętro,– / –
-18,Lokalizacja,opis_lokalizacji,Opis miejsca,tekst,"krótki opis, max ok. 200 znaków",Z,Jak znaleźć urządzenie na miejscu.,"Hol główny, na ścianie przy recepcji",defibrillator:location(:pl),opis lokalizacji,– / lokalizacja
-19,Lokalizacja,zdjecie_url,Zdjęcie (adres URL),URL,"https://…, plik JPG/PNG; nie osadzać base64",F,Adres zdjęcia pokazującego urządzenie i jego otoczenie.,https://example.gov.pl/aed/1408011-0001.jpg,image,zdjęcie (base64),– / –
-20,Lokalizacja,zdjecie_licencja,Licencja zdjęcia,tekst,"np. CC BY 4.0, CC0",F,"Licencja, na której udostępniono zdjęcie (wymagana, gdy podano zdjecie_url).",CC0 1.0,image:license,–,– / –
-21,Dostępność,dostepnosc,Kto ma dostęp,słownik,słownik: dostepnosc,O,Kto może skorzystać z urządzenia.,publiczny,access,publiczny/prywatny,– / –
-22,Dostępność,dostepny_24_7,Dostępny całą dobę,słownik,słownik: tak_nie_ograniczony,O,"Czy urządzenie jest dostępne przez całą dobę, 7 dni w tygodniu.",nie,opening_hours=24/7,dostępność 24/7 (Tak/Nie/Ograniczona),– / –
-23,Dostępność,godziny_dostepnosci,Godziny dostępności,tekst,składnia OSM opening_hours,Z,"Godziny, w których urządzenie jest dostępne. Wymagane, gdy dostepny_24_7 = nie lub ograniczony.","Mo-Fr 07:30-15:30; Sa-Su,PH off",opening_hours,godziny (wolny tekst),– / –
-24,Dostępność,zabezpieczenie,Zabezpieczenie urządzenia,słownik,słownik: zabezpieczenie,Z,Czy i jak urządzenie jest zamknięte. Kodów ani haseł do szafki nie publikuje się.,szafka_otwarta,–,–,– / –
-25,Dostępność,instrukcja_dostepu,Jak uzyskać dostęp,tekst,"krótki opis, bez kodów i haseł",F,"Informacja, co zrobić, gdy urządzenie jest zamknięte lub w strefie z ograniczonym wejściem.","Klucz w portierni, czynnej całą dobę",description,–,– / –
-26,Dostępność,dostepnosc_wozek,Dostęp dla osób na wózku,słownik,słownik: tak_nie_ograniczony,F,Czy osoba na wózku dotrze do urządzenia bez barier.,tak,wheelchair,–,– / –
-27,Urządzenie,producent,Producent,tekst,dowolny,F,Producent urządzenia.,Philips,manufacturer,producent (wolny tekst),– / –
-28,Urządzenie,model,Model,tekst,dowolny,F,Model urządzenia.,HeartStart FRx,model,–,– / –
-29,Urządzenie,tryb_pediatryczny,Elektrody lub tryb dziecięcy,słownik,słownik: tak_nie,F,Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.,tak,–,–,– / –
-30,Stan i aktualność,status,Status urządzenia,słownik,słownik: status,O,Aktualny stan urządzenia według ostatniej wiedzy dysponenta.,sprawny,–,status zgłoszenia (inne znaczenie),– / –
-31,Stan i aktualność,data_weryfikacji,Data ostatniej weryfikacji,data,ISO 8601: RRRR-MM-DD,O,"Data, w której ktoś na miejscu potwierdził obecność, dostępność i sprawność urządzenia.",2026-11-15,check_date,data ostatniej weryfikacji,– / –
-32,Stan i aktualność,data_przegladu,Data ostatniego przeglądu,data,ISO 8601: RRRR-MM-DD,F,Data ostatniego przeglądu technicznego.,2026-03-01,–,–,– / –
-33,Stan i aktualność,data_waznosci_elektrod,Ważność elektrod,data,ISO 8601: RRRR-MM-DD,F,Data ważności elektrod.,2028-05-31,–,–,– / –
-34,Stan i aktualność,data_waznosci_baterii,Ważność baterii,data,ISO 8601: RRRR-MM-DD,F,Data ważności baterii.,2029-01-31,–,–,– / –
-35,Dysponent,dysponent_nazwa,Dysponent urządzenia,tekst,pełna nazwa instytucji lub firmy,O,Instytucja odpowiedzialna za urządzenie (właściciel lub zarządca).,Urząd Miasta Legionowo,operator,–,– / –
-36,Dysponent,dysponent_typ,Typ dysponenta,słownik,słownik: dysponent_typ,Z,Kategoria dysponenta.,jst,operator:type (rzadko),–,– / –
-37,Dysponent,dysponent_regon,REGON dysponenta,tekst,9 lub 14 cyfr,F,REGON instytucji. Ułatwia jednoznaczne powiązanie urządzeń z dysponentem.,000000000 (przykład),–,–,– / –
-38,Dysponent,telefon_kontaktowy,Telefon kontaktowy,tekst,+48 NNN NNN NNN; wyłącznie numer służbowy,Z,"Służbowy numer w sprawie urządzenia (np. portiernia, ochrona). Nie podaje się danych osobowych.",+48 22 000 00 00 (przykład),phone / emergency:phone,–,– / –
-39,Dysponent,email_kontaktowy,E-mail kontaktowy,tekst,"adres funkcyjny, np. aed@…",F,"Służbowy adres funkcyjny, pod który można zgłosić problem z urządzeniem. Nie imienny.",aed@example.gov.pl,email,–,– / –
-40,Metadane rekordu,zrodlo_danych,Źródło danych,słownik,słownik: zrodlo_danych,O,Skąd pochodzi rekord.,dysponent,source,–,– / –
-41,Metadane rekordu,data_aktualizacji,Data aktualizacji rekordu,data i czas,ISO 8601: RRRR-MM-DDTGG:MM:SS+01:00,O,Moment ostatniej zmiany rekordu (dowolnego pola).,2026-11-21T12:00:00+01:00,@osm_version (pośrednio),–,– / –
-42,Metadane rekordu,uwagi,Uwagi,tekst,dowolny,F,Dodatkowe informacje.,,note / description,–,– / –
+16,Lokalizacja,adres_uniwersalny,Adres uniwersalny,tekst,"wg standardu technicznego dane.gov.pl, rozdz. 3.2 (kody TERYT, współrzędne i numer budynku rozdzielone „|”, jak kolumna AdresCSIOZ w danych adresowych GUGiK)",F,Zakodowany adres punktu adresowego do automatycznego odczytu. Standard techniczny portalu go zaleca.,,–,–,– / –
+17,Lokalizacja,wewnatrz_budynku,Wewnątrz budynku,logiczny,true / false,O,Czy urządzenie jest wewnątrz budynku (true) czy na zewnątrz (false).,true,indoor,wewnątrz/na zewnątrz,– / –
+18,Lokalizacja,kondygnacja,Kondygnacja,liczba całkowita,"0 = parter, -1 = piwnica",F,"Kondygnacja, na której jest urządzenie.",0,level,piętro,– / –
+19,Lokalizacja,opis_lokalizacji,Opis miejsca,tekst,"krótki opis, max ok. 200 znaków",Z,Jak znaleźć urządzenie na miejscu.,"Hol główny, na ścianie przy recepcji",defibrillator:location(:pl),opis lokalizacji,– / lokalizacja
+20,Lokalizacja,zdjecie_url,Zdjęcie (adres URL),URL,"https://…, plik JPG/PNG; nie osadzać base64",F,Adres zdjęcia pokazującego urządzenie i jego otoczenie.,https://example.gov.pl/aed/1408011-0001.jpg,image,zdjęcie (base64),– / –
+21,Lokalizacja,zdjecie_licencja,Licencja zdjęcia,tekst,"np. CC BY 4.0, CC0",F,"Licencja, na której udostępniono zdjęcie (wymagana, gdy podano zdjecie_url).",CC0 1.0,image:license,–,– / –
+22,Dostępność,dostepnosc,Kto ma dostęp,słownik,słownik: dostepnosc,O,Kto może skorzystać z urządzenia.,publiczny,access,publiczny/prywatny,– / –
+23,Dostępność,dostepny_24_7,Dostępny całą dobę,słownik,słownik: tak_nie_ograniczony,O,"Czy urządzenie jest dostępne przez całą dobę, 7 dni w tygodniu.",nie,opening_hours=24/7,dostępność 24/7 (Tak/Nie/Ograniczona),– / –
+24,Dostępność,godziny_dostepnosci,Godziny dostępności,tekst,składnia OSM opening_hours,Z,"Godziny, w których urządzenie jest dostępne. Wymagane, gdy dostepny_24_7 = nie lub ograniczony.","Mo-Fr 07:30-15:30; Sa-Su,PH off",opening_hours,godziny (wolny tekst),– / –
+25,Dostępność,zabezpieczenie,Zabezpieczenie urządzenia,słownik,słownik: zabezpieczenie,Z,Czy i jak urządzenie jest zamknięte. Kodów ani haseł do szafki nie publikuje się.,szafka_otwarta,–,–,– / –
+26,Dostępność,instrukcja_dostepu,Jak uzyskać dostęp,tekst,"krótki opis, bez kodów i haseł",F,"Informacja, co zrobić, gdy urządzenie jest zamknięte lub w strefie z ograniczonym wejściem.","Klucz w portierni, czynnej całą dobę",description,–,– / –
+27,Dostępność,dostepnosc_wozek,Dostęp dla osób na wózku,słownik,słownik: tak_nie_ograniczony,F,Czy osoba na wózku dotrze do urządzenia bez barier.,tak,wheelchair,–,– / –
+28,Urządzenie,producent,Producent,tekst,dowolny,F,Producent urządzenia.,Philips,manufacturer,producent (wolny tekst),– / –
+29,Urządzenie,model,Model,tekst,dowolny,F,Model urządzenia.,HeartStart FRx,model,–,– / –
+30,Urządzenie,tryb_pediatryczny,Elektrody lub tryb dziecięcy,logiczny,true / false,F,Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.,true,–,–,– / –
+31,Stan i aktualność,status,Status urządzenia,słownik,słownik: status,O,Aktualny stan urządzenia według ostatniej wiedzy dysponenta.,sprawny,–,status zgłoszenia (inne znaczenie),– / –
+32,Stan i aktualność,data_weryfikacji,Data ostatniej weryfikacji,data,ISO 8601: RRRR-MM-DD,O,"Data, w której ktoś na miejscu potwierdził obecność, dostępność i sprawność urządzenia.",2026-11-15,check_date,data ostatniej weryfikacji,– / –
+33,Stan i aktualność,data_przegladu,Data ostatniego przeglądu,data,ISO 8601: RRRR-MM-DD,F,Data ostatniego przeglądu technicznego.,2026-03-01,–,–,– / –
+34,Stan i aktualność,data_waznosci_elektrod,Ważność elektrod,data,ISO 8601: RRRR-MM-DD,F,Data ważności elektrod.,2028-05-31,–,–,– / –
+35,Stan i aktualność,data_waznosci_baterii,Ważność baterii,data,ISO 8601: RRRR-MM-DD,F,Data ważności baterii.,2029-01-31,–,–,– / –
+36,Dysponent,dysponent_nazwa,Dysponent urządzenia,tekst,pełna nazwa instytucji lub firmy,O,Instytucja odpowiedzialna za urządzenie (właściciel lub zarządca).,Urząd Miasta Legionowo,operator,–,– / –
+37,Dysponent,dysponent_typ,Typ dysponenta,słownik,słownik: dysponent_typ,Z,Kategoria dysponenta.,jst,operator:type (rzadko),–,– / –
+38,Dysponent,dysponent_regon,REGON dysponenta,tekst,"9 lub 14 cyfr, bez spacji i łączników",F,REGON instytucji. Ułatwia jednoznaczne powiązanie urządzeń z dysponentem.,000000000 (przykład),–,–,– / –
+39,Dysponent,telefon_kontaktowy,Telefon kontaktowy,tekst,+48 NNN NNN NNN; wyłącznie numer służbowy,Z,"Służbowy numer w sprawie urządzenia (np. portiernia, ochrona). Nie podaje się danych osobowych.",+48 22 000 00 00 (przykład),phone / emergency:phone,–,– / –
+40,Dysponent,email_kontaktowy,E-mail kontaktowy,tekst,"adres funkcyjny, np. aed@…",F,"Służbowy adres funkcyjny, pod który można zgłosić problem z urządzeniem. Nie imienny.",aed@example.gov.pl,email,–,– / –
+41,Metadane rekordu,zrodlo_danych,Źródło danych,słownik,słownik: zrodlo_danych,O,Skąd pochodzi rekord.,dysponent,source,–,– / –
+42,Metadane rekordu,data_aktualizacji,Data aktualizacji rekordu,data i czas,ISO 8601: RRRR-MM-DDTGG:MM:SS (czas lokalny),O,Moment ostatniej zmiany rekordu (dowolnego pola).,2026-11-21T12:00:00,@osm_version (pośrednio),–,– / –
+43,Metadane rekordu,uwagi,Uwagi,tekst,dowolny,F,Dodatkowe informacje.,,note / description,–,– / –
