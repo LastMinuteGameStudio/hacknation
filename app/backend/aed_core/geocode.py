@@ -4,7 +4,8 @@ Zwraca x (lon), y (lat), teryt (6 cyfr gminy), simc, ulic, code (kod pocztowy), 
 Kolejność prób: adres z numerem → (bez trafienia) sama ulica, przybliżone → Nominatim jako zapas (UA, 1/s).
 Przy wielu wynikach zawężamy kodem pocztowym, gminą (TERC) i nazwą miejscowości; gdy dalej kilka → niejednoznaczny.
 Cache przez GeocodeCache (w API: tabela geokod_cache). Trafienia i brak trafienia są cache'owane,
-błędy sieci nie (żeby chwilowa awaria nie zapisała „adresu nie ma”).
+błędy sieci nie (żeby chwilowa awaria nie zapisała „adresu nie ma”). Gdy cache ma opcjonalne has(key),
+zapisany brak trafienia nie wywołuje ponownego zapytania.
 """
 
 from __future__ import annotations
@@ -66,6 +67,9 @@ class GugikGeocoder:
         k = klucz(query)
         if self.cache is not None:
             try:
+                # cache może mieć has(): wtedy zapisany „nie znaleziono” (None) też jest trafieniem i nie pytamy ponownie
+                if hasattr(self.cache, "has") and self.cache.has(k):
+                    return self.cache.get(k)
                 hit = self.cache.get(k)
             except Exception:
                 hit = None

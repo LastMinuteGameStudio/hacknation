@@ -99,3 +99,16 @@ def test_brak_i_blad_sieci_nie_cacheowany():
 def test_bez_miejscowosci_nie_pyta():
     g, z = geo(lambda r: httpx.Response(200, json=adres()), nominatim=False)
     assert g.geocode(AddressQuery(ulica="Lwowska")) is None and not z
+
+
+class CacheZHas(Cache):
+    def has(self, k):
+        return k in self.d
+
+
+def test_zapisany_brak_trafienia_nie_pyta_ponownie():
+    c = CacheZHas()
+    g, z = geo(lambda r: httpx.Response(200, json={"type": "address", "results": None}), cache=c, nominatim=False)
+    assert g.geocode(Q) is None
+    n = len(z)
+    assert g.geocode(Q) is None and len(z) == n
