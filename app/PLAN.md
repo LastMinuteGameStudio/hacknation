@@ -21,10 +21,10 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Wejście | CSV i XLSX z **mapowaniem kolumn**; nasz szablon CSV/XLSX przechodzi bez mapowania | 1) **synchronizacja z URL źródła** (demo: Przemyśl); 2) ODS, GeoJSON; 3) formularz ręczny |
 | Edycja | **prywatny link edycji z tokenem**: ponowne wgranie pliku pod ten sam slug, publiczny URL bez zmian (Wojtek) | logowanie dostawcy i edycja rekordów |
 | Wynik | URL z CSV (pola publiczne), JSON, metadane CSVW | — |
-| Agregat | dwa URL zbiorcze: **główny bez OSM** (dostawcy + źródła miejskie CC0/CC BY) i **„podgląd z OSM (ODbL)”**; każdy rekord z wyraźnym pochodzeniem (dysponent, źródło, licencja, data) | mapa |
+| Agregat | **połączenie (decyzja 22.11):** `/d/aed-polska.csv` to cały agregat (`dane/wynik` łącznie z OSM + zbiory dostawców), a `/d/aed-polska-bez-osm.csv` to wersja bez OSM. **Każdy rekord ma kolumny pochodzenia:** `dysponent_nazwa`, `zrodlo_danych`, `licencja_zrodla`, `data_aktualizacji`, żeby dało się odsiać dane niewiarygodne i nieaktualne | mapa |
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
-| Geokodowanie | adres bez współrzędnych: Nominatim z cache, własny User-Agent, 1/s, oznaczenie dokładności, ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” (Wojtek) | geokoder GUGiK (na slajdzie jako docelowy) |
-| Limity | plik do 10 MB i 10 000 wierszy, powyżej komunikat z prośbą o kontakt (Wojtek) | — |
+| Geokodowanie | adres bez współrzędnych: **geokoder GUGiK UUG** (decyzja 22.11; bez klucza, `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326`) z cache, uzupełnia TERC/SIMC/ULIC i kod pocztowy; przy wielu wynikach zawężamy kodem pocztowym lub gminą; oznaczenie dokładności i ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” | Nominatim jako zapas, gdy GUGiK nie znajdzie adresu |
+| Limity | plik do 10 MB i **20 000 wierszy** (decyzja 22.11), powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
 | Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
 
@@ -73,7 +73,8 @@ PostgreSQL (docker)
 | GET | `/d/{slug}.csv` | CSV z polami publicznymi (RFC 4180, UTF-8, CRLF) |
 | GET | `/d/{slug}.json` | to samo w JSON |
 | GET | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`) |
-| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (łącznie z OSM, na potrzeby prezentacji; licencja na razie pominięta, Wojtek) + wszystkie opublikowane zbiory |
+| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (łącznie z OSM) + wszystkie opublikowane zbiory; kolumny pochodzenia przy każdym rekordzie |
+| GET | `/d/aed-polska-bez-osm.csv` | to samo bez rekordów z OSM (ODbL) |
 | GET | `/szablon.csv`, `/szablon.xlsx` | szablony z `zakres-danych/` |
 
 Format błędu walidacji: `{wiersz, pole, kod, komunikat}` z komunikatem po polsku, zrozumiałym dla urzędnika.
@@ -115,7 +116,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 | B1 | Schemat bazy + migracja | B: API | T0 | 30 min |
 | B2 | Endpointy importu, walidacji i publikacji | B | B1, A2–A6 | 1,5 h |
 | B3 | Endpointy publiczne `/d/{slug}.*`, szablony | B | B1, A6 | 30 min |
-| B4 | Agregat `/d/aed-polska.csv` (dane/wynik + zbiory z bazy) | B | B3 | 45 min |
+| B4 | Agregat `/d/aed-polska.csv` i `/d/aed-polska-bez-osm.csv` (dane/wynik + zbiory z bazy, kolumny pochodzenia) | B | B3 | 1 h |
 | C1 | Layout, zmienne CSS, dostępność, strona startowa | C: front | T0 | 1 h |
 | C2 | Krok 1: dysponent | C | C1 | 30 min |
 | C3 | Krok 2: upload, tabela mapowania, wyniki walidacji | C | C1, kontrakt | 2 h |

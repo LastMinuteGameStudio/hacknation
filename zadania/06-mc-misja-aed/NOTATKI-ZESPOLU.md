@@ -80,3 +80,4 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   4. **Geokoder:** Wojtek: Nominatim w prototypie, GUGiK docelowo (slajd). Grzan: GUGiK od razu (działa bez klucza i zwraca TERYT).
   5. **Limit wierszy:** Wojtek 10 000, Grzan 20 000 (obaj 10 MB).
   Zgodne: fixtury startowe (Grzan dodaje do nich Marki), syntetyczne XLSX przygotowuje sesja D.
+- ✅ **Grzan (rozstrzygnięcie sporów 1–5, 22.11 ok. 02:00):** 1) licencja: **stała CC0** (wersja Wojtka); 2) ponowne wgranie: **prywatny link z tokenem, ten sam URL** (wersja Wojtka); 3) agregat: **połączenie**: `/d/aed-polska.csv` z OSM i `/d/aed-polska-bez-osm.csv` bez OSM, a przy każdym rekordzie kolumny pochodzenia (dysponent, źródło, licencja źródła, data aktualizacji); 4) geokoder: **GUGiK UUG**, Nominatim jako zapas; 5) limit: **10 MB i 20 000 wierszy**. Zmiany wprowadzone w app/PLAN.md.
