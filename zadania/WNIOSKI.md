@@ -23,6 +23,7 @@ Zespół wybrał **06 Misja AED (MC)**.
 - **Grzan:** 06 Misja AED potencjalnie na plus, bo duża część zadania to otoczka nieprogramistyczna (logo, księga znaku, pitch).
 - **Grzan:** 06 Misja AED ma najlepszy zakres, bo po zebraniu odpowiednich danych zostaje już tylko ich prezentacja i marketing samego rozwiązania.
 - **Grzan:** 06 Misja AED: wymagana responsywność, czyli poprawne działanie zarówno na telefonach, jak i na komputerach.
+- **Wojtek / Grzan:** 06 Misja AED: Wojtek proponował, żeby użytkownicy mogli zgłaszać lokalizacje defibrylatorów. Ten pomysł już ktoś realizował. W Pierwszym Ratowniku (ZOSP RP) bazę tworzą sami użytkownicy razem z ZOSP RP: zalogowana osoba może dodać AED, zaktualizować go albo zgłosić, że zniknął (dodawanie nowych jest obecnie wyłączone, wg FAQ). Podobnie działają OSM, Yanosik, aplikacja Ratownik i formularz „Zgłoś urządzenie AED” w Warszawie 19115. Szczegóły: [06-mc-misja-aed/ZRODLA-DANYCH.md](06-mc-misja-aed/ZRODLA-DANYCH.md).
 - **Grzan:** 06 Misja AED kładzie ogromny nacisk na potencjał promocyjny. Kryteria oceny („przykładowe”):
   - Zgodność z zasadami działania portalu dane.gov.pl: 30%
   - Kreatywność i innowacyjność rozwiązania: 15%
