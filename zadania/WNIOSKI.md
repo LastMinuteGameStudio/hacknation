@@ -35,6 +35,8 @@ Zespół wybrał **06 Misja AED (MC)**.
   - lokalizację defibrylatora,
   - słowną nazwę ulicy,
   - opcjonalnie zdjęcie defibrylatora.
+- **Grzan:** 06 Misja AED, pomysł: AED w pojazdach komunikacji miejskiej. Gdy ktoś potrzebuje AED przy przystanku, kierowca pojazdu z AED mógłby dostać o tym informację.
+  - Fakty (ZTM Gdańsk, dane na dane.gov.pl, zbiór 1803): „Baza pojazdów” ma pole `aed`, które ma 278 z 503 pojazdów. Feed „Pozycja GPS pojazdów” podaje na żywo `vehicleCode` i lat/lon. Oba łączą się po `vehicleCode`. Test 21.11.2026 ok. 16:50: 222 pojazdy w trasie, w tym 165 z AED. Inne miasta z AED w pojazdach (wg ZRODLA-DANYCH.md): Kraków ok. 25 pojazdów, Warszawa (autobusy, metro, SKM), Katowice. Dla nich nie znaleziono otwartych danych.
 - **Grzan:** 05 Kompas kompetencji: potencjalny problem to asystent AI, bo fajnie, żeby nie był zwykłym wrapperem wokół Claude'a czy innego modelu.
 - **Grzan:** 05 Kompas kompetencji: narzędzie ma łączyć różne dziedziny, m.in. analitykę i umiejętności interpersonalne.
 - **Grzan:** 05 Kompas kompetencji: użytkownikiem jest urzędnik, czyli osoba nietechniczna. Narzędzie nie zdejmuje z niego odpowiedzialności za ocenę.
