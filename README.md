@@ -5,11 +5,17 @@ Projekt na hackathon HackNation 2026. Zadanie: **06 Misja AED** (Ministerstwo Cy
 ## Zadania
 
 Pełna lista i przegląd zadań: [zadania/README.md](zadania/README.md)
-Wnioski i ranking trudności: [zadania/WNIOSKI.md](zadania/WNIOSKI.md)
+Wybór zadania i ranking trudności: [zadania/WNIOSKI.md](zadania/WNIOSKI.md)
 
 ### Wybrane zadanie
 
 **[06 Misja AED (MC)](zadania/06-mc-misja-aed)**: zebranie danych o defibrylatorach w jeden zbiór pod dane.gov.pl, wzorcowy schemat oraz nazwa akcji, logo i księga znaku.
+
+- [Notatki zespołu](zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md)
+- [Research](zadania/06-mc-misja-aed/RESEARCH.md)
+- [Źródła danych o AED](zadania/06-mc-misja-aed/ZRODLA-DANYCH.md)
+- [Pytania do organizatora](zadania/06-mc-misja-aed/PYTANIA-DO-ORGANIZATORA.md)
+- [Checklista wymagań](zadania/06-mc-misja-aed/CHECKLISTA.md)
 
 ## Opis
 

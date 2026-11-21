@@ -1,44 +1,44 @@
 # Pytania do organizatora: 06 Misja AED (MC DZD)
 
 Gdzie pytać: stoisko danych lub Discord MC.
-Plik zbiera pytania wszystkich sesji. Bazą jest lista Grzana z `zadania/WNIOSKI.md` (branch `grzan`). Pytania dopisane przez innych mają oznaczenie autora.
+Plik zbiera pytania wszystkich sesji. Format: każda sekcja ma w nagłówku autora. Pierwsze sekcje, aż do „Formalne”, to lista Grzana (wcześniej w `zadania/WNIOSKI.md`). Nowe pytania dopisuj w sekcji ze swoim podpisem.
 ⭐ = najważniejsze, zadać na pewno.
 
 Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...`.
 
-### Zgodność z dane.gov.pl (30%)
+### Zgodność z dane.gov.pl (30%) (lista Grzana)
 - ⭐ Co dokładnie jury rozumie przez „zgodność z zasadami działania portalu dane.gov.pl”? Czy chodzi o rozporządzenie Dz.U. 2022/2415, standard techniczny (5★, CSV RFC 4180, ISO 8601), standard API, DCAT-AP-PL, czy o coś innego? Czy jest lista, według której sprawdzacie?
 - ⭐ Jaki poziom otwartości (liczba gwiazdek) jest oczekiwany od udostępnianego zbioru?
 - Czy rozwiązanie ma faktycznie publikować dane na dane.gov.pl (konto dostawcy, API), czy wystarczy, że dane są przygotowane zgodnie z wymaganiami portalu? Czy na hackathon jest dostępne środowisko testowe lub konto dostawcy?
 - Kto w zamyśle MC ma być dostawcą ogólnopolskiego zbioru: jedna instytucja (agregator) czy każdy dysponent osobno?
 - Czy metadane zbioru (DCAT-AP-PL) są częścią oceny?
 
-### Wzorcowy zakres danych (10%)
+### Wzorcowy zakres danych (10%) (lista Grzana)
 - ⭐ Czy MC ma listę pól, których oczekuje (np. godziny dostępności, stan techniczny, data przeglądu, kontakt)? Czy są pola obowiązkowe lub zakazane, np. ze względu na RODO (dane osoby odpowiedzialnej, telefon prywatny)?
 - Czy zakres danych ma się opierać na istniejącym standardzie (np. tagi OSM `emergency=defibrillator`, schematy z innych krajów) czy ma być od zera?
 - Czy w xlsx oczekujecie samego opisu pól (nazwa, typ, opis, wymagalność, przykład), czy także przykładowych rekordów?
 - Czy kody TERC/SIMC i standard adresowy są wymagane?
 
-### Źródła danych
+### Źródła danych (lista Grzana)
 - ⭐ Czy MC zna lub poleca konkretne źródła danych o AED poza dane.gov.pl (rejestry ratownicze, PRM/KSRG, wojewodowie, NFZ, aplikacje typu Ratunek)? Czy któreś są dla nas udostępnione na czas hackathonu?
 - Czy wolno korzystać z danych na licencjach z warunkiem udostępniania na tej samej licencji (np. OpenStreetMap, ODbL) i łączyć je w jednym zbiorze z danymi CC0 / CC BY? Jaka licencja docelowego zbioru jest oczekiwana?
 - Czy dopuszczalne jest pobieranie danych ze stron www dysponentów (scraping), jeśli nie mają one licencji otwartej?
 - Ilu rekordów lub jakiego pokrycia (gminy, miasta, cała Polska) oczekujecie w prototypie?
 
-### Prototyp i walidacja
+### Prototyp i walidacja (lista Grzana)
 - ⭐ Jak jury będzie uruchamiać prototyp: link do działającej wersji, repozytorium + instrukcja, Docker? Na jakich urządzeniach będzie sprawdzane?
 - Kto jest głównym użytkownikiem prototypu: dysponent danych (który je przesyła), służby ratownicze czy obywatel szukający AED? Czy wszyscy trzej muszą być obsłużeni?
 - ⭐ Jaką wersję i jaki poziom WCAG sprawdzacie (2.1 AA wg ustawy czy 2.2 AA)? Czy wymagana jest deklaracja dostępności?
 - Co rozumiecie przez „zgodność z zasadami UX”? Czy jest konkretny standard, np. Gov.pl Design System?
 - Czy można korzystać z zewnętrznych usług (mapy, geokodowanie, hosting), czy tylko z rozwiązań otwartych lub darmowych?
 
-### Akcja, logo, księga znaku (25%)
+### Akcja, logo, księga znaku (25%) (lista Grzana)
 - ⭐ Kto jest odbiorcą akcji: dysponenci danych (gminy, firmy, szkoły), obywatele czy oba?
 - Czy logo ma współgrać z identyfikacją dane.gov.pl / MC / gov.pl? Czy są ograniczenia (np. zakaz używania godła, barw MC, symbolu serca ERC)?
 - Czy wolno używać fontów i ikon na licencjach otwartych (OFL, CC BY) i czy trzeba to udokumentować w księdze znaku?
 - Czy ocena logo dotyczy samego znaku, czy także materiałów promocyjnych (plakat, social media)?
 
-### Formalne
+### Formalne (lista Grzana)
 - Czy lista kryteriów („przykładowe kryteria”) jest ostateczna, czy wagi mogą się zmienić?
 - Jak długi będzie pitch lub prezentacja w finale i w jakiej formie składamy materiały (format, limit rozmiaru, gdzie)?
 - Przeniesienie praw majątkowych: czy dotyczy także zebranego zbioru danych i kodu z bibliotekami open source?
