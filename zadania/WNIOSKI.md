@@ -39,6 +39,7 @@ Zespół wybrał **06 Misja AED (MC)**.
 ## Do zresearchowania
 
 - **06 Misja AED:** „Zgodność z zasadami działania portalu dane.gov.pl”. Sprawdzić, jakie to są zasady.
+  - ✅ **GOTOWE (sesja hacknacja):** źródła to rozporządzenie RM w sprawie portalu danych (Dz.U. 2022 poz. 2415: metadane §6–7, sposoby udostępniania §4, automatyczna weryfikacja §10), ustawa o otwartych danych (Dz.U. 2021 poz. 1641, rozdz. 7), standard techniczny (5 gwiazdek, CSV wg RFC 4180, ISO 8601, adresy w osobnych polach), standard API (JSON:API), DCAT-AP-PL 2.1.0 i instrukcja zasilania XML. Publiczne API działa bez klucza. Na portalu są już zbiory AED (np. Krosno, Marki, Przemyśl, Legionowo) i każdy ma inne kolumny. Linki są na tablicy.
 - **06 Misja AED:** wymóg WCAG. Treść zadania: „zgodności z aktualną wersją WCAG oraz responsywności, tj. poprawne działanie na komputerach i urządzeniach mobilnych a także o zgodności z zasadami UX”. Sprawdzić aktualną wersję WCAG i jej wymagania.
   - ✅ **GOTOWE (sesja kvba):** aktualna wersja W3C to WCAG 2.2 (3.0 to wciąż szkic). Polskie prawo dla podmiotów publicznych wymaga WCAG 2.1 AA przez EN 301 549 V3.2.1. EN 301 549 V4.1.1 z WCAG 2.2 wyszła 2.09.2026, ale nie jest jeszcze zharmonizowana. Podmioty publiczne publikują też deklarację dostępności (HTML). Szczegóły i źródła są na tablicy `~/Desktop/hacknation-wspolne/TABLICA.md`. **Pytanie do organizatora:** jaki poziom i wersję WCAG sprawdza jury?
 
