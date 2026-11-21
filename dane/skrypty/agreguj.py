@@ -7,7 +7,8 @@ Wyniki (dane/wynik/):
   aed_pojazdy_gdansk.csv        - pojazdy ZTM Gdańsk z AED (bez stałej lokalizacji)
   statystyki.json
 
-Nazwy pól są podzbiorem wzorcowego zakresu danych (branch wojtek, zakres-danych/zakres-pol.csv).
+Pliki CSV mają kolumny wzorcowego zakresu danych v0.5 (zakres-danych/zakres-pol.csv, wszystkie pola pełnej
+ewidencji w tej samej kolejności) oraz kolumny dodatkowe agregacji (POLA_DODATKOWE). Brak wartości = znak umowny „X”.
 Tylko biblioteka standardowa Pythona.
 """
 import csv, json, math, re, sys, xml.etree.ElementTree as ET
@@ -27,7 +28,7 @@ POLA = [
     "nazwa_obiektu", "nazwa_ulicy", "nr_budynku", "kod_pocztowy", "miejscowosc", "dzielnica",
     "wewnatrz_budynku", "kondygnacja", "opis_lokalizacji",
     "dostepnosc", "dostepny_24_7", "godziny_dostepnosci",
-    "producent", "model", "aed_mobilny",
+    "producent", "model",
     "dysponent_nazwa", "telefon_kontaktowy",
     "data_weryfikacji", "zdjecie_url", "uwagi",
     "licencja_zrodla", "duplikat_z", "odleglosc_duplikatu_m",
@@ -95,9 +96,10 @@ def xy(f):
 
 # ---------- Źródła ----------
 
+# Słownik „dostepnosc” zakresu v0.5: publiczny / klienci / na_prosbe / prywatny
 OSM_ACCESS = {"yes": "publiczny", "permissive": "publiczny", "public": "publiczny",
               "customers": "klienci", "private": "prywatny", "no": "prywatny",
-              "permit": "ograniczony", "employees": "pracownicy", "staff": "pracownicy"}
+              "permit": "na_prosbe", "employees": "prywatny", "staff": "prywatny"}
 
 
 def osm():
@@ -117,7 +119,6 @@ def osm():
             dostepnosc=OSM_ACCESS.get(p.get("access", ""), p.get("access", "")),
             dostepny_24_7="tak" if oh == "24/7" else ("nie" if oh else ""),
             godziny_dostepnosci=oh, producent=p.get("manufacturer"), model=p.get("model"),
-            aed_mobilny="true" if p.get("mobile") == "yes" else "",
             dysponent_nazwa=p.get("operator"), telefon_kontaktowy=p.get("phone") or p.get("emergency:phone"),
             data_weryfikacji=p.get("check_date") or p.get("survey:date", ""),
             zdjecie_url=p.get("image") or "", uwagi=p.get("note") or p.get("fixme") or "",
@@ -260,6 +261,195 @@ def koszalin():
                   dysponent_nazwa="Urząd Miejski w Koszalinie")
 
 
+# ---------- Eksport do wzorcowego zakresu danych v0.5 ----------
+
+ZAKRES = BASE.parent / "zakres-danych"
+ZNAK_BRAKU = "X"
+DNI = ["pn", "wt", "sr", "cz", "pt", "so", "nd"]
+POLA_GODZIN = [f"godziny_{d}" for d in DNI] + ["godziny_swieta"]
+POLA_DODATKOWE = ["zrodlo", "dzielnica", "licencja_zrodla", "odleglosc_duplikatu_m"]
+
+
+def wczytaj_zakres():
+    """Kolumny i słowniki z zakresu v0.5 – jedno źródło prawdy, bez kopiowania listy pól."""
+    with open(ZAKRES / "zakres-pol.csv", encoding="utf-8") as fh:
+        pola = [r["pole"] for r in csv.DictReader(fh)]
+    slowniki = defaultdict(set)
+    with open(ZAKRES / "slowniki.csv", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            slowniki[r["slownik"]].add(r["kod"])
+    return pola, slowniki
+
+
+POLA_ZAKRESU, SLOWNIKI = wczytaj_zakres()
+POLA_WYJSCIA = POLA_ZAKRESU + POLA_DODATKOWE
+
+# Słownik „zrodlo_danych” v0.5 (dysponent / jst / zgloszenie_obywatela / inne). OSM to dane poglądowe (ODbL) → „inne”.
+ZRODLO_DANYCH = {
+    "osm": "inne", "warszawa_19115": "jst", "inpost": "dysponent", "krakow_arcgis": "inne", "krakow_arcgis_2022": "inne",
+    "mikolow_arcgis": "inne", "pwr": "dysponent", "pwr_2023": "dysponent", "koszalin_um": "jst", "lodz_um": "jst",
+    "gdansk_um_2022": "jst", "gliwice_crg": "jst", "wopr_zachodniopomorskie": "inne", "lublin_um": "jst", "chelm_um": "jst",
+}
+
+_OSM_DZIEN = {"Mo": 0, "Tu": 1, "We": 2, "Th": 3, "Fr": 4, "Sa": 5, "Su": 6}
+_ZAKRES_GODZIN = re.compile(r"^([01]?\d|2[0-4])[:.](\d\d)\s*-\s*([01]?\d|2[0-4])[:.](\d\d)$")
+
+
+def _godz(m):
+    return f"{int(m.group(1)):02d}:{m.group(2)}-{int(m.group(3)):02d}:{m.group(4)}"
+
+
+def godziny_osm(oh):
+    """Prosta składnia OSM opening_hours → {dzień: 'GG:MM-GG:MM' | 'zamkniete'} albo None, gdy nie da się rozłożyć.
+
+    Obsługuje reguły „<dni> <jeden przedział>” i „<dni> off” rozdzielone „;”. Dni niewymienione w żadnej regule są
+    zamknięte (semantyka OSM), a święta bez reguły PH pozostają nieznane.
+    """
+    if not oh:
+        return None
+    oh = oh.strip()
+    if oh == "24/7":
+        return {d: "00:00-24:00" for d in DNI + ["swieta"]}
+    wynik = {}
+    for regula in filter(None, (x.strip() for x in oh.split(";"))):
+        regula = re.sub(r",\s+", ",", regula)
+        czesci = regula.split(" ", 1)
+        if len(czesci) == 1:                       # sam przedział, bez dni = codziennie
+            dni_spec, czas = "Mo-Su", czesci[0]
+        else:
+            dni_spec, czas = czesci
+        dni = []
+        for tok in dni_spec.split(","):
+            if tok == "PH":
+                dni.append("swieta")
+            elif re.fullmatch(r"(Mo|Tu|We|Th|Fr|Sa|Su)(-(Mo|Tu|We|Th|Fr|Sa|Su))?", tok):
+                a, _, b = tok.partition("-")
+                i, j = _OSM_DZIEN[a], _OSM_DZIEN[b or a]
+                dni += [DNI[k % 7] for k in range(i, (j if j >= i else j + 7) + 1)]
+            else:
+                return None
+        czas = czas.strip()
+        if czas in ("off", "closed"):
+            wartosc = "zamkniete"
+        else:
+            m = _ZAKRES_GODZIN.match(czas)
+            if not m:
+                return None
+            wartosc = _godz(m)
+        for d in dni:
+            wynik[d] = wartosc
+    for d in DNI:
+        wynik.setdefault(d, "zamkniete")
+    return wynik
+
+
+_PL_DNI_ROBOCZE = re.compile(r"dni powszedni|pon\w*\.?\s*-\s*(pt|piąt)|od poniedziałku do piątku|poniedziałek\s*-\s*piątek", re.I)
+_PL_PRZEDZIAL = re.compile(r"(\d{1,2})[.:](\d{2})\s*(?:-|do)\s*(\d{1,2})[.:](\d{2})")
+
+
+def godziny_tekst(t):
+    """Opisy po polsku z wykazów: „całodobowo” albo „dni powszednie 07:00-17:00” → słownik dni albo None."""
+    t = (t or "").strip()
+    if not t:
+        return None
+    if re.search(r"całodob|24\s*/\s*7|24h", t, re.I):
+        return godziny_osm("24/7")
+    m = _PL_PRZEDZIAL.search(t)
+    if m and _PL_DNI_ROBOCZE.search(t) and not re.search(r"sobot|niedziel|święt", t, re.I):
+        g = f"{int(m.group(1)):02d}:{m.group(2)}-{int(m.group(3)):02d}:{m.group(4)}"
+        return {**{d: g for d in DNI[:5]}, "so": "zamkniete", "nd": "zamkniete"}
+    return None
+
+
+def telefon(t):
+    """Zapis wg standardu technicznego (pkt 3.2): +48 i 9 cyfr bez spacji. Zwraca (numer, reszta_do_uwag)."""
+    t = (t or "").strip()
+    if not t:
+        return "", ""
+    pierwszy = re.split(r"[;,/]| lub ", t)[0]
+    cyfry = re.sub(r"\D", "", pierwszy)
+    if len(cyfry) == 11 and cyfry.startswith("48"):
+        cyfry = cyfry[2:]
+    if len(cyfry) == 9:
+        return "+48" + cyfry, ("" if pierwszy.strip() == t else f"telefon (źródło): {t}")
+    return "", f"telefon (źródło): {t}"
+
+
+def na_zakres(r):
+    """Rekord agregacji → wiersz zgodny z zakresem v0.5. Wartości, których nie da się zapisać w formacie
+    zakresu, trafiają do „uwagi” z dopiskiem, skąd pochodzą; w polu zostaje „X”."""
+    w = {k: "" for k in POLA_WYJSCIA}
+    uwagi = [r["uwagi"]] if r.get("uwagi") else []
+    for k in POLA_ZAKRESU:
+        if k in r and k not in ("godziny_dostepnosci",):
+            w[k] = r[k]
+    for k in POLA_DODATKOWE:
+        w[k] = r.get(k, "")
+    w["id_aed"] = r["id_agregatu"]
+    w["duplikat_id_aed"] = r.get("duplikat_z", "")
+    w["zrodlo_danych"] = ZRODLO_DANYCH[r["zrodlo"]]
+    if r["zrodlo"] == "inpost":
+        w["status"] = "sprawny"           # feed InPost zawiera tylko punkty o statusie active
+    else:
+        w["status"] = "nieznany"
+    if r["zrodlo"] in GEOKODOWANE or r["zrodlo"] == "krakow_arcgis_2022":
+        w["dokladnosc_polozenia"] = "punkt_adresowy"
+    w["szerokosc_geograficzna"] = f'{r["szerokosc_geograficzna"]:.7f}' if r["szerokosc_geograficzna"] != "" else ""
+    w["dlugosc_geograficzna"] = f'{r["dlugosc_geograficzna"]:.7f}' if r["dlugosc_geograficzna"] != "" else ""
+
+    # adres: cecha ulicy oddzielnie (standard techniczny, pkt 3.3)
+    m = re.match(r"^(ul|al|pl|os)\.\s*(.+)$", str(w["nazwa_ulicy"]), re.I)
+    if m:
+        w["cecha_ulicy"] = {"ul": "ulica", "al": "aleja", "pl": "plac", "os": "osiedle"}[m.group(1).lower()]
+        w["nazwa_ulicy"] = m.group(2)
+    kp = re.sub(r"\s", "", str(w["kod_pocztowy"]))
+    if re.fullmatch(r"\d{5}", kp):
+        kp = f"{kp[:2]}-{kp[2:]}"
+    if kp and not re.fullmatch(r"\d{2}-\d{3}", kp):
+        uwagi.append(f"kod pocztowy (źródło): {kp}"); kp = ""
+    w["kod_pocztowy"] = kp
+
+    # słowniki
+    for pole, slownik in (("dostepnosc", "dostepnosc"), ("dostepny_24_7", "tak_nie_ograniczony")):
+        if w[pole] and w[pole] not in SLOWNIKI[slownik]:
+            uwagi.append(f"{pole} (źródło): {w[pole]}"); w[pole] = ""
+    if w["wewnatrz_budynku"] not in ("", "true", "false"):
+        uwagi.append(f"wewnatrz_budynku (źródło): {w['wewnatrz_budynku']}"); w["wewnatrz_budynku"] = ""
+
+    # liczby całkowite, daty, URL
+    kond = str(w["kondygnacja"]).strip()
+    if kond and not re.fullmatch(r"-?\d+", kond):
+        uwagi.append(f"kondygnacja (źródło): {kond}"); kond = ""
+    w["kondygnacja"] = kond
+    dw = str(w["data_weryfikacji"]).strip()
+    if dw and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dw):
+        uwagi.append(f"data weryfikacji (źródło): {dw}"); dw = ""
+    w["data_weryfikacji"] = dw
+    if w["zdjecie_url"] and not re.match(r"https?://", w["zdjecie_url"]):
+        uwagi.append(f"zdjęcie (źródło): {w['zdjecie_url']}"); w["zdjecie_url"] = ""
+
+    nr, reszta = telefon(r.get("telefon_kontaktowy"))
+    w["telefon_kontaktowy"] = nr
+    if reszta:
+        uwagi.append(reszta)
+
+    # godziny: osobna kolumna na każdy dzień; przy 24/7 wszystkie „X”
+    oh = r.get("godziny_dostepnosci", "")
+    dni = godziny_osm(oh) or godziny_tekst(oh)
+    if dni and all(dni.get(d) == "00:00-24:00" for d in DNI):
+        w["dostepny_24_7"] = "tak"
+    elif dni:
+        for d, v in dni.items():
+            w[f"godziny_{d}"] = v
+        if not w["dostepny_24_7"]:
+            w["dostepny_24_7"] = "nie"
+    elif oh and oh != "24/7":
+        uwagi.append(f"godziny (źródło): {oh}")
+
+    w["uwagi"] = "; ".join(u for u in uwagi if u)
+    return {k: (ZNAK_BRAKU if v in ("", None) else v) for k, v in w.items()}
+
+
 # ---------- Deduplikacja ----------
 
 def dist(a, b):
@@ -305,7 +495,7 @@ def main():
     poza = [r for r in wszystkie if not w_pl(r)]
     wszystkie = [r for r in wszystkie if w_pl(r)]
 
-    for i, r in enumerate(wszystkie, 1):
+    for r in wszystkie + BEZ_WSPOLRZEDNYCH:
         r["id_agregatu"] = f'{r["zrodlo"]}:{r["id_zrodlowe"]}'
 
     g_osm = Grid()
@@ -334,20 +524,25 @@ def main():
 
     unikalne = [r for r in wszystkie if not r["duplikat_z"]]
 
-    def zapisz(rows, stem):
+    def zapisz_csv(rows, stem):
+        # RFC 4180: przecinek, CRLF, UTF-8 bez BOM (standard techniczny, pkt 4.1)
         with open(OUT / f"{stem}.csv", "w", newline="", encoding="utf-8") as fh:
-            w = csv.DictWriter(fh, POLA); w.writeheader(); w.writerows(rows)
+            w = csv.DictWriter(fh, POLA_WYJSCIA, lineterminator="\r\n"); w.writeheader(); w.writerows(rows)
+
+    def zapisz(rows, stem):
+        wiersze = [na_zakres(r) for r in rows]
+        zapisz_csv(wiersze, stem)
         fc = {"type": "FeatureCollection", "features": [
             {"type": "Feature",
              "geometry": {"type": "Point", "coordinates": [round(r["dlugosc_geograficzna"], 7), round(r["szerokosc_geograficzna"], 7)]},
-             "properties": {k: v for k, v in r.items() if k not in ("szerokosc_geograficzna", "dlugosc_geograficzna") and v != ""}}
-            for r in rows]}
+             "properties": {k: v for k, v in w.items() if k not in ("szerokosc_geograficzna", "dlugosc_geograficzna") and v != ZNAK_BRAKU}}
+            for r, w in zip(rows, wiersze)]}
         json.dump(fc, open(OUT / f"{stem}.geojson", "w", encoding="utf-8"), ensure_ascii=False)
+        return wiersze
 
     zapisz(wszystkie, "aed_wszystkie")
-    zapisz(unikalne, "aed_unikalne")
-    with open(OUT / "aed_bez_wspolrzednych.csv", "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, POLA); w.writeheader(); w.writerows(BEZ_WSPOLRZEDNYCH)
+    wiersze_unikalne = zapisz(unikalne, "aed_unikalne")
+    zapisz_csv([na_zakres(r) for r in BEZ_WSPOLRZEDNYCH], "aed_bez_wspolrzednych")
 
     # pojazdy Gdańsk
     poj = json.load(open(RAW / "gdansk_pojazdy.json", encoding="utf-8"))["results"]
@@ -366,7 +561,7 @@ def main():
         "bez_wspolrzednych_wg_zrodla": Counter(r["zrodlo"] for r in BEZ_WSPOLRZEDNYCH),
         "razem_wszystkie": len(wszystkie), "razem_unikalne": len(unikalne),
         "pojazdy_gdansk_z_aed": len(aed_poj), "pojazdy_gdansk_razem": len(poj),
-        "wypelnienie_pol_unikalne": {k: sum(1 for r in unikalne if r[k] != "") for k in POLA},
+        "wypelnienie_pol_unikalne": {k: sum(1 for w in wiersze_unikalne if w[k] != ZNAK_BRAKU) for k in POLA_WYJSCIA},
     }
     json.dump(st, open(OUT / "statystyki.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(json.dumps({k: v for k, v in st.items() if k != "wypelnienie_pol_unikalne"}, ensure_ascii=False, indent=1))

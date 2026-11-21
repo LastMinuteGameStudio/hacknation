@@ -7,7 +7,7 @@ Stan: pobrano 21.11.2026 (dokładny czas w `surowe/POBRANO.txt`). Opis źródeł
 | Plik | Zawartość |
 |---|---|
 | `wynik/aed_unikalne.csv` / `.geojson` | **Główny wynik.** Wszystkie punkty OSM oraz rekordy z innych źródeł, które nie mają odpowiednika w OSM ani w innym źródle |
-| `wynik/aed_wszystkie.csv` (`.geojson` generuje skrypt, poza gitem) | Każdy rekord z każdego źródła. Duplikaty mają wypełnione pola `duplikat_z` (id rekordu, z którym się pokrywają) i `odleglosc_duplikatu_m` |
+| `wynik/aed_wszystkie.csv` (`.geojson` generuje skrypt, poza gitem) | Każdy rekord z każdego źródła. Duplikaty mają wypełnione pola `duplikat_id_aed` (id rekordu, z którym się pokrywają) i `odleglosc_duplikatu_m` |
 | `wynik/aed_bez_wspolrzednych.csv` | Pozycje z wykazów, których nie udało się zgeokodować |
 | `wynik/aed_pojazdy_gdansk.csv` | Pojazdy ZTM Gdańsk z AED, bez stałej lokalizacji. Pozycja na żywo: `ckan2.multimediagdansk.pl/gpsPositions?v=2`, łączenie po `vehicleCode` |
 | `wynik/statystyki.json` | Liczby rekordów, duplikatów i wypełnienia pól |
@@ -16,18 +16,28 @@ Stan: pobrano 21.11.2026 (dokładny czas w `surowe/POBRANO.txt`). Opis źródeł
 
 ## Schemat
 
-Nazwy pól są podzbiorem wzorcowego zakresu danych (branch `wojtek`, `zakres-danych/zakres-pol.csv`). Dodatkowe pola:
-- `id_agregatu` = `<zrodlo>:<id_zrodlowe>`
-- `licencja_zrodla`
-- `duplikat_z`, `odleglosc_duplikatu_m`
-- `dzielnica`
+Pliki CSV mają **wszystkie 58 kolumn wzorcowego zakresu danych v0.5** (`zakres-danych/zakres-pol.csv`), w tej samej kolejności co `szablon-aed.csv`. Skrypt czyta listę pól i słowniki bezpośrednio z `zakres-danych/`, więc zmiana zakresu nie wymaga zmian w liście kolumn. Za kolumnami zakresu są 4 kolumny agregacji: `zrodlo`, `dzielnica`, `licencja_zrodla`, `odleglosc_duplikatu_m`.
 
-Słowniki są uproszczone:
-- `dostepnosc`: publiczny / klienci / pracownicy / prywatny / ograniczony
-- `dostepny_24_7`: tak / nie / ograniczony
-- `wewnatrz_budynku`: true / false
+Zasady zgodne z zakresem v0.5 i standardem technicznym dane.gov.pl:
+- CSV wg RFC 4180: przecinek, CRLF, UTF-8 bez BOM.
+- **Brak wartości to znak „X”**, a nie pusta komórka. W GeoJSON pola z „X” są pomijane.
+- `id_aed` = `<zrodlo>:<id_zrodlowe>`. `duplikat_id_aed` to `id_aed` rekordu, z którym rekord się pokrywa (wcześniej kolumna `duplikat_z`).
+- Słowniki v0.5:
+  - `dostepnosc`: publiczny / klienci / na_prosbe / prywatny. OSM `permit` → na_prosbe, `employees`/`staff` → prywatny.
+  - `dostepny_24_7`: tak / nie / ograniczony.
+- `zrodlo_danych`: `jst` dla ewidencji urzędów, `dysponent` dla InPost i PWr, `inne` dla OSM i kont o nieznanym właścicielu. OSM to dane poglądowe na ODbL, a w zakresie nie ma osobnej wartości dla OSM.
+- `status`: `sprawny` dla InPost (feed zawiera tylko aktywne punkty), dla pozostałych `nieznany`.
+- `dokladnosc_polozenia`: `punkt_adresowy` dla współrzędnych z geokodowania, w pozostałych rekordach „X”.
+- **Godziny w osobnej kolumnie na każdy dzień** (`godziny_pn` … `godziny_nd`, `godziny_swieta`), w formacie „GG:MM-GG:MM” albo „zamkniete”.
+  - Z OSM rozkładana jest prosta składnia `opening_hours`: dni + jeden przedział albo `off`, reguły oddzielone „;”.
+  - Z wykazów rozkładane są opisy typu „całodobowo” i „dni powszednie 07:00-17:00”.
+  - Przy 24/7 kolumny godzin mają „X”, a `dostepny_24_7` = tak.
+  - Godzin, których nie da się rozłożyć (sezonowe, kilka przedziałów, „w godzinach otwarcia”), nie zgadujemy: trafiają do `uwagi` jako `godziny (źródło): …`.
+- Telefon zapisany jako `+48` i 9 cyfr. Numery skrócone (112, 998), kolejne numery i inne zapisy trafiają do `uwagi`.
+- Tak samo (wartość do `uwagi`, w polu „X”) traktowane są: kondygnacje niecałkowite, daty niepełne (np. `2023-05`), adresy zdjęć bez `http(s)://`, kody pocztowe w innym formacie. Prefiks `ul.`/`al.`/`pl.`/`os.` przechodzi z nazwy ulicy do `cecha_ulicy`.
+- Kolumna `aed_mobilny` została usunięta (AED w pojazdach są poza zakresem). Plik `aed_pojazdy_gdansk.csv` jest generowany bez zmian, poza schematem zakresu.
 
-Gdy wartości nie da się przypisać do słownika, pole zawiera surową wartość ze źródła.
+Wszystkie wartości różne od „X” są zgodne z typami i formatami opisu CSVW `szablon-aed.csv-metadata.json`. Pola obowiązkowe (O) często mają „X”, bo źródła ich nie podają, np. nazwa ulicy w OSM, `data_aktualizacji` w żadnym źródle. Ta luka pokazuje, czego brakuje w obecnych danych. Wypełnienie pól: `wynik/statystyki.json`.
 
 ## Deduplikacja
 
@@ -69,7 +79,7 @@ Po deduplikacji: **18 858 unikalnych AED** (18 299 z OSM i **559 spoza OSM**), d
 | pwr, pwr_2023 | 15 | 11 | 3 (+1 duplikat) | – |
 | chelm_um (geokod.) | 8 | 6 | 1 | 1 |
 
-Wypełnienie pól w `aed_unikalne` (na 18 858): opis_lokalizacji 17 363, dostepnosc 17 291, wewnatrz_budynku 16 417, dostepny_24_7 7 171, data_weryfikacji 6 344, dysponent_nazwa 6 026, telefon 4 626, kondygnacja 4 057, zdjecie_url 2 171, nazwa_obiektu 1 364, producent 702, adres (ulica) 636. Pełne liczby: `wynik/statystyki.json`.
+Wypełnienie pól w `aed_unikalne` (na 18 858, wartości różne od „X”): opis_lokalizacji 17 363, dostepnosc 17 285, wewnatrz_budynku 16 417, dostepny_24_7 7 187 (w tym 4 236 × całodobowo), data_weryfikacji 6 328, dysponent_nazwa 6 026, telefon 4 164, kondygnacja 4 038, godziny w podziale na dni 2 620, zdjecie_url 2 170, nazwa_obiektu 1 364, producent 702, adres (ulica) 636. Pełne liczby: `wynik/statystyki.json`.
 
 ## Czego tu nie ma (brak danych do pobrania)
 
