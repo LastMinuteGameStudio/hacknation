@@ -206,9 +206,9 @@ def waliduj(db: Session, import_id: str, body: WalidacjaIn) -> WalidacjaOut:
     wyniki = core.normalize_table(
         t, mapowanie, SCHEMA, provider, date.today(), core.Geokoder(DbGeocodeCache()), dict(body.wartosci_stale)
     )
-    msgs = list(t.messages) + [m for r in wyniki for m in r.messages] + core.validate_records(wyniki, SCHEMA)
-    msgs = zgrupuj(msgs)
     publikowane = [r for r in wyniki if not r.pominiety]
+    msgs = list(t.messages) + [m for r in wyniki for m in r.messages] + core.validate_records(publikowane, SCHEMA)
+    msgs = zgrupuj(msgs)
     publiczne = SCHEMA.publiczne
     liczba_bledow = sum(m.poziom == "blad" for m in msgs)
     out = WalidacjaOut(
