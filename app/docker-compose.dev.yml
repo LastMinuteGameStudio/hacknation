@@ -1,0 +1,6 @@
+# Lokalna praca bez tunelu: publikuje app wyłącznie na 127.0.0.1.
+# docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build app db
+services:
+  app:
+    ports:
+      - "127.0.0.1:${PORT:-8000}:8000"
