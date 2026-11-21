@@ -33,9 +33,9 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 - Hosting: lokalnie (docker-compose). Serwera znajomego na razie nie ma (Wojtek, 22.11), demo pokazujemy lokalnie.
 - Wejście w MVP: **CSV i XLSX z mapowaniem kolumn** oraz nasz szablon. Jeśli starczy czasu: **synchronizacja z URL źródła** (demo: Przemyśl), potem formularz ręczny.
 - Mapowanie kolumn: **heurystyka + słownik synonimów**. Model AI tylko wtedy, gdy testy na realnych danych pokażą, że heurystyka nie wystarcza. **Testy na realnych plikach są ważne.**
-- Brak współrzędnych: **geokodowanie z potwierdzeniem** (Nominatim, oznaczenie dokładności, ostrzeżenie).
+- Brak współrzędnych: **geokodowanie z potwierdzeniem** (geokoder GUGiK UUG, Nominatim jako zapas, oznaczenie dokładności, ostrzeżenie).
 - Edycja i logowanie: **nie w MVP**. Poprawka w MVP to ponowne wgranie pliku przez **prywatny link edycji** pod ten sam URL (Wojtek, 22.11), żeby „Aktualizacja automatyczna” na dane.gov.pl miała sens.
-- Agregat: **tylko URL zbiorczego CSV**, mapa jeśli starczy czasu.
+- Agregat: **dwa URL zbiorcze** (z OSM i bez OSM), kolumny pochodzenia przy każdym rekordzie; mapa jeśli starczy czasu.
 - Krok 1 kreatora: nazwa i typ dysponenta oraz opcjonalny kontakt służbowy (kontaktu nie publikujemy). Dostawcy nie weryfikujemy, bo robi to dane.gov.pl przy publikacji.
 - Wygląd: **czekamy na identyfikację kampanii**, kolory w zmiennych CSS.
 - Podział pracy: na razie bez osobnych sesji. Plan jest rozpisany tak, żeby maksymalnie zrównoleglić pracę.
@@ -44,6 +44,7 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 
 - ~~Brak `data_weryfikacji`~~: data wgrania + ostrzeżenie (Wojtek, 22.11).
 - ~~Licencja zbioru wynikowego~~: stała CC0 1.0 (Wojtek, 22.11). ODbL dla OSM w agregacie: w prototypie świadomie pomijamy, bo OSM pokazuje skalę agregacji (Wojtek, 22.11). Przed produkcją pytanie do MC.
+- ~~Spory Grzan / Wojtek 1–5~~: rozstrzygnięte 22.11 (CC0, prywatny link edycji, agregat z OSM i bez OSM z kolumnami pochodzenia, geokoder GUGiK, 20 000 wierszy). Szczegóły w NOTATKI-ZESPOLU.md i PLAN.md.
 - Rejestracja URL do importu XML i limity odświeżania (pytania do MC).
 - ~~Kto robi którą ścieżkę~~: osobna sesja Claude na ścieżkę, T0 najpierw przez jedną sesję, branch na ścieżkę (Wojtek, 22.11). Nadal otwarte: które osoby nadzorują które sesje.
 - Identyfikacja wizualna i nazwa akcji (25% oceny), poza aplikacją: kto i na kiedy kolory (decyduje Grzan).

@@ -44,6 +44,10 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
     - przyjmowanie danych w kilku formatach: co najmniej .csv i .xlsx, a do tego inne, w których urzędy i instytucje trzymają takie dane.
 - **Grzan (sytuacja idealna: synchronizacja ze źródłem zewnętrznym):** Platforma pozwala podpiąć zewnętrzne źródło, np. plik CSV na stronie urzędu, nawet źle sformatowany. Nasza strona cyklicznie pobiera go, automatycznie przekształca do naszego formatu i wystawia poprawione dane pod naszym URL.
   - Fakt z researchu na przykładzie: Przemyśl udostępnia dane na żywo (przemysl.skycms.com.pl/open-data/…, CSV z `;` i geometrią jako JSON w komórce). Między 2024-11 a 21.11.2026 zmienił się w nim format geometrii z obiektu `{lat,long}` na tablicę `[lon,lat]`. Taki przypadek synchronizacja musi wykryć.
+- **Grzan (doszczegółowienie, 22.11 ok. 01:10):**
+  - Podział pracy: różne agenty odpowiadają za różne części, żeby każdy miał jak najmniejszy i najtańszy kontekst. Maksymalne zrównoleglenie.
+  - Front: Vite + React + TypeScript, własny CSS (bez biblioteki komponentów).
+  - Hosting u znajomego: szczegóły jeszcze nieznane. Docker-compose ma mieć konfigurowalny bazowy URL (zmienna środowiskowa).
 - **Wojtek (podział pracy, 22.11):** Każda ścieżka z app/PLAN.md (A rdzeń, B API, C front, D testy) ma osobną sesję Claude we własnym klonie, a ludzie nadzorują sesje.
 - **Wojtek (front, 22.11):** Vite + React + TypeScript z własnym CSS, bez biblioteki komponentów. Kolory jako tokeny w zmiennych CSS, do podmiany na kolory kampanii.
 - **Wojtek (hosting, 22.11):** Serwera na razie nie ma, demo pokazujemy lokalnie (docker compose). Bazowy URL do linków /d/{slug}.csv ustawiamy zmienną środowiskową.
@@ -54,6 +58,13 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (duplikaty w pliku, 22.11):** Powtórzone `id_aed` albo numer seryjny w jednym pliku to błąd, który blokuje publikację. Bardzo bliskie współrzędne dają tylko ostrzeżenie, bo w jednym budynku może być kilka AED.
 - **Wojtek (licencja, 22.11):** Zbiór wynikowy ma stałą licencję CC0 1.0. Dostawca jej nie wybiera.
 - **Wojtek (ponowne wgranie w MVP, 22.11):** Po publikacji dostawca dostaje drugi, prywatny link edycji z tokenem. Przez ten link wgrywa nowy plik pod ten sam slug, więc publiczny URL się nie zmienia, a portal z „Aktualizacją automatyczną” pobiera nową treść. Logowanie (S3) zostaje poza MVP.
+- **Grzan (zasady danych, 22.11 ok. 01:25):** data_weryfikacji: data wgrania + ostrzeżenie; brak id_aed: generujemy; brak statusu: `nieznany` + ostrzeżenie; duplikaty: błąd tylko przy tym samym id_aed albo numerze seryjnym, przy bliskich punktach ostrzeżenie; limity pliku: 10 MB i 20 000 wierszy (geokodowanie max ok. 200 adresów na plik). Do tego miejsca zgodnie z Wojtkiem.
+- **Grzan (licencja, 22.11):** Dostawca wybiera w kroku 1 CC0 1.0 albo CC BY 4.0, domyślnie CC0. Agregat ma CC BY 4.0 z kolumnami źródła i licencji przy każdym rekordzie. (Fakty: portal nie wymaga CC0, licencję ustawia dostawca w metadanych zbioru na dane.gov.pl. Wśród 500 najnowszych zbiorów 421 ma CC0, a 79 CC BY 4.0.)
+- **Grzan (ponowne wgranie w MVP, 22.11):** Nowy URL przy każdym wgraniu.
+- ⚠️ **SPÓR do rozstrzygnięcia (Grzan i Wojtek):**
+  1. **Licencja:** Wojtek ustalił stałą CC0, Grzan wybór CC0/CC BY 4.0 z domyślną CC0.
+  2. **Ponowne wgranie:** Wojtek ustalił prywatny link edycji z tokenem (ten sam URL), Grzan nowy URL przy każdym wgraniu.
+  Dopóki tego nie rozstrzygniecie, app/PLAN.md zawiera wersję Wojtka.
 - **Wojtek (agregat, 22.11):** Zbiorczy URL `/d/aed-polska.csv` zawiera cały agregat z `dane/wynik`, także dane z OSM. Licencja na razie nas nie interesuje. Wiemy, co wynika z ODbL, ale w prototypie używamy tych danych do prezentacji: duży zbiór pokazuje, że umiemy go zagregować i przetworzyć do wzorcowego formatu.
 - **Wojtek (geokodowanie, 22.11):** W prototypie Nominatim z cache w bazie, własnym User-Agentem i limitem 1 zapytanie/s. Gdy w pliku jest ponad ok. 200 adresów bez współrzędnych, pokazujemy ostrzeżenie z prośbą o dodanie współrzędnych. Docelowo (slajd) geokoder GUGiK.
 - **Wojtek (limity, 22.11):** Plik do 10 MB i 10 000 wierszy. Większy plik dostaje komunikat z prośbą o kontakt.
@@ -61,3 +72,12 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (testowy XLSX, 22.11):** Nie mamy realnego „urzędowego” XLSX. Sesja D przygotuje syntetyczne pliki (D1).
 - **Wojtek (zrzuty dane.gov.pl, 22.11):** Nikt z nas nie ma konta dostawcy ani kontaktu w MC, więc prosimy organizatora (PYTANIA-DO-ORGANIZATORA.md). Do czasu odpowiedzi instrukcja w kroku 3 opisuje kroki na podstawie kodu portalu i Przewodnika dla dostawców v1.23.
 - **Wojtek (otwarte, decyduje Grzan):** Kto robi slajdy i na kiedy potrzebuje działającej wersji. Kto robi kampanię (nazwa, hasło, logo, księga znaku) i kiedy front dostanie kolory.
+- **Grzan (agregat, 22.11 ok. 01:40):** Dane na start (jeszcze niezatwierdzone): dwa pliki zbiorcze, główny bez OSM (zbiory od dostawców i źródła miejskie na CC0 lub CC BY) i osobny „podgląd z OSM (ODbL)”. **Każdy rekord musi mieć wyraźnie oznaczone pochodzenie** (kto podał dane, z jakiego źródła i kiedy), żeby dało się odsiać dane niewiarygodne i nieaktualne.
+- **Grzan (geokoder, 22.11):** Geokoder GUGiK (państwowy). Fakt sprawdzony 22.11: usługa UUG `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326` działa bez klucza i zwraca współrzędne, kod TERYT gminy (6 cyfr), SIMC, ULIC, kod pocztowy i `accuracy`. Przy wielu trafieniach (np. dwa „Krosno, Jasna”) trzeba zawęzić wynik kodem pocztowym albo gminą.
+- **Grzan (testy, 22.11):** Najpierw 5 miast z dane.gov.pl (Krosno, Marki, Legionowo, Przemyśl, Warszawa 19115). Jeśli starczy czasu: pliki z dane/surowe i syntetyczne „urzędowe” XLSX. **Potrzebny jest jeden bardzo wyraźny przykład, że narzędzie działa.**
+- ⚠️ **SPÓR, cd. (tematy 11–13 też przeszły obie sesje):**
+  3. **Agregat:** Wojtek: jeden plik `/d/aed-polska.csv` z całym `dane/wynik` łącznie z OSM (licencję świadomie pomijamy w prototypie). Grzan: dwa pliki, główny bez OSM i osobny „podgląd z OSM (ODbL)”, a przy każdym rekordzie wyraźne pochodzenie. (Wspólne: pochodzenie rekordu i tak jest w kolumnach `zrodlo_danych` / `licencja_zrodla` w dane/.)
+  4. **Geokoder:** Wojtek: Nominatim w prototypie, GUGiK docelowo (slajd). Grzan: GUGiK od razu (działa bez klucza i zwraca TERYT).
+  5. **Limit wierszy:** Wojtek 10 000, Grzan 20 000 (obaj 10 MB).
+  Zgodne: fixtury startowe (Grzan dodaje do nich Marki), syntetyczne XLSX przygotowuje sesja D.
+- ✅ **Grzan (rozstrzygnięcie sporów 1–5, 22.11 ok. 02:00):** 1) licencja: **stała CC0** (wersja Wojtka); 2) ponowne wgranie: **prywatny link z tokenem, ten sam URL** (wersja Wojtka); 3) agregat: **połączenie**: `/d/aed-polska.csv` z OSM i `/d/aed-polska-bez-osm.csv` bez OSM, a przy każdym rekordzie kolumny pochodzenia (dysponent, źródło, licencja źródła, data aktualizacji); 4) geokoder: **GUGiK UUG**, Nominatim jako zapas; 5) limit: **10 MB i 20 000 wierszy**. Zmiany wprowadzone w app/PLAN.md.
