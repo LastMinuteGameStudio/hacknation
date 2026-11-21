@@ -1,4 +1,6 @@
 # Uruchomienie (z katalogu app/):  cp .env.example .env && docker compose up --build
+# Ruch z internetu wyłącznie przez tunel Cloudflare (PLAN.md §3). Żaden serwis nie publikuje portów.
+# Lokalnie bez tunelu: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build app db
 services:
   db:
     image: postgres:16-alpine
@@ -19,10 +21,16 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: postgresql+psycopg://aed:aed@db:5432/aed
-    ports:
-      - "${PORT:-8000}:8000"
     depends_on:
       db:
         condition: service_healthy
+  tunnel:
+    image: cloudflare/cloudflared:2026.11.1
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}  # z app/.env; bez tokenu cloudflared kończy się błędem
+    depends_on:
+      - app
+    restart: unless-stopped
 volumes:
   dbdata:
