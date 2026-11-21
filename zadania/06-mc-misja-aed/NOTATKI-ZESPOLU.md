@@ -58,3 +58,6 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (geokodowanie, 22.11):** W prototypie Nominatim z cache w bazie, własnym User-Agentem i limitem 1 zapytanie/s. Gdy w pliku jest ponad ok. 200 adresów bez współrzędnych, pokazujemy ostrzeżenie z prośbą o dodanie współrzędnych. Docelowo (slajd) geokoder GUGiK.
 - **Wojtek (limity, 22.11):** Plik do 10 MB i 10 000 wierszy. Większy plik dostaje komunikat z prośbą o kontakt.
 - **Wojtek (fixtury, 22.11):** Bez ręcznych poprawek mapowania muszą przejść Krosno, Legionowo, Przemyśl i Warszawa 19115.
+- **Wojtek (testowy XLSX, 22.11):** Nie mamy realnego „urzędowego” XLSX. Sesja D przygotuje syntetyczne pliki (D1).
+- **Wojtek (zrzuty dane.gov.pl, 22.11):** Nikt z nas nie ma konta dostawcy ani kontaktu w MC, więc prosimy organizatora (PYTANIA-DO-ORGANIZATORA.md). Do czasu odpowiedzi instrukcja w kroku 3 opisuje kroki na podstawie kodu portalu i Przewodnika dla dostawców v1.23.
+- **Wojtek (otwarte, decyduje Grzan):** Kto robi slajdy i na kiedy potrzebuje działającej wersji. Kto robi kampanię (nazwa, hasło, logo, księga znaku) i kiedy front dostanie kolory.

@@ -146,4 +146,6 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 - ODbL dla danych z OSM w agregacie: w prototypie świadomie pomijamy, bo OSM służy do prezentacji skali (Wojtek). Do produkcji pytanie do MC (PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
+- Slajdy: kto robi i na kiedy potrzebna działająca wersja (decyduje Grzan).
+- Zrzuty z panelu dostawcy dane.gov.pl: prośba do organizatora. Do czasu odpowiedzi instrukcja w kroku 3 bazuje na kodzie portalu i Przewodniku v1.23.
 - Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.
