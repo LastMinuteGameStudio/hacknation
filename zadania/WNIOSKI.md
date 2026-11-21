@@ -22,6 +22,7 @@
 - **Grzan:** 05 Kompas kompetencji: narzędzie ma łączyć różne dziedziny, m.in. analitykę i umiejętności interpersonalne.
 - **Grzan:** 05 Kompas kompetencji: użytkownikiem jest urzędnik, czyli osoba nietechniczna. Narzędzie nie zdejmuje z niego odpowiedzialności za ocenę.
 - **Grzan:** 05 Kompas kompetencji: trzeba zrobić samo narzędzie i dodatkowo asystenta AI.
+- **Grzan:** 05 Kompas kompetencji: regulamin mówi: „Zespoły przygotowujące rozwiązanie mogą korzystać na tym etapie wyłącznie z darmowych narzędzi AI.”
 
 ## Ranking trudności (pozostałe zadania)
 
@@ -34,7 +35,7 @@ Ocena wynika tylko z wymagań organizatorów: ile trzeba oddać, czy dane są go
 
 ### Średnie
 
-- **05 Kompas kompetencji (MC)**: jasny cel, są materiały, dowolne AI. Utrudnienia: przepisy i model kompetencji, jury sprawdza odpowiedzi chatbota.
+- **05 Kompas kompetencji (MC)**: jasny cel, są materiały, wolno korzystać z gotowych modeli i zewnętrznych API. Utrudnienia: **wyłącznie darmowe narzędzia AI**, przepisy i model kompetencji, jury sprawdza odpowiedzi chatbota.
 - **06 Misja AED (MC)**: mało programowania. Utrudnienia: źródła danych o AED trzeba znaleźć samemu, logo z księgą znaku ma 25% wagi.
 - **02 Cyfryzacja formularzy (COI)**: jasne wejście i wyjście, są przykłady. Utrudnienia: wiele formatów razem ze skanami, zakaz modeli przez API, wymagania „produkcyjne” (Docker, JWT, walidacje).
 - **10 Kolekcjoner fejków (NASK)**: UI nieoceniane, są przykładowe dane. Utrudnienia: wynik zależy od jakości grupowania na ukrytym zbiorze.
