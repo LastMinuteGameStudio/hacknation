@@ -17,6 +17,7 @@
 
 - **Grzan:** 08 Risk Miner raczej odpada, bo wymaga zbyt wielu modułów.
 - **Grzan:** 06 Misja AED potencjalnie na plus, bo duża część zadania to otoczka nieprogramistyczna (logo, księga znaku, pitch).
+- **Grzan:** 05 Kompas kompetencji: potencjalny problem to asystent AI, bo fajnie, żeby nie był zwykłym wrapperem wokół Claude'a czy innego modelu.
 
 ## Ranking trudności (pozostałe zadania)
 
