@@ -1,8 +1,10 @@
 // Kreator 3 kroków (app/PLAN.md, sekcja 4). Ścieżka /edycja/{slug}?token=… pomija krok 1.
 import { useEffect, useRef, useState } from "react";
-import type { Dysponent, ImportOut, PublikacjaOut, WalidacjaOut } from "./api/types";
+import { api } from "./api/client";
+import type { Dysponent, ImportOut, PublikacjaOut, SchematOut, WalidacjaOut } from "./api/types";
 import { Logo } from "./components/Logo";
 import { Postep, type KrokOpis } from "./components/Postep";
+import { Krok1Dysponent } from "./kroki/Krok1Dysponent";
 import { Start } from "./kroki/Start";
 
 type Krok = "start" | "dysponent" | "dane" | "publikacja";
@@ -28,6 +30,15 @@ export default function App() {
   const [publikacja, setPublikacja] = useState<PublikacjaOut | null>(null);
   void [dysponent, setDysponent, imp, setImp, walidacja, setWalidacja, publikacja, setPublikacja];
   const pierwszyRender = useRef(true);
+  const [schemat, setSchemat] = useState<SchematOut | null>(null);
+  const [bladSchematu, setBladSchematu] = useState<string | null>(null);
+
+  useEffect(() => {
+    api
+      .schemat()
+      .then(setSchemat)
+      .catch(() => setBladSchematu("Nie udało się wczytać słowników z serwera. Odśwież stronę za chwilę."));
+  }, []);
 
   // WCAG 2.4.2 / 2.4.3: tytuł strony i fokus na nagłówek po zmianie kroku.
   useEffect(() => {
@@ -53,7 +64,19 @@ export default function App() {
       <main id="tresc" className="kontener">
         {krok !== "start" && <Postep kroki={KROKI} biezacy={krok} />}
         {krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
-        {krok !== "start" && (
+        {krok === "dysponent" && (
+          <Krok1Dysponent
+            schemat={schemat}
+            bladSchematu={bladSchematu}
+            poczatkowy={dysponent}
+            onWstecz={() => setKrok("start")}
+            onDalej={(d) => {
+              setDysponent(d);
+              setKrok("dane");
+            }}
+          />
+        )}
+        {(krok === "dane" || krok === "publikacja") && (
           <section aria-labelledby="naglowek-kroku">
             <h1 id="naglowek-kroku" tabIndex={-1}>
               {TYTULY[krok]}
