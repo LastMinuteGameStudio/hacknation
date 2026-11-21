@@ -4,9 +4,14 @@ Co i dlaczego: [KONTEKST.md](KONTEKST.md). Plan i zadania: [PLAN.md](PLAN.md). *
 
 ## Uruchomienie
 
-**Docker (całość):**
+**Docker z tunelem Cloudflare (demo, jury):** w `.env` ustaw `TUNNEL_TOKEN` (od Wojtka) i `BASE_URL` = adres tunelu. Żaden port nie jest publikowany, aplikacja odpowiada tylko pod adresem tunelu.
 ```bash
-cd app && cp .env.example .env && docker compose up --build   # http://localhost:8000
+cd app && cp .env.example .env && docker compose up --build
+```
+
+**Docker lokalnie, bez tunelu:** aplikacja tylko na `127.0.0.1`, tunel wyłączony.
+```bash
+cd app && cp .env.example .env && docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build   # http://localhost:8000
 ```
 
 **Backend lokalnie (bez dockera, bez bazy działają atrapy):**
