@@ -23,7 +23,8 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Wynik | URL z CSV (pola publiczne), JSON, metadane CSVW | — |
 | Agregat | URL zbiorczego CSV | mapa |
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
-| Geokodowanie | adres bez współrzędnych: Nominatim z cache, oznaczenie dokładności, ostrzeżenie | — |
+| Geokodowanie | adres bez współrzędnych: Nominatim z cache, własny User-Agent, 1/s, oznaczenie dokładności, ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” (Wojtek) | geokoder GUGiK (na slajdzie jako docelowy) |
+| Limity | plik do 10 MB i 10 000 wierszy, powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
 | Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
 
@@ -72,7 +73,7 @@ PostgreSQL (docker)
 | GET | `/d/{slug}.csv` | CSV z polami publicznymi (RFC 4180, UTF-8, CRLF) |
 | GET | `/d/{slug}.json` | to samo w JSON |
 | GET | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`) |
-| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` + wszystkie opublikowane zbiory |
+| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (łącznie z OSM, na potrzeby prezentacji; licencja na razie pominięta, Wojtek) + wszystkie opublikowane zbiory |
 | GET | `/szablon.csv`, `/szablon.xlsx` | szablony z `zakres-danych/` |
 
 Format błędu walidacji: `{wiersz, pole, kod, komunikat}` z komunikatem po polsku, zrozumiałym dla urzędnika.
@@ -135,7 +136,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 7. Definicja „gotowe” dla MVP
 
-- `docker compose up` uruchamia całość. Na czystej maszynie test: wgranie pliku Krosno → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5.
+- `docker compose up` uruchamia całość. Na czystej maszynie test: wgranie plików **Krosno, Legionowo, Przemyśl i Warszawa 19115** → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5 (Wojtek).
 - Plik Marki: aplikacja wykrywa problem (jedna kolumna i zamienione współrzędne) i albo go naprawia, albo jasno komunikuje.
 - Raport D2 pokazuje trafność mapowania na wszystkich fixturach.
 - Front działa przy 320 px i przechodzi axe bez błędów krytycznych.
@@ -143,6 +144,6 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 8. Otwarte kwestie
 
-- ODbL dla danych z OSM w agregacie (pytania w PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
+- ODbL dla danych z OSM w agregacie: w prototypie świadomie pomijamy, bo OSM służy do prezentacji skali (Wojtek). Do produkcji pytanie do MC (PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
 - Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.

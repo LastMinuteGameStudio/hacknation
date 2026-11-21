@@ -54,3 +54,7 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (duplikaty w pliku, 22.11):** Powtórzone `id_aed` albo numer seryjny w jednym pliku to błąd, który blokuje publikację. Bardzo bliskie współrzędne dają tylko ostrzeżenie, bo w jednym budynku może być kilka AED.
 - **Wojtek (licencja, 22.11):** Zbiór wynikowy ma stałą licencję CC0 1.0. Dostawca jej nie wybiera.
 - **Wojtek (ponowne wgranie w MVP, 22.11):** Po publikacji dostawca dostaje drugi, prywatny link edycji z tokenem. Przez ten link wgrywa nowy plik pod ten sam slug, więc publiczny URL się nie zmienia, a portal z „Aktualizacją automatyczną” pobiera nową treść. Logowanie (S3) zostaje poza MVP.
+- **Wojtek (agregat, 22.11):** Zbiorczy URL `/d/aed-polska.csv` zawiera cały agregat z `dane/wynik`, także dane z OSM. Licencja na razie nas nie interesuje. Wiemy, co wynika z ODbL, ale w prototypie używamy tych danych do prezentacji: duży zbiór pokazuje, że umiemy go zagregować i przetworzyć do wzorcowego formatu.
+- **Wojtek (geokodowanie, 22.11):** W prototypie Nominatim z cache w bazie, własnym User-Agentem i limitem 1 zapytanie/s. Gdy w pliku jest ponad ok. 200 adresów bez współrzędnych, pokazujemy ostrzeżenie z prośbą o dodanie współrzędnych. Docelowo (slajd) geokoder GUGiK.
+- **Wojtek (limity, 22.11):** Plik do 10 MB i 10 000 wierszy. Większy plik dostaje komunikat z prośbą o kontakt.
+- **Wojtek (fixtury, 22.11):** Bez ręcznych poprawek mapowania muszą przejść Krosno, Legionowo, Przemyśl i Warszawa 19115.
