@@ -9,7 +9,7 @@ from fastapi import Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from . import core
+from . import agregat, core
 from .config import BASE_URL, LICENCJA
 from .db import Rekord, Zbior
 from .importy import SCHEMA, _iso, blad
@@ -63,6 +63,9 @@ def metadane(z: Zbior, liczba: Optional[int] = None) -> dict:
 
 
 def plik(db: Session, nazwa: str) -> Response:
+    if nazwa in agregat.PLIKI:
+        return Response(agregat.plik(db, nazwa), media_type=CSV,
+                        headers=NAGLOWKI | {"Content-Disposition": f'inline; filename="{nazwa}"'})
     slug, rodzaj = rozbij_nazwe(nazwa)
     z = _zbior(db, slug)
     if rodzaj == "csv-metadata.json":
