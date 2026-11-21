@@ -1,0 +1,108 @@
+{
+  "plik": "syntetyczny_gmina.xlsx",
+  "arkusz": null,
+  "wymaga_100": false,
+  "syntetyczny": true,
+  "dostawca": {
+    "nazwa": "Urząd Gminy Przykładowo",
+    "typ": "jst",
+    "slug": "gmina-przykladowo"
+  },
+  "wartosci_stale": {},
+  "liczba_wierszy": 5,
+  "naglowek_w_wierszu": 4,
+  "mapowanie": {
+    "Lp.": null,
+    "Godziny dostępności": "_godziny",
+    "Adres": "_adres_pelny",
+    "Miejsce / obiekt": "nazwa_obiektu",
+    "Miejscowość": [
+      "miejscowosc",
+      null
+    ],
+    "Szer. geogr.": "szerokosc_geograficzna",
+    "Dł. geogr.": "dlugosc_geograficzna",
+    "Dostęp": "dostepnosc",
+    "Gdzie wisi": [
+      "opis_lokalizacji",
+      "wewnatrz_budynku"
+    ],
+    "Uwagi": "uwagi"
+  },
+  "rekordy": [
+    {
+      "wiersz": 5,
+      "pola": {
+        "nazwa_obiektu": "Urząd Gminy",
+        "szerokosc_geograficzna": "49.883512",
+        "dlugosc_geograficzna": "19.493187",
+        "cecha_ulicy": "ulica",
+        "nazwa_ulicy": "Rynek",
+        "nr_budynku": "1",
+        "kod_pocztowy": "34-100",
+        "miejscowosc": "Przykładowo",
+        "dostepny_24_7": "tak",
+        "godziny_pn": "X",
+        "godziny_nd": "X",
+        "dostepnosc": "publiczny"
+      }
+    },
+    {
+      "wiersz": 6,
+      "pola": {
+        "nazwa_obiektu": "Szkoła Podstawowa nr 1",
+        "miejscowosc": "Przykładowo",
+        "dostepny_24_7": "nie",
+        "godziny_pn": "07:30-15:30",
+        "godziny_pt": "07:30-15:30",
+        "godziny_so": [
+          "zamkniete",
+          ""
+        ],
+        "szerokosc_geograficzna": "49.879044"
+      }
+    },
+    {
+      "wiersz": 7,
+      "pola": {
+        "dostepny_24_7": "tak",
+        "miejscowosc": "Przykładowo",
+        "uwagi": "szafka ogrzewana"
+      }
+    },
+    {
+      "wiersz": 8,
+      "pola": {
+        "nazwa_obiektu": "Ośrodek Zdrowia",
+        "nazwa_ulicy": [
+          "Wola Przykładowa"
+        ],
+        "nr_budynku": "12",
+        "kod_pocztowy": "34-101",
+        "miejscowosc": "Wola Przykładowa",
+        "dostepnosc": [
+          "klienci",
+          "na_prosbe"
+        ]
+      }
+    },
+    {
+      "wiersz": 9,
+      "pola": {
+        "dostepny_24_7": "tak",
+        "miejscowosc": "Wola Przykładowa"
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "ROZBITO_ADRES"
+    ],
+    "nie_moze_byc": [
+      "POZA_POLSKA",
+      "PUSTY_PLIK",
+      "ZAMIENIONE_WSPOLRZEDNE"
+    ]
+  },
+  "uwagi": "Nagłówek w wierszu 4 (tytuł scalony w A1:J1, data w A2, pusty wiersz 3), dane od wiersza 5. Stopka 'Sporządził:' w wierszu 11 nie jest rekordem. Miejscowość scalona w pionie (E5:E7, E8:E9): wartość jest tylko w pierwszej komórce, scalone wiersze powinny ją dziedziczyć. Współrzędne jako tekst z przecinkiem dziesiętnym. Godziny: '24h', 'całodobowo', '24/7' → dostepny_24_7=tak + X; 'pn-pt 7:30-15:30' → godziny_pn..pt; 'w godzinach otwarcia ośrodka' → NIEZROZUMIALE_GODZINY. Wola Przykładowa 12: miejscowość bez ulicy → nazwa_ulicy = miejscowość (ULICA_Z_MIEJSCOWOSCI). 'Gdzie wisi' łączy wewnątrz/na zewnątrz z opisem miejsca."
+}

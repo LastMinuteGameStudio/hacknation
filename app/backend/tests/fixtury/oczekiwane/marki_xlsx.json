@@ -1,0 +1,90 @@
+{
+  "plik": "marki.xlsx",
+  "arkusz": null,
+  "wymaga_100": false,
+  "uszkodzony": true,
+  "dostawca": {
+    "nazwa": "Urząd Miasta Marki",
+    "typ": "jst",
+    "slug": "marki"
+  },
+  "wartosci_stale": {
+    "wewnatrz_budynku": "true",
+    "dostepnosc": "publiczny",
+    "dostepny_24_7": "nie"
+  },
+  "liczba_wierszy": 8,
+  "kolumny_po_naprawie": [
+    "Długość geograficzna",
+    "Szerokość geograficzna",
+    "Nazwa",
+    "Lokalizacja",
+    "Adres",
+    "Numer Id"
+  ],
+  "mapowanie": {
+    "Długość geograficzna": [
+      "dlugosc_geograficzna",
+      "szerokosc_geograficzna"
+    ],
+    "Szerokość geograficzna": [
+      "szerokosc_geograficzna",
+      "dlugosc_geograficzna"
+    ],
+    "Nazwa": null,
+    "Lokalizacja": "nazwa_obiektu",
+    "Adres": "_adres_pelny",
+    "Numer Id": [
+      "id_zrodlowe",
+      "id_aed"
+    ]
+  },
+  "rekordy": [
+    {
+      "wiersz": 2,
+      "pola": {
+        "szerokosc_geograficzna": "52.326697",
+        "dlugosc_geograficzna": "21.107557",
+        "nazwa_obiektu": "Urząd Miasta Marki",
+        "cecha_ulicy": "aleja",
+        "nazwa_ulicy": "Piłsudskiego",
+        "nr_budynku": "95",
+        "kod_pocztowy": "05-270",
+        "miejscowosc": "Marki"
+      }
+    },
+    {
+      "wiersz": 3,
+      "pola": {
+        "szerokosc_geograficzna": "52.323960",
+        "dlugosc_geograficzna": "21.098185",
+        "nazwa_obiektu": "Szkoła Podstawowa nr 1",
+        "cecha_ulicy": "ulica",
+        "nazwa_ulicy": "Okólna",
+        "nr_budynku": "14"
+      }
+    },
+    {
+      "wiersz": 8,
+      "pola": {
+        "szerokosc_geograficzna": "49.718809346153336",
+        "dlugosc_geograficzna": "21.72034402175176",
+        "nazwa_obiektu": "Szkoła Podstawowa nr 5",
+        "nazwa_ulicy": "Wczsowa",
+        "nr_budynku": "5",
+        "miejscowosc": "Marki"
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "ZAMIENIONE_WSPOLRZEDNE",
+      "BLISKIE_PUNKTY"
+    ],
+    "nie_moze_byc": [
+      "POZA_POLSKA"
+    ]
+  },
+  "akceptowalne_zgloszenie": "Jeśli parser nie naprawi pliku, Table.messages musi zawierać komunikat poziomu 'blad' albo 'ostrzezenie' (plik ma jedną kolumnę: cały wiersz w cudzysłowie).",
+  "uwagi": "Ten sam zbiór co marki.csv, ale w XLSX: arkusz 'Defibrylator_GminaMiastoMarki_1', wszystko w kolumnie A (każdy wiersz CSV wklejony do jednej komórki). Parser powinien rozpoznać CSV w jednej kolumnie. Uszkodzony eksport: każdy wiersz to jedno pole w cudzysłowie z podwojonymi cudzysłowami w środku; po rozpakowaniu jest to ten sam układ co Krosno. W wierszach 2-7 i 9 pierwsza wartość to szerokość (52.x), choć nagłówek mówi 'Długość' (zamiana per wiersz). Wiersz 8 (Numer Id 7) ma współrzędne skopiowane z Krosna (49.7188, 21.7203) w kolejności zgodnej z nagłówkiem: to punkt w Polsce, ale ok. 290 km od adresu w Markach (wykrycie wymagałoby porównania z adresem/geokodem, poza obecnym kontraktem). Wiersze 6 i 7 mają identyczne współrzędne (BLISKIE_PUNKTY). Literówki w źródle: 'Al..', 'Duza', 'Wczsowa', 'Zespół Szkół nr im.' zostają bez zmian. Wartości kończą się spacją ('Urząd Miasta Marki '), oczekujemy obcięcia."
+}

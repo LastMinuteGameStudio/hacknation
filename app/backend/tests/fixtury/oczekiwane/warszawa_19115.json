@@ -1,0 +1,101 @@
+{
+  "plik": "warszawa_19115.geojson",
+  "arkusz": null,
+  "wymaga_100": true,
+  "dostawca": {
+    "nazwa": "Miasto Stołeczne Warszawa",
+    "typ": "jst",
+    "slug": "warszawa"
+  },
+  "wartosci_stale": {},
+  "liczba_wierszy": 708,
+  "kolumna_geometrii": "geometry",
+  "mapowanie": {
+    "defibrillator_id": [
+      "id_zrodlowe",
+      "id_aed"
+    ],
+    "location_object_name": "nazwa_obiektu",
+    "location_description": "opis_lokalizacji",
+    "location_street": "nazwa_ulicy",
+    "location_building": "nr_budynku",
+    "location_postcode": "kod_pocztowy",
+    "location_floor": "kondygnacja",
+    "location_city": "miejscowosc",
+    "location_country": null,
+    "location_borough": null,
+    "location_district": null,
+    "device_availability": "dostepny_24_7",
+    "device_location": "wewnatrz_budynku",
+    "device_public_access": "dostepnosc",
+    "device_access_description": "_godziny",
+    "device_specifications": null,
+    "device_manufacturer": "producent",
+    "application_status": null,
+    "application_date_last_verification": "data_weryfikacji",
+    "geometry": "_geometria"
+  },
+  "rekordy": [
+    {
+      "wiersz": 2,
+      "pola": {
+        "szerokosc_geograficzna": "52.2086170695684",
+        "dlugosc_geograficzna": "21.0148748892902",
+        "nazwa_obiektu": "Urząd Dzielnicy Mokotów m.st. Warszawy",
+        "opis_lokalizacji": "Przy wejściu na półpiętrze.",
+        "nazwa_ulicy": "Rakowiecka",
+        "nr_budynku": "25/27",
+        "kod_pocztowy": "02-517",
+        "kondygnacja": "0",
+        "miejscowosc": "Warszawa",
+        "dostepny_24_7": "ograniczony",
+        "wewnatrz_budynku": "true",
+        "dostepnosc": "publiczny",
+        "godziny_pn": [
+          "08:00-18:00",
+          ""
+        ],
+        "godziny_wt": [
+          "08:00-16:00",
+          ""
+        ],
+        "godziny_pt": [
+          "08:00-16:00",
+          ""
+        ],
+        "producent": "Medtronic",
+        "data_weryfikacji": "2022-11-10",
+        "status": "nieznany"
+      }
+    },
+    {
+      "wiersz": 3,
+      "pola": {
+        "nazwa_obiektu": "Kompleks Sportowy",
+        "nr_budynku": "2A",
+        "kod_pocztowy": "02-698",
+        "dostepny_24_7": "ograniczony",
+        "dostepnosc": "publiczny",
+        "data_weryfikacji": "2022-11-14",
+        "godziny_pn": [
+          "06:00-22:00",
+          ""
+        ],
+        "godziny_so": [
+          "08:00-20:00",
+          ""
+        ]
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "DOMYSLNY_STATUS"
+    ],
+    "nie_moze_byc": [
+      "BRAK_POLA_OBOWIAZKOWEGO",
+      "ZAMIENIONE_WSPOLRZEDNE"
+    ]
+  },
+  "uwagi": "Dane miejskie z mapy 19115 jako GeoJSON (FeatureCollection, 708 punktów). Zakładamy, że read_table spłaszcza properties do kolumn w kolejności z pliku i dodaje kolumnę 'geometry' z JSON geometrii; geometria ma postać [[lon,lat]] (tablica w tablicy). Wiersz = indeks cechy + 2. Słowniki: device_availability Tak/Nie/Ograniczona → tak/nie/ograniczony; device_location 'Wewnątrz budynku' (także z dopiskiem, np. ', gabinet zabiegowy') → true, 'Na zewnątrz budynku' → false; device_public_access Publiczny/Prywatny → publiczny/prywatny. device_access_description to wolny tekst godzin: albo parsowanie, albo NIEZROZUMIALE_GODZINY i tekst w uwagi (oba warianty dopuszczone). application_status (zawsze 5) to status zgłoszenia 19115, nie status urządzenia → null. device_specifications (Tak/Nie/Brak informacji) bez opisu znaczenia → null. data weryfikacji ma czas '2022-11-10 09:54:00' → data '2022-11-10'."
+}

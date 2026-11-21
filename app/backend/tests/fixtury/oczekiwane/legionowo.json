@@ -1,0 +1,94 @@
+{
+  "plik": "legionowo.csv",
+  "arkusz": null,
+  "wymaga_100": true,
+  "dostawca": {
+    "nazwa": "Urząd Miasta Legionowo",
+    "typ": "jst",
+    "slug": "legionowo"
+  },
+  "wartosci_stale": {
+    "wewnatrz_budynku": "true",
+    "dostepnosc": "publiczny",
+    "dostepny_24_7": "nie"
+  },
+  "liczba_wierszy": 24,
+  "mapowanie": {
+    "nazwa": "nazwa_obiektu",
+    "cecha_ulicy": "cecha_ulicy",
+    "nazwa_ulicy": "nazwa_ulicy",
+    "nr_budynku": "nr_budynku",
+    "nr_lokalu": "nr_lokalu",
+    "kod_pocztowy": "kod_pocztowy",
+    "miejscowosc": "miejscowosc",
+    "kod_terc": "kod_terc",
+    "kod_simc": "kod_simc",
+    "szerokosc_geograficzna": "szerokosc_geograficzna",
+    "dlugosc_geograficzna": "dlugosc_geograficzna"
+  },
+  "rekordy": [
+    {
+      "wiersz": 2,
+      "pola": {
+        "nazwa_obiektu": "Urząd Miasta Legionowo",
+        "cecha_ulicy": "ulica",
+        "nazwa_ulicy": "Piłsudskiego",
+        "nr_budynku": "41",
+        "nr_lokalu": "",
+        "kod_pocztowy": "05-120",
+        "miejscowosc": "Legionowo",
+        "kod_terc": [
+          "1408011",
+          "140801"
+        ],
+        "kod_simc": "0920806",
+        "szerokosc_geograficzna": "52.395198",
+        "dlugosc_geograficzna": "20.931382",
+        "id_aed": {
+          "regex": "^(1408011|140801|legionowo)-[0-9a-f]{6}$"
+        }
+      }
+    },
+    {
+      "wiersz": 4,
+      "pola": {
+        "nazwa_obiektu": "Arena Legionowo",
+        "nr_budynku": "50B",
+        "kod_pocztowy": "05-120"
+      }
+    },
+    {
+      "wiersz": 11,
+      "pola": {
+        "nazwa_obiektu": "Pływalnia \"Wodne Piaski\"",
+        "nazwa_ulicy": "Piaskowa",
+        "nr_budynku": "1A"
+      }
+    },
+    {
+      "wiersz": 16,
+      "pola": {
+        "nazwa_obiektu": "Przychodnia lekarska \"Puls\"",
+        "cecha_ulicy": "aleja",
+        "nazwa_ulicy": "1 Dywizji Zmechanizowanej",
+        "nr_budynku": "16",
+        "kod_pocztowy": "05-119"
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "WYGENEROWANO_ID",
+      "DOMYSLNY_STATUS",
+      "DOMYSLNA_DATA_WERYFIKACJI",
+      "BLISKIE_PUNKTY"
+    ],
+    "nie_moze_byc": [
+      "POZA_POLSKA",
+      "ZAMIENIONE_WSPOLRZEDNE",
+      "BRAK_POLA_OBOWIAZKOWEGO",
+      "DUPLIKAT_ID"
+    ]
+  },
+  "uwagi": "Plik wzorcowy (BOM, nazwy kolumn prawie jak w v0.5). Kolumna 'nazwa' to nazwa_obiektu. kod_terc ma 6 cyfr (140801), zakres v0.5 wymaga 7 (z rodzajem gminy: 1408011); dopuszczamy oba warianty, przy 6 cyfrach oczekiwane ostrzeżenie ZLY_FORMAT. kod_simc musi zachować zero wiodące (0920806). Komenda Policji i Straż Miejska (wiersze 8 i 9) mają te same współrzędne: BLISKIE_PUNKTY, ale nie błąd."
+}

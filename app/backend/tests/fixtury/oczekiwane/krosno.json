@@ -1,0 +1,63 @@
+{
+  "plik": "krosno.csv",
+  "arkusz": null,
+  "wymaga_100": true,
+  "dostawca": {"nazwa": "Urząd Miasta Krosna", "typ": "jst", "slug": "krosno"},
+  "wartosci_stale": {"wewnatrz_budynku": "true", "dostepnosc": "publiczny", "dostepny_24_7": "nie"},
+  "liczba_wierszy": 21,
+  "mapowanie": {
+    "Długość geograficzna": "dlugosc_geograficzna",
+    "Szerokość geograficzna": "szerokosc_geograficzna",
+    "Nazwa": null,
+    "Lokalizacja": "nazwa_obiektu",
+    "Adres": "_adres_pelny",
+    "Numer Id": ["id_zrodlowe", "id_aed"]
+  },
+  "rekordy": [
+    {"wiersz": 2, "pola": {
+      "szerokosc_geograficzna": "49.718809346153336",
+      "dlugosc_geograficzna": "21.72034402175176",
+      "nazwa_obiektu": ["Zespół Krytych Pływalni", "Zespół  Krytych Pływalni"],
+      "cecha_ulicy": "ulica",
+      "nazwa_ulicy": "Jasna",
+      "nr_budynku": "",
+      "kod_pocztowy": "38-400",
+      "miejscowosc": "Krosno",
+      "status": "nieznany",
+      "dysponent_nazwa": "Urząd Miasta Krosna",
+      "dostepnosc": "publiczny",
+      "wewnatrz_budynku": "true"
+    }},
+    {"wiersz": 3, "pola": {
+      "nazwa_obiektu": "Kampus Sportowo-dydaktyczny, portiernia",
+      "cecha_ulicy": "ulica",
+      "nazwa_ulicy": "Stanisława Wyspiańskiego",
+      "nr_budynku": "20",
+      "kod_pocztowy": "38-400",
+      "miejscowosc": "Krosno"
+    }},
+    {"wiersz": 10, "pola": {
+      "nazwa_obiektu": "Państwowa Akademia Nauk Stosowanych",
+      "nazwa_ulicy": "Kazimierza Wielkiego",
+      "nr_budynku": "4",
+      "kod_pocztowy": "38-400",
+      "miejscowosc": "Krosno"
+    }},
+    {"wiersz": 8, "pola": {
+      "nazwa_ulicy": ["Franciszka Żwirki i Stanisława Wigury"],
+      "nr_budynku": ""
+    }},
+    {"wiersz": 21, "pola": {
+      "nazwa_obiektu": "Urząd Miasta Krosna",
+      "nazwa_ulicy": "Lwowska",
+      "nr_budynku": ["28a", "28A"],
+      "szerokosc_geograficzna": "49.683990115416655",
+      "dlugosc_geograficzna": "21.771130722297613"
+    }}
+  ],
+  "komunikaty": {
+    "musza_byc": ["ROZBITO_ADRES", "WYGENEROWANO_ID", "DOMYSLNY_STATUS", "DOMYSLNA_DATA_WERYFIKACJI"],
+    "nie_moze_byc": ["POZA_POLSKA", "ZAMIENIONE_WSPOLRZEDNE", "NISKA_PRECYZJA", "BRAK_POLA_OBOWIAZKOWEGO", "NIE_ROZBITO_ADRESU"]
+  },
+  "uwagi": "Kolumna ' Nazwa' ma we wszystkich wierszach tę samą wartość 'Defibrylator', więc nie jest nazwą obiektu (nazwa_obiektu bierzemy z ' Lokalizacja'). Wiersze 10 i 11 mają adres z podwójnym przecinkiem 'ul. Kazimierza Wielkiego 4, , 38-400 Krosno'. Część adresów bez numeru ('ul. Jasna, 38-400 Krosno'). Numer Id ma luki (brak 20, 21), więc to identyfikator źródłowy, a nie lp."
+}

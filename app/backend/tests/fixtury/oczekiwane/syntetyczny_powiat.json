@@ -1,0 +1,100 @@
+{
+  "plik": "syntetyczny_powiat.xlsx",
+  "arkusz": "Defibrylatory",
+  "wymaga_100": false,
+  "syntetyczny": true,
+  "dostawca": {
+    "nazwa": "Starostwo Powiatowe w Przykładowie",
+    "typ": "jst",
+    "slug": "powiat-przykladowo"
+  },
+  "wartosci_stale": {
+    "dostepnosc": "publiczny",
+    "dostepny_24_7": "nie"
+  },
+  "liczba_wierszy": 4,
+  "arkusze": [
+    "Informacje",
+    "Defibrylatory",
+    "Legenda"
+  ],
+  "mapowanie": {
+    "Nr ewid.": [
+      "id_zrodlowe",
+      "id_aed"
+    ],
+    "Jednostka": "nazwa_obiektu",
+    "Ulica": "nazwa_ulicy",
+    "Nr": "nr_budynku",
+    "Kod": "kod_pocztowy",
+    "Miejscowość": "miejscowosc",
+    "Szerokość": "szerokosc_geograficzna",
+    "Długość": "dlugosc_geograficzna",
+    "Wewnątrz budynku": "wewnatrz_budynku",
+    "Stan": "status",
+    "Data przeglądu": "data_przegladu",
+    "Ważność elektrod": "data_waznosci_elektrod_doroslych",
+    "Nr seryjny": "numer_seryjny",
+    "Producent": "producent"
+  },
+  "rekordy": [
+    {
+      "wiersz": 4,
+      "pola": {
+        "nazwa_obiektu": "Starostwo Powiatowe",
+        "cecha_ulicy": "ulica",
+        "nazwa_ulicy": "Kościuszki",
+        "nr_budynku": "3",
+        "kod_pocztowy": "34-100",
+        "miejscowosc": "Przykładowo",
+        "szerokosc_geograficzna": "49.8851234",
+        "dlugosc_geograficzna": "19.4967812",
+        "wewnatrz_budynku": "true",
+        "status": "sprawny",
+        "data_przegladu": "2026-03-15",
+        "data_waznosci_elektrod_doroslych": "2028-05-31",
+        "numer_seryjny": "B21K-00412",
+        "producent": "Philips"
+      }
+    },
+    {
+      "wiersz": 5,
+      "pola": {
+        "nazwa_ulicy": "Mickiewicza",
+        "nr_budynku": [
+          "10a",
+          "10A"
+        ],
+        "status": "sprawny"
+      }
+    },
+    {
+      "wiersz": 6,
+      "pola": {
+        "cecha_ulicy": "aleja",
+        "nazwa_ulicy": "Wolności",
+        "wewnatrz_budynku": "false",
+        "status": "tymczasowo_niedostepny",
+        "data_waznosci_elektrod_doroslych": "2026-12-31"
+      }
+    },
+    {
+      "wiersz": 7,
+      "pola": {
+        "szerokosc_geograficzna": "49.9012",
+        "dlugosc_geograficzna": "19.4588"
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "NISKA_PRECYZJA"
+    ],
+    "nie_moze_byc": [
+      "POZA_POLSKA",
+      "DUPLIKAT_NR_SERYJNEGO",
+      "DOMYSLNY_STATUS"
+    ]
+  },
+  "uwagi": "Dane w drugim arkuszu 'Defibrylatory' (pierwszy to opis). Nagłówek dwupoziomowy w wierszach 2–3: 'Adres' scalony nad Ulica/Nr/Kod/Miejscowość, 'Położenie' nad Szerokość/Długość, pozostałe scalone w pionie. Parser może nazwać kolumny 'Ulica' albo 'Adres Ulica' (raport dopasowuje po końcówce nazwy). Dane od wiersza 4. Współrzędne to liczby XLSX: bez utraty cyfr (49.8851234, nie 49.885123400000001). Daty Excela → ISO. 'w serwisie' → tymczasowo_niedostepny, 'czynny' → sprawny. Wiersz 7 ma 4 miejsca po przecinku → NISKA_PRECYZJA. Ulica bez cechy ('Mickiewicza') → cecha pusta albo 'ulica'."
+}

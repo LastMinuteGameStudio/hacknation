@@ -1,0 +1,97 @@
+{
+  "arkusz": null,
+  "wymaga_100": true,
+  "dostawca": {
+    "nazwa": "Urząd Miejski w Przemyślu",
+    "typ": "jst",
+    "slug": "przemysl"
+  },
+  "wartosci_stale": {
+    "wewnatrz_budynku": "false",
+    "dostepnosc": "publiczny",
+    "dostepny_24_7": "tak"
+  },
+  "liczba_wierszy": 21,
+  "mapowanie": {
+    "id": [
+      "id_zrodlowe",
+      "id_aed"
+    ],
+    "name": "nazwa_obiektu",
+    "description": null,
+    "category": null,
+    "city": "miejscowosc",
+    "street": "nazwa_ulicy",
+    "home_number": "nr_budynku",
+    "postcode": "kod_pocztowy",
+    "phone": "telefon_kontaktowy",
+    "email": "email_kontaktowy",
+    "www": null,
+    "youtube_url": null,
+    "panorama_url": null,
+    "geometry": "_geometria",
+    "gallery": [
+      null,
+      "zdjecie_url"
+    ],
+    "attachments": null,
+    "links": null
+  },
+  "rekordy": [
+    {
+      "wiersz": 2,
+      "pola": {
+        "nazwa_obiektu": "Defibrylator (AED 9485) w ADM Centrum",
+        "szerokosc_geograficzna": "49.7812096",
+        "dlugosc_geograficzna": "22.7750936",
+        "nazwa_ulicy": "Juliusza Słowackiego",
+        "nr_budynku": "12",
+        "kod_pocztowy": "37-700",
+        "miejscowosc": "Przemyśl",
+        "opis_lokalizacji": "",
+        "telefon_kontaktowy": "",
+        "email_kontaktowy": "",
+        "dysponent_nazwa": "Urząd Miejski w Przemyślu",
+        "status": "nieznany"
+      }
+    },
+    {
+      "wiersz": 3,
+      "pola": {
+        "email_kontaktowy": "lo1@um.przemysl.pl",
+        "nr_budynku": "21",
+        "szerokosc_geograficzna": "49.7806393",
+        "dlugosc_geograficzna": "22.7771083"
+      }
+    },
+    {
+      "wiersz": 4,
+      "pola": {
+        "telefon_kontaktowy": [
+          "+48166779500",
+          "166779500"
+        ],
+        "nazwa_ulicy": "Generała Mieczysława Boruty Spiechowicza",
+        "nr_budynku": "1",
+        "szerokosc_geograficzna": "49.7972693",
+        "dlugosc_geograficzna": "22.7582092"
+      }
+    }
+  ],
+  "komunikaty": {
+    "musza_byc": [
+      "WYGENEROWANO_ID",
+      "DOMYSLNY_STATUS",
+      "DOMYSLNA_DATA_WERYFIKACJI"
+    ],
+    "nie_moze_byc": [
+      "POZA_POLSKA",
+      "ZAMIENIONE_WSPOLRZEDNE",
+      "NISKA_PRECYZJA",
+      "BRAK_POLA_OBOWIAZKOWEGO",
+      "DUPLIKAT_ID"
+    ]
+  },
+  "plik": "przemysl.csv",
+  "uwagi": "Eksport CMS (skycms) na żywo: separator ';', BOM, 17 kolumn, z czego połowa to śmieci CMS (category, gallery, links...). description to dwa warianty tego samego tekstu marketingowego o AED (nie opis miejsca) → null. geometry to GeoJSON {\"type\":\"Point\",\"coordinates\":[lon,lat]} → _geometria. Telefon z apostrofem z Excela (\"'+48166779500\", wiersz 4) → bez apostrofu. wartosci_stale: AED miejskie w Przemyślu wiszą w większości na zewnątrz w szafkach całodobowych (przyjęte do demo, nie z pliku)."
+}
