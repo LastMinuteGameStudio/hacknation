@@ -1,0 +1,19 @@
+/* Tokeny kolorów: paleta kampanii z repo (hacknation paleta.svg, Kuba).
+   Do tekstu i przycisków na białym tle tylko kolory z kontrastem >= 4.5:1 (WCAG 2.2 AA). */
+:root {
+  --kolor-glowny: #008c15;        /* zieleń, przyciski i linki (kontrast z białym ok. 4.5:1, sprawdzić w E2) */
+  --kolor-glowny-ciemny: #006b10; /* hover/aktywny, wyliczony, do potwierdzenia z identyfikacją */
+  --kolor-akcent: #5bc500;        /* dekoracje, NIE do tekstu na białym */
+  --kolor-akcent-jasny: #78d64b;  /* dekoracje */
+  --kolor-tekst: #101820;
+  --kolor-tlo: #ffffff;
+  --kolor-tlo-alt: #d1e0d7;
+  --kolor-info: #1a4e8a;
+  --kolor-info-jasny: #3d87cb;
+  --kolor-blad: #b3261e;
+  --kolor-ostrzezenie: #8a5a00;
+  --kolor-fokus: #1a4e8a;
+  --promien: 8px;
+  --odstep: 1rem;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
