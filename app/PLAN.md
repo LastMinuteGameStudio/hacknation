@@ -21,9 +21,10 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Wejście | CSV i XLSX z **mapowaniem kolumn**; nasz szablon CSV/XLSX przechodzi bez mapowania | 1) **synchronizacja z URL źródła** (demo: Przemyśl); 2) ODS, GeoJSON; 3) formularz ręczny |
 | Edycja | **prywatny link edycji z tokenem**: ponowne wgranie pliku pod ten sam slug, publiczny URL bez zmian (Wojtek) | logowanie dostawcy i edycja rekordów |
 | Wynik | URL z CSV (pola publiczne), JSON, metadane CSVW | — |
-| Agregat | URL zbiorczego CSV | mapa |
+| Agregat | dwa URL zbiorcze: **główny bez OSM** (dostawcy + źródła miejskie CC0/CC BY) i **„podgląd z OSM (ODbL)”**; każdy rekord z wyraźnym pochodzeniem (dysponent, źródło, licencja, data) | mapa |
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
-| Geokodowanie | adres bez współrzędnych: Nominatim z cache, oznaczenie dokładności, ostrzeżenie | — |
+| Geokodowanie | adres bez współrzędnych: Nominatim z cache, własny User-Agent, 1/s, oznaczenie dokładności, ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” (Wojtek) | geokoder GUGiK (na slajdzie jako docelowy) |
+| Limity | plik do 10 MB i 10 000 wierszy, powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
 | Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
 
@@ -41,7 +42,7 @@ FastAPI (Python 3.12) ─── serwuje też zbudowany front (jeden kontener apl
   │    parsers.py       CSV (separator, kodowanie, BOM) i XLSX → tabela
   │    mapping.py       podpowiedź mapowania kolumn → pola v0.5
   │    normalize.py     wartości → format v0.5 (liczby, daty, bool, słowniki, godziny, współrzędne)
-  │    geocode.py       Nominatim + cache w DB, 1 zapytanie/s
+  │    geocode.py       GUGiK UUG + cache w DB (TERC/SIMC/ULIC/kod pocztowy przy okazji)
   │    validate.py      O = błąd, Z = ostrzeżenie, formaty, współrzędne w Polsce
   │    export.py        CSV RFC 4180 (UTF-8, CRLF, przecinek), JSON, CSVW
   ├─ api/               endpointy, sesje importu
@@ -72,7 +73,7 @@ PostgreSQL (docker)
 | GET | `/d/{slug}.csv` | CSV z polami publicznymi (RFC 4180, UTF-8, CRLF) |
 | GET | `/d/{slug}.json` | to samo w JSON |
 | GET | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`) |
-| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` + wszystkie opublikowane zbiory |
+| GET | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (łącznie z OSM, na potrzeby prezentacji; licencja na razie pominięta, Wojtek) + wszystkie opublikowane zbiory |
 | GET | `/szablon.csv`, `/szablon.xlsx` | szablony z `zakres-danych/` |
 
 Format błędu walidacji: `{wiersz, pole, kod, komunikat}` z komunikatem po polsku, zrozumiałym dla urzędnika.
@@ -110,7 +111,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 | A4 | `normalize.py`: liczby, daty, bool, słowniki, godziny, geometria, adres w jednym polu, zamiana lat/lon | A | A1 | 2 h |
 | A5 | `validate.py`: O/Z/F, formaty, współrzędne w Polsce; duplikat `id_aed` lub numeru seryjnego w pliku = błąd, bliskie współrzędne = ostrzeżenie | A | A1, A4 | 1 h |
 | A6 | `export.py`: CSV RFC 4180 (pola publiczne), JSON, CSVW | A | A1 | 45 min |
-| A7 | `geocode.py`: Nominatim z cache i limitem 1/s, `dokladnosc_polozenia` | A | A4 | 45 min |
+| A7 | `geocode.py`: GUGiK UUG z cache, rozstrzyganie niejednoznaczności (kod pocztowy, gmina), uzupełnianie TERC/SIMC/ULIC, `dokladnosc_polozenia` | A | A4 | 1 h |
 | B1 | Schemat bazy + migracja | B: API | T0 | 30 min |
 | B2 | Endpointy importu, walidacji i publikacji | B | B1, A2–A6 | 1,5 h |
 | B3 | Endpointy publiczne `/d/{slug}.*`, szablony | B | B1, A6 | 30 min |
@@ -119,7 +120,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 | C2 | Krok 1: dysponent | C | C1 | 30 min |
 | C3 | Krok 2: upload, tabela mapowania, wyniki walidacji | C | C1, kontrakt | 2 h |
 | C4 | Krok 3: URL, kopiowanie, instrukcja dane.gov.pl | C | C1 | 45 min |
-| D1 | **Zestaw testowy z realnych danych**: fixtury Krosno, Marki (uszkodzony), Legionowo, Przemyśl, Warszawa 19115, Géo'DAE (próbka), plus 2–3 syntetyczne „urzędowe” XLSX z dziwnymi nagłówkami | D: testy | — | 1 h |
+| D1 | **Zestaw testowy z realnych danych**. MVP: 5 miast z dane.gov.pl (Krosno, Marki uszkodzony, Legionowo, Przemyśl, Warszawa 19115). Jeśli starczy czasu: pliki z dane/surowe i syntetyczne „urzędowe” XLSX. Do tego **jeden bardzo wyraźny przykład demo** od początku do końca | D: testy | — | 1 h |
 | D2 | Test jakości mapowania: dla każdej fixtury oczekiwane mapowanie, raport % trafień. Próg decyzji, czy potrzebny model AI | D | A3, D1 | 45 min |
 | D3 | Testy jednostkowe normalizacji i walidacji + test end-to-end API (upload → URL → CSV zgodny z RFC 4180) | D | A4–A6, B2 | 1 h |
 | E1 | Instrukcja dla dostawcy (treść kroku 3) + zrzuty ekranu do prezentacji (min. 5 slajdów z dowodami) | E: dokumentacja | C4 | 45 min |
@@ -135,7 +136,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 7. Definicja „gotowe” dla MVP
 
-- `docker compose up` uruchamia całość. Na czystej maszynie test: wgranie pliku Krosno → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5.
+- `docker compose up` uruchamia całość. Na czystej maszynie test: wgranie plików **Krosno, Legionowo, Przemyśl i Warszawa 19115** → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5 (Wojtek).
 - Plik Marki: aplikacja wykrywa problem (jedna kolumna i zamienione współrzędne) i albo go naprawia, albo jasno komunikuje.
 - Raport D2 pokazuje trafność mapowania na wszystkich fixturach.
 - Front działa przy 320 px i przechodzi axe bez błędów krytycznych.
@@ -143,6 +144,8 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 8. Otwarte kwestie
 
-- ODbL dla danych z OSM w agregacie (pytania w PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
+- ODbL dla danych z OSM w agregacie: w prototypie świadomie pomijamy, bo OSM służy do prezentacji skali (Wojtek). Do produkcji pytanie do MC (PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
+- Slajdy: kto robi i na kiedy potrzebna działająca wersja (decyduje Grzan).
+- Zrzuty z panelu dostawcy dane.gov.pl: prośba do organizatora. Do czasu odpowiedzi instrukcja w kroku 3 bazuje na kodzie portalu i Przewodniku v1.23.
 - Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.

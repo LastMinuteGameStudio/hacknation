@@ -43,11 +43,13 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 ## Otwarte (do doszczegółowienia z zespołem)
 
 - ~~Brak `data_weryfikacji`~~: data wgrania + ostrzeżenie (Wojtek, 22.11).
-- ~~Licencja zbioru wynikowego~~: stała CC0 1.0 (Wojtek, 22.11). Nadal otwarte: ODbL dla danych z OSM w agregacie (pytanie do MC).
-- ⚠️ **Spór Grzan / Wojtek** (NOTATKI-ZESPOLU.md): licencja (stała CC0 czy wybór CC0/CC BY) oraz ponowne wgranie (ten sam URL przez prywatny link czy nowy URL). Do czasu decyzji obowiązuje wersja z PLAN.md. Limity pliku: 10 MB i 20 000 wierszy (Grzan).
+- ~~Licencja zbioru wynikowego~~: stała CC0 1.0 (Wojtek, 22.11). ODbL dla OSM w agregacie: w prototypie świadomie pomijamy, bo OSM pokazuje skalę agregacji (Wojtek, 22.11). Przed produkcją pytanie do MC.
+- ⚠️ **Spory Grzan / Wojtek** (lista w NOTATKI-ZESPOLU.md, punkty 1–5): licencja, ponowne wgranie, agregat z OSM czy osobno, geokoder (Nominatim czy GUGiK), limit wierszy. Do decyzji obowiązuje PLAN.md (wersja Wojtka).
 - Rejestracja URL do importu XML i limity odświeżania (pytania do MC).
 - ~~Kto robi którą ścieżkę~~: osobna sesja Claude na ścieżkę, T0 najpierw przez jedną sesję, branch na ścieżkę (Wojtek, 22.11). Nadal otwarte: które osoby nadzorują które sesje.
-- Identyfikacja wizualna i nazwa akcji (25% oceny), poza aplikacją.
+- Identyfikacja wizualna i nazwa akcji (25% oceny), poza aplikacją: kto i na kiedy kolory (decyduje Grzan).
+- Kto robi slajdy i na kiedy potrzebna działająca wersja (decyduje Grzan).
+- Które osoby nadzorują które sesje A–D i która sesja robi T0.
 
 ## Jak pracować przy doszczegóławianiu
 

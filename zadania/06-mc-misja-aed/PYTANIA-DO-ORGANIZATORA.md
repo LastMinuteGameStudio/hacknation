@@ -86,6 +86,9 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 - ⭐ Jak dostawca rejestruje URL pliku XML do automatycznego importu (jak u deweloperów, schemat COI `<p:datasets>`)? Przez panel, formularz czy zgłoszenie do administratora? Czy ten mechanizm jest dostępny dla zbiorów AED od gmin i innych instytucji?
 - (AED w pojazdach: pytanie powyżej jest nieaktualne, bo zespół wyłączył je z zakresu, decyzja z 21.11.)
 
+### Prezentacja: zrzuty z panelu dostawcy (dopisała sesja hacknation-wojtek, Wojtek)
+- ⭐ Czy organizator może udostępnić konto testowe dostawcy na dane.gov.pl (albo zrzuty ekranu), żeby pokazać dodanie zasobu jako link z włączoną opcją „Aktualizacja automatyczna: dziennie”? Zrzuty potrzebujemy do instrukcji w aplikacji i do slajdów.
+
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)
 - Skąd pochodzi początkowa baza AED (ponad 8500)? Jak wygląda weryfikacja zgłoszeń? Jaka jest licencja danych i czy jest API?
