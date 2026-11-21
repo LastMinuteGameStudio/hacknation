@@ -20,7 +20,6 @@ Legenda: 🔒 = ograniczenia technologiczne, 📦 = dane/materiały, ⚖️ = kr
 🧪 Laboratorium z hostami, co najmniej 2 przebiegi skanu, sprawdzane też role i import.
 ⚖️ Discovery i identyfikacja usług 30% · zmiany w czasie i niestabilne hosty 15% · jakość techniczna, dokumentacja, DefectDojo 20% · bezpieczeństwo skanowania i dashboard 15% · fingerprinting 10% · role i ochrona danych 10%.
 
-> Duży zakres. To w gruncie rzeczy narzędzie security, a nie zadanie AI.
 
 ---
 
@@ -33,7 +32,6 @@ Legenda: 🔒 = ograniczenia technologiczne, 📦 = dane/materiały, ⚖️ = kr
 📦 Na Discordzie: przykładowe formularze z oczekiwanymi JSON-ami i screenami e-usługi, formularze do oceny, wymagania projektowe, słowniki.
 🧪 Finaliści uruchamiają rozwiązanie na **nowych plikach podanych podczas obrony**.
 
-> Zadanie jest bardzo dobrze zdefiniowane, ale wymóg lokalnego LLM bez GPU i OCR skanów podnosi poprzeczkę.
 
 ---
 
@@ -63,7 +61,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 📦 **KOWR nie daje danych**, trzeba je zebrać samemu: Copernicus/Sentinel-2, IMGW, Open-Meteo, IUNG (monitoring suszy), SoilGrids, ULDK/EGiB (działki), Hydroportal, EDO.
 ⚖️ Wartość praktyczna 25% · dane i wiarygodność rekomendacji 25% · innowacyjność 20% · prostota obsługi 15% · prototyp 15%.
 
-> Bardzo dużo pracy z danymi geo w 24 godziny.
 
 ---
 
@@ -78,7 +75,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 🧪 Pełna ścieżka użytkownika na żywo; jurorzy zadają asystentowi pytania i oceniają poprawność odpowiedzi.
 ⚖️ Zgodność merytoryczna 25% · UX 25% · jakość AI 20% · innowacyjność 20% · wdrożenie 10%.
 
-> W około 70% pokrywa się z 03 KPRM. Jedną bazę kodu dałoby się zgłosić do obu, jeśli regulamin na to pozwala (do sprawdzenia).
 
 ---
 
@@ -88,7 +84,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 🔒 Dane w formacie maszynowym, zgodność z dane.gov.pl, WCAG, responsywność.
 ⚖️ Zgodność z dane.gov.pl 30% · **logo i hasło 25%** · kreatywność 15% · temat 15% · schemat danych 10% · prezentacja 5%.
 
-> Prawie połowa punktów nie dotyczy kodu (logo, kreatywność). Dobre zadanie, jeśli w zespole jest grafik.
 
 ---
 
@@ -111,7 +106,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 📦 Paczka startowa `Risk_Miner_materialy_dla_uczestnikow_na_start.zip` z katalogiem zdarzeń, typami inwestycji i metodyką (sektor pilotażowy).
 ⚖️ Pozyskiwanie i łączenie danych 20% · analiza dokumentów 20% · **użyteczność dla nowej inwestycji 25%** · kontrola ekspercka i modułowość 20% · UX i technika 15%.
 
-> Bardzo ambitny zakres (scraping wielu baz, ekstrakcja, RAG, UI eksperta).
 
 ---
 
@@ -131,7 +125,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 📦 Przykładowy zbiór danych dostępny w trakcie; ocena na **ukrytym zbiorze testowym** z nowymi wariantami i innymi kampaniami.
 ⚖️ **Metoda korelacji i grupowania 30% · trafność cech i źródeł 30%** · end-to-end 15% · interpretowalność 15% · wdrożenie 10%.
 
-> Typowe zadanie ML i data science (embeddingi tekstu i obrazów, klastrowanie, graf). Najwyższa nagroda i nie trzeba robić ładnego UI.
 
 ---
 
@@ -141,7 +134,6 @@ Wszystko oparte na wiedzy naukowej (załącznik „Podstawy naukowe”).
 🧪 Demo na co najmniej 2 przypadkach: wejście → zebranie danych → ocena → partnerzy → uzasadnienie.
 ⚖️ Pięć kryteriów po 20%.
 
-> Najniższa nagroda i bardzo otwarte zadanie.
 
 ---
 
@@ -157,7 +149,6 @@ Do tego aplikacja webowa z panelem kalibracji progów i powiadomieniami w czasie
 📦 Próbki danych podczas hackathonu, na pendrive przy stoisku.
 ⚖️ Technologia i demo 30% · proces wytwarzania z asystentami AI 20% · architektura 20% · zgodność ze specyfikacją 20% · „wow” 10%.
 
-> Bardzo szeroki zakres. Scraping social mediów w 24 godziny jest trudny.
 
 ---
 
@@ -172,7 +163,6 @@ Do tego aplikacja webowa z panelem kalibracji progów i powiadomieniami w czasie
 🧪 Jury samo wgrywa wniosek, sprawdza wyszukiwanie podobnych, projekt pisma i **anonimizację pliku z danymi osobowymi**, kalendarz oraz wgrywanie ustaw i archiwum.
 ⚖️ Zgodność z założeniami 30% · **bezpieczeństwo i anonimizacja 20%** · UX 20% · kompletność prototypu 30%.
 
-> Najbardziej konkretna specyfikacja ze wszystkich zadań i realna do zrobienia w 24 godziny (CRUD + RAG + NER do anonimizacji). Nagroda jest niższa, więc może być też mniej konkurencji.
 
 ---
 
@@ -184,7 +174,6 @@ Do tego aplikacja webowa z panelem kalibracji progów i powiadomieniami w czasie
 🧪 **F1 na ukrytym zbiorze testowym** z prawdziwymi sprawami.
 ⚖️ Preselekcja: **100% F1**. Finał: F1 50% · rozszerzalność 30% · architektura 20%.
 
-> Najbardziej obiektywna ocena: liczy się wynik na zbiorze testowym, a nie prezentacja. Wąskie, dobrze zdefiniowane zadanie.
 
 ---
 
@@ -196,4 +185,3 @@ Do tego aplikacja webowa z panelem kalibracji progów i powiadomieniami w czasie
 🧪 Jury wgrywa przykładowe wnioski i **sprawdza poprawność wyliczeń**, a także przegląda kod w repozytorium.
 ⚖️ Związek z wyzwaniem 25% · pomysł 20% · oryginalność 15% · kompletność i UX 25% · wdrożenie 15%.
 
-> Aplikacja produktowa z twardą częścią merytoryczną: trzeba dobrze zrozumieć przepisy o zasiłkach.
