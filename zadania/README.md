@@ -1,6 +1,8 @@
 # HackNation 2026: przegląd zadań
 
 Źródło: folder organizatorów na Google Drive („HackNation 2026 - Zadania dla Uczestników”), pobrany 21.11.2026.
+**Szczegóły (wymagania, dane, kryteria oceny): [SZCZEGOLY.md](SZCZEGOLY.md)**
+
 W każdym folderze są oryginalne pliki (pełna treść zadania, regulamin, materiały) oraz `TRESC.md` z tekstem wyciągniętym z PDF-a, wygodnym do grepowania i wklejania do LLM-a.
 
 Hackathon trwa od 21.11, 11:00 do 22.11, 11:00. Do finału z każdego zadania przechodzi 5 zespołów.

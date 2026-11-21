@@ -1,5 +1,4 @@
-<!-- Oryginalny PDF to skan bez warstwy tekstowej. Poniżej ręczna transkrypcja stron 1–3;
-     strony 4–8 (wymagania formalne, kryteria oceny, kontakt) — patrz PDF. -->
+<!-- Oryginalny PDF to skan bez warstwy tekstowej. Poniżej ręczna transkrypcja (skrócona). -->
 
 # Inteligentny asystent urzędnika
 ## Generator odpowiedzi na UDIP z kalendarzem (organizerem) wniosków
@@ -39,3 +38,35 @@ Kluczowe założenia prototypu:
 9. Narzędzie generuje odpowiedź w formacie doc/txt.
 10. Urzędnik weryfikuje treść odpowiedzi.
 11. Status sprawy aktualizuje się na każdym kroku: brak działań → zapytania do wydziałów → kwerenda → przygotowana odpowiedź → wysłana.
+
+## 3. Oczekiwany rezultat
+W pełni funkcjonalny prototyp, który zamienia obsługę wniosków o dostęp do informacji publicznej w szybki, półautomatyczny i bezpieczny proces wspierany przez AI lub inną technologię. Organizator nie narzuca technologii; liczą się kreatywność i „efekt zaskoczenia”.
+
+## 4. Wymagania formalne
+- Film z prezentacją prototypu, **maks. 3 minuty**.
+- Prezentacja, **maks. 10 slajdów**: nazwa i zespół, problem (przyspieszenie pracy urzędnika i ochrona danych osobowych), jak działa rozwiązanie (wyszukiwanie w archiwum, anonimizacja, kalendarz) i w jakiej technologii, demo (wgranie PDF/Word, przetwarzanie, projekt odpowiedzi), dla kogo (urzędnicy JST), plan na stałe użycie w UMB, lista narzędzi, **czy prototyp zadziała w zamkniętym systemie bez Internetu, z propozycją konkretnego modelu do takiego środowiska**.
+
+## 5. Wymagania techniczne
+- Prototyp ma wczytać plik (PDF/Word), przeszukać lokalną bazę, podpowiedzieć wydział, wygenerować projekt odpowiedzi i zanonimizować dane.
+- **Kalendarz ma pokazać 10 wniosków testowych** od najstarszego i podświetlić kolorem te, na które trzeba odpowiedzieć w pierwszej kolejności.
+- Ma być stabilny i działający (to demo, nie plan) oraz tani i dostępny technologicznie.
+- Na hackathonie wolno użyć otwartego AI, ale koncepcja musi zakładać pracę w pełni lokalną, bez Internetu.
+- Bezpieczeństwo (brak wycieków), łatwa instalacja i skalowalność do setek archiwalnych dokumentów.
+
+## 6. Jak jury testuje
+1. Wgrywa przykładowy wniosek i sprawdza, czy program znajduje podobne sprawy w archiwum.
+2. Sprawdza, czy po podaniu odpowiedzi z wydziału powstaje poprawny projekt pisma.
+3. Test anonimizacji na pliku z danymi osobowymi.
+4. Łatwość obsługi, stabilność i realność wdrożenia.
+5. Układ kalendarza: oznaczanie wniosków z terminem i etapu obsługi.
+6. Łatwość wgrywania danych, aktualizacji ustaw i archiwalnych odpowiedzi.
+
+**Materiały:** przykładowe wnioski o dostęp do informacji publicznej z odpowiedziami oraz robocza wizualizacja kalendarza, dostępne pod kodem QR od mentorów w dniu startu. Dodatkowo: BIP UMB, [KPA](https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=wdu19600300168), [ustawa o dostępie do informacji publicznej](https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=wdu20011121198).
+
+## 8. Kryteria oceny
+- Związek z wyzwaniem (zgodność z założeniami): **30%**
+- Bezpieczeństwo i skuteczna anonimizacja danych: **20%**
+- Łatwość obsługi i użyteczność dla urzędnika: **20%**
+- Kompletność i jakość działającego prototypu: **30%**
+
+Kontakt: Biuro Komunikacji Społecznej i Biuro Rady Miasta, stoisko Bydgoszczy oraz kanał na Discordzie.
