@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from typing import Iterator
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Query, UploadFile
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from . import importy
+from . import importy, publiczne
 from .api_models import (
     ImportOut,
     PoleSchematu,
@@ -108,8 +108,8 @@ async def import_do_zbioru(
 
 
 @app.get("/d/{nazwa}")
-def plik_publiczny(nazwa: str):
-    raise HTTPException(404, {"kod": "NIE_ZNALEZIONO", "komunikat": "Nie ma takiego pliku."})
+def plik_publiczny(nazwa: str, db: Session = Depends(get_db)):
+    return publiczne.plik(db, nazwa)
 
 
 @app.get("/szablon.csv")
