@@ -11,7 +11,7 @@ ZAKRES_DIR = REPO_DIR / "zakres-danych"
 DANE_WYNIK_DIR = REPO_DIR / "dane" / "wynik"
 STATIC_DIR = Path(os.environ.get("STATIC_DIR", REPO_DIR / "app" / "frontend" / "dist"))
 
-BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000").rstrip("/")
+BASE_URL = os.environ.get("BASE_URL", "https://tuaed.wkrynski.dev").rstrip("/")
 # W dockerze: Postgres (docker-compose.yml). Lokalnie bez dockera: plik SQLite obok backendu.
 DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{Path(__file__).resolve().parents[1] / 'aed-dev.db'}")
 

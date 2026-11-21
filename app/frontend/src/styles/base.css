@@ -99,7 +99,10 @@ table { border-collapse: collapse; width: 100%; }
 th, td { text-align: left; vertical-align: top; padding: 0.5rem; border-bottom: 1px solid var(--kolor-tlo-alt); }
 thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .mapowanie td:first-child { font-weight: 600; word-break: break-word; }
-.przyklady { color: var(--kolor-tekst-drugi); font-size: 0.9rem; word-break: break-word; }
+.przyklady { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; color: var(--kolor-tekst-drugi); font-size: 0.85rem; font-weight: 400; word-break: break-word; }
+.przyklady-etykieta { flex-basis: 100%; }
+.przyklad-wartosc { font-family: ui-monospace, Consolas, monospace; color: var(--kolor-tekst, inherit); background: var(--kolor-tlo-jasne); border: 1px solid var(--kolor-tlo-alt); border-radius: 4px; padding: 0.05rem 0.4rem; max-width: 100%; }
+.przyklad-pusty { font-style: italic; }
 .pewnosc { display: inline-block; font-size: 0.85rem; font-weight: 600; padding: 0.05rem 0.45rem; border-radius: 999px; border: 1px solid; margin-top: 0.3rem; }
 .pewnosc-wysoka { color: var(--kolor-glowny-ciemny); background: var(--kolor-ok-tlo); }
 .pewnosc-srednia { color: var(--kolor-ostrzezenie); background: var(--kolor-ostrzezenie-tlo); }

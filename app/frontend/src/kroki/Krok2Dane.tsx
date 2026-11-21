@@ -300,8 +300,19 @@ export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz,
                         <span id={`${id}-nazwa`}>{k.nazwa}</span>
                         {k.przyklady.length > 0 && (
                           <span id={`${id}-prz`} className="przyklady">
-                            <br />
-                            np. {k.przyklady.filter(Boolean).slice(0, 3).join(" · ") || "(puste)"}
+                            <span className="przyklady-etykieta">Pierwsze wartości z Twojego pliku:</span>
+                            {k.przyklady.filter(Boolean).length > 0 ? (
+                              k.przyklady
+                                .filter(Boolean)
+                                .slice(0, 3)
+                                .map((w, i) => (
+                                  <span key={i} className="przyklad-wartosc">
+                                    {w}
+                                  </span>
+                                ))
+                            ) : (
+                              <span className="przyklad-pusty">kolumna pusta</span>
+                            )}
                           </span>
                         )}
                       </td>
