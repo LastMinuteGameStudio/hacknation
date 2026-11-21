@@ -19,7 +19,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 OUT = Path(__file__).resolve().parent
-WERSJA = "0.2 (szkic, 2026-11-21)"
+WERSJA = "0.3 (szkic, 2026-11-21)"
 
 # Wymagalność: O = obowiązkowe, Z = zalecane, F = fakultatywne
 # (grupa, pole, nazwa wyświetlana, typ, format/słownik, wymagalność, opis, przykład, OSM, Warszawa 19115, Legionowo / Krosno)
@@ -89,6 +89,10 @@ POLA = [
      "Producent urządzenia.", "Philips", "manufacturer", "producent (wolny tekst)", "– / –"),
     ("Urządzenie", "model", "Model", "tekst", "dowolny", "F",
      "Model urządzenia.", "HeartStart FRx", "model", "–", "– / –"),
+    ("Urządzenie", "numer_seryjny", "Numer seryjny", "tekst", "dowolny", "F",
+     "Numer seryjny nadany przez producenta. Pozwala sprawdzić urządzenie przy komunikatach bezpieczeństwa i wycofaniach.", "X12345678 (przykład)", "–", "–", "– / –"),
+    ("Urządzenie", "aed_mobilny", "Urządzenie mobilne", "logiczny", "true / false", "Z",
+     "Czy urządzenie jest przenośne lub zamontowane w pojeździe (np. autobus, tramwaj, radiowóz). Współrzędne wskazują wtedy miejsce bazowe.", "false", "–", "–", "– / –"),
     ("Urządzenie", "tryb_pediatryczny", "Elektrody lub tryb dziecięcy", "logiczny", "true / false", "F",
      "Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.", "true", "–", "–", "– / –"),
 
@@ -97,12 +101,20 @@ POLA = [
      "Aktualny stan urządzenia według ostatniej wiedzy dysponenta.", "sprawny", "–", "status zgłoszenia (inne znaczenie)", "– / –"),
     ("Stan i aktualność", "data_weryfikacji", "Data ostatniej weryfikacji", "data", "ISO 8601: RRRR-MM-DD", "O",
      "Data, w której ktoś na miejscu potwierdził obecność, dostępność i sprawność urządzenia.", "2026-11-15", "check_date", "data ostatniej weryfikacji", "– / –"),
+    ("Stan i aktualność", "data_instalacji", "Data instalacji", "data", "ISO 8601: RRRR-MM-DD", "F",
+     "Data zainstalowania urządzenia w obecnym miejscu.", "2023-06-01", "–", "–", "– / –"),
     ("Stan i aktualność", "data_przegladu", "Data ostatniego przeglądu", "data", "ISO 8601: RRRR-MM-DD", "F",
      "Data ostatniego przeglądu technicznego.", "2026-03-01", "–", "–", "– / –"),
-    ("Stan i aktualność", "data_waznosci_elektrod", "Ważność elektrod", "data", "ISO 8601: RRRR-MM-DD", "F",
-     "Data ważności elektrod.", "2028-05-31", "–", "–", "– / –"),
+    ("Stan i aktualność", "data_waznosci_elektrod_doroslych", "Ważność elektrod dla dorosłych", "data", "ISO 8601: RRRR-MM-DD", "F",
+     "Data ważności elektrod dla dorosłych.", "2028-05-31", "–", "–", "– / –"),
+    ("Stan i aktualność", "data_waznosci_elektrod_pediatrycznych", "Ważność elektrod pediatrycznych", "data", "ISO 8601: RRRR-MM-DD", "F",
+     "Data ważności elektrod pediatrycznych (jeśli są).", "2027-09-30", "–", "–", "– / –"),
     ("Stan i aktualność", "data_waznosci_baterii", "Ważność baterii", "data", "ISO 8601: RRRR-MM-DD", "F",
      "Data ważności baterii.", "2029-01-31", "–", "–", "– / –"),
+    ("Stan i aktualność", "przeglad_co_miesiecy", "Częstotliwość przeglądów", "liczba całkowita", "liczba miesięcy między przeglądami", "F",
+     "Jak często urządzenie przechodzi przegląd techniczny.", "12", "–", "–", "– / –"),
+    ("Stan i aktualność", "serwisant_nazwa", "Serwisant", "tekst", "nazwa firmy serwisującej", "F",
+     "Podmiot odpowiedzialny za przeglądy i konserwację.", "Przykładowy Serwis AED sp. z o.o.", "–", "–", "– / –"),
 
     # --- Dysponent ---
     ("Dysponent", "dysponent_nazwa", "Dysponent urządzenia", "tekst", "pełna nazwa instytucji lub firmy", "O",
@@ -140,7 +152,8 @@ SLOWNIKI = {
     "status": [("sprawny", "Urządzenie dostępne i sprawne"),
                ("tymczasowo_niedostepny", "Czasowo niedostępne (serwis, remont, użycie)"),
                ("niesprawny", "Zgłoszona usterka"),
-               ("wycofany", "Urządzenie usunięte; rekord zostaje dla historii")],
+               ("wycofany", "Urządzenie usunięte; rekord zostaje dla historii"),
+               ("nieznany", "Brak aktualnej wiedzy o stanie urządzenia")],
     "dysponent_typ": [("administracja_rzadowa", "Administracja rządowa"), ("jst", "Jednostka samorządu terytorialnego"),
                       ("ochrona_zdrowia", "Podmiot leczniczy"), ("edukacja", "Szkoła lub uczelnia"),
                       ("sluzby", "Służby (PSP, OSP, Policja)"), ("transport", "Transport (dworzec, pojazd, lotnisko)"),
@@ -211,7 +224,7 @@ PRZYKLADY = [
      "godziny_dostepnosci": "Mo-Fr 07:00-17:00; Sa-Su,PH off", "zabezpieczenie": "szafka_otwarta",
      "instrukcja_dostepu": "Wejście główne, poprosić portiera", "dostepnosc_wozek": "tak", "producent": "Philips",
      "model": "HeartStart FRx", "tryb_pediatryczny": "true", "status": "sprawny", "data_weryfikacji": "2026-11-15",
-     "data_przegladu": "2026-03-01", "data_waznosci_elektrod": "2028-05-31", "data_waznosci_baterii": "2029-01-31",
+     "data_przegladu": "2026-03-01", "data_waznosci_elektrod_doroslych": "2028-05-31", "data_waznosci_elektrod_pediatrycznych": "2027-09-30", "aed_mobilny": "false", "data_waznosci_baterii": "2029-01-31",
      "dysponent_nazwa": "Szkoła Podstawowa nr 999 (przykład)", "dysponent_typ": "edukacja",
      "telefon_kontaktowy": "+48 22 000 00 00", "email_kontaktowy": "aed@example.edu.pl", "zrodlo_danych": "dysponent",
      "data_aktualizacji": "2026-11-21T12:00:00", "uwagi": "REKORD FIKCYJNY – przykład wypełnienia"},
@@ -225,9 +238,25 @@ PRZYKLADY = [
      "uwagi": "REKORD FIKCYJNY – urządzenie zabrane do serwisu po użyciu"},
 ]
 
+# Odpowiedniki w schemacie Géo'DAE (Francja), wg zadania/06-mc-misja-aed/WZORCE-ZAGRANICZNE.md
+GEODAE = {
+    "szerokosc_geograficzna": "lat_coor1", "dlugosc_geograficzna": "long_coor1", "nazwa_obiektu": "nom",
+    "nr_budynku": "adr_num", "nazwa_ulicy": "adr_voie", "kod_pocztowy": "com_cp", "miejscowosc": "com_nom",
+    "kod_terc": "com_insee (kod gminy INSEE)", "wewnatrz_budynku": "acc", "kondygnacja": "acc_etg",
+    "opis_lokalizacji": "acc_complt", "zdjecie_url": "photo1 / photo2", "dostepnosc": "acc_lib",
+    "godziny_dostepnosci": "dispo_horaires", "instrukcja_dostepu": "acc_pcsec / acc_acc / disp_complt",
+    "producent": "fab_rais", "model": "modele", "numer_seryjny": "num_serie", "aed_mobilny": "dae_mobile",
+    "tryb_pediatryczny": "lc_ped", "status": "etat / etat_fonct", "data_instalacji": "date_instal",
+    "data_przegladu": "dermnt", "data_waznosci_elektrod_doroslych": "dtpr_lcad",
+    "data_waznosci_elektrod_pediatrycznych": "dtpr_lcped", "data_waznosci_baterii": "dtpr_bat",
+    "przeglad_co_miesiecy": "freq_mnt", "serwisant_nazwa": "mnt_rais", "dysponent_nazwa": "expt_rais",
+    "dysponent_regon": "expt_siren (odpowiednik REGON)", "telefon_kontaktowy": "tel1 / expt_tel1",
+    "email_kontaktowy": "expt_email",
+}
+
 NAGLOWKI_POL = ["Lp.", "Grupa", "Nazwa techniczna pola", "Nazwa wyświetlana", "Typ danych", "Format / słownik",
                 "Wymagalność", "Opis", "Przykład", "Odpowiednik OSM (emergency=defibrillator)",
-                "Odpowiednik: Warszawa 19115", "Odpowiednik: Legionowo / Krosno (dane.gov.pl)"]
+                "Odpowiednik: Warszawa 19115", "Odpowiednik: Legionowo / Krosno (dane.gov.pl)", "Odpowiednik Géo'DAE (Francja)"]
 
 HEAD_FONT = Font(bold=True, color="FFFFFF")
 HEAD_FILL = PatternFill("solid", fgColor="1F4E79")
@@ -263,17 +292,17 @@ def main():
     for k, v in ZASADY:
         ws.append([k, v])
     ws.append([])
-    ws.append(["Podstawy", "Standard techniczny dane.gov.pl (rozdz. 3–4); Rozporządzenie RM w sprawie portalu danych, Dz.U. 2022 poz. 2415 (§ 6, 7, 10); W3C CSVW; DCAT-AP-PL; tagowanie OSM emergency=defibrillator; schematy zbiorów Legionowo, Krosno i Warszawa (19115); wzorce The Circuit (UK) i Hjertestarter (DK)."])
+    ws.append(["Podstawy", "Standard techniczny dane.gov.pl (rozdz. 3–4); Rozporządzenie RM w sprawie portalu danych, Dz.U. 2022 poz. 2415 (§ 6, 7, 10); W3C CSVW; DCAT-AP-PL; tagowanie OSM emergency=defibrillator; schematy zbiorów Legionowo, Krosno i Warszawa (19115); wzorce zagraniczne: Géo\'DAE (Francja, schemat schema.data.gouv.fr/schemas/atlasante/schema-dae v1.0.8, Licence Ouverte 2.0), The Circuit (UK), Hjertestarter (DK). Kolumna „Odpowiednik Géo\'DAE” w arkuszu „Zakres danych” pokazuje zgodność z rejestrem francuskim."])
     ws.append(["Licencja zakresu", "Do ustalenia (proponowane CC0 1.0)."])
     for row in ws.iter_rows(min_row=2):
         for c in row:
             c.alignment = WRAP
 
     ws = wb.create_sheet("Zakres danych")
-    naglowek(ws, NAGLOWKI_POL, [5, 16, 26, 26, 14, 34, 12, 50, 26, 26, 24, 26])
+    naglowek(ws, NAGLOWKI_POL, [5, 16, 26, 26, 14, 34, 12, 50, 26, 26, 24, 26, 26])
     for i, p in enumerate(POLA, 1):
         g, pole, nazwa, typ, fmt, wym, opis, przyk, osm, waw, leg = p
-        ws.append([i, g, pole, nazwa, typ, fmt, wym, opis, przyk, osm, waw, leg])
+        ws.append([i, g, pole, nazwa, typ, fmt, wym, opis, przyk, osm, waw, leg, GEODAE.get(pole, "–")])
         for c in ws[ws.max_row]:
             c.alignment = WRAP
         ws.cell(row=ws.max_row, column=7).fill = REQ_FILL[wym]
@@ -324,9 +353,9 @@ def main():
 
     with open(OUT / "zakres-pol.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["lp", "grupa", "pole", "nazwa", "typ", "format", "wymagalnosc", "opis", "przyklad", "osm", "warszawa_19115", "legionowo_krosno"])
+        w.writerow(["lp", "grupa", "pole", "nazwa", "typ", "format", "wymagalnosc", "opis", "przyklad", "osm", "warszawa_19115", "legionowo_krosno", "geodae_fr"])
         for i, p in enumerate(POLA, 1):
-            w.writerow([i, *p])
+            w.writerow([i, *p, GEODAE.get(p[1], "–")])
     with open(OUT / "szablon-aed.csv", "w", newline="", encoding="utf-8") as f:
         csv.writer(f).writerow(nazwy)
     with open(OUT / "slowniki.csv", "w", newline="", encoding="utf-8") as f:

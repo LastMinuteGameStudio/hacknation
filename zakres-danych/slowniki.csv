@@ -22,6 +22,7 @@ status,sprawny,Urządzenie dostępne i sprawne
 status,tymczasowo_niedostepny,"Czasowo niedostępne (serwis, remont, użycie)"
 status,niesprawny,Zgłoszona usterka
 status,wycofany,Urządzenie usunięte; rekord zostaje dla historii
+status,nieznany,Brak aktualnej wiedzy o stanie urządzenia
 dysponent_typ,administracja_rzadowa,Administracja rządowa
 dysponent_typ,jst,Jednostka samorządu terytorialnego
 dysponent_typ,ochrona_zdrowia,Podmiot leczniczy

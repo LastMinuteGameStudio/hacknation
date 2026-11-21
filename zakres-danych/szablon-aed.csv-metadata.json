@@ -7,7 +7,7 @@
   ],
   "url": "szablon-aed.csv",
   "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
-  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.2 (szkic, 2026-11-21)",
+  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.3 (szkic, 2026-11-21)",
   "dialect": {
     "encoding": "utf-8",
     "delimiter": ",",
@@ -237,6 +237,20 @@
         "required": false
       },
       {
+        "name": "numer_seryjny",
+        "titles": "Numer seryjny",
+        "dc:description": "Numer seryjny nadany przez producenta. Pozwala sprawdzić urządzenie przy komunikatach bezpieczeństwa i wycofaniach.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "aed_mobilny",
+        "titles": "Urządzenie mobilne",
+        "dc:description": "Czy urządzenie jest przenośne lub zamontowane w pojeździe (np. autobus, tramwaj, radiowóz). Współrzędne wskazują wtedy miejsce bazowe.",
+        "datatype": "boolean",
+        "required": false
+      },
+      {
         "name": "tryb_pediatryczny",
         "titles": "Elektrody lub tryb dziecięcy",
         "dc:description": "Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.",
@@ -249,7 +263,7 @@
         "dc:description": "Aktualny stan urządzenia według ostatniej wiedzy dysponenta.",
         "datatype": {
           "base": "string",
-          "format": "sprawny|tymczasowo_niedostepny|niesprawny|wycofany"
+          "format": "sprawny|tymczasowo_niedostepny|niesprawny|wycofany|nieznany"
         },
         "required": true
       },
@@ -261,6 +275,13 @@
         "required": true
       },
       {
+        "name": "data_instalacji",
+        "titles": "Data instalacji",
+        "dc:description": "Data zainstalowania urządzenia w obecnym miejscu.",
+        "datatype": "date",
+        "required": false
+      },
+      {
         "name": "data_przegladu",
         "titles": "Data ostatniego przeglądu",
         "dc:description": "Data ostatniego przeglądu technicznego.",
@@ -268,9 +289,16 @@
         "required": false
       },
       {
-        "name": "data_waznosci_elektrod",
-        "titles": "Ważność elektrod",
-        "dc:description": "Data ważności elektrod.",
+        "name": "data_waznosci_elektrod_doroslych",
+        "titles": "Ważność elektrod dla dorosłych",
+        "dc:description": "Data ważności elektrod dla dorosłych.",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "data_waznosci_elektrod_pediatrycznych",
+        "titles": "Ważność elektrod pediatrycznych",
+        "dc:description": "Data ważności elektrod pediatrycznych (jeśli są).",
         "datatype": "date",
         "required": false
       },
@@ -279,6 +307,20 @@
         "titles": "Ważność baterii",
         "dc:description": "Data ważności baterii.",
         "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "przeglad_co_miesiecy",
+        "titles": "Częstotliwość przeglądów",
+        "dc:description": "Jak często urządzenie przechodzi przegląd techniczny.",
+        "datatype": "integer",
+        "required": false
+      },
+      {
+        "name": "serwisant_nazwa",
+        "titles": "Serwisant",
+        "dc:description": "Podmiot odpowiedzialny za przeglądy i konserwację.",
+        "datatype": "string",
         "required": false
       },
       {
