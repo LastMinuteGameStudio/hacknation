@@ -43,8 +43,12 @@ Pola obowiązkowe bez kolumny ustawiamy raz dla całego pliku („ustaw dla wszy
 
 **Krok 2b. Walidacja.** 21 rekordów, 0 błędów, ostrzeżenia, które warto pokazać, bo uczą dostawcę:
 `WYGENEROWANO_ID` (stały identyfikator z treści rekordu), `DOMYSLNY_STATUS` (brak stanu urządzenia →
-`nieznany`), `DOMYSLNA_DATA_WERYFIKACJI` (brak daty sprawdzenia → data wgrania). Telefon i e-mail
-nie trafiają do pliku publicznego.
+`nieznany`), `DOMYSLNA_DATA_WERYFIKACJI` (brak daty sprawdzenia → data wgrania) i zbiorcze
+`BRAK_POLA_ZALECANEGO` (np. „Cecha ulicy w 18 wierszach”, bo CMS zapisuje „Juliusza Słowackiego” bez „ul.”;
+brak TERC/SIMC i opisu miejsca). Telefon i e-mail nie trafiają do pliku publicznego.
+
+Pierwszy wiersz wynikowego CSV (stan rdzenia z 22.11):
+`przemysl-9c48a7,744,,49.7812096,22.7750936,,Defibrylator (AED 9485) w ADM Centrum,,Juliusza Słowackiego,12,,37-700,Przemyśl,…,false,…,publiczny,tak,X,X,X,X,X,X,X,X,…,nieznany,2026-11-22,…,Urząd Miejski w Przemyślu,jst,,dysponent,2026-11-22T23:30:05,…`
 
 **Krok 3. Publikacja.** Zgoda na CC0 1.0 → stały URL `…/d/<slug>.csv` (+ `.json`, CSVW) i prywatny link
 edycji. Pokaż CSV: przecinki, UTF-8 bez BOM, kolumny v0.5 w kolejności zakresu, współrzędne z kropką.
