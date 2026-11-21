@@ -1,8 +1,24 @@
-// T0: szkielet kreatora 3 kroków. Ścieżka C rozbudowuje kroki w src/kroki/ (plan: app/PLAN.md, sekcja 4).
-import { useState } from "react";
+// Kreator 3 kroków (app/PLAN.md, sekcja 4). Ścieżka /edycja/{slug}?token=… pomija krok 1.
+import { useEffect, useRef, useState } from "react";
 import type { Dysponent, ImportOut, PublikacjaOut, WalidacjaOut } from "./api/types";
+import { Logo } from "./components/Logo";
+import { Postep, type KrokOpis } from "./components/Postep";
+import { Start } from "./kroki/Start";
 
 type Krok = "start" | "dysponent" | "dane" | "publikacja";
+
+const KROKI: KrokOpis[] = [
+  { id: "dysponent", nazwa: "Dysponent" },
+  { id: "dane", nazwa: "Dane" },
+  { id: "publikacja", nazwa: "Publikacja" },
+];
+
+const TYTULY: Record<Krok, string> = {
+  start: "Opublikuj dane o defibrylatorach",
+  dysponent: "Krok 1 z 3: Dysponent",
+  dane: "Krok 2 z 3: Dane",
+  publikacja: "Krok 3 z 3: Publikacja",
+};
 
 export default function App() {
   const [krok, setKrok] = useState<Krok>("start");
@@ -11,31 +27,50 @@ export default function App() {
   const [walidacja, setWalidacja] = useState<WalidacjaOut | null>(null);
   const [publikacja, setPublikacja] = useState<PublikacjaOut | null>(null);
   void [dysponent, setDysponent, imp, setImp, walidacja, setWalidacja, publikacja, setPublikacja];
+  const pierwszyRender = useRef(true);
+
+  // WCAG 2.4.2 / 2.4.3: tytuł strony i fokus na nagłówek po zmianie kroku.
+  useEffect(() => {
+    document.title = `${TYTULY[krok]} | TuAED`;
+    if (pierwszyRender.current) {
+      pierwszyRender.current = false;
+      return;
+    }
+    document.getElementById("naglowek-kroku")?.focus();
+  }, [krok]);
 
   return (
     <>
-      <a className="pomin" href="#tresc">Przejdź do treści</a>
-      <header>
-        <div className="kontener">
-          <strong>Misja AED</strong>
+      <a className="pomin" href="#tresc">
+        Przejdź do treści
+      </a>
+      <header className="naglowek">
+        <div className="kontener naglowek-wnetrze">
+          <Logo />
+          <span className="naglowek-podpis">Otwarte dane o AED</span>
         </div>
       </header>
-      <main id="tresc">
-        {krok === "start" && (
-          <section aria-labelledby="tytul">
-            <h1 id="tytul">Opublikuj dane o defibrylatorach na dane.gov.pl</h1>
-            <p>
-              Wgraj swój plik z AED (CSV lub XLSX). Przekształcimy go do wzorcowego formatu, sprawdzimy
-              i damy Ci adres, który dodasz na dane.gov.pl.
-            </p>
-            <p>
-              <a href="/szablon.xlsx">Pobierz szablon XLSX</a> · <a href="/szablon.csv">Pobierz szablon CSV</a>
-            </p>
-            <button onClick={() => setKrok("dysponent")}>Zacznij</button>
+      <main id="tresc" className="kontener">
+        {krok !== "start" && <Postep kroki={KROKI} biezacy={krok} />}
+        {krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
+        {krok !== "start" && (
+          <section aria-labelledby="naglowek-kroku">
+            <h1 id="naglowek-kroku" tabIndex={-1}>
+              {TYTULY[krok]}
+            </h1>
+            <p>Do zrobienia.</p>
           </section>
         )}
-        {krok !== "start" && <p>Krok: {krok} (do zrobienia w ścieżce C)</p>}
       </main>
+      <footer className="stopka">
+        <div className="kontener">
+          Dane publikowane na licencji{" "}
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.pl" rel="noopener">
+            CC0 1.0
+          </a>
+          . Zakres danych v0.5. Projekt HackNation 2026.
+        </div>
+      </footer>
     </>
   );
 }

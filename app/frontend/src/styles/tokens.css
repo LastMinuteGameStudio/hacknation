@@ -1,17 +1,25 @@
 /* Tokeny kolorów: paleta kampanii z repo (hacknation paleta.svg, Kuba).
    Do tekstu i przycisków na białym tle tylko kolory z kontrastem >= 4.5:1 (WCAG 2.2 AA). */
 :root {
-  --kolor-glowny: #008c15;        /* zieleń, przyciski i linki (kontrast z białym ok. 4.5:1, sprawdzić w E2) */
-  --kolor-glowny-ciemny: #006b10; /* hover/aktywny, wyliczony, do potwierdzenia z identyfikacją */
+  --kolor-glowny: #008c15;        /* zieleń kampanii: 4,41:1 na białym, więc tylko dekoracje i obramowania, NIE tekst */
+  --kolor-glowny-ciemny: #006b10; /* zieleń do tekstu i tła przycisków (6,7:1 z białym) */
+  --kolor-glowny-hover: #00520c;
   --kolor-akcent: #5bc500;        /* dekoracje, NIE do tekstu na białym */
   --kolor-akcent-jasny: #78d64b;  /* dekoracje */
   --kolor-tekst: #101820;
   --kolor-tlo: #ffffff;
   --kolor-tlo-alt: #d1e0d7;
+  --kolor-tlo-jasne: #f3f7f4;
+  --kolor-ramka: #5f6b66;         /* obramowania pól: 5,6:1 (WCAG 1.4.11 wymaga 3:1) */
+  --kolor-tekst-drugi: #3f4a45;
   --kolor-info: #1a4e8a;
   --kolor-info-jasny: #3d87cb;
   --kolor-blad: #b3261e;
+  --kolor-blad-tlo: #fdecea;
   --kolor-ostrzezenie: #8a5a00;
+  --kolor-ostrzezenie-tlo: #fff4dc;
+  --kolor-info-tlo: #e8f0fa;
+  --kolor-ok-tlo: #e6f4e8;
   --kolor-fokus: #1a4e8a;
   --promien: 8px;
   --odstep: 1rem;
