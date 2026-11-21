@@ -141,6 +141,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 | D3 | Testy jednostkowe normalizacji i walidacji + test end-to-end API (upload → URL → CSV zgodny z RFC 4180) | D | A4–A6, B2 | 1 h |
 | E1 | Instrukcja dla dostawcy (treść kroku 3) + zrzuty ekranu do prezentacji (min. 5 slajdów z dowodami) | E: dokumentacja | C4 | 45 min |
 | E2 | Audyt WCAG (axe/Lighthouse) i responsywności, poprawki | E | C2–C4 | 45 min |
+| E3 | **Schemat i user story do prezentacji** (Grzan, 22.11): diagram przepływu (źródła i dysponenci → TuAED: mapowanie, walidacja, geokodowanie → stały URL → dane.gov.pl z „Aktualizacją automatyczną” → odbiorcy) i historia użytkownika dysponenta krok po kroku (urzędnik z plikiem XLSX → URL na dane.gov.pl → poprawka przez link edycji). Do slajdów 3 i 9 (`prezentacja/SZKIC-SLAJDOW.md`) | E | architektura (§3), kreator (§4) | 45 min |
 | S1 | Synchronizacja z URL źródła (demo Przemyśl): zapamiętane mapowanie, cykliczne pobieranie, wstrzymanie przy zmianie struktury | stretch | MVP | 2 h |
 | S2 | Mapa agregatu (Leaflet + OSM) | stretch | B4 | 1 h |
 | S3 | Logowanie i edycja | stretch | MVP | 2 h+ |
