@@ -21,6 +21,7 @@
 - **Grzan:** 05 Kompas kompetencji: potencjalny problem to asystent AI, bo fajnie, żeby nie był zwykłym wrapperem wokół Claude'a czy innego modelu.
 - **Grzan:** 05 Kompas kompetencji: narzędzie ma łączyć różne dziedziny, m.in. analitykę i umiejętności interpersonalne.
 - **Grzan:** 05 Kompas kompetencji: użytkownikiem jest urzędnik, czyli osoba nietechniczna. Narzędzie nie zdejmuje z niego odpowiedzialności za ocenę.
+- **Grzan:** 05 Kompas kompetencji: trzeba zrobić samo narzędzie i dodatkowo asystenta AI.
 
 ## Ranking trudności (pozostałe zadania)
 
