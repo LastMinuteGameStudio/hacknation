@@ -89,6 +89,9 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 ### Prezentacja: zrzuty z panelu dostawcy (dopisała sesja hacknation-wojtek, Wojtek)
 - ⭐ Czy organizator może udostępnić konto testowe dostawcy na dane.gov.pl (albo zrzuty ekranu), żeby pokazać dodanie zasobu jako link z włączoną opcją „Aktualizacja automatyczna: dziennie”? Zrzuty potrzebujemy do instrukcji w aplikacji i do slajdów.
 
+### Plik z wzorcowym zakresem danych (dopisała sesja hacknation-kvba-43)
+- Co należy rozumieć przez „plik z wzorcowym zakresem danych do udostępniania danych w portalu” w wymaganiach formalnych? Czy chodzi o dane po stronie użytkownika, czy po stronie aplikacji?
+
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)
 - Skąd pochodzi początkowa baza AED (ponad 8500)? Jak wygląda weryfikacja zgłoszeń? Jaka jest licencja danych i czy jest API?
