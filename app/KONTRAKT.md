@@ -83,7 +83,7 @@ Tutaj następuje normalizacja, geokodowanie (GUGiK) i walidacja. Odpowiedź `Wal
   "mozna_publikowac": true
 }
 ```
-`podglad_wyniku` zawiera maks. 20 rekordów i tylko pola publiczne, jako tekst sformatowany jak w CSV. `mozna_publikowac` jest `false`, gdy jest choć jeden błąd. `liczba_pominietych` to rekordy, które nie trafią do publikacji (adres nieznaleziony przez geokoder); `liczba_rekordow` ich nie obejmuje.
+`podglad_wyniku` zawiera maks. 20 rekordów i tylko pola publiczne, jako tekst sformatowany jak w CSV. `mozna_publikowac` jest `false`, gdy jest choć jeden błąd. `liczba_pominietych` to rekordy, które nie trafią do publikacji (adres nieznaleziony przez geokoder albo ponad limit 200 geokodowań); `liczba_rekordow` ich nie obejmuje.
 
 Ten sam kod dotyczący wielu wierszy: gdy dotyczy więcej niż 20 wierszy, zamiast osobnych komunikatów jest jeden z `wiersz: null` i listą pierwszych numerów wierszy w treści („…w 57 wierszach, m.in. 2, 5, 9”).
 
@@ -111,7 +111,7 @@ Token pokazujemy tylko raz. W bazie trzymamy wyłącznie jego hash.
 | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (z OSM) + zbiory z bazy; kolumny pochodzenia przy każdym rekordzie |
 | `/d/aed-polska-bez-osm.csv` | jak wyżej, bez rekordów z OSM (`zrodlo == "osm"` w `dane/wynik`) |
 
-Agregat: kolumny to pola publiczne v0.5 + `zrodlo` i `licencja_zrodla` (dla zbiorów z bazy: `zrodlo = "tuaed:<slug>"`, `licencja_zrodla = "CC0 1.0"`). Rekord dostawcy jest główny: rekord z `dane/wynik` bliżej niż 30 m od rekordu dostawcy dostaje `duplikat_id_aed` = jego `id_aed` (nic nie jest usuwane). W agregacie `id_aed` rekordów z bazy ma prefiks `<slug>:`, żeby identyfikatory różnych dostawców się nie zderzały.
+Agregat: kolumny to pola publiczne v0.5 + `zrodlo` i `licencja_zrodla` (dla zbiorów z bazy: `zrodlo = "tuaed:<slug>"`, `licencja_zrodla = "CC0 1.0"`, `status_walidacji = "oczekuje"`, bo dostawców nie weryfikujemy; Wojtek, 22.11). Rekord dostawcy jest główny: rekord z `dane/wynik` bliżej niż 30 m od rekordu dostawcy dostaje `duplikat_id_aed` = jego `id_aed` (nic nie jest usuwane). W agregacie `id_aed` rekordów z bazy ma prefiks `<slug>:`, żeby identyfikatory różnych dostawców się nie zderzały.
 | `/szablon.csv`, `/szablon.xlsx` | `zakres-danych/szablon-aed-publiczny.*` |
 
 ### GET `/api/zdrowie`
@@ -136,11 +136,11 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 ```
 - Rekord to `dict[str, str]`: pole v0.5 → wartość już sformatowana jak w CSV (pusty string = brak).
 - `normalize_table` uzupełnia pola stałe: `dysponent_*` z `Provider`, `zrodlo_danych`, `data_aktualizacji`, `wartosci_stale` z `fixed`; wartości domyślne (`id_aed`, `status = nieznany`, `data_weryfikacji = today`) razem z ostrzeżeniami. Rekord z adresem nieznalezionym przez geokoder ma `pominiety = True`.
-- Wygenerowany `id_aed` jest stabilny przy ponownym wgraniu: `<kod_terc lub slug>-<6 znaków hex>`, gdzie hex to skrót SHA-1 z numeru seryjnego, a gdy go brak, ze współrzędnych zaokrąglonych do 4 miejsc i znormalizowanej `nazwa_obiektu`. Kolizja w pliku → dopisek `-2`, `-3`.
+- Wygenerowany `id_aed` jest stabilny przy ponownym wgraniu: `<kod_terc lub slug>-<6 znaków hex>` (slug jest rezerwowany już przy `POST /api/importy`, a publikacja go aktywuje; Wojtek, 22.11), gdzie hex to skrót SHA-1 z numeru seryjnego, a gdy go brak, ze współrzędnych zaokrąglonych do 4 miejsc i znormalizowanej `nazwa_obiektu`. Kolizja w pliku → dopisek `-2`, `-3`.
 - Brak ulicy przy niepustej miejscowości: `nazwa_ulicy` = miejscowość (zasada z zakresu v0.5) + info `ULICA_Z_MIEJSCOWOSCI`.
 - Wartości słownikowe są normalizowane synonimami (np. „czynny”, „sprawny” → `sprawny`; „ogólnodostępny”, „tak” w kolumnie dostępności → `publiczny`; „całodobowo”, „24h”, „24/7” → `dostepny_24_7 = tak`). Przy `dostepny_24_7 = tak` pola godzin dostają `X` (zakres v0.5). `wewnatrz_budynku` to `true`/`false`.
 - Współrzędne zapisujemy z precyzją z pliku (bez dopisywania zer); poniżej 5 miejsc po przecinku ostrzeżenie `NISKA_PRECYZJA`.
-- Geokodowanie: synchronicznie w `/walidacja`, do 8 zapytań do GUGiK równolegle, z cache.
+- Geokodowanie: synchronicznie w `/walidacja`, do 8 zapytań do GUGiK równolegle, z cache, **najwyżej 200 adresów na plik** (limit tunelu Cloudflare ok. 100 s na żądanie). Rekordy ponad limit mają `pominiety = True` (Wojtek, 22.11).
 - `validate_records` sprawdza wymagalność O/Z, formaty, słowniki, współrzędne w Polsce i duplikaty.
 
 ## 4. Kody komunikatów
@@ -162,7 +162,7 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `GEOKODOWANIE_OK` | info | współrzędne ustalone z adresu (dokładność: adres budynku) |
 | `GEOKODOWANIE_NIEJEDNOZNACZNE` | ostrzeżenie | adres niejednoznaczny, wybrano najlepsze trafienie |
 | `GEOKODOWANIE_BRAK` | ostrzeżenie | adresu nie znaleziono: **rekord pominięty** w publikacji (nie blokuje pliku) |
-| `ZA_DUZO_DO_GEOKODOWANIA` | ostrzeżenie | ponad 200 adresów bez współrzędnych |
+| `ZA_DUZO_DO_GEOKODOWANIA` | ostrzeżenie | ponad 200 adresów bez współrzędnych: geokodujemy pierwsze 200, resztę pomijamy w publikacji (jeden komunikat z liczbą pominiętych) |
 | `WYGENEROWANO_ID` | ostrzeżenie | brak `id_aed`, nadano automatycznie (stały przy ponownym wgraniu tego samego AED) |
 | `ULICA_Z_MIEJSCOWOSCI` | info | brak ulicy, w `nazwa_ulicy` wpisano miejscowość |
 | `DOMYSLNY_STATUS` | ostrzeżenie | brak `status`, ustawiono `nieznany` |
