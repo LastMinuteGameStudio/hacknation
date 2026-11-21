@@ -26,7 +26,7 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Geokodowanie | adres bez współrzędnych: **geokoder GUGiK UUG** (decyzja 22.11; bez klucza, `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326`) z cache, uzupełnia TERC/SIMC/ULIC i kod pocztowy; przy wielu wynikach zawężamy kodem pocztowym lub gminą; oznaczenie dokładności i ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” | Nominatim jako zapas, gdy GUGiK nie znajdzie adresu |
 | Limity | plik do 10 MB i **20 000 wierszy** (decyzja 22.11), powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
-| Hosting | docker compose na dowolnej maszynie z **tunelem Cloudflare** (`cloudflared` jako serwis w compose); aplikacja dostępna z internetu wyłącznie przez tunel; bazowy URL w `BASE_URL` (Wojtek) | stały tunel nazwany z własną domeną |
+| Hosting | docker compose na dowolnej maszynie z **tunelem Cloudflare** (`cloudflared` jako serwis w compose); tunel nazwany na domenie Wojtka; ruch przychodzący wyłącznie przez tunel, wychodzący bez ograniczeń; bazowy URL w `BASE_URL` (Wojtek) | — |
 
 Poza zakresem: AED w pojazdach, zgłoszenia od obywateli, aplikacja mobilna natywna.
 
@@ -56,19 +56,11 @@ PostgreSQL (docker)
 ### Wdrożenie i sieć (decyzja Wojtka, 22.11)
 
 - Wszystkie nasze komponenty działają jako kontenery w jednym `docker-compose.yml`. Usługi zewnętrzne (geokoder) są wyjątkiem.
-- **Komunikacja między kontenerami a internetem odbywa się wyłącznie przez tunel Cloudflare.** Żaden serwis nie publikuje portów (`ports:`) w głównym pliku compose. `app` przyjmuje ruch tylko od `tunnel`, a `db` jest osiągalna tylko z `app`.
-- Sieci:
-  - `wewnetrzna` (`internal: true`): `db` i `app`;
-  - `tunel`: `app` i `tunnel`. Ta sieć ma wyjście do internetu, bo cloudflared łączy się z Cloudflare.
-- `tunnel` (`cloudflare/cloudflared`, wersja przypięta, nie `latest`):
-  - z `TUNNEL_TOKEN` w `.env` (nie commitujemy) uruchamia tunel nazwany o stałej domenie, który kieruje ruch na `http://app:8000`;
-  - bez tokenu uruchamia quick tunnel (`--url http://app:8000`) z losowym adresem `*.trycloudflare.com`.
-- `BASE_URL` = publiczny adres tunelu. Stałe linki `/d/{slug}.csv` dla dane.gov.pl wymagają tunelu nazwanego, bo adres quick tunnelu zmienia się przy każdym starcie. Quick tunnel służy tylko do demo.
-- Lokalna praca bez tunelu: opcjonalny `docker-compose.dev.yml` publikuje `app` wyłącznie na `127.0.0.1:8000` (nie na zewnątrz).
-- **Do rozstrzygnięcia:** ruch wychodzący z `app` do geokodera (GUGiK/Nominatim). Tunel Cloudflare obsługuje tylko ruch przychodzący. Opcje:
-  1. dopuścić wyjście do geokodera jako jedyny wyjątek;
-  2. kierować ruch wychodzący przez proxy egress (np. Cloudflare WARP);
-  3. geokodować poza kontenerem.
+- **Ruch przychodzący z internetu trafia do aplikacji wyłącznie przez tunel Cloudflare.** Żaden serwis nie publikuje portów (`ports:`) w głównym pliku compose. Ruch wychodzący nie jest ograniczony: kontenery mają zwykły dostęp do internetu (geokoder, pobieranie źródeł), bo to demo (Wojtek).
+- Jedna domyślna sieć compose: `tunnel` → `http://app:8000`, `app` → `db`.
+- `tunnel` (`cloudflare/cloudflared`, wersja przypięta, nie `latest`): tunel nazwany z `TUNNEL_TOKEN` w `.env` (nie commitujemy). Wojtek podpina tunel do swojej domeny i przypisuje mu adres (public hostname → `http://app:8000`) w dashboardzie Cloudflare.
+- `BASE_URL` = adres przypisany tunelowi w Cloudflare, więc linki `/d/{slug}.csv` są stałe.
+- Lokalna praca bez tunelu: opcjonalny `docker-compose.dev.yml` publikuje `app` wyłącznie na `127.0.0.1:8000`.
 
 ### Model danych (PostgreSQL)
 
@@ -166,4 +158,3 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
 - Slajdy: kto robi i na kiedy potrzebna działająca wersja (decyduje Grzan).
 - Zrzuty z panelu dostawcy dane.gov.pl: prośba do organizatora. Do czasu odpowiedzi instrukcja w kroku 3 bazuje na kodzie portalu i Przewodniku v1.23.
-- Hosting: dostęp z internetu tylko przez tunel Cloudflare (§3). Otwarte: kto ma konto Cloudflare i domenę dla tunelu nazwanego (stały `BASE_URL`), i czy ruch wychodzący do geokodera to dopuszczalny wyjątek.
