@@ -28,14 +28,13 @@ dysponent_typ,jst,Jednostka samorządu terytorialnego
 dysponent_typ,ochrona_zdrowia,Podmiot leczniczy
 dysponent_typ,edukacja,Szkoła lub uczelnia
 dysponent_typ,sluzby,"Służby (PSP, OSP, Policja)"
-dysponent_typ,transport,"Transport (dworzec, pojazd, lotnisko)"
+dysponent_typ,transport,"Transport (dworzec, przystanek, lotnisko)"
 dysponent_typ,firma,Przedsiębiorstwo
 dysponent_typ,ngo,Organizacja pozarządowa
 dysponent_typ,wyznaniowy,Związek wyznaniowy
 dysponent_typ,inne,Inne
 zrodlo_danych,dysponent,Dane podane przez dysponenta urządzenia
 zrodlo_danych,jst,Ewidencja jednostki samorządu
-zrodlo_danych,osm,OpenStreetMap (licencja ODbL)
 zrodlo_danych,zgloszenie_obywatela,"Zgłoszenie obywatela (czy jest potwierdzone, mówi pole status_walidacji)"
 zrodlo_danych,inne,Inne źródło
 dokladnosc_polozenia,pomiar_przy_urzadzeniu,"Współrzędne zmierzone przy samym urządzeniu (GPS, pomiar geodezyjny)"

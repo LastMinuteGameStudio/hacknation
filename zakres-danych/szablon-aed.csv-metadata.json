@@ -7,7 +7,7 @@
   ],
   "url": "szablon-aed.csv",
   "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
-  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.4 (szkic, 2026-11-21): pełna ewidencja (wszystkie pola)",
+  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.5 (szkic, 2026-11-21): pełna ewidencja (wszystkie pola)",
   "dialect": {
     "encoding": "utf-8",
     "delimiter": ",",
@@ -17,6 +17,7 @@
     ]
   },
   "tableSchema": {
+    "null": "X",
     "columns": [
       {
         "name": "id_aed",
@@ -35,7 +36,7 @@
       {
         "name": "osm_id",
         "titles": "Identyfikator OpenStreetMap",
-        "dc:description": "Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP. UWAGA: wg wytycznych OSMF powiązanie kluczem może sprawić, że zbiór uzna się za pochodny od OSM (ODbL). Pole do potwierdzenia z MC.",
+        "dc:description": "Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP. Rekordy publikują dysponenci na własnej licencji (CC0 1.0 lub CC BY 4.0); danych z OSM (ODbL) nie włącza się do zbioru. UWAGA: wg wytycznych OSMF powiązanie kluczem może sprawić, że zbiór uzna się za pochodny od OSM. Pole do potwierdzenia z MC.",
         "datatype": "string",
         "required": false
       },
@@ -199,10 +200,83 @@
         "required": true
       },
       {
-        "name": "godziny_dostepnosci",
-        "titles": "Godziny dostępności",
-        "dc:description": "Godziny, w których urządzenie jest dostępne. Wymagane, gdy dostepny_24_7 = nie lub ograniczony.",
-        "datatype": "string",
+        "name": "godziny_pn",
+        "titles": "Godziny dostępności: poniedziałek",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (poniedziałek). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_wt",
+        "titles": "Godziny dostępności: wtorek",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (wtorek). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_sr",
+        "titles": "Godziny dostępności: środa",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (środa). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_cz",
+        "titles": "Godziny dostępności: czwartek",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (czwartek). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_pt",
+        "titles": "Godziny dostępności: piątek",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (piątek). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_so",
+        "titles": "Godziny dostępności: sobota",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (sobota). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_nd",
+        "titles": "Godziny dostępności: niedziela",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (niedziela). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
+        "required": false
+      },
+      {
+        "name": "godziny_swieta",
+        "titles": "Godziny dostępności: dni świąteczne",
+        "dc:description": "Godziny, w których urządzenie jest dostępne (dni świąteczne). Wypełnia się, gdy dostepny_24_7 = nie lub ograniczony; przy dostępności całodobowej wpisuje się X. Koniec po północy zapisuje się jako 24:00.",
+        "datatype": {
+          "base": "string",
+          "format": "([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-4]):[0-5][0-9]|zamkniete"
+        },
         "required": false
       },
       {
@@ -251,13 +325,6 @@
         "titles": "Numer seryjny",
         "dc:description": "Numer seryjny nadany przez producenta. Pozwala sprawdzić urządzenie przy komunikatach bezpieczeństwa i wycofaniach.",
         "datatype": "string",
-        "required": false
-      },
-      {
-        "name": "aed_mobilny",
-        "titles": "Urządzenie mobilne",
-        "dc:description": "Czy urządzenie jest przenośne lub zamontowane w pojeździe (np. autobus, tramwaj, radiowóz). Współrzędne wskazują wtedy miejsce bazowe.",
-        "datatype": "boolean",
         "required": false
       },
       {
@@ -377,7 +444,7 @@
         "dc:description": "Skąd pochodzi rekord.",
         "datatype": {
           "base": "string",
-          "format": "dysponent|jst|osm|zgloszenie_obywatela|inne"
+          "format": "dysponent|jst|zgloszenie_obywatela|inne"
         },
         "required": true
       },
@@ -401,7 +468,7 @@
       {
         "name": "duplikat_id_aed",
         "titles": "Duplikat rekordu",
-        "dc:description": "Wypełnia się, gdy rekord opisuje to samo urządzenie co inny rekord w zbiorze (np. z innego źródła). Wartością jest id_aed rekordu głównego. Puste pole oznacza brak duplikatu.",
+        "dc:description": "Wypełnia się, gdy rekord opisuje to samo urządzenie co inny rekord w zbiorze (np. z innego źródła). Wartością jest id_aed rekordu głównego. Znak X oznacza brak duplikatu.",
         "datatype": "string",
         "required": false
       },
