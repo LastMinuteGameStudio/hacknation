@@ -82,3 +82,13 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   Zgodne: fixtury startowe (Grzan dodaje do nich Marki), syntetyczne XLSX przygotowuje sesja D.
 - ✅ **Grzan (rozstrzygnięcie sporów 1–5, 22.11 ok. 02:00):** 1) licencja: **stała CC0** (wersja Wojtka); 2) ponowne wgranie: **prywatny link z tokenem, ten sam URL** (wersja Wojtka); 3) agregat: **połączenie**: `/d/aed-polska.csv` z OSM i `/d/aed-polska-bez-osm.csv` bez OSM, a przy każdym rekordzie kolumny pochodzenia (dysponent, źródło, licencja źródła, data aktualizacji); 4) geokoder: **GUGiK UUG**, Nominatim jako zapas; 5) limit: **10 MB i 20 000 wierszy**. Zmiany wprowadzone w app/PLAN.md.
 - **Grzan (organizacja, 22.11 ok. 02:10):** Ścieżki A, B, C, D to osobne sesje Claude w osobnych oknach tmux, działające równolegle. Komunikują się jak dotychczas (tablica + SendMessage). Logo i paleta do frontu są w repo (`hacknation paleta.svg`, od Kuby). Slajdy powstaną rano. Na odpowiedź MC nie czekamy.
+- **Grzan (doprecyzowanie backendu, 22.11):**
+  1. Brak kolumny dla pól O `wewnatrz_budynku`, `dostepnosc`, `dostepny_24_7`: kreator pokazuje „ustaw dla wszystkich AED w pliku”; do wyboru wartości jest błąd. Kontrakt: w body `/walidacja` nowe pole `wartosci_stale: {pole: wartość}`.
+  2. Współrzędne z mniej niż 6 miejscami po przecinku: zapisujemy bez zmian (bez dopisywania zer), poniżej 5 miejsc ostrzeżenie `NISKA_PRECYZJA`.
+  3. Nowe pola specjalne mapowania `_adres` i `_godziny` (jak `_geometria`); rdzeń rozbija je na części.
+  4. Adres nieznaleziony przez geokoder: ostrzeżenie, rekord pominięty w publikacji (nie blokuje pliku). W `WalidacjaOut` nowe pole `liczba_pominietych`.
+  5. Wygenerowany `id_aed` z treści rekordu (skrót z numeru seryjnego albo współrzędnych ~10 m + nazwy), stabilny przy ponownym wgraniu.
+  6. Agregat: rekord dostawcy jest główny; rekordy z `dane/wynik` bliżej niż ~30 m dostają `duplikat_id_aed` = id rekordu dostawcy (nic nie znika).
+  7. Geokodowanie synchronicznie w `/walidacja`, równolegle ok. 8 zapytań z cache; kontrakt bez zmian.
+  8. Z zakresu v0.5: brak ulicy → `nazwa_ulicy` = miejscowość + info.
+  Paleta TuAED: #008c15 ma kontrast 4,41:1 na białym (poniżej AA 4,5:1) → na tekst i przyciski ciemniejszy odcień; #5bc500 i #78d64b tylko dekoracyjnie.

@@ -95,9 +95,15 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Porównanie nazw po normalizacji (małe litery, bez polskich znaków, spacji i podkreśleń), potem podobieństwo tekstu.
 - Analiza zawartości: liczby 49–55 to szerokość, 14–24.2 to długość, `NN-NNN` to kod pocztowy, wartości tak/nie to bool, GG:MM-GG:MM to godziny, JSON z `lat`/`long` lub `coordinates` to geometria (rozbijana na dwa pola).
 - Wykrywanie zamienionych lat/lon (przypadek Marek) i przecinka dziesiętnego.
-- Adres w jednym polu („ul. Jasna 5, 38-400 Krosno”) rozbijany na ulicę, numer, kod pocztowy i miejscowość. Gdy się nie uda, ostrzeżenie.
-- Godziny: „24h”, „całodobowo”, „24/7” → `dostepny_24_7 = tak`. Format OSM `opening_hours` → pola `godziny_pn`…`godziny_nd`. Wolny tekst, którego nie da się sparsować → ostrzeżenie i `uwagi`.
-- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie, potwierdzone przez Wojtka), `licencja` stała: CC0 1.0 (Wojtek), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<nr>` + ostrzeżenie o niestabilności przy ponownym wgraniu).
+- Adres w jednym polu („ul. Jasna 5, 38-400 Krosno”, pole specjalne `_adres_pelny`) rozbijany na ulicę, numer, kod pocztowy i miejscowość. Gdy się nie uda, ostrzeżenie. Brak ulicy → `nazwa_ulicy` = miejscowość (zasada z zakresu v0.5) + info.
+- Współrzędne z precyzją z pliku, bez dopisywania zer; poniżej 5 miejsc po przecinku ostrzeżenie `NISKA_PRECYZJA` (Grzan, 22.11).
+- Nagłówek wykrywany automatycznie (pomijamy wiersze tytułowe), powtórzone nazwy kolumn dostają ` (2)`, numery wierszy w komunikatach jak w arkuszu dostawcy.
+- Godziny (kolumna z godzinami: pole specjalne `_godziny`): „24h”, „całodobowo”, „24/7” → `dostepny_24_7 = tak` i `X` w polach godzin. Format OSM `opening_hours` → pola `godziny_pn`…`godziny_nd`. Wolny tekst, którego nie da się sparsować → ostrzeżenie i `uwagi`.
+- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie, potwierdzone przez Wojtka), `licencja` stała: CC0 1.0 (Wojtek), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<6 hex>` ze skrótu numeru seryjnego albo współrzędnych i nazwy, więc stały przy ponownym wgraniu, + ostrzeżenie; Grzan, 22.11).
+- Pola O bez kolumny w pliku (`wewnatrz_budynku`, `dostepnosc`, `dostepny_24_7`): kreator pokazuje „ustaw dla wszystkich AED w pliku” (`wartosci_stale`); do wyboru jest błąd (Grzan, 22.11).
+- Wartości słownikowe normalizowane synonimami wartości (np. „czynny” → `sprawny`, „ogólnodostępny” → `publiczny`).
+- Geokodowanie synchronicznie w `/walidacja`, do 8 zapytań równolegle z cache. Adres nieznaleziony → ostrzeżenie, **rekord pominięty** w publikacji, reszta pliku się publikuje (Grzan, 22.11).
+- Agregat: rekord dostawcy jest główny, rekordy z `dane/wynik` bliżej niż 30 m dostają `duplikat_id_aed` (nic nie usuwamy; Grzan, 22.11). Szczegóły w `KONTRAKT.md`.
 
 ## 6. Zadania i równoległość
 

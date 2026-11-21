@@ -11,6 +11,8 @@ Poziom = Literal["blad", "ostrzezenie", "info"]
 POLE_GEOMETRIA = "_geometria"
 # Specjalne pole mapowania: adres w jednym polu ("ul. Jasna 5, 38-400 Krosno"), rozbijany na części.
 POLE_ADRES_PELNY = "_adres_pelny"
+# Specjalne pole mapowania: godziny w jednym polu (opening_hours, "pn-pt 8-16", "24h") → dostepny_24_7 + godziny_*.
+POLE_GODZINY = "_godziny"
 
 
 @dataclass
@@ -18,7 +20,7 @@ class Message:
     poziom: Poziom
     kod: str
     komunikat: str
-    wiersz: Optional[int] = None  # 1 = pierwszy wiersz danych; None = cały plik
+    wiersz: Optional[int] = None  # numer wiersza w arkuszu, jak widzi go dostawca (nagłówek w 1 → dane od 2); None = cały plik
     pole: Optional[str] = None
 
 
@@ -66,6 +68,7 @@ class Table:
     rows: list[list[str]]
     sheets: list[str] = field(default_factory=list)
     messages: list[Message] = field(default_factory=list)
+    header_row: int = 1  # numer wiersza nagłówka w arkuszu; wiersz danych rows[i] ma numer header_row + 1 + i
 
 
 @dataclass
@@ -87,9 +90,10 @@ class Provider:
 
 @dataclass
 class RecordResult:
-    wiersz: int  # numer wiersza w pliku (1 = pierwszy wiersz danych)
+    wiersz: int  # numer wiersza w arkuszu, jak widzi go dostawca
     record: dict[str, str]  # pole v0.5 -> wartość sformatowana jak w CSV ("" = brak)
     messages: list[Message] = field(default_factory=list)
+    pominiety: bool = False  # True = nie publikować (np. GEOKODOWANIE_BRAK)
 
 
 @dataclass

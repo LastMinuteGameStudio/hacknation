@@ -75,10 +75,12 @@ class ImportOut(BaseModel):
 class WalidacjaIn(BaseModel):
     mapowanie: dict[str, Optional[str]]
     dysponent: Dysponent
+    wartosci_stale: dict[str, str] = {}  # pole v0.5 -> wartość dla wszystkich AED w pliku
 
 
 class WalidacjaOut(BaseModel):
     liczba_rekordow: int
+    liczba_pominietych: int = 0  # rekordy niepublikowane (GEOKODOWANIE_BRAK)
     liczba_bledow: int
     liczba_ostrzezen: int
     komunikaty: list[Komunikat]

@@ -2,6 +2,9 @@
 
 export type Poziom = "blad" | "ostrzezenie" | "info";
 
+/** Specjalne wartości mapowania (nie są polami v0.5). */
+export const POLA_SPECJALNE = ["_geometria", "_adres_pelny", "_godziny"] as const;
+
 export interface Komunikat {
   poziom: Poziom;
   kod: string;
@@ -65,10 +68,14 @@ export type Mapowanie = Record<string, string | null>;
 export interface WalidacjaIn {
   mapowanie: Mapowanie;
   dysponent: Dysponent;
+  /** pole v0.5 -> wartość dla wszystkich AED w pliku (pola O bez kolumny) */
+  wartosci_stale?: Record<string, string>;
 }
 
 export interface WalidacjaOut {
   liczba_rekordow: number;
+  /** rekordy niepublikowane (adres nieznaleziony przez geokoder) */
+  liczba_pominietych: number;
   liczba_bledow: number;
   liczba_ostrzezen: number;
   komunikaty: Komunikat[];

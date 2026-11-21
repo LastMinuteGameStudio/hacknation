@@ -16,7 +16,7 @@ interface Komunikat {
   poziom: Poziom;
   kod: KodKomunikatu;       // lista w sekcji 4
   komunikat: string;        // po polsku, zrozumiały dla urzędnika
-  wiersz: number | null;    // numer wiersza w pliku dostawcy (1 = pierwszy wiersz danych), null = cały plik
+  wiersz: number | null;    // numer wiersza tak, jak widzi go dostawca w arkuszu (nagłówek w wierszu 1 → pierwszy wiersz danych = 2), null = cały plik
   pole: string | null;      // nazwa pola v0.5 albo null
 }
 
@@ -59,7 +59,9 @@ Przyjmuje CSV i XLSX, do 10 MB i 20 000 wierszy. Odpowiedź `ImportOut`:
 }
 ```
 - `podglad`: maks. 10 pierwszych wierszy, wartości jako tekst.
-- `kolumna` w mapowaniu to dokładna nazwa kolumny z pliku. Specjalne wartości mapowania (nie są polami v0.5): `_geometria` dla kolumny z geometrią (JSON lub WKT, rozbijana na szerokość i długość) oraz `_adres_pelny` dla adresu w jednym polu (rozbijany na ulicę, numer, kod pocztowy i miejscowość).
+- `kolumna` w mapowaniu to dokładna nazwa kolumny z pliku. Specjalne wartości mapowania (nie są polami v0.5): `_geometria` dla kolumny z geometrią (JSON lub WKT, rozbijana na szerokość i długość) `_adres_pelny` dla adresu w jednym polu (rozbijany na ulicę, numer, kod pocztowy i miejscowość) oraz `_godziny` dla godzin w jednym polu (OSM `opening_hours`, „pn-pt 8-16”, „24h”; rozbijane na `dostepny_24_7` i `godziny_pn`…`godziny_swieta`).
+- Kolumny o powtórzonej nazwie dostają dopisek ` (2)`, ` (3)`, a puste nagłówki nazwę `Kolumna N` (N = numer kolumny od 1). Wiersz nagłówka jest wykrywany automatycznie (pomijane są wiersze tytułowe nad tabelą).
+- Jedno pole v0.5 może mieć przypisaną najwyżej jedną kolumnę (front blokuje drugi wybór).
 - `pole: null` znaczy „nie importuj”.
 - `pewnosc` mieści się w przedziale 0–1.
 
@@ -67,18 +69,23 @@ Przyjmuje CSV i XLSX, do 10 MB i 20 000 wierszy. Odpowiedź `ImportOut`:
 Body:
 ```json
 {"mapowanie": {"Długość geograficzna": "dlugosc_geograficzna", "Numer Id": null},
- "dysponent": {"nazwa": "Urząd Miasta Krosna", "typ": "jst", "telefon": null, "email": null}}
+ "dysponent": {"nazwa": "Urząd Miasta Krosna", "typ": "jst", "telefon": null, "email": null},
+ "wartosci_stale": {"wewnatrz_budynku": "true", "dostepnosc": "publiczny", "dostepny_24_7": "nie"}}
 ```
+`wartosci_stale` (opcjonalne, domyślnie `{}`): wartość pola v0.5 ustawiona dla wszystkich AED w pliku. Front pokazuje ją dla pól O bez zmapowanej kolumny (co najmniej `wewnatrz_budynku`, `dostepnosc`, `dostepny_24_7`), z listą ze słownika. Wartość stała nie nadpisuje niepustej wartości z kolumny. Dopóki pole O nie ma ani kolumny, ani wartości stałej, walidacja zwraca `BRAK_POLA_OBOWIAZKOWEGO` (jeden komunikat na pole, `wiersz: null`).
+
 Tutaj następuje normalizacja, geokodowanie (GUGiK) i walidacja. Odpowiedź `WalidacjaOut`:
 ```json
 {
-  "liczba_rekordow": 21, "liczba_bledow": 0, "liczba_ostrzezen": 5,
+  "liczba_rekordow": 21, "liczba_pominietych": 0, "liczba_bledow": 0, "liczba_ostrzezen": 5,
   "komunikaty": [{"poziom": "ostrzezenie", "kod": "DOMYSLNY_STATUS", "komunikat": "...", "wiersz": null, "pole": "status"}],
   "podglad_wyniku": [{"id_aed": "...", "szerokosc_geograficzna": "49.718809", "...": "..."}],
   "mozna_publikowac": true
 }
 ```
-`podglad_wyniku` zawiera maks. 20 rekordów i tylko pola publiczne, jako tekst sformatowany jak w CSV. `mozna_publikowac` jest `false`, gdy jest choć jeden błąd.
+`podglad_wyniku` zawiera maks. 20 rekordów i tylko pola publiczne, jako tekst sformatowany jak w CSV. `mozna_publikowac` jest `false`, gdy jest choć jeden błąd. `liczba_pominietych` to rekordy, które nie trafią do publikacji (adres nieznaleziony przez geokoder); `liczba_rekordow` ich nie obejmuje.
+
+Ten sam kod dotyczący wielu wierszy: gdy dotyczy więcej niż 20 wierszy, zamiast osobnych komunikatów jest jeden z `wiersz: null` i listą pierwszych numerów wierszy w treści („…w 57 wierszach, m.in. 2, 5, 9”).
 
 ### POST `/api/importy/{import_id}/publikacja`
 Wymaga wcześniejszej walidacji bez błędów, inaczej zwraca 409 `{"kod": "SA_BLEDY"}`. Odpowiedź `PublikacjaOut`:
@@ -102,7 +109,9 @@ Token pokazujemy tylko raz. W bazie trzymamy wyłącznie jego hash.
 | `/d/{slug}.json` | `{"metadane": {...}, "rekordy": [ {pole: wartość} ]}` |
 | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`), `url` wskazuje na CSV |
 | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (z OSM) + zbiory z bazy; kolumny pochodzenia przy każdym rekordzie |
-| `/d/aed-polska-bez-osm.csv` | jak wyżej, bez rekordów z OSM |
+| `/d/aed-polska-bez-osm.csv` | jak wyżej, bez rekordów z OSM (`zrodlo == "osm"` w `dane/wynik`) |
+
+Agregat: kolumny to pola publiczne v0.5 + `zrodlo` i `licencja_zrodla` (dla zbiorów z bazy: `zrodlo = "tuaed:<slug>"`, `licencja_zrodla = "CC0 1.0"`). Rekord dostawcy jest główny: rekord z `dane/wynik` bliżej niż 30 m od rekordu dostawcy dostaje `duplikat_id_aed` = jego `id_aed` (nic nie jest usuwane). W agregacie `id_aed` rekordów z bazy ma prefiks `<slug>:`, żeby identyfikatory różnych dostawców się nie zderzały.
 | `/szablon.csv`, `/szablon.xlsx` | `zakres-danych/szablon-aed-publiczny.*` |
 
 ### GET `/api/zdrowie`
@@ -117,7 +126,8 @@ schema.load_schema(zakres_dir: Path) -> Schema
 parsers.read_table(content: bytes, filename: str, sheet: str | None = None) -> Table
 mapping.suggest_mapping(table: Table, schema: Schema, previous: dict[str, str | None] | None = None) -> list[MappingSuggestion]
 normalize.normalize_table(table: Table, mapping: dict[str, str | None], schema: Schema,
-                          provider: Provider, today: date, geocoder: Geocoder | None) -> list[RecordResult]
+                          provider: Provider, today: date, geocoder: Geocoder | None,
+                          fixed: dict[str, str] | None = None) -> list[RecordResult]
 validate.validate_records(records: list[RecordResult], schema: Schema) -> list[Message]
 export.to_csv(records: list[dict[str, str]], schema: Schema, public_only: bool = True) -> bytes
 export.to_json(records, schema, metadata: dict) -> bytes
@@ -125,7 +135,12 @@ export.csvw_metadata(schema: Schema, csv_url: str, title: str) -> dict
 geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoResult | None
 ```
 - Rekord to `dict[str, str]`: pole v0.5 → wartość już sformatowana jak w CSV (pusty string = brak).
-- `normalize_table` uzupełnia pola stałe: `dysponent_*` z `Provider`, `zrodlo_danych`, `data_aktualizacji`; wartości domyślne (`id_aed`, `status = nieznany`, `data_weryfikacji = today`) razem z ostrzeżeniami.
+- `normalize_table` uzupełnia pola stałe: `dysponent_*` z `Provider`, `zrodlo_danych`, `data_aktualizacji`, `wartosci_stale` z `fixed`; wartości domyślne (`id_aed`, `status = nieznany`, `data_weryfikacji = today`) razem z ostrzeżeniami. Rekord z adresem nieznalezionym przez geokoder ma `pominiety = True`.
+- Wygenerowany `id_aed` jest stabilny przy ponownym wgraniu: `<kod_terc lub slug>-<6 znaków hex>`, gdzie hex to skrót SHA-1 z numeru seryjnego, a gdy go brak, ze współrzędnych zaokrąglonych do 4 miejsc i znormalizowanej `nazwa_obiektu`. Kolizja w pliku → dopisek `-2`, `-3`.
+- Brak ulicy przy niepustej miejscowości: `nazwa_ulicy` = miejscowość (zasada z zakresu v0.5) + info `ULICA_Z_MIEJSCOWOSCI`.
+- Wartości słownikowe są normalizowane synonimami (np. „czynny”, „sprawny” → `sprawny`; „ogólnodostępny”, „tak” w kolumnie dostępności → `publiczny`; „całodobowo”, „24h”, „24/7” → `dostepny_24_7 = tak`). Przy `dostepny_24_7 = tak` pola godzin dostają `X` (zakres v0.5). `wewnatrz_budynku` to `true`/`false`.
+- Współrzędne zapisujemy z precyzją z pliku (bez dopisywania zer); poniżej 5 miejsc po przecinku ostrzeżenie `NISKA_PRECYZJA`.
+- Geokodowanie: synchronicznie w `/walidacja`, do 8 zapytań do GUGiK równolegle, z cache.
 - `validate_records` sprawdza wymagalność O/Z, formaty, słowniki, współrzędne w Polsce i duplikaty.
 
 ## 4. Kody komunikatów
@@ -135,18 +150,21 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `NIEOBSLUGIWANY_FORMAT` | błąd (HTTP 415) | plik inny niż CSV i XLSX |
 | `ZA_DUZY_PLIK` / `ZA_DUZO_WIERSZY` | błąd (HTTP 413) | powyżej 10 MB lub 20 000 wierszy |
 | `PUSTY_PLIK` | błąd | brak wierszy danych |
-| `BRAK_POLA_OBOWIAZKOWEGO` | błąd | puste pole O |
+| `BRAK_POLA_OBOWIAZKOWEGO` | błąd | puste pole O (gdy pole nie ma kolumny ani wartości stałej: jeden komunikat na pole) |
 | `BRAK_POLA_ZALECANEGO` | ostrzeżenie | puste pole Z (jeden komunikat na pole z liczbą wierszy) |
 | `ZLY_FORMAT` | błąd (pole O) / ostrzeżenie (Z, F) | wartość niezgodna z formatem |
 | `WARTOSC_SPOZA_SLOWNIKA` | błąd (O) / ostrzeżenie | nieznany kod słownika |
 | `POZA_POLSKA` | błąd | współrzędne poza Polską |
+| `NISKA_PRECYZJA` | ostrzeżenie | współrzędne z mniej niż 5 miejscami po przecinku (zapisane bez zmian) |
 | `ZAMIENIONE_WSPOLRZEDNE` | ostrzeżenie | wykryto zamianę szerokości z długością, poprawiono |
 | `DUPLIKAT_ID` / `DUPLIKAT_NR_SERYJNEGO` | błąd | powtórzone w pliku |
 | `BLISKIE_PUNKTY` | ostrzeżenie | dwa AED bliżej niż 5 m |
 | `GEOKODOWANIE_OK` | info | współrzędne ustalone z adresu (dokładność: adres budynku) |
-| `GEOKODOWANIE_NIEJEDNOZNACZNE` / `GEOKODOWANIE_BRAK` | ostrzeżenie / błąd | adres niejednoznaczny / nie znaleziono |
+| `GEOKODOWANIE_NIEJEDNOZNACZNE` | ostrzeżenie | adres niejednoznaczny, wybrano najlepsze trafienie |
+| `GEOKODOWANIE_BRAK` | ostrzeżenie | adresu nie znaleziono: **rekord pominięty** w publikacji (nie blokuje pliku) |
 | `ZA_DUZO_DO_GEOKODOWANIA` | ostrzeżenie | ponad 200 adresów bez współrzędnych |
-| `WYGENEROWANO_ID` | ostrzeżenie | brak `id_aed`, nadano automatycznie |
+| `WYGENEROWANO_ID` | ostrzeżenie | brak `id_aed`, nadano automatycznie (stały przy ponownym wgraniu tego samego AED) |
+| `ULICA_Z_MIEJSCOWOSCI` | info | brak ulicy, w `nazwa_ulicy` wpisano miejscowość |
 | `DOMYSLNY_STATUS` | ostrzeżenie | brak `status`, ustawiono `nieznany` |
 | `DOMYSLNA_DATA_WERYFIKACJI` | ostrzeżenie | brak `data_weryfikacji`, ustawiono datę wgrania |
 | `ROZBITO_ADRES` / `NIE_ROZBITO_ADRESU` | info / ostrzeżenie | adres z jednego pola rozbity na części / nieudane |
@@ -156,4 +174,4 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `NIE_ZNALEZIONO` | HTTP 404 | brak importu lub zbioru |
 
 ## 5. Decyzje, które implementuje kontrakt
-Licencja zbioru: stała CC0 1.0. Ponowne wgranie przez prywatny link pod ten sam URL. Geokoder GUGiK UUG (Nominatim jako zapas). Limity: 10 MB i 20 000 wierszy. Agregat w dwóch plikach (z OSM i bez OSM) z kolumnami pochodzenia. Źródło: `zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md`.
+Licencja zbioru: stała CC0 1.0. Ponowne wgranie przez prywatny link pod ten sam URL. Geokoder GUGiK UUG (Nominatim jako zapas). Limity: 10 MB i 20 000 wierszy. Agregat w dwóch plikach (z OSM i bez OSM) z kolumnami pochodzenia. Doprecyzowanie backendu (Grzan, 22.11): wartości stałe dla pól O bez kolumny, pola `_adres_pelny` i `_godziny`, rekord z nieznalezionym adresem pomijany, precyzja współrzędnych bez dopisywania zer, stabilny `id_aed` z treści rekordu, w agregacie rekord dostawcy jest główny. Źródło: `zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md`.

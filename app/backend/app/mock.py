@@ -52,6 +52,7 @@ def walidacja_out() -> WalidacjaOut:
     ]
     return WalidacjaOut(
         liczba_rekordow=21,
+        liczba_pominietych=0,
         liczba_bledow=0,
         liczba_ostrzezen=3,
         komunikaty=kom,

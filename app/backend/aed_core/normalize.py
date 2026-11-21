@@ -23,5 +23,6 @@ def normalize_table(
     provider: Provider,
     today: date,
     geocoder: Optional[Geocoder] = None,
+    fixed: Optional[dict[str, str]] = None,  # wartosci_stale z /walidacja: pole -> wartość dla całego pliku
 ) -> list[RecordResult]:
     raise NotImplementedError("A4: normalize.normalize_table")
