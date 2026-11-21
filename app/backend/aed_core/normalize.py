@@ -136,6 +136,8 @@ def _slownik(v: str, slownik: str, schema: Schema) -> str:
         return syn[n]
     if slownik == "tak_nie_ograniczony" and _24.search(v):
         return "tak"
+    if slownik == "tak_nie_ograniczony" and _PRZEDZIAL.search(v):
+        return "nie"  # podane godziny dostępu = nie całą dobę
     # „Nie (dostęp: pon. - pt 8-16)”, „Wewnątrz budynku, gabinet” → pierwsze słowo / prefiks
     pierwsze = norm(re.split(r"[\s(,;:]", v.strip(), maxsplit=1)[0])
     if pierwsze in syn:
