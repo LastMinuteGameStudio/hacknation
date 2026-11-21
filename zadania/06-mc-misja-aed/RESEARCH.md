@@ -38,3 +38,55 @@ Inne pliki z researchem:
       - Policzone z CSV z 21.11.2026: **192 453 AED.** Status: 177 436 zwalidowane, 14 800 oczekuje na walidację, 39 podważonych. Stan działania: 191 215 sprawnych, 746 chwilowo nieobecnych, 325 niesprawnych. 5 298 oznaczonych jako duplikaty. Zdjęcie ma 8 526. Godziny i data przeglądu są w każdym rekordzie (pola wymagane), ale 79 341 rekordów ma ostatni przegląd przed 2025.
       - **Open data to podzbiór schematu.** Nie publikuje się 13 pól: telefonów, e-maili (tel1, tel2, site_email, expt_tel1/2, expt_email), producenta, modelu, numeru seryjnego, UDI i serwisanta. Publiczne są: lokalizacja, adres, dostęp, godziny, stan, daty przeglądu i ważności, nazwa i SIREN dysponenta.
       - Dodatkowe kolumny techniczne w open data: status walidacji (`c_etat_valid`), flaga duplikatu (`c_doublon`), data aktualizacji danych, dokładność położenia.
+- **06 Misja AED:** licencje źródeł danych AED i możliwość łączenia ich w jeden zbiór. Regulamin §4 ust. 2: „Uczestnicy zapewniają, że opracowane rozwiązanie jest wolne od wad prawnych oraz nie narusza praw osób trzecich”.
+  - ✅ **GOTOWE (sesja kvba):** pełny wpis ze źródłami jest na tablicy („GOTOWE: licencje źródeł danych AED”). To nie jest porada prawna.
+    - **Licencje zbiorów AED na dane.gov.pl** (API `api.dane.gov.pl/1.4/datasets`, 21.11.2026):
+      - Krosno (3624): CC0 1.0
+      - Przemyśl (4581): CC0 1.0
+      - Marki (4955): CC BY 4.0
+      - Warszawa (39512, tylko link do API miasta): CC BY 4.0
+      - Katalog Warszawy (Stołeczne Centrum Bezpieczeństwa): CC BY
+      - Endpoint 19115, Pierwszy Ratownik, Fundacja Ratuj Życie: licencji nie podano.
+    - **Licencje oferowane przez dane.gov.pl:** backend portalu (mirror `github.com/olekstomek/mcod-backend-dane.gov.pl`, `mcod/datasets/models.py`, `Dataset.LICENSES`, commit z 16.10.2026) zna tylko CC0 1.0 i CC 4.0: BY, BY-SA, BY-NC, BY-NC-SA, BY-ND, BY-NC-ND. **ODbL nie ma.**
+    - **Ustawa o otwartych danych** (t.j. Dz.U. 2023 poz. 1524):
+      - art. 14 ust. 1: ISP udostępnia się „bezwarunkowo, z wyjątkiem przypadków określonych w ustawie”;
+      - art. 14 ust. 2: warunki dotyczą informacji będących utworem lub bazą danych (ustawa z 27.07.2001 o ochronie baz danych);
+      - art. 15: możliwe warunki to źródło, informacja o przetworzeniu i zakres odpowiedzialności; można je określić „stosując standardowe otwarte licencje”;
+      - art. 16: warunki muszą być „obiektywne, proporcjonalne, niedyskryminacyjne”;
+      - art. 12: warunki w portalu to oferta, a ponowne wykorzystanie oznacza jej przyjęcie.
+    - **OSM / OpenAEDMap (ODbL 1.0):**
+      - 4.4: publicznie używana Derivative Database musi być na ODbL lub licencji zgodnej (share-alike);
+      - 4.5: Collective Database i Produced Work (np. mapa) nie podlegają share-alike, ale wymagają noty o źródle (4.3);
+      - 4.6: przy publicznym użyciu bazy pochodnej trzeba udostępnić ją całą albo plik zmian;
+      - strona openstreetmap.org/copyright wymaga atrybucji OpenStreetMap i wskazania licencji ODbL.
+    - **Wytyczne OSMF (Collective Database Guideline):** dane z OSM i spoza OSM są niezależne tylko wtedy, gdy dany typ danych w danym regionie pochodzi w całości z jednego źródła i zbiory nie odwołują się do siebie (klucz, join). Uzupełnianie warstwy OSM danymi spoza OSM uruchamia share-alike (Horizontal Layers Guideline).
+    - **Licence Compatibility (OSMF):** CC0 jest „in general compatible” jako wejście do OSM. CC BY bez wyraźnego zrzeczenia (waiver) jest niezgodna z OSM.
+    - **Odczyt sesji kvba (do potwierdzenia):**
+      - jeden zbiór AED łączący rekordy z OSM z innymi źródłami to najpewniej Derivative Database na ODbL, a dane.gov.pl nie oferuje ODbL;
+      - CC0 i CC BY 4.0 można łączyć, z atrybucją źródeł CC BY;
+      - dane bez licencji nie mają jasnej podstawy do ponownego użycia, z możliwym wyjątkiem ISP z art. 14 ust. 1 (niezweryfikowane).
+    - **Pytania do organizatora** (w [PYTANIA-DO-ORGANIZATORA.md](PYTANIA-DO-ORGANIZATORA.md) na branchu wojtek):
+      - czy dane z OSM (ODbL) mogą trafić do zbioru na dane.gov.pl;
+      - jakiej licencji MC oczekuje dla wzorcowego zbioru (CC0 czy CC BY 4.0).
+- **06 Misja AED:** licencje elementów logo i księgi znaku (fonty, ikony, symbol AED, grafika z AI). Regulamin: §2 ust. 7–8 (AI dozwolona, ale zespół ma mieć „wszelkie prawa” i musi wskazać zakres użycia AI), §4 ust. 1 i 3 (uczestnik jest twórcą swojego wkładu, zwycięzca przenosi autorskie prawa majątkowe na MC).
+  - ✅ **GOTOWE (sesja kvba):** pełny wpis ze źródłami jest na tablicy („GOTOWE: licencje do księgi znaku”). To nie jest porada prawna.
+    - **Fonty SIL OFL 1.1** (OFL FAQ 1.1-update8, https://openfontlicense.org/ofl-faq/):
+      - użycie w logo nie wymaga zgody ani atrybucji;
+      - „creating any kind of graphic using a font under the OFL does not make the resulting artwork subject to the OFL” (Q1.13);
+      - osadzanie w PDF jest dozwolone (Q1.12);
+      - nie wolno sprzedawać samego fontu.
+      - Google Fonts: OFL, Apache 2.0 lub UFL. Licencję trzeba sprawdzić dla konkretnego kroju.
+    - **Ikony** (pliki LICENSE w repozytoriach):
+      - Material (Google): Apache-2.0
+      - Lucide: ISC
+      - Tabler, Phosphor, Bootstrap Icons, Heroicons: MIT
+      - Font Awesome Free: ikony SVG/JS na **CC BY 4.0** (atrybucja), fonty na OFL, kod na MIT.
+    - **Symbol AED:**
+      - ISO 7010 E010 na Wikimedia Commons jest na CC0 1.0 (autor: użytkownik Commons, nie ISO).
+      - Znak ILCOR ma na Commons oświadczenie o domenie publicznej „for all uses” (dodał je uploader, nie ILCOR).
+      - Na stronach ILCOR i ERC nie znaleziono oficjalnych warunków użycia znaku.
+    - **Grafika z AI:** dominujący pogląd w PL to brak ochrony autorskiej wytworu AI bez istotnego twórczego wkładu człowieka (m.in. PARP).
+    - **Odczyt sesji kvba (do potwierdzenia):**
+      - cudze ikony lub grafiki AI w logo kolidują z §4 (zespół ma być twórcą i przenieść prawa na MC);
+      - fonty OFL nie kolidują, bo logo nie podlega OFL.
+    - **Kolizje nazw:** UPRP e-Wyszukiwarka (https://ewyszukiwarka.pue.uprp.gov.pl/), EUIPO TMview (https://www.tmdn.org/tmview/). Istniejące nazwy w tej domenie to m.in. „Pierwszy Ratownik”, „Ratownik”, „Reanimator”, „Krakowski IMPULS ŻYCIA AED”, OpenAEDMap.
