@@ -2,6 +2,7 @@
 
 Źródło: folder organizatorów na Google Drive („HackNation 2026 - Zadania dla Uczestników”), pobrany 21.11.2026.
 **Szczegóły (wymagania, dane, kryteria oceny): [SZCZEGOLY.md](SZCZEGOLY.md)**
+**Wnioski, odrzucone zadania i ranking trudności: [WNIOSKI.md](WNIOSKI.md)**
 
 W każdym folderze są oryginalne pliki (pełna treść zadania, regulamin, materiały) oraz `TRESC.md` z tekstem wyciągniętym z PDF-a, wygodnym do grepowania i wklejania do LLM-a.
 
