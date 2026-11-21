@@ -90,3 +90,12 @@ Inne pliki z researchem:
       - cudze ikony lub grafiki AI w logo kolidują z §4 (zespół ma być twórcą i przenieść prawa na MC);
       - fonty OFL nie kolidują, bo logo nie podlega OFL.
     - **Kolizje nazw:** UPRP e-Wyszukiwarka (https://ewyszukiwarka.pue.uprp.gov.pl/), EUIPO TMview (https://www.tmdn.org/tmview/). Istniejące nazwy w tej domenie to m.in. „Pierwszy Ratownik”, „Ratownik”, „Reanimator”, „Krakowski IMPULS ŻYCIA AED”, OpenAEDMap.
+- **06 Misja AED:** Publikacja na dane.gov.pl z zewnętrznej aplikacji (czy nasz backend może publikować w imieniu dostawcy).
+  - ✅ **GOTOWE (sesja hacknacja, 21.11.2026):**
+    - Publiczne API `api.dane.gov.pl/1.4` służy tylko do odczytu: `POST /1.4/datasets` zwraca 405. Nie znaleźliśmy publicznego API do zapisu dla dostawców.
+    - Publikować może tylko konto przypisane do profilu dostawcy, który zakłada administrator portalu (rozporządzenie Dz.U. 2022/2415 §5). Publikacja zawsze idzie w imieniu instytucji dostawcy.
+    - Sposoby udostępnienia (§4): plik wgrany na portal, URL do danych albo automatyczny import. Dla importu portal sam dodaje metadane „częstotliwość importu” i „źródło” (§8).
+    - **Automatyczny import XML działa masowo.** Wśród 3000 najnowszych zbiorów 633 mają `source.type = "xml"` (574 unikalne URL), import jest codzienny. To głównie deweloperzy (instrukcja COI, schemat `<p:datasets>`). Inne źródło importu: CKAN (np. ZTM Gdańsk z ckan.multimediagdansk.pl).
+    - **Pośrednicy hostują XML za dostawców.** Wiele plików XML leży na domenach zewnętrznych firm, które obsługują wielu deweloperów naraz, np. voxdeveloper.com (78 zbiorów), prostacena.pl (21), netbyapp.pl (19), wykazcen.pl (9), rejestrcen.online (8), supabase.co (9). Dostawca jest właścicielem profilu na dane.gov.pl, a plik generuje i hostuje serwis pośrednika. Portal codziennie pobiera go spod stałego URL.
+    - Nie wiemy: jak dostawca zgłasza URL swojego XML do importu (formularz, mail do administratora, panel) i czy import XML jest dostępny dla innych typów dostawców niż deweloperzy. **Pytanie do MC.**
+    - Źródło: API https://api.dane.gov.pl/1.4/datasets?sort=-id (pole `source`), np. https://otd.heatpex.net/heatpex.xml

@@ -23,3 +23,11 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   - na pewno agregujemy dane o AED;
   - na pewno chcemy, żeby gminy, urzędy miast i inne instytucje **chciały** publikować na dane.gov.pl dane o defibrylatorach, za które odpowiadają;
   - **AED w pojazdach (defibrylatory w ruchu) całkowicie pomijamy**, bo nie mieszczą się w zakresie projektu. Wcześniejszy pomysł z powiadamianiem kierowcy jest odrzucony.
+- **Grzan (na podstawie analizy Claude, 21.11 ok. 19:30):** Co budujemy: nie samą bazę, tylko bazę z cienką warstwą wokół. 4 elementy:
+  1. **Wzorcowy schemat** (xlsx + definicja w formacie do maszynowej walidacji, jak francuski Table Schema). Pola: od mentora, z Francji i ze standardu dane.gov.pl (adres w osobnych polach, TERYT, ISO 8601). Podział na pola publiczne i niepubliczne. To fundament.
+  2. **Agregator:** istniejące źródła (5 zbiorów z dane.gov.pl, Warszawa, ewentualnie OSM, jeśli pozwoli licencja ODbL) → mapowanie na schemat → deduplikacja (numer seryjny i bliskość współrzędnych) → flagi jakości → jeden zbiór w formatach portalu.
+  3. **Ścieżka dla dostawcy:** wgranie pliku lub formularz → walidacja → gotowy plik i metadane do dane.gov.pl (albo automatyczny import).
+  4. **Raport jakości dla dostawcy:** czego brakuje, żeby można było „odbić się do administratorów”.
+  - Jak zachęcić: „potwierdź, zamiast wpisywać” (gmina potwierdza AED, które już są na jej terenie wg TERYT); duzi dostawcy hurtowo (producenci, serwisanci); widoczna korzyść (AED trafia do map i aplikacji); uznanie (mapa pokrycia gmin, znak lub naklejka akcji, co łączy się z logo); kanały: pełnomocnicy ds. otwartości danych, OSP i straż, związki samorządów.
+  - Kolejność: najpierw schemat. Kampania może iść równolegle.
+- **Grzan (pomysł do dyskusji):** Aplikacja PWA (web i mobile) dla dostawcy, prowadząca w 3 krokach: 1) dane o dostawcy, 2) wgranie danych w naszym formacie i uzupełnienie braków, 3) pobranie danych przekształconych przez nasz backend wraz z instrukcją publikacji na dane.gov.pl. Otwarte pytanie: czy z poziomu naszej aplikacji da się publikować na dane.gov.pl w imieniu dostawcy („podpisane” przez niego)? Odpowiedź z researchu jest w RESEARCH.md („Publikacja z zewnętrznej aplikacji”).
