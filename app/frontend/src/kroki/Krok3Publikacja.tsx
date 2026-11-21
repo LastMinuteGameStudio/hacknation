@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api, ApiError } from "../api/client";
 import type { PublikacjaOut, WalidacjaOut } from "../api/types";
 import { Kopiuj } from "../components/Kopiuj";
@@ -19,6 +19,12 @@ export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPu
   const [publikuje, setPublikuje] = useState(false);
   const [blad, setBlad] = useState<string | null>(null);
   const gotoweRef = useRef<HTMLHeadingElement>(null);
+  const poPublikacji = useRef(false);
+
+  // Fokus na nagłówek „Dane opublikowane” dopiero po wyrenderowaniu (przycisk był wyłączony, fokus by przepadł).
+  useEffect(() => {
+    if (publikacja && poPublikacji.current) gotoweRef.current?.focus();
+  }, [publikacja]);
 
   async function publikuj() {
     if (!zgoda) return;
@@ -26,8 +32,8 @@ export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPu
     setPublikuje(true);
     try {
       const p = await api.publikuj(importId);
+      poPublikacji.current = true;
       setPublikacja(p);
-      requestAnimationFrame(() => gotoweRef.current?.focus());
     } catch (e) {
       setBlad(
         e instanceof ApiError
