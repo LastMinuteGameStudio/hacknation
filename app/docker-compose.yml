@@ -1,0 +1,28 @@
+# Uruchomienie (z katalogu app/):  cp .env.example .env && docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: aed
+      POSTGRES_PASSWORD: aed
+      POSTGRES_DB: aed
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aed"]
+      interval: 3s
+      retries: 20
+  app:
+    build:
+      context: ..
+      dockerfile: app/Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://aed:aed@db:5432/aed
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  dbdata:
