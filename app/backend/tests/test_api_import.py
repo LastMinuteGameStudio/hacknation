@@ -118,3 +118,22 @@ def test_zgrupuj_ponad_20_wierszy():
     g = zgrupuj(msgs)
     assert len(g) == 2
     assert g[0].wiersz is None and "28 wierszy" in g[0].komunikat and "2, 3, 4" in g[0].komunikat
+
+
+def test_atrapa_rozbija_adres_pelny():
+    from app import mock
+    rec = {"nazwa_ulicy": "", "nr_budynku": "", "kod_pocztowy": "", "miejscowosc": ""}
+    mock._rozbij_adres("ul. Stanisława Wyspiańskiego 20, 38-400 Krosno", rec)
+    assert rec == {"nazwa_ulicy": "Stanisława Wyspiańskiego", "nr_budynku": "20", "kod_pocztowy": "38-400", "miejscowosc": "Krosno"}
+    rec = {"nazwa_ulicy": "", "nr_budynku": "", "kod_pocztowy": "", "miejscowosc": ""}
+    mock._rozbij_adres("ul. Jasna, 38-400 Krosno", rec)
+    assert rec["nazwa_ulicy"] == "Jasna" and rec["miejscowosc"] == "Krosno"
+
+
+def test_walidacja_z_adres_pelny_bez_bledow_ulicy():
+    imp = _wgraj()
+    m = {k["nazwa"]: ("_adres_pelny" if k["nazwa"].strip() == "Adres" else MAPOWANIE.get(k["nazwa"].strip())) for k in imp["kolumny"]}
+    stale = {k: v for k, v in STALE.items() if k != "miejscowosc"}
+    w = c.post(f"/api/importy/{imp['import_id']}/walidacja",
+               json={"mapowanie": m, "dysponent": DYSPONENT, "wartosci_stale": stale}).json()
+    assert not [k for k in w["komunikaty"] if k["pole"] in ("nazwa_ulicy", "miejscowosc") and k["poziom"] == "blad"]

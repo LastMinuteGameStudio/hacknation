@@ -113,8 +113,15 @@ def normalize_table(
     for i, row in enumerate(table.rows):
         rec = {f.pole: "" for f in schema.pola}
         for pole, j in idx.items():
+            v = row[j].strip()
             if pole in rec:
-                rec[pole] = row[j].strip()
+                rec[pole] = v
+            elif pole == POLE_ADRES_PELNY:
+                _rozbij_adres(v, rec)
+            elif pole == POLE_GEOMETRIA:
+                _rozbij_geometrie(v, rec)
+            elif pole == POLE_GODZINY and re.search(r"24\s*(h|/7)|całodob", v.lower()):
+                rec["dostepny_24_7"] = "tak"
         for pole, v in (fixed or {}).items():
             if pole in rec and not rec[pole]:
                 rec[pole] = v
@@ -139,6 +146,28 @@ def normalize_table(
             rec["id_aed"] = f"{rec.get('kod_terc') or provider.slug or 'aed'}-{h}"
         wynik.append(RecordResult(wiersz=wiersz, record=rec, messages=msgs))
     return wynik
+
+
+_ADRES = re.compile(r"^(?:ul\.\s*|al\.\s*|pl\.\s*)?(?P<ulica>[^,\d]+?)\s*(?P<nr>\d+\S*)?\s*,\s*(?P<kod>\d{2}-\d{3})?\s*(?P<miasto>.*)$")
+
+
+def _rozbij_adres(v: str, rec: dict) -> None:
+    """„ul. Jasna 5, 38-400 Krosno” → nazwa_ulicy, nr_budynku, kod_pocztowy, miejscowosc (tylko puste pola)."""
+    m = _ADRES.match(v)
+    if not m:
+        return
+    for pole, grupa in (("nazwa_ulicy", "ulica"), ("nr_budynku", "nr"), ("kod_pocztowy", "kod"), ("miejscowosc", "miasto")):
+        if pole in rec and not rec[pole] and m.group(grupa):
+            rec[pole] = m.group(grupa).strip()
+
+
+def _rozbij_geometrie(v: str, rec: dict) -> None:
+    liczby = re.findall(r"-?\d+\.\d+", v)
+    if len(liczby) >= 2:
+        a, b = float(liczby[0]), float(liczby[1])
+        lat, lon = (liczby[0], liczby[1]) if a > b else (liczby[1], liczby[0])  # w Polsce szerokość > długość
+        rec["szerokosc_geograficzna"] = rec["szerokosc_geograficzna"] or lat
+        rec["dlugosc_geograficzna"] = rec["dlugosc_geograficzna"] or lon
 
 
 def validate_records(records: list[RecordResult], schema: Schema) -> list[Message]:
