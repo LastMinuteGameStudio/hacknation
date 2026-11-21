@@ -61,10 +61,37 @@ def test_powtorzone_i_puste_naglowki():
     assert t.columns == ["a", "a (2)", "Kolumna 3", "b"]
 
 
-def test_puste_wiersze_w_srodku_zachowane_dla_numeracji():
+def test_puste_wiersze_w_srodku_pomijane_z_numeracja():
     t = read_table(b"a,b\n1,2\n\n3,4\n\n\n", "x.csv")
-    assert t.rows == [["1", "2"], ["", ""], ["3", "4"]]
-    assert t.header_row == 1  # rows[2] to wiersz 4 arkusza
+    assert t.rows == [["1", "2"], ["3", "4"]]
+    assert [t.numer_wiersza(i) for i in range(2)] == [2, 4]
+
+
+def test_stopka_pomijana():
+    t = read_table("a,b,c\n1,2,3\nSporządził: Jan K.,,\n".encode(), "x.csv")
+    assert t.rows == [["1", "2", "3"]]
+
+
+def test_syntetyczny_gmina_scalone_i_stopka():
+    t = read_table((FIX / "syntetyczny_gmina.xlsx").read_bytes(), "g.xlsx")
+    assert t.header_row == 4 and len(t.rows) == 5
+    m = t.columns.index("Miejscowość")
+    assert [r[m] for r in t.rows] == ["Przykładowo"] * 3 + ["Wola Przykładowa"] * 2
+    assert [t.numer_wiersza(i) for i in range(5)] == [5, 6, 7, 8, 9]
+
+
+def test_syntetyczny_osir_pusty_wiersz():
+    t = read_table((FIX / "syntetyczny_osir.xlsx").read_bytes(), "o.xlsx")
+    assert len(t.rows) == 3 and [t.numer_wiersza(i) for i in range(3)] == [2, 4, 5]
+    assert t.columns[2] == "Uwagi" and t.columns[7] == "Uwagi (2)"
+
+
+def test_syntetyczny_powiat_arkusz_i_naglowek_dwupoziomowy():
+    t = read_table((FIX / "syntetyczny_powiat.xlsx").read_bytes(), "p.xlsx")
+    assert t.sheets == ["Informacje", "Defibrylatory", "Legenda"]
+    assert t.columns[:8] == ["Nr ewid.", "Jednostka", "Ulica", "Nr", "Kod", "Miejscowość", "Szerokość", "Długość"]
+    assert len(t.rows) == 4 and t.numer_wiersza(0) == 4
+    assert t.rows[0][6] == "49.8851234" and t.rows[0][10] == "2026-03-15"
 
 
 def test_tab_i_krotsze_wiersze():

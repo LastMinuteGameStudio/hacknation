@@ -134,7 +134,7 @@ export.to_json(records, schema, metadata: dict) -> bytes
 export.csvw_metadata(schema: Schema, csv_url: str, title: str) -> dict
 geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoResult | None
 ```
-- `read_table` przy błędzie blokującym cały plik rzuca `parsers.BladPliku(kod, komunikat, status)`: `NIEOBSLUGIWANY_FORMAT` (415), `ZA_DUZY_PLIK` / `ZA_DUZO_WIERSZY` (413), `PUSTY_PLIK` (422), `NIE_ZNALEZIONO` (404, brak podanego arkusza). API zamienia go na HTTP `status` z `detail = {kod, komunikat}`. Poza CSV i XLSX czyta też GeoJSON FeatureCollection (`.geojson`/`.json`: kolumny z `properties` + `geometry` jako JSON). Puste wiersze w środku danych zostają w `Table.rows` (same `""`, `normalize_table` je pomija), żeby numer wiersza = `header_row + 1 + i`.
+- `read_table` przy błędzie blokującym cały plik rzuca `parsers.BladPliku(kod, komunikat, status)`: `NIEOBSLUGIWANY_FORMAT` (415), `ZA_DUZY_PLIK` / `ZA_DUZO_WIERSZY` (413), `PUSTY_PLIK` (422), `NIE_ZNALEZIONO` (404, brak podanego arkusza). API zamienia go na HTTP `status` z `detail = {kod, komunikat}`. Poza CSV i XLSX czyta też GeoJSON FeatureCollection (`.geojson`/`.json`: kolumny z `properties` + `geometry` jako JSON). Puste wiersze i stopki („Sporządził: …”) są pomijane; numer wiersza `rows[i]` w arkuszu daje `Table.numer_wiersza(i)` (`Table.row_numbers`). XLSX: scalone komórki dziedziczą wartość, nagłówek dwupoziomowy jest składany, bez podanego arkusza wybieramy arkusz z największą liczbą wierszy danych.
 - Rekord to `dict[str, str]`: pole v0.5 → wartość już sformatowana jak w CSV (pusty string = brak).
 - `normalize_table` uzupełnia pola stałe: `dysponent_*` z `Provider`, `zrodlo_danych`, `data_aktualizacji`, `wartosci_stale` z `fixed`; wartości domyślne (`id_aed`, `status = nieznany`, `data_weryfikacji = today`) razem z ostrzeżeniami. Rekord z adresem nieznalezionym przez geokoder ma `pominiety = True`.
 - Wygenerowany `id_aed` jest stabilny przy ponownym wgraniu: `<kod_terc lub slug>-<6 znaków hex>` (slug jest rezerwowany już przy `POST /api/importy`, a publikacja go aktywuje; Wojtek, 22.11), gdzie hex to skrót SHA-1 z numeru seryjnego, a gdy go brak, ze współrzędnych zaokrąglonych do 4 miejsc i znormalizowanej `nazwa_obiektu`. Kolizja w pliku → dopisek `-2`, `-3`.
@@ -154,6 +154,7 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `PUSTY_PLIK` | błąd | brak wierszy danych |
 | `ROZBITO_WIERSZE` | ostrzeżenie | cały wiersz był w jednej komórce (np. Marki), rozdzielono na kolumny |
 | `POMINIETO_WIERSZE_TYTULOWE` | info | nagłówek tabeli nie w wierszu 1, wiersze nad nim pominięto |
+| `NAGLOWEK_DWUPOZIOMOWY` | info | nagłówek w dwóch wierszach (grupy scalone w poziomie), nazwy kolumn z niższego wiersza |
 | `BRAK_POLA_OBOWIAZKOWEGO` | błąd | puste pole O (gdy pole nie ma kolumny ani wartości stałej: jeden komunikat na pole) |
 | `BRAK_POLA_ZALECANEGO` | ostrzeżenie | puste pole Z (jeden komunikat na pole z liczbą wierszy) |
 | `ZLY_FORMAT` | błąd (pole O) / ostrzeżenie (Z, F) | wartość niezgodna z formatem |

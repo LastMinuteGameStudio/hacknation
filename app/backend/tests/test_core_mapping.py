@@ -100,3 +100,14 @@ def test_podobne_nazwy():
     assert m["Szerokosc geogr."] == "szerokosc_geograficzna"
     assert m["Dlugosc geogr."] == "dlugosc_geograficzna"
     assert m["Nr domu"] == "nr_budynku" and m["Ulica"] == "nazwa_ulicy"
+
+
+def test_syntetyczne():
+    g = mapa("syntetyczny_gmina.xlsx")
+    assert g["Lp."] is None and g["Godziny dostępności"] == "_godziny" and g["Adres"] == "_adres_pelny"
+    o = mapa("syntetyczny_osir.xlsx")
+    assert o["Dostępny"] == "dostepny_24_7" and o["Piętro"] == "kondygnacja"
+    assert o["Data ostatniej kontroli"] == "data_weryfikacji" and o["Współrzędne GPS"] == "_geometria"
+    p = mapa("syntetyczny_powiat.xlsx")
+    assert p["Jednostka"] == "nazwa_obiektu" and p["Nr ewid."] == "id_zrodlowe"
+    assert p["Ulica"] == "nazwa_ulicy" and p["Nr"] == "nr_budynku" and p["Szerokość"] == "szerokosc_geograficzna"

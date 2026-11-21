@@ -197,7 +197,10 @@ def suggest_mapping(
             # same liczby porządkowe nie są dobrym id_aed: lepiej id_zrodlowe, a id_aed wygenerujemy
             if _same_male_liczby(wart) and "id_aed" in oceny and oceny["id_aed"][1] != "nazwa kolumny":
                 oceny["id_zrodlowe"] = oceny.pop("id_aed")
-        niepuste = [v for v in wart if v.strip()]
+        if norm(kol) in ("lp", "lp.", "l.p", "nrlp", "liczbaporzadkowa"):
+            kandydaci.append((0.99, i, "", "liczba porządkowa, nie importujemy"))
+            continue
+        niepuste = [v for v in wart if v.strip() and norm(v) not in ("parter", "piwnica", "suterena")]
         if niepuste and sum(1 for v in niepuste if _liczba(v) is not None) / len(niepuste) < 0.8:
             for p in ("szerokosc_geograficzna", "dlugosc_geograficzna", "kondygnacja", "przeglad_co_miesiecy"):
                 oceny.pop(p, None)  # nazwa pasuje, ale w kolumnie nie ma liczb
@@ -234,10 +237,11 @@ def suggest_mapping(
                 zajete.add(pole)
     # 2) zachłannie od najwyższej pewności (remis: kolumna wcześniej w pliku)
     for sc, i, pole, powod in sorted(kandydaci, key=lambda t: (-t[0], t[1])):
-        if i in przydzial or pole in zajete or sc < 0.35:
+        if i in przydzial or (pole and pole in zajete) or sc < 0.35:
             continue
         przydzial[i] = (pole, round(sc, 2), powod)
-        zajete.add(pole)
+        if pole:
+            zajete.add(pole)
 
     # 3) nazwa_obiektu jest obowiązkowa: gdy przypadła kolumnie stałej („Defibrylator”) albo nikomu,
     #    weź kolumnę z opis_lokalizacji o różnych wartościach (Krosno, Marki: „Lokalizacja” = nazwa obiektu)

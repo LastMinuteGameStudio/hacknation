@@ -68,7 +68,13 @@ class Table:
     rows: list[list[str]]
     sheets: list[str] = field(default_factory=list)
     messages: list[Message] = field(default_factory=list)
-    header_row: int = 1  # numer wiersza nagłówka w arkuszu; wiersz danych rows[i] ma numer header_row + 1 + i
+    header_row: int = 1  # numer wiersza nagłówka w arkuszu
+    row_numbers: list[int] = field(default_factory=list)  # numer wiersza rows[i] w arkuszu; pusta = header_row + 1 + i
+
+    def numer_wiersza(self, i: int) -> int:
+        if i < len(self.row_numbers):
+            return self.row_numbers[i]
+        return self.header_row + 1 + i
 
 
 @dataclass

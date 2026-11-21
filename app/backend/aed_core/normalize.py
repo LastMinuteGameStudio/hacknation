@@ -134,6 +134,8 @@ def _slownik(v: str, slownik: str, schema: Schema) -> str:
             return k
     if n in syn:
         return syn[n]
+    if slownik == "tak_nie_ograniczony" and _24.search(v):
+        return "tak"
     # „Nie (dostęp: pon. - pt 8-16)”, „Wewnątrz budynku, gabinet” → pierwsze słowo / prefiks
     pierwsze = norm(re.split(r"[\s(,;:]", v.strip(), maxsplit=1)[0])
     if pierwsze in syn:
@@ -514,7 +516,7 @@ def normalize_table(
     for i, row in enumerate(table.rows):
         if not any((c or "").strip() for c in row):
             continue
-        wiersz = table.header_row + 1 + i
+        wiersz = table.numer_wiersza(i)
         rec = {p: "" for p in nazwy}
         msgs: list[Message] = []
         godziny_tekst = ""
