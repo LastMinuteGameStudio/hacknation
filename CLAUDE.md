@@ -13,4 +13,4 @@ Na tym komputerze równolegle pracuje kilka sesji Claude, każda we własnym klo
 
 - Pracuj tylko we własnym klonie.
 - Przed pushem zawsze `git pull --rebase`. Pushuj tylko na prośbę swojego użytkownika.
-- Opisy zadań w `zadania/` zawierają wyłącznie fakty od organizatorów, bez proponowania rozwiązań. Każdy rodzaj treści ma osobny plik. W `zadania/06-mc-misja-aed/` są: `NOTATKI-ZESPOLU.md` (wnioski ludzi, z podpisem), `RESEARCH.md` (wyniki researchu), `ZRODLA-DANYCH.md`, `PYTANIA-DO-ORGANIZATORA.md` (sekcje podpisane autorem), `CHECKLISTA.md`. `zadania/WNIOSKI.md` dotyczy tylko wyboru zadania.
+- Opisy zadań w `zadania/` zawierają wyłącznie fakty od organizatorów, bez proponowania rozwiązań. Każdy rodzaj treści ma osobny plik. W `zadania/06-mc-misja-aed/` są: `NOTATKI-ZESPOLU.md` (wnioski ludzi, z podpisem), `RESEARCH.md` (wyniki researchu), `ZRODLA-DANYCH.md` i `ZESTAWIENIE-ZRODEL.md` (źródła danych), `WZORCE-ZAGRANICZNE.md`, `STAN-PRAWNY.md`, `PYTANIA-DO-ORGANIZATORA.md` (sekcje podpisane autorem), `CHECKLISTA.md`. `zadania/WNIOSKI.md` dotyczy tylko wyboru zadania.

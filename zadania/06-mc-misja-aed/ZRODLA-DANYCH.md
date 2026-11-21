@@ -3,6 +3,8 @@
 Stan: 21.11.2026. Research robili subagenci, a liczbę z OSM sprawdziłem ręcznie. Lista zawiera tylko fakty, bez rozwiązań.
 Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania lub prasa).
 
+**Runda 2 (szersze zestawienie, m.in. InPost, ArcGIS, miasta i sieci instytucji): [ZESTAWIENIE-ZRODEL.md](ZESTAWIENIE-ZRODEL.md).**
+
 ## Otwarte i odczytywalne maszynowo
 
 ### OpenStreetMap / OpenAEDMap ✅
@@ -95,7 +97,7 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 ## Zagraniczne i UE (kontekst)
 
 - **Inne kraje:** Defikarte.ch (Szwajcaria), Defikataster i DEFImap (Niemcy), PulsePoint (Ameryka Północna). Żadne nie obejmuje Polski.
-- **Francja, data.gouv.fr „Défibrillateurs publics”:** krajowy zbiór na licencji ODbL.
+- **Francja, Géo'DAE na data.gouv.fr:** krajowy zbiór na **Licence Ouverte 2.0** (korekta z rundy 2: to nie ODbL). Szczegóły w [WZORCE-ZAGRANICZNE.md](WZORCE-ZAGRANICZNE.md).
 - **EENA „AED Mapping”** (eena.org/portfolio/aed-mapping/): zaleca europejski rejestr publicznych AED połączony z dyspozytorniami i stwierdza, że w UE nie ma wspólnego standardu.
 
 ## Wnioski faktograficzne
@@ -108,4 +110,23 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 
 - Licencje i warunki: Pierwszy Ratownik, Fundacja Ratuj Życie, Warszawa 19115.
 - Mapy producentów i dystrybutorów AED, Google i Apple Maps, Polska Rada Resuscytacji.
-- Czy plik GeoJSON z OSM jest nadal odświeżany (repo `aed-mapa` jest zarchiwizowane).
+- ~~Czy plik GeoJSON z OSM jest nadal odświeżany~~ ✅ tak: stary adres przekierowuje na openaedmap.org/api/v1/countries/PL.geojson, a 2 981 punktów ma `check_date` z 2026.
+
+## AED w pojazdach komunikacji miejskiej (stan 21.11.2026)
+
+Pytanie: w których dużych miastach wiadomo, że w pojazdach są AED, i czy da się pobrać bieżącą lokalizację tych pojazdów.
+
+| Miasto | AED w pojazdach (fakty) | Lista pojazdów z AED | Pozycje pojazdów na żywo (sprawdzone curl 21.11 ok. 16:53) |
+|---|---|---|---|
+| **Gdańsk** (GAiT / ZTM) | 278 z 503 pojazdów (pole `aed` w bazie pojazdów) | ✅ **TAK, maszynowo**: dane.gov.pl ds 1803, zasób 31843 „Baza pojazdów” | ✅ https://ckan2.multimediagdansk.pl/gpsPositions?v=2 (JSON, bez klucza, join po vehicleCode działa) |
+| **Wrocław** (MPK) | ok. 32 AED w pojazdach (autobusy, tramwaje, radiowozy Nadzoru Ruchu). Od 06.2025 każdy nowy lub modernizowany pojazd ma AED, a pojazdy oznaczone są naklejką. Docelowo cała flota w 2–3 lata | ❌ brak listy | ⚠️ nieoficjalny endpoint `POST https://mpk.wroc.pl/bus_position` (działa bez klucza, zwraca linię i współrzędne, pole `k` = id kursu, **bez numeru taborowego**). Portal open data miasta zwraca 403 z curl |
+| **Kraków** (MPK) | AED montowane w 17 tramwajach Krakowiak (WBO, pierwszy od 03.2026). 65 nowych Pesa (2028–29) fabrycznie z AED. Do tego zajezdnie i 8 radiowozów | ❌ brak listy numerów | ✅ GTFS-RT https://gtfs.ztp.krakow.pl/VehiclePositions_T.pb (127 tramwajów) i _A.pb (272 autobusy), bez klucza, `vehicle.label` = numer taborowy |
+| **GZM / Katowice** (ZTM) | 2019: przetarg na 15 AED do autobusów linii lotniskowych (AED u przeszkolonych kierowców). Brak potwierdzenia stanu na 2024–26 | ❌ | nie sprawdzono |
+| **Lublin** (MPK) | pilotaż: 1 autobus (Solaris 18 m) z AED | ❌ (numer w komunikacie ZTM) | nie sprawdzono |
+| **Rzeszów** (MPK) | autobus nr boczny **100** (głównie linie 0A/0B) z AED + AED na przystanku Piłsudskiego 03 | z komunikatu: nr 100 | na Transitland jest feed RT Rzeszowa, niesprawdzony |
+| **Szczecin** (ZDiTM) | projekt SBO 2026 „Bezpieczne serce Szczecina – AED w komunikacji miejskiej”, status „wybrany do realizacji”. Brak informacji o wdrożeniu | ❌ | ✅ GTFS-RT https://www.zditm.szczecin.pl/storage/gtfs/gtfs-rt-vehicles.pb (175 pojazdów) oraz JSON https://www.zditm.szczecin.pl/api/v1/vehicles (numer taborowy, model, niska podłoga, operator; **brak pola AED**) |
+| **Warszawa** | Dane 19115 nie obejmują pojazdów, tylko perony metra, POP, ekspedycje ZTM i SKM. Według ZTM AED są na peronach metra i w pociągach SKM | ❌ | API api.um.warszawa.pl `busestrams_get` wymaga klucza (bez klucza: „Nieautoryzowany dostęp”) |
+| **Poznań** | nie znaleziono informacji o AED w pojazdach | – | ✅ GTFS-RT https://www.ztm.poznan.pl/pl/dla-deweloperow/getGtfsRtFile?file=vehicle_positions.pb (346 pojazdów) |
+| **Łódź, Bydgoszcz, Gdynia, Białystok, Toruń** | brak potwierdzenia AED w pojazdach (Bydgoszcz MZK: 4 AED w zajezdniach i budynkach) | – | nie sprawdzono |
+
+Źródła: https://mpk.wroc.pl/komunikacja-miejska-z-sercem-defibrylatory-aed-w-pojazdach-mpk-wroclaw , https://www.wroclaw.pl/dla-mieszkanca/autobusy-tramwaje-mpk-wroclaw-beda-wyposazone-w-defibrylatory-aed , https://www.rmf24.pl/regiony/krakow/news-to-moze-uratowac-komus-zycie-nowosc-w-krakowskich-tramwajach,nId,8072678 , https://krknews.pl/wszystkie-zajezdnie-autobusowe-i-tramwajowe-mpk-z-defibrylatorami-aed/ , https://metropoliagzm.pl/2019/02/07/przetarg-na-defibrylatory/ , https://www.ztm.lublin.eu/pl/aktualnosci/autobus-wyposazony-w-defibrylator-wozi-mieszkancow-lublina.html , https://rzeszow24.pl/nowosc-w-rzeszowie-przystanek-i-autobus-mpk-z-defibrylatorami-aed-3064-00r2kc/ , https://bip.um.szczecin.pl/konsultacje/files/D3B7D7D2B44E4E869F63D07953A012AC/Formularz_projektu_Bezpieczne_serce_Szczecina_AED_w_komunikacji_miejskiej.pdf , https://www.telepolis.pl/artykuly/defibrylatory-w-komunikacji-miejskiej , https://bydgoszcz.eska.pl/bydgoskie-mzk-kupilo-nowe-defibrylatory-sprzet-bedzie-znajdowal-sie-w-zajezdniach-aa-TdSb-fCcA-AtzA.html

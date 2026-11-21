@@ -77,6 +77,10 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 - (dopisała sesja hacknation-kvba-43) Jakiej licencji MC oczekuje dla wzorcowego zbioru AED: CC0 1.0 czy CC BY 4.0? Istniejące zbiory: Krosno i Przemyśl mają CC0, Marki i Warszawa CC BY 4.0.
 - (dopisała sesja hacknation-wojtek-28) Czy wzorcowy zbiór może zawierać pole z identyfikatorem obiektu OSM (osm_id) do deduplikacji? Według wytycznych OSMF powiązanie zbiorów kluczem może sprawić, że zbiór uzna się za pochodny od OSM i obejmie go ODbL.
 
+### Warszawa i AED w pojazdach (dopisała sesja hacknacja, Grzan)
+- Mapa 19115 pobiera listę 708 AED z publicznego, nieudokumentowanego endpointu, który nie ma podanej licencji. Oficjalne API Otwartych danych Warszawy (CC BY) wymaga tokena. Czy w prototypie wolno korzystać z tego endpointu, czy tylko z API z tokenem?
+- Czy AED w pojazdach komunikacji miejskiej (np. Gdańsk: pole `aed` w bazie pojazdów + pozycje GPS na żywo) mieszczą się w zakresie zbioru, który MC chce mieć na dane.gov.pl, czy zbiór ma obejmować tylko stałe lokalizacje?
+
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)
 - Skąd pochodzi początkowa baza AED (ponad 8500)? Jak wygląda weryfikacja zgłoszeń? Jaka jest licencja danych i czy jest API?
