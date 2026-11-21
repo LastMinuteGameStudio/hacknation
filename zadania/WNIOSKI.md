@@ -1,5 +1,9 @@
 # Wnioski z analizy zadań (21.11.2026)
 
+## ✅ Decyzja
+
+Zespół wybrał **06 Misja AED (MC)**.
+
 ## Odrzucone
 
 - **01** Attack Surface Intelligence (AGH)
@@ -9,9 +13,9 @@
 - **12** #InvestWatch (UKNF)
 - **15** Przewodnik przyszłego rodzica (ZUS)
 
-## Nadal w analizie
+## Analizowane, niewybrane
 
-02 COI, 03 KPRM, 04 KOWR, 05 MC Kompas, 06 MC AED, 08 MFiPR, 10 NASK, 13 UM Bydgoszcz, 14 UZP
+02 COI, 03 KPRM, 04 KOWR, 05 MC Kompas, 08 MFiPR, 10 NASK, 13 UM Bydgoszcz, 14 UZP
 
 ## Notatki zespołu
 

@@ -40,4 +40,5 @@ Hackathon trwa od 21.11, 11:00 do 22.11, 11:00. Do finału z każdego zadania pr
 ## Status wyboru (21.11)
 
 - **Odrzucone:** 01 AGH, 07 MF/KAS, 09 MSZ, 11 PCI, 12 UKNF, 15 ZUS
-- **Nadal w analizie:** 02 COI, 03 KPRM, 04 KOWR, 05 MC Kompas, 06 MC AED, 08 MFiPR, 10 NASK, 13 UM Bydgoszcz, 14 UZP
+- **✅ Wybrane: 06 Misja AED (MC)**
+- **Pozostałe (niewybrane):** 02 COI, 03 KPRM, 04 KOWR, 05 MC Kompas, 08 MFiPR, 10 NASK, 13 UM Bydgoszcz, 14 UZP
