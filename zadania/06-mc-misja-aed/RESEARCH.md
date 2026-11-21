@@ -68,3 +68,25 @@ Inne pliki z researchem:
     - **Pytania do organizatora** (w [PYTANIA-DO-ORGANIZATORA.md](PYTANIA-DO-ORGANIZATORA.md) na branchu wojtek):
       - czy dane z OSM (ODbL) mogą trafić do zbioru na dane.gov.pl;
       - jakiej licencji MC oczekuje dla wzorcowego zbioru (CC0 czy CC BY 4.0).
+- **06 Misja AED:** licencje elementów logo i księgi znaku (fonty, ikony, symbol AED, grafika z AI). Regulamin: §2 ust. 7–8 (AI dozwolona, ale zespół ma mieć „wszelkie prawa” i musi wskazać zakres użycia AI), §4 ust. 1 i 3 (uczestnik jest twórcą swojego wkładu, zwycięzca przenosi autorskie prawa majątkowe na MC).
+  - ✅ **GOTOWE (sesja kvba):** pełny wpis ze źródłami jest na tablicy („GOTOWE: licencje do księgi znaku”). To nie jest porada prawna.
+    - **Fonty SIL OFL 1.1** (OFL FAQ 1.1-update8, https://openfontlicense.org/ofl-faq/):
+      - użycie w logo nie wymaga zgody ani atrybucji;
+      - „creating any kind of graphic using a font under the OFL does not make the resulting artwork subject to the OFL” (Q1.13);
+      - osadzanie w PDF jest dozwolone (Q1.12);
+      - nie wolno sprzedawać samego fontu.
+      - Google Fonts: OFL, Apache 2.0 lub UFL. Licencję trzeba sprawdzić dla konkretnego kroju.
+    - **Ikony** (pliki LICENSE w repozytoriach):
+      - Material (Google): Apache-2.0
+      - Lucide: ISC
+      - Tabler, Phosphor, Bootstrap Icons, Heroicons: MIT
+      - Font Awesome Free: ikony SVG/JS na **CC BY 4.0** (atrybucja), fonty na OFL, kod na MIT.
+    - **Symbol AED:**
+      - ISO 7010 E010 na Wikimedia Commons jest na CC0 1.0 (autor: użytkownik Commons, nie ISO).
+      - Znak ILCOR ma na Commons oświadczenie o domenie publicznej „for all uses” (dodał je uploader, nie ILCOR).
+      - Na stronach ILCOR i ERC nie znaleziono oficjalnych warunków użycia znaku.
+    - **Grafika z AI:** dominujący pogląd w PL to brak ochrony autorskiej wytworu AI bez istotnego twórczego wkładu człowieka (m.in. PARP).
+    - **Odczyt sesji kvba (do potwierdzenia):**
+      - cudze ikony lub grafiki AI w logo kolidują z §4 (zespół ma być twórcą i przenieść prawa na MC);
+      - fonty OFL nie kolidują, bo logo nie podlega OFL.
+    - **Kolizje nazw:** UPRP e-Wyszukiwarka (https://ewyszukiwarka.pue.uprp.gov.pl/), EUIPO TMview (https://www.tmdn.org/tmview/). Istniejące nazwy w tej domenie to m.in. „Pierwszy Ratownik”, „Ratownik”, „Reanimator”, „Krakowski IMPULS ŻYCIA AED”, OpenAEDMap.
