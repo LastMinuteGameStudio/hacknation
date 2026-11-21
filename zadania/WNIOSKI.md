@@ -24,6 +24,10 @@
 - **Grzan:** 05 Kompas kompetencji: trzeba zrobić samo narzędzie i dodatkowo asystenta AI.
 - **Grzan:** 05 Kompas kompetencji: regulamin mówi: „Zespoły przygotowujące rozwiązanie mogą korzystać na tym etapie wyłącznie z darmowych narzędzi AI.”
 
+## Do zresearchowania
+
+- **06 Misja AED:** „Zgodność z zasadami działania portalu dane.gov.pl”. Sprawdzić, jakie to są zasady.
+
 ## Ranking trudności (pozostałe zadania)
 
 Ocena wynika tylko z wymagań organizatorów: ile trzeba oddać, czy dane są gotowe i jak dokładna jest specyfikacja.
