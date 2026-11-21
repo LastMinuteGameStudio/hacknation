@@ -42,10 +42,10 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 
 ## Otwarte (do doszczegółowienia z zespołem)
 
-- Brak `data_weryfikacji` w pliku dostawcy: data wgrania czy wymóg?
+- ~~Brak `data_weryfikacji`~~: data wgrania + ostrzeżenie (Wojtek, 22.11).
 - Licencja zbioru wynikowego (CC0 czy CC BY 4.0) i ODbL dla danych z OSM w agregacie (pytanie do MC).
 - Rejestracja URL do importu XML i limity odświeżania (pytania do MC).
-- Kto robi którą ścieżkę z `app/PLAN.md` (T0, A–E).
+- ~~Kto robi którą ścieżkę~~: osobna sesja Claude na ścieżkę, T0 najpierw przez jedną sesję, branch na ścieżkę (Wojtek, 22.11). Nadal otwarte: które osoby nadzorują które sesje.
 - Identyfikacja wizualna i nazwa akcji (25% oceny), poza aplikacją.
 
 ## Jak pracować przy doszczegóławianiu

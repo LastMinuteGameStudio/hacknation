@@ -47,3 +47,6 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (podział pracy, 22.11):** Każda ścieżka z app/PLAN.md (A rdzeń, B API, C front, D testy) ma osobną sesję Claude we własnym klonie, a ludzie nadzorują sesje.
 - **Wojtek (front, 22.11):** Vite + React + TypeScript z własnym CSS, bez biblioteki komponentów. Kolory jako tokeny w zmiennych CSS, do podmiany na kolory kampanii.
 - **Wojtek (hosting, 22.11):** Serwera na razie nie ma, demo pokazujemy lokalnie (docker compose). Bazowy URL do linków /d/{slug}.csv ustawiamy zmienną środowiskową.
+- **Wojtek (T0 i merge, 22.11):** Jedna sesja robi T0 (szkielet app/ i kontrakt API), a pozostałe czekają, aż T0 trafi do main. Potem każda ścieżka pracuje na własnym branchu (app-a-rdzen, app-b-api, app-c-front, app-d-testy) i często merguje do main małymi PR-ami.
+- **Wojtek (data_weryfikacji, 22.11):** Gdy plik nie ma `data_weryfikacji`, wpisujemy datę wgrania i dodajemy ostrzeżenie z prośbą o realną datę przeglądu.
+- **Wojtek (id_aed, 22.11):** Gdy plik nie ma `id_aed`, generujemy `<kod_terc>-<numer>` (albo `<slug>-<numer>`, gdy brak TERC) i dodajemy ostrzeżenie, że przy ponownym wgraniu identyfikatory mogą się zmienić.

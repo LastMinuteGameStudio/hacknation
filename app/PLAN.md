@@ -93,7 +93,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Wykrywanie zamienionych lat/lon (przypadek Marek) i przecinka dziesiętnego.
 - Adres w jednym polu („ul. Jasna 5, 38-400 Krosno”) rozbijany na ulicę, numer, kod pocztowy i miejscowość. Gdy się nie uda, ostrzeżenie.
 - Godziny: „24h”, „całodobowo”, „24/7” → `dostepny_24_7 = tak`. Format OSM `opening_hours` → pola `godziny_pn`…`godziny_nd`. Wolny tekst, którego nie da się sparsować → ostrzeżenie i `uwagi`.
-- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: ostrzeżenie i data wgrania? **decyzja do testów**), `status` (gdy brak: `nieznany` + ostrzeżenie), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<nr>`).
+- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<nr>` + ostrzeżenie o niestabilności przy ponownym wgraniu).
 
 ## 6. Zadania i równoległość
 
@@ -129,7 +129,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 **Ścieżka krytyczna:** T0 → A2/A3/A4 → A5 → B2 → C3 → E1. Mapowanie i normalizacja (A3, A4) to najbardziej ryzykowna część i dlatego D1/D2 zaczynamy od razu, równolegle.
 
-**Jak zrównoleglić (decyzja Wojtka):** każda ścieżka A, B, C, D ma osobną sesję Claude we własnym klonie. Najpierw T0 i kontrakt API jako jeden krok. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
+**Jak zrównoleglić (decyzja Wojtka):** każda ścieżka A, B, C, D ma osobną sesję Claude we własnym klonie. Najpierw T0 i kontrakt API jako jeden krok, robione przez jedną sesję; pozostałe czekają na T0 w main. Potem branch na ścieżkę (`app-a-rdzen`, `app-b-api`, `app-c-front`, `app-d-testy`), częste małe PR-y do main. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
 
 ## 7. Definicja „gotowe” dla MVP
 
@@ -141,7 +141,6 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 8. Otwarte kwestie
 
-- Brak `data_weryfikacji` w pliku: przyjąć datę wgrania czy wymagać od dostawcy? (rozstrzygnąć przy testach)
 - Licencja zbioru wynikowego (CC0 albo CC BY 4.0) i ODbL dla danych z OSM w agregacie. Pytania są w PYTANIA-DO-ORGANIZATORA.md.
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
 - Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.
