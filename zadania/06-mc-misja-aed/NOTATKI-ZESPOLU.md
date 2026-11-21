@@ -50,3 +50,7 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
 - **Wojtek (T0 i merge, 22.11):** Jedna sesja robi T0 (szkielet app/ i kontrakt API), a pozostałe czekają, aż T0 trafi do main. Potem każda ścieżka pracuje na własnym branchu (app-a-rdzen, app-b-api, app-c-front, app-d-testy) i często merguje do main małymi PR-ami.
 - **Wojtek (data_weryfikacji, 22.11):** Gdy plik nie ma `data_weryfikacji`, wpisujemy datę wgrania i dodajemy ostrzeżenie z prośbą o realną datę przeglądu.
 - **Wojtek (id_aed, 22.11):** Gdy plik nie ma `id_aed`, generujemy `<kod_terc>-<numer>` (albo `<slug>-<numer>`, gdy brak TERC) i dodajemy ostrzeżenie, że przy ponownym wgraniu identyfikatory mogą się zmienić.
+- **Wojtek (status, 22.11):** Gdy plik nie ma `status`, wpisujemy `nieznany` i dodajemy ostrzeżenie.
+- **Wojtek (duplikaty w pliku, 22.11):** Powtórzone `id_aed` albo numer seryjny w jednym pliku to błąd, który blokuje publikację. Bardzo bliskie współrzędne dają tylko ostrzeżenie, bo w jednym budynku może być kilka AED.
+- **Wojtek (licencja, 22.11):** Zbiór wynikowy ma stałą licencję CC0 1.0. Dostawca jej nie wybiera.
+- **Wojtek (ponowne wgranie w MVP, 22.11):** Po publikacji dostawca dostaje drugi, prywatny link edycji z tokenem. Przez ten link wgrywa nowy plik pod ten sam slug, więc publiczny URL się nie zmienia, a portal z „Aktualizacją automatyczną” pobiera nową treść. Logowanie (S3) zostaje poza MVP.
