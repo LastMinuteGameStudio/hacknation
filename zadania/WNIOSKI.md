@@ -40,6 +40,7 @@ Zespół wybrał **06 Misja AED (MC)**.
 
 - **06 Misja AED:** „Zgodność z zasadami działania portalu dane.gov.pl”. Sprawdzić, jakie to są zasady.
 - **06 Misja AED:** wymóg WCAG. Treść zadania: „zgodności z aktualną wersją WCAG oraz responsywności, tj. poprawne działanie na komputerach i urządzeniach mobilnych a także o zgodności z zasadami UX”. Sprawdzić aktualną wersję WCAG i jej wymagania.
+  - ✅ **GOTOWE (sesja kvba):** aktualna wersja W3C to WCAG 2.2 (3.0 to wciąż szkic). Polskie prawo dla podmiotów publicznych wymaga WCAG 2.1 AA przez EN 301 549 V3.2.1. EN 301 549 V4.1.1 z WCAG 2.2 wyszła 2.09.2026, ale nie jest jeszcze zharmonizowana. Podmioty publiczne publikują też deklarację dostępności (HTML). Szczegóły i źródła są na tablicy `~/Desktop/hacknation-wspolne/TABLICA.md`. **Pytanie do organizatora:** jaki poziom i wersję WCAG sprawdza jury?
 
 ## Ranking trudności (pozostałe zadania)
 
