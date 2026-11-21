@@ -21,9 +21,9 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Wejście | CSV i XLSX z **mapowaniem kolumn**; nasz szablon CSV/XLSX przechodzi bez mapowania | 1) **synchronizacja z URL źródła** (demo: Przemyśl); 2) ODS, GeoJSON; 3) formularz ręczny |
 | Edycja | **prywatny link edycji z tokenem**: ponowne wgranie pliku pod ten sam slug, publiczny URL bez zmian (Wojtek) | logowanie dostawcy i edycja rekordów |
 | Wynik | URL z CSV (pola publiczne), JSON, metadane CSVW | — |
-| Agregat | **połączenie (decyzja 22.11):** `/d/aed-polska.csv` to cały agregat (`dane/wynik` łącznie z OSM + zbiory dostawców), a `/d/aed-polska-bez-osm.csv` to wersja bez OSM. **Każdy rekord ma kolumny pochodzenia:** `dysponent_nazwa`, `zrodlo_danych`, `licencja_zrodla`, `data_aktualizacji`, żeby dało się odsiać dane niewiarygodne i nieaktualne | mapa |
+| Agregat | **połączenie (decyzja 22.11):** `/d/aed-polska.csv` to cały agregat (`dane/wynik` łącznie z OSM + zbiory dostawców), a `/d/aed-polska-bez-osm.csv` to wersja bez OSM. **Każdy rekord ma kolumny pochodzenia:** `dysponent_nazwa`, `zrodlo_danych`, `zrodlo`, `licencja_zrodla`, `data_aktualizacji`, `status_walidacji`, żeby dało się odsiać dane niewiarygodne i nieaktualne. Zbiory wgrane przez dostawców trafiają do agregatu od razu, bez weryfikacji, z `status_walidacji = oczekuje` (Wojtek, 22.11) | mapa |
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
-| Geokodowanie | adres bez współrzędnych: **geokoder GUGiK UUG** (decyzja 22.11; bez klucza, `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326`) z cache, uzupełnia TERC/SIMC/ULIC i kod pocztowy; przy wielu wynikach zawężamy kodem pocztowym lub gminą; oznaczenie dokładności i ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” | Nominatim jako zapas, gdy GUGiK nie znajdzie adresu |
+| Geokodowanie | adres bez współrzędnych: **geokoder GUGiK UUG** (decyzja 22.11; bez klucza, `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326`) z cache, uzupełnia TERC/SIMC/ULIC i kod pocztowy; przy wielu wynikach zawężamy kodem pocztowym lub gminą; oznaczenie dokładności i ostrzeżenie; **twardy limit 200 geokodowań na plik** (tunel Cloudflare zrywa żądanie po ok. 100 s): rekordy ponad limit są pomijane z ostrzeżeniem `ZA_DUZO_DO_GEOKODOWANIA` „dodaj współrzędne” (Wojtek, 22.11) | Nominatim jako zapas, gdy GUGiK nie znajdzie adresu |
 | Limity | plik do 10 MB i **20 000 wierszy** (decyzja 22.11), powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
 | Hosting | docker compose na dowolnej maszynie z **tunelem Cloudflare** (`cloudflared` jako serwis w compose); tunel nazwany na domenie Wojtka; ruch przychodzący wyłącznie przez tunel, wychodzący bez ograniczeń; bazowy URL w `BASE_URL` (Wojtek) | — |
@@ -66,7 +66,7 @@ PostgreSQL (docker)
 
 - `zbior`: id, `slug` (losowy, w URL), `dysponent_nazwa`, `dysponent_typ`, `telefon_kontaktowy`, `email_kontaktowy` (niepubliczne), `token_edycji_hash` (niepubliczny), `utworzono`, `zaktualizowano`, `zrodlo_url` (synchronizacja, później), `status`.
 - `rekord`: id, `zbior_id`, `id_aed`, `dane` JSONB (pola v0.5), `ostrzezenia` JSONB.
-- `import`: id, `zbior_id` (null do zatwierdzenia), `plik_nazwa`, `kolumny` JSONB, `podglad` JSONB, `mapowanie` JSONB, `wynik_walidacji` JSONB, `utworzono`.
+- `import`: id, `zbior_id` (null do zatwierdzenia), `slug` (rezerwowany już przy wgraniu, żeby wygenerowane `id_aed` były stałe od pierwszej walidacji; przy imporcie z linku edycji = slug zbioru), `plik_nazwa`, `plik` BYTEA (cały plik, walidacja czyta wszystkie wiersze), `kolumny` JSONB, `podglad` JSONB, `mapowanie` JSONB, `wartosci_stale` JSONB, `rekordy` JSONB (wynik ostatniej walidacji, publikacja zapisuje dokładnie to), `wynik_walidacji` JSONB, `utworzono`.
 - `geokod_cache`: `zapytanie` PK, `lat`, `lon`, `dokladnosc`, `utworzono`.
 
 ### Kontrakt API (ustalić na starcie, front i backend pracują równolegle)
@@ -94,7 +94,7 @@ Przed wgraniem pliku strona startowa krótko tłumaczy, po co to jest, pozwala p
 
 1. **Dysponent:** nazwa instytucji, typ (słownik `dysponent_typ`), opcjonalnie telefon i e-mail. Kontaktu nie publikujemy, co jest wprost napisane przy polu.
 2. **Dane:** wgranie CSV/XLSX → tabela mapowania (kolumna z pliku → pole v0.5, podpowiedź z oznaczeniem pewności, lista rozwijana) → „Sprawdź” → lista błędów i ostrzeżeń pogrupowana po polach, z numerami wierszy. Błędy blokują przejście dalej, ostrzeżenia nie.
-3. **Publikacja:** URL do skopiowania (przycisk „Kopiuj”), prywatny link edycji z wyraźnym ostrzeżeniem „zachowaj, nie udostępniaj” (wejście przez ten link pomija krok 1 i zapisuje dane pod ten sam URL), instrukcja krok po kroku dla dane.gov.pl („dodaj zasób → link → wklej URL → zaznacz Aktualizacja automatyczna, powtarzać co: dziennie”), linki do JSON i metadanych.
+3. **Publikacja:** wymagane pole „Udostępniam dane na licencji CC0 1.0” z linkiem do wyjaśnienia; bez zaznaczenia przycisk „Opublikuj” jest nieaktywny (Wojtek, 22.11; tylko front, kontrakt bez zmian). Potem URL do skopiowania (przycisk „Kopiuj”), prywatny link edycji z wyraźnym ostrzeżeniem „zachowaj, nie udostępniaj” (wejście przez ten link pomija krok 1 i zapisuje dane pod ten sam URL), instrukcja krok po kroku dla dane.gov.pl („dodaj zasób → link → wklej URL → zaznacz Aktualizacja automatyczna, powtarzać co: dziennie”), linki do JSON i metadanych.
 
 Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus, etykiety, komunikaty błędów powiązane z polami, cele dotyku min. 24 px), język polski.
 
@@ -108,10 +108,10 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Współrzędne z precyzją z pliku, bez dopisywania zer; poniżej 5 miejsc po przecinku ostrzeżenie `NISKA_PRECYZJA` (Grzan, 22.11).
 - Nagłówek wykrywany automatycznie (pomijamy wiersze tytułowe), powtórzone nazwy kolumn dostają ` (2)`, numery wierszy w komunikatach jak w arkuszu dostawcy.
 - Godziny (kolumna z godzinami: pole specjalne `_godziny`): „24h”, „całodobowo”, „24/7” → `dostepny_24_7 = tak` i `X` w polach godzin. Format OSM `opening_hours` → pola `godziny_pn`…`godziny_nd`. Wolny tekst, którego nie da się sparsować → ostrzeżenie i `uwagi`.
-- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie, potwierdzone przez Wojtka), `licencja` stała: CC0 1.0 (Wojtek), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<6 hex>` ze skrótu numeru seryjnego albo współrzędnych i nazwy, więc stały przy ponownym wgraniu, + ostrzeżenie; Grzan, 22.11).
+- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie, potwierdzone przez Wojtka), `licencja` stała: CC0 1.0 (Wojtek), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<6 hex>`, slug rezerwowany przy wgraniu pliku ze skrótu numeru seryjnego albo współrzędnych i nazwy, więc stały przy ponownym wgraniu, + ostrzeżenie; Grzan, 22.11).
 - Pola O bez kolumny w pliku (`wewnatrz_budynku`, `dostepnosc`, `dostepny_24_7`): kreator pokazuje „ustaw dla wszystkich AED w pliku” (`wartosci_stale`); do wyboru jest błąd (Grzan, 22.11).
 - Wartości słownikowe normalizowane synonimami wartości (np. „czynny” → `sprawny`, „ogólnodostępny” → `publiczny`).
-- Geokodowanie synchronicznie w `/walidacja`, do 8 zapytań równolegle z cache. Adres nieznaleziony → ostrzeżenie, **rekord pominięty** w publikacji, reszta pliku się publikuje (Grzan, 22.11).
+- Geokodowanie synchronicznie w `/walidacja`, do 8 zapytań równolegle z cache, **najwyżej 200 adresów na plik**, resztę pomijamy z ostrzeżeniem (Wojtek, 22.11). Adres nieznaleziony → ostrzeżenie, **rekord pominięty** w publikacji, reszta pliku się publikuje (Grzan, 22.11).
 - Agregat: rekord dostawcy jest główny, rekordy z `dane/wynik` bliżej niż 30 m dostają `duplikat_id_aed` (nic nie usuwamy; Grzan, 22.11). Szczegóły w `KONTRAKT.md`.
 
 ## 6. Zadania i równoległość
