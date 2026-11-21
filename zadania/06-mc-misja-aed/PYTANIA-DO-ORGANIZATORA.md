@@ -81,6 +81,11 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 - Mapa 19115 pobiera listę 708 AED z publicznego, nieudokumentowanego endpointu, który nie ma podanej licencji. Oficjalne API Otwartych danych Warszawy (CC BY) wymaga tokena. Czy w prototypie wolno korzystać z tego endpointu, czy tylko z API z tokenem?
 - Czy AED w pojazdach komunikacji miejskiej (np. Gdańsk: pole `aed` w bazie pojazdów + pozycje GPS na żywo) mieszczą się w zakresie zbioru, który MC chce mieć na dane.gov.pl, czy zbiór ma obejmować tylko stałe lokalizacje?
 
+### Publikacja przez URL i import (dopisała sesja hacknacja, Grzan)
+- ⭐ Jak często portal odświeża zasoby dodane jako URL (§4 ust. 1 pkt 2 rozporządzenia)? Czy pobiera plik ponownie zgodnie z zadeklarowaną częstotliwością aktualizacji, czy trzyma kopię z momentu dodania? Przykład: Przemyśl (ds 4581) deklaruje „Codziennie”, a na portalu leży kopia z 2024-11, choć źródło się zmieniło.
+- ⭐ Jak dostawca rejestruje URL pliku XML do automatycznego importu (jak u deweloperów, schemat COI `<p:datasets>`)? Przez panel, formularz czy zgłoszenie do administratora? Czy ten mechanizm jest dostępny dla zbiorów AED od gmin i innych instytucji?
+- (AED w pojazdach: pytanie powyżej jest nieaktualne, bo zespół wyłączył je z zakresu, decyzja z 21.11.)
+
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)
 - Skąd pochodzi początkowa baza AED (ponad 8500)? Jak wygląda weryfikacja zgłoszeń? Jaka jest licencja danych i czy jest API?

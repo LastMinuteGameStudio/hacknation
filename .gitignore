@@ -21,3 +21,4 @@ venv/
 # IDE
 .vscode/
 .idea/
+dane/wynik/aed_wszystkie.geojson
