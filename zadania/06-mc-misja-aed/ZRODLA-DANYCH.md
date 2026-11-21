@@ -3,6 +3,8 @@
 Stan: 21.11.2026. Research robili subagenci, a liczbę z OSM sprawdziłem ręcznie. Lista zawiera tylko fakty, bez rozwiązań.
 Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania lub prasa).
 
+**Runda 2 (szersze zestawienie, m.in. InPost, ArcGIS, miasta i sieci instytucji): [ZESTAWIENIE-ZRODEL.md](ZESTAWIENIE-ZRODEL.md).**
+
 ## Otwarte i odczytywalne maszynowo
 
 ### OpenStreetMap / OpenAEDMap ✅
@@ -95,7 +97,7 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 ## Zagraniczne i UE (kontekst)
 
 - **Inne kraje:** Defikarte.ch (Szwajcaria), Defikataster i DEFImap (Niemcy), PulsePoint (Ameryka Północna). Żadne nie obejmuje Polski.
-- **Francja, data.gouv.fr „Défibrillateurs publics”:** krajowy zbiór na licencji ODbL.
+- **Francja, Géo'DAE na data.gouv.fr:** krajowy zbiór na **Licence Ouverte 2.0** (korekta z rundy 2: to nie ODbL). Szczegóły w [WZORCE-ZAGRANICZNE.md](WZORCE-ZAGRANICZNE.md).
 - **EENA „AED Mapping”** (eena.org/portfolio/aed-mapping/): zaleca europejski rejestr publicznych AED połączony z dyspozytorniami i stwierdza, że w UE nie ma wspólnego standardu.
 
 ## Wnioski faktograficzne
@@ -108,7 +110,7 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 
 - Licencje i warunki: Pierwszy Ratownik, Fundacja Ratuj Życie, Warszawa 19115.
 - Mapy producentów i dystrybutorów AED, Google i Apple Maps, Polska Rada Resuscytacji.
-- Czy plik GeoJSON z OSM jest nadal odświeżany (repo `aed-mapa` jest zarchiwizowane).
+- ~~Czy plik GeoJSON z OSM jest nadal odświeżany~~ ✅ tak: stary adres przekierowuje na openaedmap.org/api/v1/countries/PL.geojson, a 2 981 punktów ma `check_date` z 2026.
 
 ## AED w pojazdach komunikacji miejskiej (stan 21.11.2026)
 
