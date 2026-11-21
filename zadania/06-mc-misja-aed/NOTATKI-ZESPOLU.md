@@ -44,3 +44,6 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
     - przyjmowanie danych w kilku formatach: co najmniej .csv i .xlsx, a do tego inne, w których urzędy i instytucje trzymają takie dane.
 - **Grzan (sytuacja idealna: synchronizacja ze źródłem zewnętrznym):** Platforma pozwala podpiąć zewnętrzne źródło, np. plik CSV na stronie urzędu, nawet źle sformatowany. Nasza strona cyklicznie pobiera go, automatycznie przekształca do naszego formatu i wystawia poprawione dane pod naszym URL.
   - Fakt z researchu na przykładzie: Przemyśl udostępnia dane na żywo (przemysl.skycms.com.pl/open-data/…, CSV z `;` i geometrią jako JSON w komórce). Między 2024-11 a 21.11.2026 zmienił się w nim format geometrii z obiektu `{lat,long}` na tablicę `[lon,lat]`. Taki przypadek synchronizacja musi wykryć.
+- **Wojtek (podział pracy, 22.11):** Każda ścieżka z app/PLAN.md (A rdzeń, B API, C front, D testy) ma osobną sesję Claude we własnym klonie, a ludzie nadzorują sesje.
+- **Wojtek (front, 22.11):** Vite + React + TypeScript z własnym CSS, bez biblioteki komponentów. Kolory jako tokeny w zmiennych CSS, do podmiany na kolory kampanii.
+- **Wojtek (hosting, 22.11):** Serwera na razie nie ma, demo pokazujemy lokalnie (docker compose). Bazowy URL do linków /d/{slug}.csv ustawiamy zmienną środowiskową.

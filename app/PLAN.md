@@ -25,7 +25,7 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
 | Geokodowanie | adres bez współrzędnych: Nominatim z cache, oznaczenie dokładności, ostrzeżenie | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
-| Hosting | lokalnie (docker-compose) | serwer znajomego, publiczny adres |
+| Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
 
 Poza zakresem: AED w pojazdach, zgłoszenia od obywateli, aplikacja mobilna natywna.
 
@@ -101,7 +101,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 | # | Zadanie | Ścieżka | Zależy od | Szac. |
 |---|---|---|---|---|
-| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app), FastAPI „hello”, Vite + React, kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
+| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
 | A1 | `schema.py`: wczytanie zakres-pol.csv i slowniki.csv | A: rdzeń | T0 | 20 min |
 | A2 | `parsers.py`: CSV (sniff separatora, kodowania cp1250/utf-8, BOM, cudzysłowy) i XLSX (openpyxl) | A | T0 | 45 min |
 | A3 | `mapping.py` + `synonimy.py`: propozycja mapowania z pewnością | A | A1, A2 | 1,5 h |
@@ -129,7 +129,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 **Ścieżka krytyczna:** T0 → A2/A3/A4 → A5 → B2 → C3 → E1. Mapowanie i normalizacja (A3, A4) to najbardziej ryzykowna część i dlatego D1/D2 zaczynamy od razu, równolegle.
 
-**Jak zrównoleglić (propozycja):** najpierw T0 i kontrakt API jako jeden krok. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
+**Jak zrównoleglić (decyzja Wojtka):** każda ścieżka A, B, C, D ma osobną sesję Claude we własnym klonie. Najpierw T0 i kontrakt API jako jeden krok. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
 
 ## 7. Definicja „gotowe” dla MVP
 
@@ -144,4 +144,4 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Brak `data_weryfikacji` w pliku: przyjąć datę wgrania czy wymagać od dostawcy? (rozstrzygnąć przy testach)
 - Licencja zbioru wynikowego (CC0 albo CC BY 4.0) i ODbL dla danych z OSM w agregacie. Pytania są w PYTANIA-DO-ORGANIZATORA.md.
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
-- Hosting publiczny: jutro, serwer znajomego. Potrzebny adres domeny do konfiguracji bazowego URL.
+- Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.

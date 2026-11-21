@@ -30,7 +30,7 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 ## Decyzje techniczne (z sesji planowania, 22.11 ok. 00:45)
 
 - Backend: **FastAPI** (Python). Baza: **PostgreSQL w dockerze**. Front: lekki **React**, mało ekranów, **responsywny**, WCAG 2.2 AA.
-- Hosting: na razie lokalnie (docker-compose), „jutro” na publicznym serwerze znajomego.
+- Hosting: lokalnie (docker-compose). Serwera znajomego na razie nie ma (Wojtek, 22.11), demo pokazujemy lokalnie.
 - Wejście w MVP: **CSV i XLSX z mapowaniem kolumn** oraz nasz szablon. Jeśli starczy czasu: **synchronizacja z URL źródła** (demo: Przemyśl), potem formularz ręczny.
 - Mapowanie kolumn: **heurystyka + słownik synonimów**. Model AI tylko wtedy, gdy testy na realnych danych pokażą, że heurystyka nie wystarcza. **Testy na realnych plikach są ważne.**
 - Brak współrzędnych: **geokodowanie z potwierdzeniem** (Nominatim, oznaczenie dokładności, ostrzeżenie).
