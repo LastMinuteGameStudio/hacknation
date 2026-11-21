@@ -94,3 +94,8 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   7. Geokodowanie synchronicznie w `/walidacja`, równolegle ok. 8 zapytań z cache; kontrakt bez zmian.
   8. Z zakresu v0.5: brak ulicy → `nazwa_ulicy` = miejscowość + info.
   Paleta TuAED: #008c15 ma kontrast 4,41:1 na białym (poniżej AA 4,5:1) → na tekst i przyciski ciemniejszy odcień; #5bc500 i #78d64b tylko dekoracyjnie.
+- **Wojtek (luki w planie, 22.11):**
+  1. Geokodowanie: twardy limit 200 adresów na plik, bo tunel Cloudflare zrywa żądanie po ok. 100 s. Rekordy ponad limit są pomijane z ostrzeżeniem „dodaj współrzędne”.
+  2. Slug zbioru jest rezerwowany już przy wgraniu pliku, żeby wygenerowane `id_aed` (`<kod_terc lub slug>-<hex>`) były stałe od pierwszej walidacji.
+  3. Agregat przyjmuje wszystkie zbiory od razu, bez weryfikacji dostawcy. Rekordy z bazy mają `status_walidacji = oczekuje`.
+  4. Zgoda na CC0: wymagane pole w kroku 3 przed „Opublikuj” (tylko front).
