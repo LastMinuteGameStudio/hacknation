@@ -1,0 +1,37 @@
+{
+    "id": 458,
+    "meta": {
+        "slug": "udostepnianie-danych-dotyczacych-rzeczy-znalezionych-informacje-dla-starostow",
+        "url_path": "/knowledgebase/useful-materials/udostepnianie-danych-dotyczacych-rzeczy-znalezionych-informacje-dla-starostow/",
+        "seo_title": "",
+        "search_description": "",
+        "first_published_at": "2026-05-15T14:46:13.417028+02:00",
+        "last_published_at": "2026-05-21T10:51:14.054305+02:00",
+        "type": "cms.KBPage",
+        "detail_url": "https://cms.dane.gov.pl/api/pages/knowledgebase/useful-materials/udostepnianie-danych-dotyczacych-rzeczy-znalezionych-informacje-dla-starostow/",
+        "html_url": "http://dane.gov.pl/knowledgebase/useful-materials/udostepnianie-danych-dotyczacych-rzeczy-znalezionych-informacje-dla-starostow/",
+        "show_in_menus": false,
+        "parent": {
+            "id": 15,
+            "meta": {
+                "type": "cms.KBCategoryPage",
+                "detail_url": "https://cms.dane.gov.pl/api/pages/knowledgebase/useful-materials/",
+                "html_url": "http://dane.gov.pl/knowledgebase/useful-materials/",
+                "slug": "useful-materials",
+                "first_published_at": "2020-05-28T16:46:18.009956+02:00",
+                "url_path": "/knowledgebase/useful-materials/"
+            },
+            "title": "Przydatne materiały"
+        },
+        "children": []
+    },
+    "title": "Udostępnianie danych dotyczących rzeczy znalezionych - informacje dla starostów",
+    "latest_revision_created_at": "2026-05-21T10:51:13.666838+02:00",
+    "body": [
+        {
+            "type": "text",
+            "value": "<p data-block-key=\"09gfr\"></p><p data-block-key=\"2nru3\"></p><p data-block-key=\"e5o9k\">Niniejsza zakładka zawiera informacje przygotowane w celu wspierania starostów w realizacji obowiązków wskazanych w art. 15 ust. 5 Ustawy z dnia 20 lutego 2015 r. o rzeczach znalezionych (<a href=\"https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20230000501\" title=\"\">Dz. U. z 2023 r. poz. 501 z późn. zm</a>.).<br/><br/></p><p data-block-key=\"ahhkl\"></p><h2 data-block-key=\"drb51\"><b>Materiały informacyjne</b></h2><p data-block-key=\"c9823\">Informacje dotyczące rozpoczęcia publikacji danych w portalu dane.gov.pl – zakładanie profilu dostawcy oraz rejestracja konta i uzyskanie uprawnień edytora dla osób udostępniających dane o rzeczach znalezionych. <a href=\"https://cms.dane.gov.pl/documents/277/Instrukcja_dot._za%C5%82o%C5%BCenia_profilu_dostawcy_i_nadania_upr.edytora_-_dane_o_rzec_rlLCLv2.pdf\" title=\"\">pobierz plik w formacie pdf</a><br/><br/></p><p data-block-key=\"dmqc6\">Wskazówki dotyczące przygotowania danych o rzeczach znalezionych do publikacji w portalu dane.gov.pl. - <a href=\"https://cms.dane.gov.pl/documents/278/Wskaz%C3%B3wki_dotycz%C4%85ce_przygotowania_danych_do_publikacji_w_portalu_v1.0.pdf\" title=\"\">pobierz plik w formacie pdf</a><br/><br/></p><p data-block-key=\"9undt\">Instrukcja udostępniania danych o rzeczach znalezionych z wykorzystaniem panelu administracyjnego portalu dane.gov.pl <a href=\"https://cms.dane.gov.pl/documents/276/Instrukcja_udost%C4%99pniania_danych_o_rzeczach_znalezionych_z_wykorzystaniem_panel_hdqZJDF.pdf\" title=\"\">pobierz plik w formacie pdf</a><br/><br/>Plik zawierający wzorcowy zakres danych dotyczący rzeczy znalezionych (stan na 15.05.2026) pobierz plik: <a href=\"https://cms.dane.gov.pl/documents/279/WYKAZ_RZECZY_ZNALEZIONYCH_-_dostawca_XYZ.xlsx\" title=\"\">w formacie xlsx</a>, <a href=\"https://cms.dane.gov.pl/documents/280/WYKAZ_RZECZY_ZNALEZIONYCH_-_dostawca_XYZ.csv\" title=\"\">w formacie csv</a> (UTF-8)</p><p data-block-key=\"22fp0\"><br/></p><p data-block-key=\"6n4jv\">Instrukcja udostępniania danych w portalu dane.gov.pl z wykorzystaniem automatycznego dodawania danych (import xml) część ogólna -<a href=\"https://cms.dane.gov.pl/documents/225/Przewodnik_automatycznego_zasilania_danych_xml.PDF\" title=\"\">pobierz plik w formacie pdf</a><br/><br/>Szablon budowy pliku xml dla danych o rzeczach znalezionych (stan na 15.05.2026) <a href=\"https://cms.dane.gov.pl/documents/275/RZECZ_Szablon_budowy_pliku_xml_v.1.14_24.04.2026.xml\" title=\"\">pobierz plik w formacie xml</a></p>",
+            "id": "4ebe5bd3-4ee5-40c3-b3bc-97fddf7722c7"
+        }
+    ]
+}
