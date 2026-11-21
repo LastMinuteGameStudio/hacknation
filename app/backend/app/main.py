@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from typing import Iterator
 
 from fastapi import Depends, FastAPI, File, Form, Query, UploadFile
@@ -26,8 +27,6 @@ from .config import STATIC_DIR, ZAKRES_DIR
 from .db import SessionLocal, db_ok, init_db
 from .importy import SCHEMA
 
-app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.2.0")
-
 _baza_gotowa = False
 
 
@@ -37,9 +36,13 @@ def _init() -> None:
         _baza_gotowa = init_db()
 
 
-@app.on_event("startup")
-def _startup() -> None:
+@asynccontextmanager
+async def _lifespan(_app: FastAPI):
     _init()
+    yield
+
+
+app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.2.0", lifespan=_lifespan)
 
 
 def get_db() -> Iterator[Session]:
