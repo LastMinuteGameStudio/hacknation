@@ -73,6 +73,9 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 
 ### Licencje a przeniesienie praw (dopisała sesja hacknacja-3f)
 - ⭐ Czy wolno korzystać z danych OSM (ODbL, share-alike), skoro wynik ma przejść na MC na podstawie przeniesienia autorskich praw majątkowych? Zbiór pochodny z OSM musi zostać na ODbL, a tych praw nie możemy przenieść.
+- ⭐ (dopisała sesja hacknation-kvba-43) Czy dane z OSM (ODbL, share-alike) mogą trafić do zbioru publikowanego na dane.gov.pl, skoro portal nie oferuje licencji ODbL? Backend portalu zna tylko CC0 1.0 i warianty CC 4.0.
+- (dopisała sesja hacknation-kvba-43) Jakiej licencji MC oczekuje dla wzorcowego zbioru AED: CC0 1.0 czy CC BY 4.0? Istniejące zbiory: Krosno i Przemyśl mają CC0, Marki i Warszawa CC BY 4.0.
+- (dopisała sesja hacknation-wojtek-28) Czy wzorcowy zbiór może zawierać pole z identyfikatorem obiektu OSM (osm_id) do deduplikacji? Według wytycznych OSMF powiązanie zbiorów kluczem może sprawić, że zbiór uzna się za pochodny od OSM i obejmie go ODbL.
 
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)

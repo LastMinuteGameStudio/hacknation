@@ -28,7 +28,7 @@ POLA = [
     ("Identyfikacja", "id_zrodlowe", "Identyfikator w systemie źródłowym", "tekst", "dowolny", "F",
      "Identyfikator rekordu w systemie, z którego pochodzi (np. ewidencja miasta).", "AED-WAW-0512", "ref", "id", "– / id"),
     ("Identyfikacja", "osm_id", "Identyfikator OpenStreetMap", "tekst", "node/<liczba> lub way/<liczba>", "F",
-     "Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP.", "node/123456789", "@osm_type/@osm_id", "–", "–"),
+     "Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP. UWAGA: wg wytycznych OSMF powiązanie kluczem może sprawić, że zbiór uzna się za pochodny od OSM (ODbL). Pole do potwierdzenia z MC.", "node/123456789", "@osm_type/@osm_id", "–", "–"),
 
     # --- Lokalizacja ---
     ("Lokalizacja", "szerokosc_geograficzna", "Szerokość geograficzna", "liczba dziesiętna", "WGS84 (EPSG:4326), min. 6 miejsc po przecinku, kropka dziesiętna", "O",
@@ -169,7 +169,7 @@ METADANE = [
     ("Opis", "dct:description", "Wykaz automatycznych defibrylatorów zewnętrznych (AED) wraz z lokalizacją, dostępnością i stanem, zgodny z wzorcowym zakresem danych AED."),
     ("Słowa kluczowe", "dcat:keyword", "AED, defibrylator, pierwsza pomoc, ratownictwo, zdrowie"),
     ("Kategoria", "dcat:theme", "Zdrowie (HEAL); Rząd i sektor publiczny (GOVE)"),
-    ("Licencja", "dct:license", "CC0 1.0 lub CC BY 4.0 (do ustalenia; dane z OSM wymagają ODbL)"),
+    ("Licencja", "dct:license", "CC0 1.0 lub CC BY 4.0 (do ustalenia z MC). Portal dane.gov.pl nie oferuje ODbL, więc danych z OSM nie można wprost włączyć do zbioru."),
     ("Częstotliwość aktualizacji", "dct:accrualPeriodicity", "co najmniej raz w miesiącu oraz po każdej zmianie"),
     ("Zasięg przestrzenny", "dct:spatial", "obszar dysponenta (kod TERC)"),
     ("Dostawca", "dct:publisher", "nazwa dostawcy na dane.gov.pl"),
