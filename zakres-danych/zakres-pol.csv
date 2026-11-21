@@ -1,0 +1,43 @@
+lp,grupa,pole,nazwa,typ,format,wymagalnosc,opis,przyklad,osm,warszawa_19115,legionowo_krosno
+1,Identyfikacja,id_aed,Identyfikator AED,tekst,unikalny i stały w zbiorze dostawcy; zalecany wzór <kod_terc>-<numer>,O,Stały identyfikator urządzenia nadany przez dostawcę danych. Nie zmienia się przy aktualizacji rekordu.,1408011-0001,@osm_id (inny system),id,– / id
+2,Identyfikacja,id_zrodlowe,Identyfikator w systemie źródłowym,tekst,dowolny,F,"Identyfikator rekordu w systemie, z którego pochodzi (np. ewidencja miasta).",AED-WAW-0512,ref,id,– / id
+3,Identyfikacja,osm_id,Identyfikator OpenStreetMap,tekst,node/<liczba> lub way/<liczba>,F,"Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP.",node/123456789,@osm_type/@osm_id,–,–
+4,Lokalizacja,szerokosc_geograficzna,Szerokość geograficzna,liczba dziesiętna,"WGS84 (EPSG:4326), min. 6 miejsc po przecinku, kropka dziesiętna",O,"Szerokość geograficzna miejsca, w którym fizycznie znajduje się urządzenie (nie środek budynku).",52.395198,geometria (lat),"geometria [[lon,lat]]",szerokosc_geograficzna / lat
+5,Lokalizacja,dlugosc_geograficzna,Długość geograficzna,liczba dziesiętna,"WGS84 (EPSG:4326), min. 6 miejsc po przecinku, kropka dziesiętna",O,Długość geograficzna miejsca urządzenia.,20.931382,geometria (lon),"geometria [[lon,lat]]",dlugosc_geograficzna / lon
+6,Lokalizacja,nazwa_obiektu,Nazwa obiektu,tekst,dowolny,O,"Nazwa budynku lub miejsca, w którym jest AED, zrozumiała dla osoby z zewnątrz.",Urząd Miasta Legionowo,name (rzadko),nazwa obiektu,nazwa / nazwa
+7,Lokalizacja,cecha_ulicy,Cecha ulicy,słownik,słownik: cecha_ulicy (wg TERYT ULIC),Z,Rodzaj ulicy zgodnie z rejestrem TERYT.,ulica,–,w adresie,cecha_ulicy / –
+8,Lokalizacja,nazwa_ulicy,Nazwa ulicy,tekst,"pełna nazwa bez cechy, zgodna z TERYT ULIC",O,"Słowna nazwa ulicy (lub placu, alei). Gdy obiekt nie ma ulicy, wpisuje się nazwę miejscowości.",Piłsudskiego,addr:street (rzadko),ulica,nazwa_ulicy / w polu adres
+9,Lokalizacja,nr_budynku,Numer budynku,tekst,"np. 41, 12A",Z,Numer porządkowy budynku.,41,addr:housenumber (rzadko),nr domu,nr_budynku / w polu adres
+10,Lokalizacja,nr_lokalu,Numer lokalu,tekst,dowolny,F,"Numer lokalu, jeśli dotyczy.",,–,–,nr_lokalu / –
+11,Lokalizacja,kod_pocztowy,Kod pocztowy,tekst,NN-NNN,Z,Kod pocztowy adresu.,05-120,addr:postcode,kod pocztowy,kod_pocztowy / –
+12,Lokalizacja,miejscowosc,Miejscowość,tekst,nazwa zgodna z TERYT SIMC,O,Nazwa miejscowości.,Legionowo,addr:city (rzadko),miasto,miejscowosc / w polu adres
+13,Lokalizacja,kod_terc,Kod TERC gminy,tekst,"7 cyfr (TERYT TERC, z rodzajem gminy)",Z,"Kod gminy z rejestru TERYT. Pozwala agregować dane według gmin, powiatów i województw.",1408011,–,– (dzielnica tekstem),kod_terc (6 cyfr) / –
+14,Lokalizacja,kod_simc,Kod SIMC miejscowości,tekst,"7 cyfr (TERYT SIMC), z zerami wiodącymi",Z,Identyfikator miejscowości z rejestru TERYT.,0920806,–,–,kod_simc / –
+15,Lokalizacja,kod_ulic,Kod ULIC ulicy,tekst,5 cyfr (TERYT ULIC),F,Identyfikator ulicy z rejestru TERYT.,12345 (przykład),–,–,– / –
+16,Lokalizacja,wewnatrz_budynku,Wewnątrz budynku,słownik,słownik: tak_nie,O,Czy urządzenie jest wewnątrz budynku (tak) czy na zewnątrz (nie).,tak,indoor,wewnątrz/na zewnątrz,– / –
+17,Lokalizacja,kondygnacja,Kondygnacja,liczba całkowita,"0 = parter, -1 = piwnica",F,"Kondygnacja, na której jest urządzenie.",0,level,piętro,– / –
+18,Lokalizacja,opis_lokalizacji,Opis miejsca,tekst,"krótki opis, max ok. 200 znaków",Z,Jak znaleźć urządzenie na miejscu.,"Hol główny, na ścianie przy recepcji",defibrillator:location(:pl),opis lokalizacji,– / lokalizacja
+19,Lokalizacja,zdjecie_url,Zdjęcie (adres URL),URL,"https://…, plik JPG/PNG; nie osadzać base64",F,Adres zdjęcia pokazującego urządzenie i jego otoczenie.,https://example.gov.pl/aed/1408011-0001.jpg,image,zdjęcie (base64),– / –
+20,Lokalizacja,zdjecie_licencja,Licencja zdjęcia,tekst,"np. CC BY 4.0, CC0",F,"Licencja, na której udostępniono zdjęcie (wymagana, gdy podano zdjecie_url).",CC0 1.0,image:license,–,– / –
+21,Dostępność,dostepnosc,Kto ma dostęp,słownik,słownik: dostepnosc,O,Kto może skorzystać z urządzenia.,publiczny,access,publiczny/prywatny,– / –
+22,Dostępność,dostepny_24_7,Dostępny całą dobę,słownik,słownik: tak_nie_ograniczony,O,"Czy urządzenie jest dostępne przez całą dobę, 7 dni w tygodniu.",nie,opening_hours=24/7,dostępność 24/7 (Tak/Nie/Ograniczona),– / –
+23,Dostępność,godziny_dostepnosci,Godziny dostępności,tekst,składnia OSM opening_hours,Z,"Godziny, w których urządzenie jest dostępne. Wymagane, gdy dostepny_24_7 = nie lub ograniczony.","Mo-Fr 07:30-15:30; Sa-Su,PH off",opening_hours,godziny (wolny tekst),– / –
+24,Dostępność,zabezpieczenie,Zabezpieczenie urządzenia,słownik,słownik: zabezpieczenie,Z,Czy i jak urządzenie jest zamknięte. Kodów ani haseł do szafki nie publikuje się.,szafka_otwarta,–,–,– / –
+25,Dostępność,instrukcja_dostepu,Jak uzyskać dostęp,tekst,"krótki opis, bez kodów i haseł",F,"Informacja, co zrobić, gdy urządzenie jest zamknięte lub w strefie z ograniczonym wejściem.","Klucz w portierni, czynnej całą dobę",description,–,– / –
+26,Dostępność,dostepnosc_wozek,Dostęp dla osób na wózku,słownik,słownik: tak_nie_ograniczony,F,Czy osoba na wózku dotrze do urządzenia bez barier.,tak,wheelchair,–,– / –
+27,Urządzenie,producent,Producent,tekst,dowolny,F,Producent urządzenia.,Philips,manufacturer,producent (wolny tekst),– / –
+28,Urządzenie,model,Model,tekst,dowolny,F,Model urządzenia.,HeartStart FRx,model,–,– / –
+29,Urządzenie,tryb_pediatryczny,Elektrody lub tryb dziecięcy,słownik,słownik: tak_nie,F,Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.,tak,–,–,– / –
+30,Stan i aktualność,status,Status urządzenia,słownik,słownik: status,O,Aktualny stan urządzenia według ostatniej wiedzy dysponenta.,sprawny,–,status zgłoszenia (inne znaczenie),– / –
+31,Stan i aktualność,data_weryfikacji,Data ostatniej weryfikacji,data,ISO 8601: RRRR-MM-DD,O,"Data, w której ktoś na miejscu potwierdził obecność, dostępność i sprawność urządzenia.",2026-11-15,check_date,data ostatniej weryfikacji,– / –
+32,Stan i aktualność,data_przegladu,Data ostatniego przeglądu,data,ISO 8601: RRRR-MM-DD,F,Data ostatniego przeglądu technicznego.,2026-03-01,–,–,– / –
+33,Stan i aktualność,data_waznosci_elektrod,Ważność elektrod,data,ISO 8601: RRRR-MM-DD,F,Data ważności elektrod.,2028-05-31,–,–,– / –
+34,Stan i aktualność,data_waznosci_baterii,Ważność baterii,data,ISO 8601: RRRR-MM-DD,F,Data ważności baterii.,2029-01-31,–,–,– / –
+35,Dysponent,dysponent_nazwa,Dysponent urządzenia,tekst,pełna nazwa instytucji lub firmy,O,Instytucja odpowiedzialna za urządzenie (właściciel lub zarządca).,Urząd Miasta Legionowo,operator,–,– / –
+36,Dysponent,dysponent_typ,Typ dysponenta,słownik,słownik: dysponent_typ,Z,Kategoria dysponenta.,jst,operator:type (rzadko),–,– / –
+37,Dysponent,dysponent_regon,REGON dysponenta,tekst,9 lub 14 cyfr,F,REGON instytucji. Ułatwia jednoznaczne powiązanie urządzeń z dysponentem.,000000000 (przykład),–,–,– / –
+38,Dysponent,telefon_kontaktowy,Telefon kontaktowy,tekst,+48 NNN NNN NNN; wyłącznie numer służbowy,Z,"Służbowy numer w sprawie urządzenia (np. portiernia, ochrona). Nie podaje się danych osobowych.",+48 22 000 00 00 (przykład),phone / emergency:phone,–,– / –
+39,Dysponent,email_kontaktowy,E-mail kontaktowy,tekst,"adres funkcyjny, np. aed@…",F,"Służbowy adres funkcyjny, pod który można zgłosić problem z urządzeniem. Nie imienny.",aed@example.gov.pl,email,–,– / –
+40,Metadane rekordu,zrodlo_danych,Źródło danych,słownik,słownik: zrodlo_danych,O,Skąd pochodzi rekord.,dysponent,source,–,– / –
+41,Metadane rekordu,data_aktualizacji,Data aktualizacji rekordu,data i czas,ISO 8601: RRRR-MM-DDTGG:MM:SS+01:00,O,Moment ostatniej zmiany rekordu (dowolnego pola).,2026-11-21T12:00:00+01:00,@osm_version (pośrednio),–,– / –
+42,Metadane rekordu,uwagi,Uwagi,tekst,dowolny,F,Dodatkowe informacje.,,note / description,–,– / –

@@ -1,0 +1,41 @@
+slownik,kod,znaczenie
+tak_nie,tak,Tak
+tak_nie,nie,Nie
+tak_nie_ograniczony,tak,Tak
+tak_nie_ograniczony,nie,Nie
+tak_nie_ograniczony,ograniczony,Częściowo / z ograniczeniami
+cecha_ulicy,ulica,ul.
+cecha_ulicy,aleja,al.
+cecha_ulicy,plac,pl.
+cecha_ulicy,skwer,skwer
+cecha_ulicy,rondo,rondo
+cecha_ulicy,osiedle,os.
+cecha_ulicy,bulwar,bulw.
+cecha_ulicy,inne,inna cecha wg TERYT
+dostepnosc,publiczny,Dostępny dla każdego (OSM: access=yes)
+dostepnosc,klienci,Dla klientów lub odwiedzających obiekt w godzinach otwarcia (OSM: access=customers)
+dostepnosc,na_prosbe,Po zgłoszeniu się do obsługi lub ochrony (OSM: access=permit)
+dostepnosc,prywatny,Tylko dla pracowników lub mieszkańców (OSM: access=private)
+zabezpieczenie,brak,Urządzenie bez szafki
+zabezpieczenie,szafka_otwarta,Szafka otwierana bez klucza (może mieć alarm)
+zabezpieczenie,szafka_kod,Szafka zamknięta na kod (kod podaje dyspozytor 112 lub obsługa)
+zabezpieczenie,szafka_klucz,Szafka lub pomieszczenie zamknięte na klucz
+status,sprawny,Urządzenie dostępne i sprawne
+status,tymczasowo_niedostepny,"Czasowo niedostępne (serwis, remont, użycie)"
+status,niesprawny,Zgłoszona usterka
+status,wycofany,Urządzenie usunięte; rekord zostaje dla historii
+dysponent_typ,administracja_rzadowa,Administracja rządowa
+dysponent_typ,jst,Jednostka samorządu terytorialnego
+dysponent_typ,ochrona_zdrowia,Podmiot leczniczy
+dysponent_typ,edukacja,Szkoła lub uczelnia
+dysponent_typ,sluzby,"Służby (PSP, OSP, Policja)"
+dysponent_typ,transport,"Transport (dworzec, pojazd, lotnisko)"
+dysponent_typ,firma,Przedsiębiorstwo
+dysponent_typ,ngo,Organizacja pozarządowa
+dysponent_typ,wyznaniowy,Związek wyznaniowy
+dysponent_typ,inne,Inne
+zrodlo_danych,dysponent,Dane podane przez dysponenta urządzenia
+zrodlo_danych,jst,Ewidencja jednostki samorządu
+zrodlo_danych,osm,OpenStreetMap (licencja ODbL)
+zrodlo_danych,zgloszenie_zweryfikowane,Zgłoszenie obywatela potwierdzone przez dysponenta
+zrodlo_danych,inne,Inne źródło
