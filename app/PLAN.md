@@ -26,7 +26,7 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | Geokodowanie | adres bez współrzędnych: **geokoder GUGiK UUG** (decyzja 22.11; bez klucza, `https://services.gugik.gov.pl/uug/?request=GetAddress&address=…&srid=4326`) z cache, uzupełnia TERC/SIMC/ULIC i kod pocztowy; przy wielu wynikach zawężamy kodem pocztowym lub gminą; oznaczenie dokładności i ostrzeżenie; >200 adresów bez współrzędnych → ostrzeżenie „dodaj współrzędne” | Nominatim jako zapas, gdy GUGiK nie znajdzie adresu |
 | Limity | plik do 10 MB i **20 000 wierszy** (decyzja 22.11), powyżej komunikat z prośbą o kontakt (Wojtek) | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
-| Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
+| Hosting | docker compose na dowolnej maszynie z **tunelem Cloudflare** (`cloudflared` jako serwis w compose); tunel nazwany na domenie Wojtka; ruch przychodzący wyłącznie przez tunel, wychodzący bez ograniczeń; bazowy URL w `BASE_URL` (Wojtek) | — |
 
 Poza zakresem: AED w pojazdach, zgłoszenia od obywateli, aplikacja mobilna natywna.
 
@@ -51,7 +51,16 @@ FastAPI (Python 3.12) ─── serwuje też zbudowany front (jeden kontener apl
 PostgreSQL (docker)
 ```
 
-`docker-compose.yml`: `db` (postgres:16) + `app` (FastAPI + statyczny front). Jedno `docker compose up` dla jury.
+`docker-compose.yml`: `db` (postgres:16) + `app` (FastAPI + statyczny front) + `tunnel` (cloudflared). Jedno `docker compose up` dla jury.
+
+### Wdrożenie i sieć (decyzja Wojtka, 22.11)
+
+- Wszystkie nasze komponenty działają jako kontenery w jednym `docker-compose.yml`. Usługi zewnętrzne (geokoder) są wyjątkiem.
+- **Ruch przychodzący z internetu trafia do aplikacji wyłącznie przez tunel Cloudflare.** Żaden serwis nie publikuje portów (`ports:`) w głównym pliku compose. Ruch wychodzący nie jest ograniczony: kontenery mają zwykły dostęp do internetu (geokoder, pobieranie źródeł), bo to demo (Wojtek).
+- Jedna domyślna sieć compose: `tunnel` → `http://app:8000`, `app` → `db`.
+- `tunnel` (`cloudflare/cloudflared`, wersja przypięta, nie `latest`): tunel nazwany z `TUNNEL_TOKEN` w `.env` (nie commitujemy). Wojtek podpina tunel do swojej domeny i przypisuje mu adres (public hostname → `http://app:8000`) w dashboardzie Cloudflare.
+- `BASE_URL` = adres przypisany tunelowi w Cloudflare, więc linki `/d/{slug}.csv` są stałe.
+- Lokalna praca bez tunelu: opcjonalny `docker-compose.dev.yml` publikuje `app` wyłącznie na `127.0.0.1:8000`.
 
 ### Model danych (PostgreSQL)
 
@@ -105,7 +114,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 | # | Zadanie | Ścieżka | Zależy od | Szac. |
 |---|---|---|---|---|
-| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
+| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app + tunnel cloudflared, konfiguracja wg §3 „Wdrożenie i sieć”, bez publikowanych portów), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
 | A1 | `schema.py`: wczytanie zakres-pol.csv i slowniki.csv | A: rdzeń | T0 | 20 min |
 | A2 | `parsers.py`: CSV (sniff separatora, kodowania cp1250/utf-8, BOM, cudzysłowy) i XLSX (openpyxl) | A | T0 | 45 min |
 | A3 | `mapping.py` + `synonimy.py`: propozycja mapowania z pewnością | A | A1, A2 | 1,5 h |
@@ -137,7 +146,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 7. Definicja „gotowe” dla MVP
 
-- `docker compose up` uruchamia całość. Na czystej maszynie test: wgranie plików **Krosno, Legionowo, Przemyśl i Warszawa 19115** → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5 (Wojtek).
+- `docker compose up` uruchamia całość razem z tunelem, a aplikacja odpowiada pod adresem tunelu i nie jest dostępna przez żaden opublikowany port. Na czystej maszynie test: wgranie plików **Krosno, Legionowo, Przemyśl i Warszawa 19115** → mapowanie bez poprawek → URL → CSV zgodny ze schematem v0.5 (Wojtek).
 - Plik Marki: aplikacja wykrywa problem (jedna kolumna i zamienione współrzędne) i albo go naprawia, albo jasno komunikuje.
 - Raport D2 pokazuje trafność mapowania na wszystkich fixturach.
 - Front działa przy 320 px i przechodzi axe bez błędów krytycznych.
@@ -149,4 +158,3 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
 - Slajdy: kto robi i na kiedy potrzebna działająca wersja (decyduje Grzan).
 - Zrzuty z panelu dostawcy dane.gov.pl: prośba do organizatora. Do czasu odpowiedzi instrukcja w kroku 3 bazuje na kodzie portalu i Przewodniku v1.23.
-- Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.
