@@ -7,7 +7,7 @@
   ],
   "url": "szablon-aed.csv",
   "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
-  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.3 (szkic, 2026-11-21)",
+  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.4 (szkic, 2026-11-21): pełna ewidencja (wszystkie pola)",
   "dialect": {
     "encoding": "utf-8",
     "delimiter": ",",
@@ -52,6 +52,16 @@
         "dc:description": "Długość geograficzna miejsca urządzenia.",
         "datatype": "decimal",
         "required": true
+      },
+      {
+        "name": "dokladnosc_polozenia",
+        "titles": "Dokładność położenia",
+        "dc:description": "Jak ustalono współrzędne. Pozwala odróżnić punkt zmierzony przy urządzeniu od punktu adresowego budynku, który na dużym terenie może być daleko od AED.",
+        "datatype": {
+          "base": "string",
+          "format": "pomiar_przy_urzadzeniu|wskazanie_na_mapie|punkt_adresowy|przyblizone"
+        },
+        "required": false
       },
       {
         "name": "nazwa_obiektu",
@@ -367,7 +377,7 @@
         "dc:description": "Skąd pochodzi rekord.",
         "datatype": {
           "base": "string",
-          "format": "dysponent|jst|osm|zgloszenie_zweryfikowane|inne"
+          "format": "dysponent|jst|osm|zgloszenie_obywatela|inne"
         },
         "required": true
       },
@@ -377,6 +387,23 @@
         "dc:description": "Moment ostatniej zmiany rekordu (dowolnego pola).",
         "datatype": "dateTime",
         "required": true
+      },
+      {
+        "name": "status_walidacji",
+        "titles": "Status weryfikacji rekordu",
+        "dc:description": "Czy podmiot prowadzący zbiór zbiorczy potwierdził rekord. Nadaje go ten podmiot. Dysponent publikujący własne dane może pole pominąć.",
+        "datatype": {
+          "base": "string",
+          "format": "oczekuje|zweryfikowany|zakwestionowany"
+        },
+        "required": false
+      },
+      {
+        "name": "duplikat_id_aed",
+        "titles": "Duplikat rekordu",
+        "dc:description": "Wypełnia się, gdy rekord opisuje to samo urządzenie co inny rekord w zbiorze (np. z innego źródła). Wartością jest id_aed rekordu głównego. Puste pole oznacza brak duplikatu.",
+        "datatype": "string",
+        "required": false
       },
       {
         "name": "uwagi",

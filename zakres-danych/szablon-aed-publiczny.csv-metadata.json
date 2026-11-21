@@ -1,0 +1,376 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/csvw",
+    {
+      "@language": "pl"
+    }
+  ],
+  "url": "szablon-aed-publiczny.csv",
+  "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
+  "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja 0.4 (szkic, 2026-11-21): plik publikowany na dane.gov.pl (tylko pola publiczne)",
+  "dialect": {
+    "encoding": "utf-8",
+    "delimiter": ",",
+    "header": true,
+    "lineTerminators": [
+      "\r\n"
+    ]
+  },
+  "tableSchema": {
+    "columns": [
+      {
+        "name": "id_aed",
+        "titles": "Identyfikator AED",
+        "dc:description": "Stały identyfikator urządzenia nadany przez dostawcę danych. Nie zmienia się przy aktualizacji rekordu.",
+        "datatype": "string",
+        "required": true
+      },
+      {
+        "name": "id_zrodlowe",
+        "titles": "Identyfikator w systemie źródłowym",
+        "dc:description": "Identyfikator rekordu w systemie, z którego pochodzi (np. ewidencja miasta).",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "osm_id",
+        "titles": "Identyfikator OpenStreetMap",
+        "dc:description": "Powiązanie z obiektem w OSM, ułatwia deduplikację z mapą OSM, Geoportalem i mojeIKP. UWAGA: wg wytycznych OSMF powiązanie kluczem może sprawić, że zbiór uzna się za pochodny od OSM (ODbL). Pole do potwierdzenia z MC.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "szerokosc_geograficzna",
+        "titles": "Szerokość geograficzna",
+        "dc:description": "Szerokość geograficzna miejsca, w którym fizycznie znajduje się urządzenie (nie środek budynku).",
+        "datatype": "decimal",
+        "required": true
+      },
+      {
+        "name": "dlugosc_geograficzna",
+        "titles": "Długość geograficzna",
+        "dc:description": "Długość geograficzna miejsca urządzenia.",
+        "datatype": "decimal",
+        "required": true
+      },
+      {
+        "name": "dokladnosc_polozenia",
+        "titles": "Dokładność położenia",
+        "dc:description": "Jak ustalono współrzędne. Pozwala odróżnić punkt zmierzony przy urządzeniu od punktu adresowego budynku, który na dużym terenie może być daleko od AED.",
+        "datatype": {
+          "base": "string",
+          "format": "pomiar_przy_urzadzeniu|wskazanie_na_mapie|punkt_adresowy|przyblizone"
+        },
+        "required": false
+      },
+      {
+        "name": "nazwa_obiektu",
+        "titles": "Nazwa obiektu",
+        "dc:description": "Nazwa budynku lub miejsca, w którym jest AED, zrozumiała dla osoby z zewnątrz.",
+        "datatype": "string",
+        "required": true
+      },
+      {
+        "name": "cecha_ulicy",
+        "titles": "Cecha ulicy",
+        "dc:description": "Rodzaj ulicy zgodnie z rejestrem TERYT.",
+        "datatype": {
+          "base": "string",
+          "format": "ulica|aleja|plac|skwer|rondo|osiedle|bulwar|inne"
+        },
+        "required": false
+      },
+      {
+        "name": "nazwa_ulicy",
+        "titles": "Nazwa ulicy",
+        "dc:description": "Słowna nazwa ulicy (lub placu, alei). Gdy obiekt nie ma ulicy, wpisuje się nazwę miejscowości.",
+        "datatype": "string",
+        "required": true
+      },
+      {
+        "name": "nr_budynku",
+        "titles": "Numer budynku",
+        "dc:description": "Numer porządkowy budynku.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "nr_lokalu",
+        "titles": "Numer lokalu",
+        "dc:description": "Numer lokalu, jeśli dotyczy.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "kod_pocztowy",
+        "titles": "Kod pocztowy",
+        "dc:description": "Kod pocztowy adresu.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "miejscowosc",
+        "titles": "Miejscowość",
+        "dc:description": "Nazwa miejscowości.",
+        "datatype": "string",
+        "required": true
+      },
+      {
+        "name": "kod_terc",
+        "titles": "Kod TERC gminy",
+        "dc:description": "Kod gminy z rejestru TERYT. Pozwala agregować dane według gmin, powiatów i województw.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "kod_simc",
+        "titles": "Kod SIMC miejscowości",
+        "dc:description": "Identyfikator miejscowości z rejestru TERYT.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "kod_ulic",
+        "titles": "Kod ULIC ulicy",
+        "dc:description": "Identyfikator ulicy z rejestru TERYT.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "adres_uniwersalny",
+        "titles": "Adres uniwersalny",
+        "dc:description": "Zakodowany adres punktu adresowego do automatycznego odczytu. Standard techniczny portalu go zaleca.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "wewnatrz_budynku",
+        "titles": "Wewnątrz budynku",
+        "dc:description": "Czy urządzenie jest wewnątrz budynku (true) czy na zewnątrz (false).",
+        "datatype": "boolean",
+        "required": true
+      },
+      {
+        "name": "kondygnacja",
+        "titles": "Kondygnacja",
+        "dc:description": "Kondygnacja, na której jest urządzenie.",
+        "datatype": "integer",
+        "required": false
+      },
+      {
+        "name": "opis_lokalizacji",
+        "titles": "Opis miejsca",
+        "dc:description": "Jak znaleźć urządzenie na miejscu.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "zdjecie_url",
+        "titles": "Zdjęcie (adres URL)",
+        "dc:description": "Adres zdjęcia pokazującego urządzenie i jego otoczenie.",
+        "datatype": "anyURI",
+        "required": false
+      },
+      {
+        "name": "zdjecie_licencja",
+        "titles": "Licencja zdjęcia",
+        "dc:description": "Licencja, na której udostępniono zdjęcie (wymagana, gdy podano zdjecie_url).",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "dostepnosc",
+        "titles": "Kto ma dostęp",
+        "dc:description": "Kto może skorzystać z urządzenia.",
+        "datatype": {
+          "base": "string",
+          "format": "publiczny|klienci|na_prosbe|prywatny"
+        },
+        "required": true
+      },
+      {
+        "name": "dostepny_24_7",
+        "titles": "Dostępny całą dobę",
+        "dc:description": "Czy urządzenie jest dostępne przez całą dobę, 7 dni w tygodniu.",
+        "datatype": {
+          "base": "string",
+          "format": "tak|nie|ograniczony"
+        },
+        "required": true
+      },
+      {
+        "name": "godziny_dostepnosci",
+        "titles": "Godziny dostępności",
+        "dc:description": "Godziny, w których urządzenie jest dostępne. Wymagane, gdy dostepny_24_7 = nie lub ograniczony.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "zabezpieczenie",
+        "titles": "Zabezpieczenie urządzenia",
+        "dc:description": "Czy i jak urządzenie jest zamknięte. Kodów ani haseł do szafki nie publikuje się.",
+        "datatype": {
+          "base": "string",
+          "format": "brak|szafka_otwarta|szafka_kod|szafka_klucz"
+        },
+        "required": false
+      },
+      {
+        "name": "instrukcja_dostepu",
+        "titles": "Jak uzyskać dostęp",
+        "dc:description": "Informacja, co zrobić, gdy urządzenie jest zamknięte lub w strefie z ograniczonym wejściem.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "dostepnosc_wozek",
+        "titles": "Dostęp dla osób na wózku",
+        "dc:description": "Czy osoba na wózku dotrze do urządzenia bez barier.",
+        "datatype": {
+          "base": "string",
+          "format": "tak|nie|ograniczony"
+        },
+        "required": false
+      },
+      {
+        "name": "aed_mobilny",
+        "titles": "Urządzenie mobilne",
+        "dc:description": "Czy urządzenie jest przenośne lub zamontowane w pojeździe (np. autobus, tramwaj, radiowóz). Współrzędne wskazują wtedy miejsce bazowe.",
+        "datatype": "boolean",
+        "required": false
+      },
+      {
+        "name": "tryb_pediatryczny",
+        "titles": "Elektrody lub tryb dziecięcy",
+        "dc:description": "Czy urządzenie ma elektrody pediatryczne lub tryb dla dzieci.",
+        "datatype": "boolean",
+        "required": false
+      },
+      {
+        "name": "status",
+        "titles": "Status urządzenia",
+        "dc:description": "Aktualny stan urządzenia według ostatniej wiedzy dysponenta.",
+        "datatype": {
+          "base": "string",
+          "format": "sprawny|tymczasowo_niedostepny|niesprawny|wycofany|nieznany"
+        },
+        "required": true
+      },
+      {
+        "name": "data_weryfikacji",
+        "titles": "Data ostatniej weryfikacji",
+        "dc:description": "Data, w której ktoś na miejscu potwierdził obecność, dostępność i sprawność urządzenia.",
+        "datatype": "date",
+        "required": true
+      },
+      {
+        "name": "data_instalacji",
+        "titles": "Data instalacji",
+        "dc:description": "Data zainstalowania urządzenia w obecnym miejscu.",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "data_przegladu",
+        "titles": "Data ostatniego przeglądu",
+        "dc:description": "Data ostatniego przeglądu technicznego.",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "data_waznosci_elektrod_doroslych",
+        "titles": "Ważność elektrod dla dorosłych",
+        "dc:description": "Data ważności elektrod dla dorosłych.",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "data_waznosci_elektrod_pediatrycznych",
+        "titles": "Ważność elektrod pediatrycznych",
+        "dc:description": "Data ważności elektrod pediatrycznych (jeśli są).",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "data_waznosci_baterii",
+        "titles": "Ważność baterii",
+        "dc:description": "Data ważności baterii.",
+        "datatype": "date",
+        "required": false
+      },
+      {
+        "name": "przeglad_co_miesiecy",
+        "titles": "Częstotliwość przeglądów",
+        "dc:description": "Jak często urządzenie przechodzi przegląd techniczny.",
+        "datatype": "integer",
+        "required": false
+      },
+      {
+        "name": "dysponent_nazwa",
+        "titles": "Dysponent urządzenia",
+        "dc:description": "Instytucja odpowiedzialna za urządzenie (właściciel lub zarządca).",
+        "datatype": "string",
+        "required": true
+      },
+      {
+        "name": "dysponent_typ",
+        "titles": "Typ dysponenta",
+        "dc:description": "Kategoria dysponenta.",
+        "datatype": {
+          "base": "string",
+          "format": "administracja_rzadowa|jst|ochrona_zdrowia|edukacja|sluzby|transport|firma|ngo|wyznaniowy|inne"
+        },
+        "required": false
+      },
+      {
+        "name": "dysponent_regon",
+        "titles": "REGON dysponenta",
+        "dc:description": "REGON instytucji. Ułatwia jednoznaczne powiązanie urządzeń z dysponentem.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "zrodlo_danych",
+        "titles": "Źródło danych",
+        "dc:description": "Skąd pochodzi rekord.",
+        "datatype": {
+          "base": "string",
+          "format": "dysponent|jst|osm|zgloszenie_obywatela|inne"
+        },
+        "required": true
+      },
+      {
+        "name": "data_aktualizacji",
+        "titles": "Data aktualizacji rekordu",
+        "dc:description": "Moment ostatniej zmiany rekordu (dowolnego pola).",
+        "datatype": "dateTime",
+        "required": true
+      },
+      {
+        "name": "status_walidacji",
+        "titles": "Status weryfikacji rekordu",
+        "dc:description": "Czy podmiot prowadzący zbiór zbiorczy potwierdził rekord. Nadaje go ten podmiot. Dysponent publikujący własne dane może pole pominąć.",
+        "datatype": {
+          "base": "string",
+          "format": "oczekuje|zweryfikowany|zakwestionowany"
+        },
+        "required": false
+      },
+      {
+        "name": "duplikat_id_aed",
+        "titles": "Duplikat rekordu",
+        "dc:description": "Wypełnia się, gdy rekord opisuje to samo urządzenie co inny rekord w zbiorze (np. z innego źródła). Wartością jest id_aed rekordu głównego. Puste pole oznacza brak duplikatu.",
+        "datatype": "string",
+        "required": false
+      },
+      {
+        "name": "uwagi",
+        "titles": "Uwagi",
+        "dc:description": "Dodatkowe informacje.",
+        "datatype": "string",
+        "required": false
+      }
+    ],
+    "primaryKey": "id_aed"
+  }
+}

@@ -5,21 +5,23 @@ Uruchomienie:  python3 generuj_zakres.py   (wymaga: pip install openpyxl)
 Wynik (w katalogu skryptu):
   - wzorcowy-zakres-danych-AED.xlsx  (deliverable dla jury)
   - zakres-pol.csv                    (opis pól, wersja maszynowa)
-  - szablon-aed.csv                   (pusty szablon z nagłówkami do wypełnienia)
+  - szablon-aed.csv                   (pusty szablon pełnej ewidencji: wszystkie pola)
+  - szablon-aed-publiczny.csv         (pusty szablon pliku na dane.gov.pl: tylko pola publiczne)
   - slowniki.csv                      (wartości słownikowe)
-  - szablon-aed.csv-metadata.json     (opis CSVW dla poziomu 4 gwiazdek)
+  - szablon-aed.csv-metadata.json, szablon-aed-publiczny.csv-metadata.json  (opisy CSVW dla poziomu 4 gwiazdek)
 """
 import csv
 import json
 from pathlib import Path
 
 from openpyxl import Workbook
+from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 OUT = Path(__file__).resolve().parent
-WERSJA = "0.3 (szkic, 2026-11-21)"
+WERSJA = "0.4 (szkic, 2026-11-21)"
 
 # Wymagalność: O = obowiązkowe, Z = zalecane, F = fakultatywne
 # (grupa, pole, nazwa wyświetlana, typ, format/słownik, wymagalność, opis, przykład, OSM, Warszawa 19115, Legionowo / Krosno)
@@ -37,6 +39,8 @@ POLA = [
      "Szerokość geograficzna miejsca, w którym fizycznie znajduje się urządzenie (nie środek budynku).", "52.395198", "geometria (lat)", "geometria [[lon,lat]]", "szerokosc_geograficzna / lat"),
     ("Lokalizacja", "dlugosc_geograficzna", "Długość geograficzna", "liczba dziesiętna", "WGS84 (EPSG:4326), min. 6 miejsc po przecinku, kropka dziesiętna", "O",
      "Długość geograficzna miejsca urządzenia.", "20.931382", "geometria (lon)", "geometria [[lon,lat]]", "dlugosc_geograficzna / lon"),
+    ("Lokalizacja", "dokladnosc_polozenia", "Dokładność położenia", "słownik", "słownik: dokladnosc_polozenia", "Z",
+     "Jak ustalono współrzędne. Pozwala odróżnić punkt zmierzony przy urządzeniu od punktu adresowego budynku, który na dużym terenie może być daleko od AED.", "pomiar_przy_urzadzeniu", "–", "–", "– / –"),
     ("Lokalizacja", "nazwa_obiektu", "Nazwa obiektu", "tekst", "dowolny", "O",
      "Nazwa budynku lub miejsca, w którym jest AED, zrozumiała dla osoby z zewnątrz.", "Urząd Miasta Legionowo", "name (rzadko)", "nazwa obiektu", "nazwa / nazwa"),
     ("Lokalizacja", "cecha_ulicy", "Cecha ulicy", "słownik", "słownik: cecha_ulicy (wg TERYT ULIC)", "Z",
@@ -133,6 +137,10 @@ POLA = [
      "Skąd pochodzi rekord.", "dysponent", "source", "–", "– / –"),
     ("Metadane rekordu", "data_aktualizacji", "Data aktualizacji rekordu", "data i czas", "ISO 8601: RRRR-MM-DDTGG:MM:SS (czas lokalny)", "O",
      "Moment ostatniej zmiany rekordu (dowolnego pola).", "2026-11-21T12:00:00", "@osm_version (pośrednio)", "–", "– / –"),
+    ("Metadane rekordu", "status_walidacji", "Status weryfikacji rekordu", "słownik", "słownik: status_walidacji", "F",
+     "Czy podmiot prowadzący zbiór zbiorczy potwierdził rekord. Nadaje go ten podmiot. Dysponent publikujący własne dane może pole pominąć.", "zweryfikowany", "–", "status zgłoszenia", "– / –"),
+    ("Metadane rekordu", "duplikat_id_aed", "Duplikat rekordu", "tekst", "id_aed rekordu głównego", "F",
+     "Wypełnia się, gdy rekord opisuje to samo urządzenie co inny rekord w zbiorze (np. z innego źródła). Wartością jest id_aed rekordu głównego. Puste pole oznacza brak duplikatu.", "PRZYKLAD-0002", "–", "–", "– / –"),
     ("Metadane rekordu", "uwagi", "Uwagi", "tekst", "dowolny", "F",
      "Dodatkowe informacje.", "", "note / description", "–", "– / –"),
 ]
@@ -162,8 +170,28 @@ SLOWNIKI = {
     "zrodlo_danych": [("dysponent", "Dane podane przez dysponenta urządzenia"),
                       ("jst", "Ewidencja jednostki samorządu"),
                       ("osm", "OpenStreetMap (licencja ODbL)"),
-                      ("zgloszenie_zweryfikowane", "Zgłoszenie obywatela potwierdzone przez dysponenta"),
+                      ("zgloszenie_obywatela", "Zgłoszenie obywatela (czy jest potwierdzone, mówi pole status_walidacji)"),
                       ("inne", "Inne źródło")],
+    "dokladnosc_polozenia": [("pomiar_przy_urzadzeniu", "Współrzędne zmierzone przy samym urządzeniu (GPS, pomiar geodezyjny)"),
+                             ("wskazanie_na_mapie", "Punkt wskazany ręcznie na mapie lub ortofotomapie"),
+                             ("punkt_adresowy", "Współrzędne punktu adresowego budynku (geokodowanie adresu)"),
+                             ("przyblizone", "Położenie przybliżone, np. środek miejscowości")],
+    "status_walidacji": [("oczekuje", "Rekord czeka na weryfikację"),
+                         ("zweryfikowany", "Rekord potwierdzony przez podmiot prowadzący zbiór"),
+                         ("zakwestionowany", "Zgłoszono niezgodność ze stanem faktycznym; sprawa w wyjaśnianiu")],
+}
+
+# Pola, które zostają w ewidencji i nie trafiają do zbioru publikowanego na dane.gov.pl.
+# Wzór: Géo'DAE (Francja) – open data pomija 13 z 45 pól schematu: tel1, tel2, site_email, expt_tel1, expt_tel2,
+# expt_email, fab_rais, fab_siren, modele, num_serie, id_euro, mnt_rais, mnt_siren (sprawdzone na geodae.csv z 21.11.2026).
+_URZADZENIE = ("Potrzebne przy komunikatach bezpieczeństwa i wycofaniach urządzeń, a nie do znalezienia i użycia AED.")
+NIEPUBLICZNE = {
+    "producent": _URZADZENIE + " Géo'DAE nie publikuje (fab_rais, fab_siren). Warszawa 19115 i OSM producenta publikują.",
+    "model": _URZADZENIE + " Géo'DAE nie publikuje (modele).",
+    "numer_seryjny": _URZADZENIE + " Géo'DAE nie publikuje (num_serie, id_euro).",
+    "serwisant_nazwa": "Dotyczy umowy serwisowej dysponenta, a użytkownikowi AED nie jest potrzebne. Géo'DAE nie publikuje (mnt_rais, mnt_siren).",
+    "telefon_kontaktowy": "Służy do wyjaśniania zgłoszeń i weryfikacji danych. W nagłym wypadku dzwoni się pod 112. Géo'DAE nie publikuje telefonów (tel1, tel2, expt_tel1, expt_tel2).",
+    "email_kontaktowy": "Służy do wyjaśniania zgłoszeń i weryfikacji danych. Géo'DAE nie publikuje adresów e-mail (site_email, expt_email).",
 }
 
 ZASADY = [
@@ -182,6 +210,8 @@ ZASADY = [
     ("Poziom otwartości", "CSV zgodny z tymi zasadami odpowiada poziomowi 3★. Poziom 4★ wymaga dodatkowo opisu wg W3C „Model for Tabular Data and Metadata on the Web” (CSVW); dołączony plik szablon-aed.csv-metadata.json zawiera taki opis."),
     ("Dane osobowe", "Bez imion, nazwisk i prywatnych numerów. Kontakt tylko służbowy lub funkcyjny. Kodów do szafek nie publikuje się."),
     ("Wymagalność", "O = obowiązkowe, Z = zalecane, F = fakultatywne."),
+    ("Dwa poziomy danych", "Zakres opisuje pełną ewidencję urządzenia. Do pliku publikowanego na dane.gov.pl trafiają tylko pola z wartością „tak” w kolumnie „Publiczne” (szablon szablon-aed-publiczny.csv). Pola niepubliczne (kontakt, producent, model, numer seryjny, serwisant) zostają w ewidencji dysponenta lub podmiotu prowadzącego rejestr. Tak samo działa Géo'DAE: 13 z 45 pól schematu nie trafia do otwartych danych. W arkuszu „Szablon” nagłówki pól niepublicznych są szare i mają komentarz."),
+    ("Pola techniczne", "status_walidacji, duplikat_id_aed i dokladnosc_polozenia służą łączeniu danych z wielu źródeł w jeden zbiór. Odpowiadają kolumnom c_etat_valid, c_doublon i c_xy_precis, które Géo'DAE dodaje w otwartych danych."),
     ("Zgodność z OSM", "Kolumna „Odpowiednik OSM” wskazuje tag emergency=defibrillator, co pozwala łączyć zbiór z OpenStreetMap."),
 ]
 
@@ -201,7 +231,7 @@ METADANE = [
     ("zbiór", "Oznaczenie danych o wysokiej wartości", "§ 6 ust. 1 pkt 11", "dostawca, o ile dotyczy", "tak", "nie (do potwierdzenia z MC)"),
     ("zbiór", "Identyfikator, informacja o dostawcy, data udostępnienia, data aktualizacji", "§ 6 ust. 3", "portal (automatycznie)", "–", "–"),
     ("zasób", "Tytuł", "§ 7 ust. 1 pkt 1", "dostawca", "tak", "Defibrylatory AED – <nazwa dysponenta> – CSV"),
-    ("zasób", "Opis", "§ 7 ust. 1 pkt 2", "dostawca", "tak", "Plik CSV zgodny z wzorcowym zakresem danych AED, wersja " + WERSJA.split(" ")[0] + "."),
+    ("zasób", "Opis", "§ 7 ust. 1 pkt 2", "dostawca", "tak", "Plik CSV z polami publicznymi wzorcowego zakresu danych AED, wersja " + WERSJA.split(" ")[0] + "."),
     ("zasób", "Dane na dzień", "§ 7 ust. 1 pkt 3", "dostawca", "tak", "data stanu danych, RRRR-MM-DD"),
     ("zasób", "Znaki umowne", "§ 7 ust. 1 pkt 4", "dostawca, o ile dotyczy", "nie", "nie dotyczy"),
     ("zasób", "Lokalizacja danych (podział terytorialny)", "§ 7 ust. 1 pkt 5", "dostawca, o ile dotyczy", "nie", "obszar dysponenta (gmina, powiat, województwo lub cała Polska)"),
@@ -227,6 +257,7 @@ PRZYKLADY = [
      "data_przegladu": "2026-03-01", "data_waznosci_elektrod_doroslych": "2028-05-31", "data_waznosci_elektrod_pediatrycznych": "2027-09-30", "aed_mobilny": "false", "data_waznosci_baterii": "2029-01-31",
      "dysponent_nazwa": "Szkoła Podstawowa nr 999 (przykład)", "dysponent_typ": "edukacja",
      "telefon_kontaktowy": "+48 22 000 00 00", "email_kontaktowy": "aed@example.edu.pl", "zrodlo_danych": "dysponent",
+     "dokladnosc_polozenia": "pomiar_przy_urzadzeniu", "numer_seryjny": "X12345678", "serwisant_nazwa": "Przykładowy Serwis AED sp. z o.o.",
      "data_aktualizacji": "2026-11-21T12:00:00", "uwagi": "REKORD FIKCYJNY – przykład wypełnienia"},
     {"id_aed": "PRZYKLAD-0003", "osm_id": "node/1", "szerokosc_geograficzna": "50.061947", "dlugosc_geograficzna": "19.936856",
      "nazwa_obiektu": "Przystanek przykładowy", "nazwa_ulicy": "Przykładowa", "miejscowosc": "Kraków",
@@ -234,8 +265,16 @@ PRZYKLADY = [
      "dostepny_24_7": "tak", "godziny_dostepnosci": "24/7", "zabezpieczenie": "szafka_kod",
      "instrukcja_dostepu": "Kod do szafki podaje dyspozytor pod numerem 112", "status": "tymczasowo_niedostepny",
      "data_weryfikacji": "2026-10-02", "dysponent_nazwa": "Przykładowy Zarząd Transportu", "dysponent_typ": "transport",
-     "zrodlo_danych": "zgloszenie_zweryfikowane", "data_aktualizacji": "2026-11-20T08:30:00",
+     "zrodlo_danych": "zgloszenie_obywatela", "status_walidacji": "zweryfikowany", "dokladnosc_polozenia": "wskazanie_na_mapie",
+     "data_aktualizacji": "2026-11-20T08:30:00",
      "uwagi": "REKORD FIKCYJNY – urządzenie zabrane do serwisu po użyciu"},
+    {"id_aed": "PRZYKLAD-0004", "szerokosc_geograficzna": "52.229810", "dlugosc_geograficzna": "21.012050",
+     "dokladnosc_polozenia": "punkt_adresowy", "nazwa_obiektu": "SP 999 (przykład)", "nazwa_ulicy": "Przykładowa",
+     "nr_budynku": "1", "miejscowosc": "Warszawa", "wewnatrz_budynku": "true", "dostepnosc": "na_prosbe", "dostepny_24_7": "nie",
+     "status": "sprawny", "data_weryfikacji": "2025-04-10", "dysponent_nazwa": "Szkoła Podstawowa nr 999 (przykład)",
+     "zrodlo_danych": "jst", "status_walidacji": "zweryfikowany", "duplikat_id_aed": "PRZYKLAD-0002",
+     "data_aktualizacji": "2025-04-10T09:00:00",
+     "uwagi": "REKORD FIKCYJNY – to samo urządzenie co PRZYKLAD-0002, z ewidencji miasta; współrzędne punktu adresowego"},
 ]
 
 # Odpowiedniki w schemacie Géo'DAE (Francja), wg zadania/06-mc-misja-aed/WZORCE-ZAGRANICZNE.md
@@ -252,16 +291,22 @@ GEODAE = {
     "przeglad_co_miesiecy": "freq_mnt", "serwisant_nazwa": "mnt_rais", "dysponent_nazwa": "expt_rais",
     "dysponent_regon": "expt_siren (odpowiednik REGON)", "telefon_kontaktowy": "tel1 / expt_tel1",
     "email_kontaktowy": "expt_email",
+    "dokladnosc_polozenia": "c_xy_precis (kolumna open data, poza schematem)",
+    "zrodlo_danych": "c_application_provenance (kolumna open data, poza schematem)",
+    "data_aktualizacji": "c_maj_don (kolumna open data, poza schematem)",
+    "status_walidacji": "c_etat_valid (kolumna open data, poza schematem)",
+    "duplikat_id_aed": "c_doublon, wartość t/f (kolumna open data, poza schematem)",
 }
 
 NAGLOWKI_POL = ["Lp.", "Grupa", "Nazwa techniczna pola", "Nazwa wyświetlana", "Typ danych", "Format / słownik",
-                "Wymagalność", "Opis", "Przykład", "Odpowiednik OSM (emergency=defibrillator)",
+                "Wymagalność", "Publiczne (dane.gov.pl)", "Dlaczego niepubliczne", "Opis", "Przykład", "Odpowiednik OSM (emergency=defibrillator)",
                 "Odpowiednik: Warszawa 19115", "Odpowiednik: Legionowo / Krosno (dane.gov.pl)", "Odpowiednik Géo'DAE (Francja)"]
 
 HEAD_FONT = Font(bold=True, color="FFFFFF")
 HEAD_FILL = PatternFill("solid", fgColor="1F4E79")
 REQ_FILL = {"O": PatternFill("solid", fgColor="F8D7DA"), "Z": PatternFill("solid", fgColor="FFF3CD"),
             "F": PatternFill("solid", fgColor="E2EFDA")}
+PRIV_FILL = PatternFill("solid", fgColor="D9D9D9")
 WRAP = Alignment(wrap_text=True, vertical="top")
 
 
@@ -285,7 +330,7 @@ def main():
     ws["A1"].font = Font(bold=True, size=14)
     ws.append(["Wersja", WERSJA])
     ws.append(["Cel", "Jednolity zakres danych, w którym każdy dysponent AED udostępnia dane na portalu dane.gov.pl, tak by dało się je połączyć w jeden ogólnopolski zbiór."])
-    ws.append(["Arkusze", "Zakres danych – opis pól; Słowniki – dozwolone wartości; Szablon – nagłówki do wypełnienia; Przykłady – przykładowe rekordy; Metadane zbioru – elementy metadanych wg § 6–7 rozporządzenia o portalu danych z proponowanymi wartościami."])
+    ws.append(["Arkusze", "Zakres danych – opis pól, z oznaczeniem, które trafiają do zbioru publicznego; Słowniki – dozwolone wartości; Szablon – nagłówki pełnej ewidencji do wypełnienia; Przykłady – przykładowe rekordy; Metadane zbioru – elementy metadanych wg § 6–7 rozporządzenia o portalu danych z proponowanymi wartościami."])
     ws.append([])
     ws.append(["Zasady"])
     ws.cell(row=ws.max_row, column=1).font = Font(bold=True)
@@ -299,13 +344,17 @@ def main():
             c.alignment = WRAP
 
     ws = wb.create_sheet("Zakres danych")
-    naglowek(ws, NAGLOWKI_POL, [5, 16, 26, 26, 14, 34, 12, 50, 26, 26, 24, 26, 26])
+    naglowek(ws, NAGLOWKI_POL, [5, 16, 26, 26, 14, 34, 12, 12, 40, 50, 26, 26, 24, 26, 26])
     for i, p in enumerate(POLA, 1):
         g, pole, nazwa, typ, fmt, wym, opis, przyk, osm, waw, leg = p
-        ws.append([i, g, pole, nazwa, typ, fmt, wym, opis, przyk, osm, waw, leg, GEODAE.get(pole, "–")])
+        publ = pole not in NIEPUBLICZNE
+        ws.append([i, g, pole, nazwa, typ, fmt, wym, "tak" if publ else "nie", NIEPUBLICZNE.get(pole, ""),
+                   opis, przyk, osm, waw, leg, GEODAE.get(pole, "–")])
         for c in ws[ws.max_row]:
             c.alignment = WRAP
         ws.cell(row=ws.max_row, column=7).fill = REQ_FILL[wym]
+        if not publ:
+            ws.cell(row=ws.max_row, column=8).fill = PRIV_FILL
         ws.cell(row=ws.max_row, column=3).font = Font(name="Consolas")
     ws.auto_filter.ref = ws.dimensions
 
@@ -323,8 +372,13 @@ def main():
     ws = wb.create_sheet("Szablon")
     naglowek(ws, nazwy, [22] * len(nazwy))
     for i, n in enumerate(nazwy, 1):
-        ws.cell(row=1, column=i).fill = REQ_FILL[wym[n]]
-        ws.cell(row=1, column=i).font = Font(bold=True)
+        c = ws.cell(row=1, column=i)
+        c.fill = REQ_FILL[wym[n]]
+        c.font = Font(bold=True)
+        if n in NIEPUBLICZNE:
+            c.fill = PRIV_FILL
+            c.font = Font(bold=True, italic=True, color="595959")
+            c.comment = Comment(f"Pole niepubliczne (wymagalność {wym[n]}): zostaje w ewidencji, nie trafia do pliku na dane.gov.pl.", "zakres AED")
     # listy rozwijane dla pól słownikowych i logicznych
     typy = {p[1]: p[3] for p in POLA}
     for i, n in enumerate(nazwy, 1):
@@ -353,11 +407,15 @@ def main():
 
     with open(OUT / "zakres-pol.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["lp", "grupa", "pole", "nazwa", "typ", "format", "wymagalnosc", "opis", "przyklad", "osm", "warszawa_19115", "legionowo_krosno", "geodae_fr"])
+        w.writerow(["lp", "grupa", "pole", "nazwa", "typ", "format", "wymagalnosc", "publiczne", "dlaczego_niepubliczne",
+                    "opis", "przyklad", "osm", "warszawa_19115", "legionowo_krosno", "geodae_fr"])
         for i, p in enumerate(POLA, 1):
-            w.writerow([i, *p, GEODAE.get(p[1], "–")])
-    with open(OUT / "szablon-aed.csv", "w", newline="", encoding="utf-8") as f:
-        csv.writer(f).writerow(nazwy)
+            w.writerow([i, *p[:6], "false" if p[1] in NIEPUBLICZNE else "true", NIEPUBLICZNE.get(p[1], ""),
+                        *p[6:], GEODAE.get(p[1], "–")])
+    publiczne = [p for p in POLA if p[1] not in NIEPUBLICZNE]
+    for plik, pola in (("szablon-aed.csv", POLA), ("szablon-aed-publiczny.csv", publiczne)):
+        with open(OUT / plik, "w", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow([p[1] for p in pola])
     with open(OUT / "slowniki.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["slownik", "kod", "znaczenie"])
@@ -368,27 +426,29 @@ def main():
     # Opis CSVW (W3C Tabular Data and Metadata) dla poziomu 4 gwiazdek
     xsd = {"tekst": "string", "słownik": "string", "URL": "anyURI", "liczba dziesiętna": "decimal",
            "liczba całkowita": "integer", "logiczny": "boolean", "data": "date", "data i czas": "dateTime"}
-    csvw = {
-        "@context": ["http://www.w3.org/ns/csvw", {"@language": "pl"}],
-        "url": "szablon-aed.csv",
-        "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
-        "dc:description": "Opis kolumn wzorcowego zbioru AED, wersja " + WERSJA,
-        "dialect": {"encoding": "utf-8", "delimiter": ",", "header": True, "lineTerminators": ["\r\n"]},
-        "tableSchema": {
-            "columns": [{"name": p[1], "titles": p[2], "dc:description": p[6],
-                         "datatype": xsd[p[3]], "required": p[5] == "O"} for p in POLA],
-            "primaryKey": "id_aed",
-        },
-    }
-    for c in csvw["tableSchema"]["columns"]:
-        if c["name"] in slownik_pola:
-            c["datatype"] = {"base": "string", "format": "|".join(k for k, _ in SLOWNIKI[slownik_pola[c["name"]]])}
-    with open(OUT / "szablon-aed.csv-metadata.json", "w", encoding="utf-8") as f:
-        json.dump(csvw, f, ensure_ascii=False, indent=2)
+    for plik, pola, opis in (("szablon-aed.csv", POLA, "pełna ewidencja (wszystkie pola)"),
+                             ("szablon-aed-publiczny.csv", publiczne, "plik publikowany na dane.gov.pl (tylko pola publiczne)")):
+        csvw = {
+            "@context": ["http://www.w3.org/ns/csvw", {"@language": "pl"}],
+            "url": plik,
+            "dc:title": "Wzorcowy zakres danych o defibrylatorach AED",
+            "dc:description": f"Opis kolumn wzorcowego zbioru AED, wersja {WERSJA}: {opis}",
+            "dialect": {"encoding": "utf-8", "delimiter": ",", "header": True, "lineTerminators": ["\r\n"]},
+            "tableSchema": {
+                "columns": [{"name": p[1], "titles": p[2], "dc:description": p[6],
+                             "datatype": xsd[p[3]], "required": p[5] == "O"} for p in pola],
+                "primaryKey": "id_aed",
+            },
+        }
+        for c in csvw["tableSchema"]["columns"]:
+            if c["name"] in slownik_pola:
+                c["datatype"] = {"base": "string", "format": "|".join(k for k, _ in SLOWNIKI[slownik_pola[c["name"]]])}
+        with open(OUT / f"{plik}-metadata.json", "w", encoding="utf-8") as f:
+            json.dump(csvw, f, ensure_ascii=False, indent=2)
 
     print(f"{xlsx.name}: {len(POLA)} pól ({sum(1 for p in POLA if p[5]=='O')} O, "
           f"{sum(1 for p in POLA if p[5]=='Z')} Z, {sum(1 for p in POLA if p[5]=='F')} F), "
-          f"{len(SLOWNIKI)} słowników, {len(PRZYKLADY)} przykłady")
+          f"{len(SLOWNIKI)} słowników, {len(PRZYKLADY)} przykłady; publicznych {len(publiczne)}, niepublicznych {len(NIEPUBLICZNE)}")
 
 
 if __name__ == "__main__":

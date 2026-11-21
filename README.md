@@ -19,7 +19,7 @@ Wybór zadania i ranking trudności: [zadania/WNIOSKI.md](zadania/WNIOSKI.md)
 - [Stan prawny i źródła państwowe](zadania/06-mc-misja-aed/STAN-PRAWNY.md)
 - [Pytania do organizatora](zadania/06-mc-misja-aed/PYTANIA-DO-ORGANIZATORA.md)
 - [Checklista wymagań](zadania/06-mc-misja-aed/CHECKLISTA.md)
-- [Wzorcowy zakres danych AED (xlsx, CSV, CSVW)](zakres-danych/), szkic v0.3
+- [Wzorcowy zakres danych AED (xlsx, CSV, CSVW)](zakres-danych/), szkic v0.4
 
 ## Opis
 

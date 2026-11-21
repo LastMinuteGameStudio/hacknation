@@ -36,5 +36,12 @@ dysponent_typ,inne,Inne
 zrodlo_danych,dysponent,Dane podane przez dysponenta urządzenia
 zrodlo_danych,jst,Ewidencja jednostki samorządu
 zrodlo_danych,osm,OpenStreetMap (licencja ODbL)
-zrodlo_danych,zgloszenie_zweryfikowane,Zgłoszenie obywatela potwierdzone przez dysponenta
+zrodlo_danych,zgloszenie_obywatela,"Zgłoszenie obywatela (czy jest potwierdzone, mówi pole status_walidacji)"
 zrodlo_danych,inne,Inne źródło
+dokladnosc_polozenia,pomiar_przy_urzadzeniu,"Współrzędne zmierzone przy samym urządzeniu (GPS, pomiar geodezyjny)"
+dokladnosc_polozenia,wskazanie_na_mapie,Punkt wskazany ręcznie na mapie lub ortofotomapie
+dokladnosc_polozenia,punkt_adresowy,Współrzędne punktu adresowego budynku (geokodowanie adresu)
+dokladnosc_polozenia,przyblizone,"Położenie przybliżone, np. środek miejscowości"
+status_walidacji,oczekuje,Rekord czeka na weryfikację
+status_walidacji,zweryfikowany,Rekord potwierdzony przez podmiot prowadzący zbiór
+status_walidacji,zakwestionowany,Zgłoszono niezgodność ze stanem faktycznym; sprawa w wyjaśnianiu
