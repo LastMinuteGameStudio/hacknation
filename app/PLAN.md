@@ -19,13 +19,13 @@ Rdzeń to dane i ich jakość, frontu ma być mało (mentor: „budujecie bazę 
 | | MVP (do 11:00) | Jeśli starczy czasu (kolejność) |
 |---|---|---|
 | Wejście | CSV i XLSX z **mapowaniem kolumn**; nasz szablon CSV/XLSX przechodzi bez mapowania | 1) **synchronizacja z URL źródła** (demo: Przemyśl); 2) ODS, GeoJSON; 3) formularz ręczny |
-| Edycja | brak, poprawka przez ponowne wgranie pliku (nowy zbiór) | logowanie dostawcy i edycja (URL bez zmian) |
+| Edycja | **prywatny link edycji z tokenem**: ponowne wgranie pliku pod ten sam slug, publiczny URL bez zmian (Wojtek) | logowanie dostawcy i edycja rekordów |
 | Wynik | URL z CSV (pola publiczne), JSON, metadane CSVW | — |
 | Agregat | URL zbiorczego CSV | mapa |
 | Mapowanie | heurystyka + słownik synonimów + analiza zawartości kolumn | model AI jako wsparcie, jeśli testy pokażą, że heurystyka nie wystarcza |
 | Geokodowanie | adres bez współrzędnych: Nominatim z cache, oznaczenie dokładności, ostrzeżenie | — |
 | Wygląd | neutralny, kolory w zmiennych CSS (czekamy na identyfikację kampanii) | podmiana na kolory i logo akcji |
-| Hosting | lokalnie (docker-compose) | serwer znajomego, publiczny adres |
+| Hosting | lokalnie (docker-compose), demo lokalne; bazowy URL w zmiennej środowiskowej `BASE_URL` (Wojtek: serwera na razie nie ma) | publiczny serwer, jeśli się pojawi |
 
 Poza zakresem: AED w pojazdach, zgłoszenia od obywateli, aplikacja mobilna natywna.
 
@@ -54,7 +54,7 @@ PostgreSQL (docker)
 
 ### Model danych (PostgreSQL)
 
-- `zbior`: id, `slug` (losowy, w URL), `dysponent_nazwa`, `dysponent_typ`, `telefon_kontaktowy`, `email_kontaktowy` (niepubliczne), `utworzono`, `zaktualizowano`, `zrodlo_url` (synchronizacja, później), `status`.
+- `zbior`: id, `slug` (losowy, w URL), `dysponent_nazwa`, `dysponent_typ`, `telefon_kontaktowy`, `email_kontaktowy` (niepubliczne), `token_edycji_hash` (niepubliczny), `utworzono`, `zaktualizowano`, `zrodlo_url` (synchronizacja, później), `status`.
 - `rekord`: id, `zbior_id`, `id_aed`, `dane` JSONB (pola v0.5), `ostrzezenia` JSONB.
 - `import`: id, `zbior_id` (null do zatwierdzenia), `plik_nazwa`, `kolumny` JSONB, `podglad` JSONB, `mapowanie` JSONB, `wynik_walidacji` JSONB, `utworzono`.
 - `geokod_cache`: `zapytanie` PK, `lat`, `lon`, `dokladnosc`, `utworzono`.
@@ -66,7 +66,9 @@ PostgreSQL (docker)
 | GET | `/api/schemat` | pola v0.5 (nazwa, opis, typ, wymagalność, publiczne) i słowniki, dla frontu i formularza mapowania |
 | POST | `/api/importy` | multipart: plik → `{import_id, kolumny[], podglad[10 wierszy], mapowanie_propozycja{kolumna: pole, pewnosc}}` |
 | POST | `/api/importy/{id}/walidacja` | body: `{mapowanie, dysponent{nazwa, typ, telefon?, email?}}` → `{liczba_rekordow, bledy[], ostrzezenia[], podglad_wyniku[]}` (geokodowanie tutaj) |
-| POST | `/api/importy/{id}/publikacja` | tylko gdy brak błędów → `{slug, url_csv, url_json, url_metadane}` |
+| POST | `/api/importy/{id}/publikacja` | tylko gdy brak błędów → `{slug, url_csv, url_json, url_metadane, url_edycji}`; gdy import powstał z linku edycji, podmienia rekordy w istniejącym zbiorze (ten sam slug) |
+| GET | `/api/zbiory/{slug}?token=…` | dane dysponenta i mapowanie dla linku edycji; zły token → 403 |
+| POST | `/api/zbiory/{slug}/importy?token=…` | jak `/api/importy`, ale import jest powiązany z istniejącym zbiorem |
 | GET | `/d/{slug}.csv` | CSV z polami publicznymi (RFC 4180, UTF-8, CRLF) |
 | GET | `/d/{slug}.json` | to samo w JSON |
 | GET | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`) |
@@ -81,7 +83,7 @@ Przed wgraniem pliku strona startowa krótko tłumaczy, po co to jest, pozwala p
 
 1. **Dysponent:** nazwa instytucji, typ (słownik `dysponent_typ`), opcjonalnie telefon i e-mail. Kontaktu nie publikujemy, co jest wprost napisane przy polu.
 2. **Dane:** wgranie CSV/XLSX → tabela mapowania (kolumna z pliku → pole v0.5, podpowiedź z oznaczeniem pewności, lista rozwijana) → „Sprawdź” → lista błędów i ostrzeżeń pogrupowana po polach, z numerami wierszy. Błędy blokują przejście dalej, ostrzeżenia nie.
-3. **Publikacja:** URL do skopiowania (przycisk „Kopiuj”), instrukcja krok po kroku dla dane.gov.pl („dodaj zasób → link → wklej URL → zaznacz Aktualizacja automatyczna, powtarzać co: dziennie”), linki do JSON i metadanych.
+3. **Publikacja:** URL do skopiowania (przycisk „Kopiuj”), prywatny link edycji z wyraźnym ostrzeżeniem „zachowaj, nie udostępniaj” (wejście przez ten link pomija krok 1 i zapisuje dane pod ten sam URL), instrukcja krok po kroku dla dane.gov.pl („dodaj zasób → link → wklej URL → zaznacz Aktualizacja automatyczna, powtarzać co: dziennie”), linki do JSON i metadanych.
 
 Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus, etykiety, komunikaty błędów powiązane z polami, cele dotyku min. 24 px), język polski.
 
@@ -93,7 +95,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 - Wykrywanie zamienionych lat/lon (przypadek Marek) i przecinka dziesiętnego.
 - Adres w jednym polu („ul. Jasna 5, 38-400 Krosno”) rozbijany na ulicę, numer, kod pocztowy i miejscowość. Gdy się nie uda, ostrzeżenie.
 - Godziny: „24h”, „całodobowo”, „24/7” → `dostepny_24_7 = tak`. Format OSM `opening_hours` → pola `godziny_pn`…`godziny_nd`. Wolny tekst, którego nie da się sparsować → ostrzeżenie i `uwagi`.
-- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: ostrzeżenie i data wgrania? **decyzja do testów**), `status` (gdy brak: `nieznany` + ostrzeżenie), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<nr>`).
+- Pola stałe dla całego pliku: `dysponent_*` z kroku 1, `zrodlo_danych`, `data_aktualizacji` = teraz, `data_weryfikacji` (gdy brak: data wgrania + ostrzeżenie, decyzja Wojtka), `status` (gdy brak: `nieznany` + ostrzeżenie, potwierdzone przez Wojtka), `licencja` stała: CC0 1.0 (Wojtek), `id_aed` (gdy brak: generowany `<kod_terc lub slug>-<nr>` + ostrzeżenie o niestabilności przy ponownym wgraniu).
 
 ## 6. Zadania i równoległość
 
@@ -101,12 +103,12 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 | # | Zadanie | Ścieżka | Zależy od | Szac. |
 |---|---|---|---|---|
-| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app), FastAPI „hello”, Vite + React, kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
+| T0 | Szkielet repo `app/`: struktura, docker-compose (db + app), FastAPI „hello”, Vite + React + TypeScript (własne CSS, bez biblioteki komponentów), kontrakt API jako typy (Pydantic + TS) | — | — | 45 min |
 | A1 | `schema.py`: wczytanie zakres-pol.csv i slowniki.csv | A: rdzeń | T0 | 20 min |
 | A2 | `parsers.py`: CSV (sniff separatora, kodowania cp1250/utf-8, BOM, cudzysłowy) i XLSX (openpyxl) | A | T0 | 45 min |
 | A3 | `mapping.py` + `synonimy.py`: propozycja mapowania z pewnością | A | A1, A2 | 1,5 h |
 | A4 | `normalize.py`: liczby, daty, bool, słowniki, godziny, geometria, adres w jednym polu, zamiana lat/lon | A | A1 | 2 h |
-| A5 | `validate.py`: O/Z/F, formaty, współrzędne w Polsce, duplikaty id i punktów w pliku | A | A1, A4 | 1 h |
+| A5 | `validate.py`: O/Z/F, formaty, współrzędne w Polsce; duplikat `id_aed` lub numeru seryjnego w pliku = błąd, bliskie współrzędne = ostrzeżenie | A | A1, A4 | 1 h |
 | A6 | `export.py`: CSV RFC 4180 (pola publiczne), JSON, CSVW | A | A1 | 45 min |
 | A7 | `geocode.py`: Nominatim z cache i limitem 1/s, `dokladnosc_polozenia` | A | A4 | 45 min |
 | B1 | Schemat bazy + migracja | B: API | T0 | 30 min |
@@ -129,7 +131,7 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 **Ścieżka krytyczna:** T0 → A2/A3/A4 → A5 → B2 → C3 → E1. Mapowanie i normalizacja (A3, A4) to najbardziej ryzykowna część i dlatego D1/D2 zaczynamy od razu, równolegle.
 
-**Jak zrównoleglić (propozycja):** najpierw T0 i kontrakt API jako jeden krok. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
+**Jak zrównoleglić (decyzja Wojtka):** każda ścieżka A, B, C, D ma osobną sesję Claude we własnym klonie. Najpierw T0 i kontrakt API jako jeden krok, robione przez jedną sesję; pozostałe czekają na T0 w main. Potem branch na ścieżkę (`app-a-rdzen`, `app-b-api`, `app-c-front`, `app-d-testy`), częste małe PR-y do main. Potem równolegle: (1) rdzeń A + testy D, (2) API B, (3) front C na mockach kontraktu. E na koniec.
 
 ## 7. Definicja „gotowe” dla MVP
 
@@ -141,7 +143,6 @@ Wymagania przekrojowe: responsywność (od 320 px), WCAG 2.2 AA (kontrast, fokus
 
 ## 8. Otwarte kwestie
 
-- Brak `data_weryfikacji` w pliku: przyjąć datę wgrania czy wymagać od dostawcy? (rozstrzygnąć przy testach)
-- Licencja zbioru wynikowego (CC0 albo CC BY 4.0) i ODbL dla danych z OSM w agregacie. Pytania są w PYTANIA-DO-ORGANIZATORA.md.
+- ODbL dla danych z OSM w agregacie (pytania w PYTANIA-DO-ORGANIZATORA.md). Licencja zbioru wynikowego rozstrzygnięta: stała CC0 1.0 (Wojtek).
 - Identyfikacja wizualna kampanii: czekamy (Grzan).
-- Hosting publiczny: jutro, serwer znajomego. Potrzebny adres domeny do konfiguracji bazowego URL.
+- Hosting: serwera na razie nie ma (Wojtek), demo lokalnie. Bazowy URL w `BASE_URL`.

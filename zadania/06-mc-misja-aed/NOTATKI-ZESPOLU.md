@@ -48,3 +48,20 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   - Podział pracy: różne agenty odpowiadają za różne części, żeby każdy miał jak najmniejszy i najtańszy kontekst. Maksymalne zrównoleglenie.
   - Front: Vite + React + TypeScript, własny CSS (bez biblioteki komponentów).
   - Hosting u znajomego: szczegóły jeszcze nieznane. Docker-compose ma mieć konfigurowalny bazowy URL (zmienna środowiskowa).
+- **Wojtek (podział pracy, 22.11):** Każda ścieżka z app/PLAN.md (A rdzeń, B API, C front, D testy) ma osobną sesję Claude we własnym klonie, a ludzie nadzorują sesje.
+- **Wojtek (front, 22.11):** Vite + React + TypeScript z własnym CSS, bez biblioteki komponentów. Kolory jako tokeny w zmiennych CSS, do podmiany na kolory kampanii.
+- **Wojtek (hosting, 22.11):** Serwera na razie nie ma, demo pokazujemy lokalnie (docker compose). Bazowy URL do linków /d/{slug}.csv ustawiamy zmienną środowiskową.
+- **Wojtek (T0 i merge, 22.11):** Jedna sesja robi T0 (szkielet app/ i kontrakt API), a pozostałe czekają, aż T0 trafi do main. Potem każda ścieżka pracuje na własnym branchu (app-a-rdzen, app-b-api, app-c-front, app-d-testy) i często merguje do main małymi PR-ami.
+- **Wojtek (data_weryfikacji, 22.11):** Gdy plik nie ma `data_weryfikacji`, wpisujemy datę wgrania i dodajemy ostrzeżenie z prośbą o realną datę przeglądu.
+- **Wojtek (id_aed, 22.11):** Gdy plik nie ma `id_aed`, generujemy `<kod_terc>-<numer>` (albo `<slug>-<numer>`, gdy brak TERC) i dodajemy ostrzeżenie, że przy ponownym wgraniu identyfikatory mogą się zmienić.
+- **Wojtek (status, 22.11):** Gdy plik nie ma `status`, wpisujemy `nieznany` i dodajemy ostrzeżenie.
+- **Wojtek (duplikaty w pliku, 22.11):** Powtórzone `id_aed` albo numer seryjny w jednym pliku to błąd, który blokuje publikację. Bardzo bliskie współrzędne dają tylko ostrzeżenie, bo w jednym budynku może być kilka AED.
+- **Wojtek (licencja, 22.11):** Zbiór wynikowy ma stałą licencję CC0 1.0. Dostawca jej nie wybiera.
+- **Wojtek (ponowne wgranie w MVP, 22.11):** Po publikacji dostawca dostaje drugi, prywatny link edycji z tokenem. Przez ten link wgrywa nowy plik pod ten sam slug, więc publiczny URL się nie zmienia, a portal z „Aktualizacją automatyczną” pobiera nową treść. Logowanie (S3) zostaje poza MVP.
+- **Grzan (zasady danych, 22.11 ok. 01:25):** data_weryfikacji: data wgrania + ostrzeżenie; brak id_aed: generujemy; brak statusu: `nieznany` + ostrzeżenie; duplikaty: błąd tylko przy tym samym id_aed albo numerze seryjnym, przy bliskich punktach ostrzeżenie; limity pliku: 10 MB i 20 000 wierszy (geokodowanie max ok. 200 adresów na plik). Do tego miejsca zgodnie z Wojtkiem.
+- **Grzan (licencja, 22.11):** Dostawca wybiera w kroku 1 CC0 1.0 albo CC BY 4.0, domyślnie CC0. Agregat ma CC BY 4.0 z kolumnami źródła i licencji przy każdym rekordzie. (Fakty: portal nie wymaga CC0, licencję ustawia dostawca w metadanych zbioru na dane.gov.pl. Wśród 500 najnowszych zbiorów 421 ma CC0, a 79 CC BY 4.0.)
+- **Grzan (ponowne wgranie w MVP, 22.11):** Nowy URL przy każdym wgraniu.
+- ⚠️ **SPÓR do rozstrzygnięcia (Grzan i Wojtek):**
+  1. **Licencja:** Wojtek ustalił stałą CC0, Grzan wybór CC0/CC BY 4.0 z domyślną CC0.
+  2. **Ponowne wgranie:** Wojtek ustalił prywatny link edycji z tokenem (ten sam URL), Grzan nowy URL przy każdym wgraniu.
+  Dopóki tego nie rozstrzygniecie, app/PLAN.md zawiera wersję Wojtka.

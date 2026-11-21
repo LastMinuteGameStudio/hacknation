@@ -30,11 +30,11 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 ## Decyzje techniczne (z sesji planowania, 22.11 ok. 00:45)
 
 - Backend: **FastAPI** (Python). Baza: **PostgreSQL w dockerze**. Front: lekki **React**, mało ekranów, **responsywny**, WCAG 2.2 AA.
-- Hosting: na razie lokalnie (docker-compose), „jutro” na publicznym serwerze znajomego.
+- Hosting: lokalnie (docker-compose). Serwera znajomego na razie nie ma (Wojtek, 22.11), demo pokazujemy lokalnie.
 - Wejście w MVP: **CSV i XLSX z mapowaniem kolumn** oraz nasz szablon. Jeśli starczy czasu: **synchronizacja z URL źródła** (demo: Przemyśl), potem formularz ręczny.
 - Mapowanie kolumn: **heurystyka + słownik synonimów**. Model AI tylko wtedy, gdy testy na realnych danych pokażą, że heurystyka nie wystarcza. **Testy na realnych plikach są ważne.**
 - Brak współrzędnych: **geokodowanie z potwierdzeniem** (Nominatim, oznaczenie dokładności, ostrzeżenie).
-- Edycja i logowanie: **nie w MVP**, ewentualnie później. Poprawka w MVP to ponowne wgranie pliku.
+- Edycja i logowanie: **nie w MVP**. Poprawka w MVP to ponowne wgranie pliku przez **prywatny link edycji** pod ten sam URL (Wojtek, 22.11), żeby „Aktualizacja automatyczna” na dane.gov.pl miała sens.
 - Agregat: **tylko URL zbiorczego CSV**, mapa jeśli starczy czasu.
 - Krok 1 kreatora: nazwa i typ dysponenta oraz opcjonalny kontakt służbowy (kontaktu nie publikujemy). Dostawcy nie weryfikujemy, bo robi to dane.gov.pl przy publikacji.
 - Wygląd: **czekamy na identyfikację kampanii**, kolory w zmiennych CSS.
@@ -42,10 +42,11 @@ Strona, na którą instytucja (gmina, urząd, OSP, szkoła, firma) wgrywa swój 
 
 ## Otwarte (do doszczegółowienia z zespołem)
 
-- Brak `data_weryfikacji` w pliku dostawcy: data wgrania czy wymóg?
-- Licencja zbioru wynikowego (CC0 czy CC BY 4.0) i ODbL dla danych z OSM w agregacie (pytanie do MC).
+- ~~Brak `data_weryfikacji`~~: data wgrania + ostrzeżenie (Wojtek, 22.11).
+- ~~Licencja zbioru wynikowego~~: stała CC0 1.0 (Wojtek, 22.11). Nadal otwarte: ODbL dla danych z OSM w agregacie (pytanie do MC).
+- ⚠️ **Spór Grzan / Wojtek** (NOTATKI-ZESPOLU.md): licencja (stała CC0 czy wybór CC0/CC BY) oraz ponowne wgranie (ten sam URL przez prywatny link czy nowy URL). Do czasu decyzji obowiązuje wersja z PLAN.md. Limity pliku: 10 MB i 20 000 wierszy (Grzan).
 - Rejestracja URL do importu XML i limity odświeżania (pytania do MC).
-- Kto robi którą ścieżkę z `app/PLAN.md` (T0, A–E).
+- ~~Kto robi którą ścieżkę~~: osobna sesja Claude na ścieżkę, T0 najpierw przez jedną sesję, branch na ścieżkę (Wojtek, 22.11). Nadal otwarte: które osoby nadzorują które sesje.
 - Identyfikacja wizualna i nazwa akcji (25% oceny), poza aplikacją.
 
 ## Jak pracować przy doszczegóławianiu
