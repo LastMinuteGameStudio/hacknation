@@ -42,3 +42,5 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   - Sytuacja idealna (poza minimum):
     - logowanie na naszej stronie, żeby modyfikować wgrane dane (URL bez zmian, aktualizuje się treść);
     - przyjmowanie danych w kilku formatach: co najmniej .csv i .xlsx, a do tego inne, w których urzędy i instytucje trzymają takie dane.
+- **Grzan (sytuacja idealna: synchronizacja ze źródłem zewnętrznym):** Platforma pozwala podpiąć zewnętrzne źródło, np. plik CSV na stronie urzędu, nawet źle sformatowany. Nasza strona cyklicznie pobiera go, automatycznie przekształca do naszego formatu i wystawia poprawione dane pod naszym URL.
+  - Fakt z researchu na przykładzie: Przemyśl udostępnia dane na żywo (przemysl.skycms.com.pl/open-data/…, CSV z `;` i geometrią jako JSON w komórce). Między 2024-11 a 21.11.2026 zmienił się w nim format geometrii z obiektu `{lat,long}` na tablicę `[lon,lat]`. Taki przypadek synchronizacja musi wykryć.
