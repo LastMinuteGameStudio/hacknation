@@ -44,3 +44,20 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
     - przyjmowanie danych w kilku formatach: co najmniej .csv i .xlsx, a do tego inne, w których urzędy i instytucje trzymają takie dane.
 - **Grzan (sytuacja idealna: synchronizacja ze źródłem zewnętrznym):** Platforma pozwala podpiąć zewnętrzne źródło, np. plik CSV na stronie urzędu, nawet źle sformatowany. Nasza strona cyklicznie pobiera go, automatycznie przekształca do naszego formatu i wystawia poprawione dane pod naszym URL.
   - Fakt z researchu na przykładzie: Przemyśl udostępnia dane na żywo (przemysl.skycms.com.pl/open-data/…, CSV z `;` i geometrią jako JSON w komórce). Między 2024-11 a 21.11.2026 zmienił się w nim format geometrii z obiektu `{lat,long}` na tablicę `[lon,lat]`. Taki przypadek synchronizacja musi wykryć.
+- **Wojtek (podział pracy, 22.11):** Każda ścieżka z app/PLAN.md (A rdzeń, B API, C front, D testy) ma osobną sesję Claude we własnym klonie, a ludzie nadzorują sesje.
+- **Wojtek (front, 22.11):** Vite + React + TypeScript z własnym CSS, bez biblioteki komponentów. Kolory jako tokeny w zmiennych CSS, do podmiany na kolory kampanii.
+- **Wojtek (hosting, 22.11):** Serwera na razie nie ma, demo pokazujemy lokalnie (docker compose). Bazowy URL do linków /d/{slug}.csv ustawiamy zmienną środowiskową.
+- **Wojtek (T0 i merge, 22.11):** Jedna sesja robi T0 (szkielet app/ i kontrakt API), a pozostałe czekają, aż T0 trafi do main. Potem każda ścieżka pracuje na własnym branchu (app-a-rdzen, app-b-api, app-c-front, app-d-testy) i często merguje do main małymi PR-ami.
+- **Wojtek (data_weryfikacji, 22.11):** Gdy plik nie ma `data_weryfikacji`, wpisujemy datę wgrania i dodajemy ostrzeżenie z prośbą o realną datę przeglądu.
+- **Wojtek (id_aed, 22.11):** Gdy plik nie ma `id_aed`, generujemy `<kod_terc>-<numer>` (albo `<slug>-<numer>`, gdy brak TERC) i dodajemy ostrzeżenie, że przy ponownym wgraniu identyfikatory mogą się zmienić.
+- **Wojtek (status, 22.11):** Gdy plik nie ma `status`, wpisujemy `nieznany` i dodajemy ostrzeżenie.
+- **Wojtek (duplikaty w pliku, 22.11):** Powtórzone `id_aed` albo numer seryjny w jednym pliku to błąd, który blokuje publikację. Bardzo bliskie współrzędne dają tylko ostrzeżenie, bo w jednym budynku może być kilka AED.
+- **Wojtek (licencja, 22.11):** Zbiór wynikowy ma stałą licencję CC0 1.0. Dostawca jej nie wybiera.
+- **Wojtek (ponowne wgranie w MVP, 22.11):** Po publikacji dostawca dostaje drugi, prywatny link edycji z tokenem. Przez ten link wgrywa nowy plik pod ten sam slug, więc publiczny URL się nie zmienia, a portal z „Aktualizacją automatyczną” pobiera nową treść. Logowanie (S3) zostaje poza MVP.
+- **Wojtek (agregat, 22.11):** Zbiorczy URL `/d/aed-polska.csv` zawiera cały agregat z `dane/wynik`, także dane z OSM. Licencja na razie nas nie interesuje. Wiemy, co wynika z ODbL, ale w prototypie używamy tych danych do prezentacji: duży zbiór pokazuje, że umiemy go zagregować i przetworzyć do wzorcowego formatu.
+- **Wojtek (geokodowanie, 22.11):** W prototypie Nominatim z cache w bazie, własnym User-Agentem i limitem 1 zapytanie/s. Gdy w pliku jest ponad ok. 200 adresów bez współrzędnych, pokazujemy ostrzeżenie z prośbą o dodanie współrzędnych. Docelowo (slajd) geokoder GUGiK.
+- **Wojtek (limity, 22.11):** Plik do 10 MB i 10 000 wierszy. Większy plik dostaje komunikat z prośbą o kontakt.
+- **Wojtek (fixtury, 22.11):** Bez ręcznych poprawek mapowania muszą przejść Krosno, Legionowo, Przemyśl i Warszawa 19115.
+- **Wojtek (testowy XLSX, 22.11):** Nie mamy realnego „urzędowego” XLSX. Sesja D przygotuje syntetyczne pliki (D1).
+- **Wojtek (zrzuty dane.gov.pl, 22.11):** Nikt z nas nie ma konta dostawcy ani kontaktu w MC, więc prosimy organizatora (PYTANIA-DO-ORGANIZATORA.md). Do czasu odpowiedzi instrukcja w kroku 3 opisuje kroki na podstawie kodu portalu i Przewodnika dla dostawców v1.23.
+- **Wojtek (otwarte, decyduje Grzan):** Kto robi slajdy i na kiedy potrzebuje działającej wersji. Kto robi kampanię (nazwa, hasło, logo, księga znaku) i kiedy front dostanie kolory.
