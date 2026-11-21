@@ -74,6 +74,10 @@ Odpowiedzi organizatora wpisywać pod pytaniem jako `> **Odp. (data, kto):** ...
 ### Licencje a przeniesienie praw (dopisała sesja hacknacja-3f)
 - ⭐ Czy wolno korzystać z danych OSM (ODbL, share-alike), skoro wynik ma przejść na MC na podstawie przeniesienia autorskich praw majątkowych? Zbiór pochodny z OSM musi zostać na ODbL, a tych praw nie możemy przenieść.
 
+### Warszawa i AED w pojazdach (dopisała sesja hacknacja, Grzan)
+- Mapa 19115 pobiera listę 708 AED z publicznego, nieudokumentowanego endpointu, który nie ma podanej licencji. Oficjalne API Otwartych danych Warszawy (CC BY) wymaga tokena. Czy w prototypie wolno korzystać z tego endpointu, czy tylko z API z tokenem?
+- Czy AED w pojazdach komunikacji miejskiej (np. Gdańsk: pole `aed` w bazie pojazdów + pozycje GPS na żywo) mieszczą się w zakresie zbioru, który MC chce mieć na dane.gov.pl, czy zbiór ma obejmować tylko stałe lokalizacje?
+
 ## Pytania NIE do organizatora: do ZOSP i HomerSafe (Pierwszy Ratownik)
 (dopisała sesja hacknacja-3f, która sprawdza to teraz)
 - Skąd pochodzi początkowa baza AED (ponad 8500)? Jak wygląda weryfikacja zgłoszeń? Jaka jest licencja danych i czy jest API?
