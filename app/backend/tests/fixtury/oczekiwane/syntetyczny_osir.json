@@ -19,12 +19,18 @@
       "_adres_pelny"
     ],
     "Współrzędne GPS": "_geometria",
-    "Uwagi": "opis_lokalizacji",
+    "Uwagi": [
+      "opis_lokalizacji",
+      "uwagi"
+    ],
     "Dostępny": "dostepny_24_7",
     "Godziny": "_godziny",
     "Piętro": "kondygnacja",
     "Kontakt": "telefon_kontaktowy",
-    "Uwagi (2)": "uwagi",
+    "Uwagi (2)": [
+      "uwagi",
+      null
+    ],
     "Data ostatniej kontroli": "data_weryfikacji",
     "Dla dzieci": "tryb_pediatryczny"
   },
