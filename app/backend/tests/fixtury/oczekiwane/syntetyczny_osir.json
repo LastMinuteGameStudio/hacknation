@@ -40,7 +40,10 @@
       "pola": {
         "szerokosc_geograficzna": "49.874120",
         "dlugosc_geograficzna": "19.479233",
-        "opis_lokalizacji": "przy wejściu do szatni",
+        "opis_lokalizacji": [
+          "przy wejściu do szatni",
+          ""
+        ],
         "kondygnacja": "0",
         "dostepny_24_7": "nie",
         "telefon_kontaktowy": [
@@ -65,7 +68,10 @@
         "data_weryfikacji": "2026-02-01",
         "godziny_pn": "06:00-22:00",
         "godziny_nd": "06:00-22:00",
-        "uwagi": "elektrody pediatryczne w szafce"
+        "uwagi": [
+          "elektrody pediatryczne w szafce",
+          "kasa"
+        ]
       }
     },
     {

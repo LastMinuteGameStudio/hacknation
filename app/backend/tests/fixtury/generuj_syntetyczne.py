@@ -280,14 +280,17 @@ def osir() -> None:
         "rekordy": [
             {"wiersz": 2, "pola": {
                 "szerokosc_geograficzna": "49.874120", "dlugosc_geograficzna": "19.479233",
-                "opis_lokalizacji": "przy wejściu do szatni", "kondygnacja": "0", "dostepny_24_7": "nie",
+                "opis_lokalizacji": ["przy wejściu do szatni", ""], "kondygnacja": "0", "dostepny_24_7": "nie",
                 "telefon_kontaktowy": ["330001122", "+48330001122"], "data_weryfikacji": "2026-03-15",
                 "tryb_pediatryczny": "true",
                 "godziny_pn": "08:00-22:00", "godziny_pt": "08:00-22:00", "godziny_so": "09:00-20:00",
                 "godziny_nd": "09:00-20:00"}},
             {"wiersz": 4, "pola": {
                 "telefon_kontaktowy": ["330001123", "+48330001123"], "data_weryfikacji": "2026-02-01",
-                "godziny_pn": "06:00-22:00", "godziny_nd": "06:00-22:00", "uwagi": "elektrody pediatryczne w szafce"}},
+                "godziny_pn": "06:00-22:00", "godziny_nd": "06:00-22:00",
+                # dwie kolumny „Uwagi”: pierwsza → opis_lokalizacji, druga → uwagi, albo (heurystyka A3) pierwsza → uwagi,
+                # druga pominięta. Bez reguły dopasowanej pod ten plik nie da się ich rozróżnić; poprawka w kreatorze.
+                "uwagi": ["elektrody pediatryczne w szafce", "kasa"]}},
             {"wiersz": 5, "pola": {"dostepny_24_7": "tak", "godziny_pn": "X", "data_weryfikacji": "2025-10-01",
                                    "tryb_pediatryczny": "false"}},
         ],

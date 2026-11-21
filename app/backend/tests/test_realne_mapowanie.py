@@ -1,7 +1,7 @@
 """D2: jakość mapowania na realnych plikach (oczekiwania: tests/fixtury/oczekiwane/*.json).
 
 Decyzja zespołu: Krosno, Legionowo, Przemyśl (oba pliki) i Warszawa 19115 → 100% bez ręcznych poprawek.
-Marki (uszkodzony) → naprawiony albo jasno zgłoszony. Syntetyczne XLSX → cel, nie wymóg (xfail, nie blokują).
+Marki (uszkodzony) → naprawiony albo jasno zgłoszony. Syntetyczne XLSX → 100% od A2/A3 z 8aa5731, pilnujemy regresji.
 Brak implementacji w rdzeniu (NotImplementedError) → xfail, żeby testy mogły być na main przed ścieżką A.
 """
 
@@ -65,7 +65,6 @@ def test_marki_naprawione_albo_zgloszone(exp):
         assert o.procent == 100.0, _opis(o)
 
 
-@pytest.mark.xfail(strict=False, reason="syntetyczne XLSX: cel dla heurystyki, nie wymóg MVP")
 @pytest.mark.parametrize("exp", SYNTETYCZNE, ids=_ids(SYNTETYCZNE))
 def test_syntetyczne_mapowanie(exp):
     t, o = _mapuj(exp)
