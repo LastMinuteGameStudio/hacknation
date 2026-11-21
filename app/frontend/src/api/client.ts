@@ -1,11 +1,23 @@
 import type {
   BladApi,
+  Dysponent,
+  Mapowanie,
   ImportOut,
   PublikacjaOut,
   SchematOut,
   WalidacjaIn,
   WalidacjaOut,
 } from "./types";
+
+/** GET /api/zbiory/{slug}?token=… (KONTRAKT.md, „Edycja przez prywatny link”). Brak w types.ts, więc typ lokalnie. */
+export interface ZbiorOut {
+  slug: string;
+  dysponent: Dysponent;
+  utworzono: string;
+  zaktualizowano: string;
+  liczba_rekordow: number;
+  mapowanie: Mapowanie;
+}
 
 export class ApiError extends Error {
   constructor(public status: number, public blad: BladApi) {
@@ -29,6 +41,9 @@ async function json<T>(res: Response): Promise<T> {
 
 export const api = {
   schemat: () => fetch("/api/schemat").then((r) => json<SchematOut>(r)),
+
+  zbior: (slug: string, token: string) =>
+    fetch(`/api/zbiory/${encodeURIComponent(slug)}?token=${encodeURIComponent(token)}`).then((r) => json<ZbiorOut>(r)),
 
   wgrajPlik: (plik: File, arkusz?: string, edycja?: { slug: string; token: string }) => {
     const fd = new FormData();
