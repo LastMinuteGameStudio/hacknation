@@ -1,0 +1,3092 @@
+{
+  "title": "Katalog źródeł danych o lokalizacjach AED w Polsce",
+  "generated": "2026-11-21",
+  "method": "Each source fetched live on the 'checked' date; row_count, schema (with fill rate 'filled' = non-empty/total) and sample_rows computed from the downloaded file. Fields prefixed '_' are derived from geometry/structure, not source columns.",
+  "summary": {
+    "datasets_profiled": 32,
+    "with_coordinates": 19,
+    "total_rows_all_sources_incl_duplicates": 24282
+  },
+  "datasets": [
+    {
+      "id": "osm-openaedmap-pl",
+      "name": "OpenAEDMap – AED w Polsce z OpenStreetMap (emergency=defibrillator)",
+      "url": "https://openaedmap.org/",
+      "access_urls": {
+        "geojson_poland": "https://openaedmap.org/api/v1/countries/PL.geojson",
+        "legacy_redirect": "https://aed.openstreetmap.org.pl/aed_poland.geojson",
+        "overpass_query": "[out:json][timeout:120];area[\"ISO3166-1\"=\"PL\"][admin_level=2]->.pl;nwr[emergency=defibrillator](area.pl);out center tags;",
+        "overpass_endpoint": "https://overpass-api.de/api/interpreter",
+        "code": "https://github.com/openaedmap",
+        "osm_wiki_pl": "https://wiki.openstreetmap.org/wiki/Pl:Tag:emergency%3Ddefibrillator"
+      },
+      "organization": "OpenStreetMap contributors; OpenAEDMap project (originated by OpenStreetMap Polska)",
+      "organization_type": "community / NGO",
+      "license": "ODbL 1.0 (Open Database License)",
+      "license_note": "Attribution '© OpenStreetMap contributors' + share-alike for derived databases.",
+      "format": "GeoJSON (FeatureCollection, Point, EPSG:4326)",
+      "access_method": "Direct download, no auth; also Overpass API",
+      "coverage": "Whole Poland",
+      "update_frequency": "Continuous (built from live OSM; HTTP cache 1h)",
+      "row_count": 18303,
+      "coordinates": "yes (lon,lat WGS84)",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "@osm_id",
+            "type": "integer",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "@osm_type",
+            "type": "string",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "emergency",
+            "type": "string",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "@osm_version",
+            "type": "integer",
+            "filled": "18303/18303"
+          },
+          {
+            "name": "access",
+            "type": "string",
+            "filled": "16924/18303"
+          },
+          {
+            "name": "indoor",
+            "type": "string",
+            "filled": "15977/18303"
+          },
+          {
+            "name": "defibrillator:location",
+            "type": "string",
+            "filled": "12322/18303"
+          },
+          {
+            "name": "opening_hours",
+            "type": "string",
+            "filled": "6781/18303"
+          },
+          {
+            "name": "operator",
+            "type": "integer-as-string|string",
+            "filled": "6009/18303"
+          },
+          {
+            "name": "check_date",
+            "type": "integer-as-string|string",
+            "filled": "5984/18303"
+          },
+          {
+            "name": "defibrillator:location:pl",
+            "type": "string",
+            "filled": "5175/18303"
+          },
+          {
+            "name": "phone",
+            "type": "integer-as-string|number-as-string|string",
+            "filled": "4482/18303"
+          },
+          {
+            "name": "level",
+            "type": "integer-as-string|number-as-string|string",
+            "filled": "3702/18303"
+          },
+          {
+            "name": "defibrillator:location:en",
+            "type": "string",
+            "filled": "2407/18303"
+          },
+          {
+            "name": "image",
+            "type": "string",
+            "filled": "2171/18303"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "filled": "1445/18303"
+          },
+          {
+            "name": "image:license",
+            "type": "string",
+            "filled": "1385/18303"
+          },
+          {
+            "name": "fixme",
+            "type": "string",
+            "filled": "633/18303"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "filled": "599/18303"
+          },
+          {
+            "name": "wheelchair",
+            "type": "string",
+            "filled": "463/18303"
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "filled": "413/18303"
+          },
+          {
+            "name": "manufacturer",
+            "type": "string",
+            "filled": "347/18303"
+          },
+          {
+            "name": "note",
+            "type": "integer-as-string|string",
+            "filled": "241/18303"
+          },
+          {
+            "name": "emergency:phone",
+            "type": "integer-as-string|string",
+            "filled": "200/18303"
+          },
+          {
+            "name": "operator:wikidata",
+            "type": "string",
+            "filled": "188/18303"
+          },
+          {
+            "name": "ref",
+            "type": "integer-as-string|string",
+            "filled": "150/18303"
+          },
+          {
+            "name": "model",
+            "type": "string",
+            "filled": "146/18303"
+          },
+          {
+            "name": "description:en",
+            "type": "string",
+            "filled": "127/18303"
+          },
+          {
+            "name": "ref:api-um-warszawa-pl",
+            "type": "integer-as-string",
+            "filled": "113/18303"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "109/18303"
+          },
+          {
+            "name": "description:pl",
+            "type": "string",
+            "filled": "107/18303"
+          },
+          {
+            "name": "addr:housenumber",
+            "type": "integer-as-string|string",
+            "filled": "105/18303"
+          }
+        ],
+        "note": "Free-form OSM tags: 140 distinct keys in total; only keys present on >=100 features are listed. '_geometry_type'/'_coordinates' are the GeoJSON geometry."
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.5168185,
+            49.5878956
+          ],
+          "ele": "1180",
+          "email": "markowe.szczawiny@op.pl",
+          "phone": "+48 33 877 51 05",
+          "indoor": "yes",
+          "@osm_id": 477958354,
+          "operator": "PTTK",
+          "@osm_type": "node",
+          "emergency": "defibrillator",
+          "description": "Schronisko PTTK Markowe Szczawiny",
+          "@osm_version": 12,
+          "defibrillator:location": "Na ścianie w jadalni"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.4352175,
+            50.4850338
+          ],
+          "access": "yes",
+          "indoor": "no",
+          "@osm_id": 1359759215,
+          "@osm_type": "node",
+          "emergency": "defibrillator",
+          "@osm_version": 4,
+          "opening_hours": "24/7",
+          "defibrillator:location": "Na ścianie przy drzwiach do budynku"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.1309239,
+            50.6709859
+          ],
+          "ref": "594",
+          "access": "yes",
+          "indoor": "no",
+          "@osm_id": 1446347184,
+          "operator": "Gmina Kamienica Polska",
+          "@osm_type": "node",
+          "emergency": "defibrillator",
+          "@osm_version": 11,
+          "opening_hours": "24/7",
+          "defibrillator:location": "Na budynku Szkoły Podstawowej im. Henryka Sienkiewicza w Kamienicy Polskiej, ul. Ferensa 12A"
+        }
+      ],
+      "notes": "Largest open AED dataset in PL. National Geoportal 'Defibrylatory' layer and the Gdańsk/Warsaw imports are partly copies of / sources for this data.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "ratujzsercem-mapaed",
+      "name": "Ratuj z Sercem / mapAED – mapa AED Fundacji Ratuj Życie",
+      "url": "https://www.ratujzsercem.pl/map.aspx",
+      "access_urls": {
+        "points_bbox": "https://www.ratujzsercem.pl/DBProxy.aspx?method=GetPoints&sw=49:14&ne=55:24.2",
+        "point_detail_html": "https://www.ratujzsercem.pl/DBProxy.aspx?method=GetPointInfo&id={Id}"
+      },
+      "organization": "Fundacja Ratuj Życie (site footer: 'Copyright © 2026 mapAED')",
+      "organization_type": "NGO (foundation)",
+      "license": "None stated – all rights reserved by default",
+      "license_note": "No open licence. OSM community has stated data must not be copied between this DB and OSM. Use requires permission.",
+      "format": "JSON (points: Id, Type, Lat, Lng) + HTML fragment per point",
+      "access_method": "Undocumented internal AJAX endpoint of the web map (no auth). Bbox query.",
+      "coverage": "Poland (whole-world bbox returns 3434 incl. points outside PL)",
+      "row_count": 3149,
+      "row_count_note": "Points inside PL bbox 49–55N, 14–24.2E. Whole-world query returns 3434.",
+      "coordinates": "yes (Lat/Lng WGS84)",
+      "schema": {
+        "points_endpoint": [
+          {
+            "name": "Id",
+            "type": "integer",
+            "filled": "3149/3149"
+          },
+          {
+            "name": "IconId",
+            "type": "integer",
+            "filled": "3149/3149"
+          },
+          {
+            "name": "Type",
+            "type": "integer",
+            "filled": "3149/3149"
+          },
+          {
+            "name": "Lat",
+            "type": "number",
+            "filled": "3149/3149"
+          },
+          {
+            "name": "Lng",
+            "type": "number",
+            "filled": "3149/3149"
+          }
+        ],
+        "detail_endpoint_fields (HTML)": [
+          {
+            "name": "title (object name)",
+            "type": "string"
+          },
+          {
+            "name": "address (city, street)",
+            "type": "string"
+          },
+          {
+            "name": "Telefon do obsługi AED",
+            "type": "string"
+          },
+          {
+            "name": "Dokładne miejsce",
+            "type": "string"
+          },
+          {
+            "name": "Dostępność (e.g. Całodobowo, Mobilne)",
+            "type": "string"
+          },
+          {
+            "name": "pictures (optional)",
+            "type": "string"
+          }
+        ],
+        "note": "Type = numeric category code (16 distinct values, meaning undocumented). IconId always 0."
+      },
+      "sample_rows": [
+        {
+          "Id": 129,
+          "IconId": 0,
+          "Type": 16,
+          "Lat": 50.1282355,
+          "Lng": 18.9808371
+        },
+        {
+          "Id": 130,
+          "IconId": 0,
+          "Type": 16,
+          "Lat": 50.1095692,
+          "Lng": 19.0068571
+        },
+        {
+          "Id": 131,
+          "IconId": 0,
+          "Type": 8,
+          "Lat": 50.1145864,
+          "Lng": 18.9970398
+        },
+        {
+          "_detail_for_Id": 129,
+          "title": "Teatr Mały w Tychach",
+          "address": "Tychy, kard. Augusta Hlonda 1",
+          "Telefon do obsługi AED": "(32) 227 20 67",
+          "Dokładne miejsce": "dolny, boczny hol- tuż przy wejściu na salę widowiskową",
+          "Dostępność": "Całodobowo"
+        },
+        {
+          "_detail_for_Id": 135,
+          "title": "KOMENDA MIEJSKA POLICJI",
+          "address": "Żory, Wodzisławska 3",
+          "Telefon do obsługi AED": "(32) 47 88 255",
+          "Dokładne miejsce": "radiowóz ruchu drogowego",
+          "Dostępność": "Mobilne"
+        }
+      ],
+      "notes": "Separate (non-OSM) national database collected since 2011; also feeds the 'Staying Alive' app. Some points are mobile (vehicles) and there are exact-duplicate coordinates.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "warszawa-scb-api",
+      "name": "Lokalizacja defibrylatorów (AED) – Otwarte dane Warszawy (API) / mapa Warszawa 19115",
+      "url": "https://dane.um.warszawa.pl/pl/catalogue/7bc32ffc-c2ac-4d32-83c9-b6f7a0b38de8",
+      "access_urls": {
+        "official_api": "POST https://dane.um.warszawa.pl/api/action/get_scb_lokalizacja_defibrylatorow (header Authorization: <user token>)",
+        "api_params_doc": "https://dane.um.warszawa.pl/files/scb_lokalizacja_defibrylatorow_pa.json",
+        "api_examples_doc": "https://dane.um.warszawa.pl/files/scb_lokalizacja_defibrylatorow_pw.json",
+        "dane_gov_pl": "https://dane.gov.pl/pl/dataset/39512,lokalizacja-defibryzatorow-aed",
+        "public_map": "https://warszawa19115.pl/urzadzenia-aed",
+        "public_map_feed_no_token": "https://warszawa19115.pl/urzadzenia-aed?p_p_id=portalCKMaedportlet_WAR_portalCKMaedportlet&p_p_lifecycle=2&p_p_resource_id=get_bw_data&_portalCKMaedportlet_WAR_portalCKMaedportlet_type=published"
+      },
+      "organization": "Urząd m.st. Warszawy – Stołeczne Centrum Bezpieczeństwa (SCB); map run by MCK Warszawa 19115",
+      "organization_type": "local government (city)",
+      "license": "CC BY (Creative Commons Attribution) – per city catalogue and dane.gov.pl (CC BY 4.0)",
+      "license_note": "Licence applies to the official API. The 19115 map feed is an undocumented Liferay portlet endpoint with no licence statement; same data.",
+      "format": "JSON (GeoJSON-like features)",
+      "access_method": "Official API needs free user token; map feed needs none",
+      "coverage": "Warsaw",
+      "update_frequency": "daily (catalogue)",
+      "row_count": 708,
+      "row_count_note": "Counted from the no-token map feed (same as Esri copy: 708).",
+      "coordinates": "yes (lon,lat WGS84; coordinates nested as [[lon,lat]])",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "708/708"
+          },
+          {
+            "name": "defibrillator_id",
+            "type": "integer-as-string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_object_name",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_description",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_street",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_building",
+            "type": "integer-as-string|string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_postcode",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_floor",
+            "type": "integer-as-string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_city",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_country",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_borough",
+            "type": "string",
+            "filled": "707/708"
+          },
+          {
+            "name": "location_district",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_availability",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_location",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_public_access",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_access_description",
+            "type": "string",
+            "filled": "612/708"
+          },
+          {
+            "name": "device_specifications",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_manufacturer",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "application_status",
+            "type": "integer-as-string",
+            "filled": "708/708"
+          },
+          {
+            "name": "application_date_last_verification",
+            "type": "string",
+            "filled": "683/708"
+          }
+        ],
+        "note": "Official API documents a subset (no floor/borough/district/status/verification date); detail call adds 'attachment' = base64 photo."
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            [
+              21.0148748892902,
+              52.2086170695684
+            ]
+          ],
+          "defibrillator_id": "622",
+          "location_object_name": "Urząd Dzielnicy Mokotów m.st. Warszawy",
+          "location_description": "Przy wejściu na półpiętrze.",
+          "location_street": "Rakowiecka",
+          "location_building": "25/27",
+          "location_postcode": "02-517",
+          "location_floor": "0",
+          "location_city": "Warszawa",
+          "location_country": "Polska",
+          "location_borough": "Warszawa",
+          "location_district": "Mokotów",
+          "device_availability": "Ograniczona",
+          "device_location": "Wewnątrz budynku",
+          "device_public_access": "Publiczny",
+          "device_access_description": "Poniedziałek: godz. 8:00-18:00; Wtorek-Piątek: godz. 8:00-16:00",
+          "device_specifications": "Nie",
+          "device_manufacturer": "Medtronic",
+          "application_status": "5",
+          "application_date_last_verification": "2022-11-10 09:54:00"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            [
+              21.0081388070459,
+              52.1737101485397
+            ]
+          ],
+          "defibrillator_id": "661",
+          "location_object_name": "Kompleks Sportowy",
+          "location_description": "OSiR Mokotów",
+          "location_street": "Niegocińska",
+          "location_building": "2A",
+          "location_postcode": "02-698",
+          "location_floor": "0",
+          "location_city": "Warszawa",
+          "location_country": "Polska",
+          "location_borough": "Warszawa",
+          "location_district": "Mokotów",
+          "device_availability": "Ograniczona",
+          "device_location": "Wewnątrz budynku",
+          "device_public_access": "Publiczny",
+          "device_access_description": "poniedziałek-piątek w godzinach 6.00-22.00, sobota-niedziela w godzinach 8.00-20.00",
+          "device_specifications": "Tak",
+          "device_manufacturer": "HeartSine samaritan PAD Defibrillator",
+          "application_status": "5",
+          "application_date_last_verification": "2022-11-14 14:03:00"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            [
+              21.0078522561602,
+              52.2551276320303
+            ]
+          ],
+          "defibrillator_id": "623",
+          "location_object_name": "Zespół Szkół Architektoniczno-Budowlanych i Licealnych im. Stanisława Noakowskiego",
+          "location_description": "AED wewnątrz szkoły na holu głównym.",
+          "location_street": "Przyrynek",
+          "location_building": "9",
+          "location_postcode": "00-219",
+          "location_floor": "0",
+          "location_city": "Warszawa",
+          "location_country": "Polska",
+          "location_borough": "Warszawa",
+          "location_district": "Śródmieście",
+          "device_availability": "Ograniczona",
+          "device_location": "Wewnątrz budynku",
+          "device_public_access": "Publiczny",
+          "device_access_description": "Poniedziałek - piątek, godziny 6:00 - 21:00",
+          "device_specifications": "Nie",
+          "device_manufacturer": "PHILIPS",
+          "application_status": "5",
+          "application_date_last_verification": "2022-11-17 14:05:00"
+        }
+      ],
+      "notes": "Richest municipal schema in PL (availability, public access, hours, manufacturer, last verification date).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-esri-pl-warszawa",
+      "name": "Lokalizacje defibrylatorów AED w Warszawie (kopia Esri Polska na ArcGIS Online)",
+      "url": "https://www.arcgis.com/home/item.html?id=09b25113fe0c437f8138db46c05231a1",
+      "access_urls": {
+        "feature_layer": "https://services.arcgis.com/zg6BBB0wvjzrRBLk/arcgis/rest/services/AED/FeatureServer/0",
+        "geojson_query": "https://services.arcgis.com/zg6BBB0wvjzrRBLk/arcgis/rest/services/AED/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "Esri Polska (account Esri_PL_Content), data from Urząd m.st. Warszawy",
+      "organization_type": "company (republisher of city open data)",
+      "license": "Inherits source terms (Otwarte dane Warszawy, CC BY)",
+      "license_note": "Item licence text: use under the re-use terms of the source provider, Urząd m.st. Warszawy; attribution 'Urząd m.st. Warszawy, portal Otwarte dane Warszawy'.",
+      "format": "ArcGIS FeatureServer (JSON / GeoJSON / CSV export)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "Warsaw",
+      "row_count": 708,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "708/708"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "708/708"
+          },
+          {
+            "name": "OBJECTID",
+            "type": "integer",
+            "filled": "708/708"
+          },
+          {
+            "name": "defib_id",
+            "type": "integer-as-string",
+            "filled": "708/708"
+          },
+          {
+            "name": "access_desc",
+            "type": "string",
+            "filled": "612/708"
+          },
+          {
+            "name": "availability",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "device_loc",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "manufacturer",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "public_access",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "specification",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "building_no",
+            "type": "integer-as-string|string",
+            "filled": "708/708"
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "location_desc",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "object_name",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "postcode",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "street",
+            "type": "string",
+            "filled": "708/708"
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "filled": "708/708"
+          },
+          {
+            "name": "latitude",
+            "type": "number",
+            "filled": "708/708"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            21.0148748890001,
+            52.2086170700001
+          ],
+          "_feature_id": 1,
+          "OBJECTID": 1,
+          "defib_id": "622",
+          "access_desc": "Poniedziałek: godz. 8:00-18:00; Wtorek-Piątek: godz. 8:00-16:00",
+          "availability": "Ograniczona",
+          "device_loc": "Wewnątrz budynku",
+          "manufacturer": "Medtronic",
+          "public_access": "Publiczny",
+          "specification": "Nie",
+          "building_no": "25/27",
+          "city": "Warszawa",
+          "location_desc": "Przy wejściu na półpiętrze.",
+          "object_name": "Urząd Dzielnicy Mokotów m.st. Warszawy",
+          "postcode": "02-517",
+          "street": "Rakowiecka",
+          "longitude": 21.0148748892902,
+          "latitude": 52.2086170695684
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            21.008138807,
+            52.173710149
+          ],
+          "_feature_id": 2,
+          "OBJECTID": 2,
+          "defib_id": "661",
+          "access_desc": "poniedziałek-piątek w godzinach 6.00-22.00, sobota-niedziela w godzinach 8.00-20.00",
+          "availability": "Ograniczona",
+          "device_loc": "Wewnątrz budynku",
+          "manufacturer": "HeartSine samaritan PAD Defibrillator",
+          "public_access": "Publiczny",
+          "specification": "Tak",
+          "building_no": "2A",
+          "city": "Warszawa",
+          "location_desc": "OSiR Mokotów",
+          "object_name": "Kompleks Sportowy",
+          "postcode": "02-698",
+          "street": "Niegocińska",
+          "longitude": 21.0081388070459,
+          "latitude": 52.1737101485397
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            21.007852256,
+            52.255127632
+          ],
+          "_feature_id": 3,
+          "OBJECTID": 3,
+          "defib_id": "623",
+          "access_desc": "Poniedziałek - piątek, godziny 6:00 - 21:00",
+          "availability": "Ograniczona",
+          "device_loc": "Wewnątrz budynku",
+          "manufacturer": "PHILIPS",
+          "public_access": "Publiczny",
+          "specification": "Nie",
+          "building_no": "9",
+          "city": "Warszawa",
+          "location_desc": "AED wewnątrz szkoły na holu głównym.",
+          "object_name": "Zespół Szkół Architektoniczno-Budowlanych i Licealnych im. Stanisława Noakowskiego",
+          "postcode": "00-219",
+          "street": "Przyrynek",
+          "longitude": 21.0078522561602,
+          "latitude": 52.2551276320303
+        }
+      ],
+      "notes": "Same 708 records as the SCB API, flattened, with separate latitude/longitude columns. Created 2026-10.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "danegov-przemysl",
+      "name": "Lokalizacje AED – Automatycznych Defibrylatorów Zewnętrznych w Przemyślu",
+      "url": "https://dane.gov.pl/pl/dataset/4581",
+      "access_urls": {
+        "csv": "https://api.dane.gov.pl/media/resources/20241106/1730818801_b50R6UVxPgoVdBbq.csv",
+        "geojson": "https://api.dane.gov.pl/media/resources/20241106/1730818801_b50R6UVxPgoVdBbq.geojson",
+        "json": "https://api.dane.gov.pl/media/resources/20241106/1730818801_b50R6UVxPgoVdBbq.json",
+        "gml": "https://api.dane.gov.pl/media/resources/20241120/1730818801_b50R6UVxPgoVdBbq.gml",
+        "source_map": "https://przemysl.pl/45/mapa-interaktywna.html#/map?category=54"
+      },
+      "organization": "Urząd Miejski w Przemyślu",
+      "organization_type": "local government (city)",
+      "license": "CC0 1.0",
+      "format": "CSV (;), GeoJSON, JSON, GML",
+      "access_method": "Direct download, no auth",
+      "coverage": "Przemyśl",
+      "data_date": "2024-11-06",
+      "update_frequency": "declared daily (files dated 2024-11)",
+      "row_count": 21,
+      "coordinates": "yes (in 'geometry' JSON column: {lat,long})",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer-as-string",
+            "filled": "21/21"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "street",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "home_number",
+            "type": "integer-as-string",
+            "filled": "19/21"
+          },
+          {
+            "name": "postcode",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "phone",
+            "type": "string",
+            "filled": "1/21"
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "filled": "2/21"
+          },
+          {
+            "name": "www",
+            "type": "string",
+            "filled": "2/21"
+          },
+          {
+            "name": "youtube_url",
+            "type": "empty",
+            "filled": "0/21"
+          },
+          {
+            "name": "panorama_url",
+            "type": "empty",
+            "filled": "0/21"
+          },
+          {
+            "name": "geometry",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "gallery",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "attachments",
+            "type": "empty",
+            "filled": "0/21"
+          },
+          {
+            "name": "links",
+            "type": "string",
+            "filled": "2/21"
+          }
+        ],
+        "delimiter": ";"
+      },
+      "sample_rows": [
+        {
+          "id": "744",
+          "name": "Defibrylator (AED 9485) w ADM Centrum",
+          "description": "Defibrylator AED (Automated External Defibrillator) to przenośne urządzenie medy…",
+          "category": "Defibrylatory AED",
+          "city": "Przemyśl",
+          "street": "Juliusza Słowackiego",
+          "home_number": "12",
+          "postcode": "37-700",
+          "phone": "",
+          "email": "",
+          "www": "",
+          "youtube_url": "",
+          "panorama_url": "",
+          "geometry": "{\"type\":\"Point\",\"coordinates\":{\"lat\":\"49.7812096\",\"long\":\"22.7750936\"}}",
+          "gallery": "[1][url:https://przemysl.skycms.com.pl/download/156869/defibrylator-aed-9485-w-adm-centrum][thumbUrl:https://przemysl.skycms.com.pl/download/thumbnailCustom/156869/auto/120/defibrylator-aed-9485-w-adm…",
+          "attachments": "",
+          "links": ""
+        },
+        {
+          "id": "745",
+          "name": "Defibrylator (AED 9556) w I Liecum Ogólnokształcącym w Przemyślu",
+          "description": "Defibrylator AED (Automated External Defibrillator) to przenośne urządzenie medy…",
+          "category": "Defibrylatory AED",
+          "city": "Przemyśl",
+          "street": "Juliusza Słowackiego",
+          "home_number": "21",
+          "postcode": "37-700",
+          "phone": "",
+          "email": "lo1@um.przemysl.pl",
+          "www": "https://lo1.przemysl.edu.pl",
+          "youtube_url": "",
+          "panorama_url": "",
+          "geometry": "{\"type\":\"Point\",\"coordinates\":{\"lat\":\"49.7806393\",\"long\":\"22.7771083\"}}",
+          "gallery": "[1][url:https://przemysl.skycms.com.pl/download/156869/defibrylator-aed-9556-w-i-liecum-ogolnoksztalcacym-w-przemyslu][thumbUrl:https://przemysl.skycms.com.pl/download/thumbnailCustom/156869/auto/120/…",
+          "attachments": "",
+          "links": "[1][title:Strona Internetowa Szkoły][url:https://sp6.przemysl.edu.pl][link_type:Oficjalna strona]"
+        },
+        {
+          "id": "746",
+          "name": "Defibrylator (AED 9579) w Szkole Podstawowej Nr 6 w Przemyślu",
+          "description": "Defibrylator AED (Automated External Defibrillator) to przenośne urządzenie medy…",
+          "category": "Defibrylatory AED",
+          "city": "Przemyśl",
+          "street": "Generała Mieczysława Boruty Spiechowicza",
+          "home_number": "1",
+          "postcode": "37-700",
+          "phone": "+48166779500",
+          "email": "sp6@um.przemysl.pl",
+          "www": "https://sp6.przemysl.edu.pl",
+          "youtube_url": "",
+          "panorama_url": "",
+          "geometry": "{\"type\":\"Point\",\"coordinates\":{\"lat\":\"49.7972693\",\"long\":\"22.7582092\"}}",
+          "gallery": "[1][url:https://przemysl.skycms.com.pl/download/156869/defibrylator-aed-9579-w-szkole-podstawowej-nr-6-w-przemyslu][thumbUrl:https://przemysl.skycms.com.pl/download/thumbnailCustom/156869/auto/120/def…",
+          "attachments": "",
+          "links": "[1][title:Strona Internetowa Szkoły][url:https://sp6.przemysl.edu.pl][link_type:Oficjalna strona]"
+        }
+      ],
+      "notes": "Export of the city CMS (skycms) map category 54. 'description' is the same generic AED text on every row (truncated in samples). AED serial-like number in name, e.g. 'AED 9485'.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "danegov-krosno",
+      "name": "Defibrylatory zlokalizowane w Mieście Krosno",
+      "url": "https://dane.gov.pl/pl/dataset/3624",
+      "access_urls": {
+        "csv": "https://api.dane.gov.pl/media/resources/20240219/Defibrylator_jAmxQcp.csv"
+      },
+      "organization": "Urząd Miasta Krosna",
+      "organization_type": "local government (city)",
+      "license": "CC0 1.0",
+      "format": "CSV (,)",
+      "access_method": "Direct download, no auth",
+      "coverage": "Krosno",
+      "data_date": "2024-02-19",
+      "update_frequency": "Nie dotyczy (one-off)",
+      "row_count": 21,
+      "coordinates": "yes (lon, lat columns)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Długość geograficzna",
+            "type": "number-as-string",
+            "filled": "21/21"
+          },
+          {
+            "name": "Szerokość geograficzna",
+            "type": "number-as-string",
+            "filled": "21/21"
+          },
+          {
+            "name": "Nazwa",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "Lokalizacja",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "Adres",
+            "type": "string",
+            "filled": "21/21"
+          },
+          {
+            "name": "Numer Id",
+            "type": "integer-as-string",
+            "filled": "21/21"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Długość geograficzna": "21.72034402175176",
+          "Szerokość geograficzna": "49.718809346153336",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "Zespół  Krytych Pływalni",
+          "Adres": "ul. Jasna, 38-400 Krosno",
+          "Numer Id": "1"
+        },
+        {
+          "Długość geograficzna": "21.71133598253567",
+          "Szerokość geograficzna": "49.719088753029276",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "Kampus Sportowo-dydaktyczny, portiernia",
+          "Adres": "ul. Stanisława Wyspiańskiego 20, 38-400 Krosno",
+          "Numer Id": "2"
+        },
+        {
+          "Długość geograficzna": "21.715090873839404",
+          "Szerokość geograficzna": "49.72174399261284",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "OSP Turaszówka",
+          "Adres": "ul. Rzeszowska, 38-400 Krosno",
+          "Numer Id": "3"
+        }
+      ],
+      "notes": "Header has leading spaces in column names.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "danegov-marki",
+      "name": "Defibrylatory zlokalizowane na terenie Miasta Marki",
+      "url": "https://dane.gov.pl/pl/dataset/4955",
+      "access_urls": {
+        "csv": "https://api.dane.gov.pl/media/resources/20250710/Defibrylator_GminaMiastoMarki_1.csv",
+        "xlsx": "https://api.dane.gov.pl/media/resources/20250710/Defibrylator_GminaMiastoMarki_1.xlsx"
+      },
+      "organization": "Urząd Miasta Marki",
+      "organization_type": "local government (city)",
+      "license": "CC BY 4.0",
+      "format": "CSV, XLSX",
+      "access_method": "Direct download, no auth",
+      "coverage": "Marki",
+      "data_date": "2025-07-10",
+      "update_frequency": "Jednorazowe udostępnienie (one-off)",
+      "row_count": 8,
+      "coordinates": "yes (but swapped: header says lon,lat; values are lat,lon)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Długość geograficzna",
+            "type": "number-as-string",
+            "filled": "8/8"
+          },
+          {
+            "name": "Szerokość geograficzna",
+            "type": "number-as-string",
+            "filled": "8/8"
+          },
+          {
+            "name": "Nazwa",
+            "type": "string",
+            "filled": "8/8"
+          },
+          {
+            "name": "Lokalizacja",
+            "type": "string",
+            "filled": "8/8"
+          },
+          {
+            "name": "Adres",
+            "type": "string",
+            "filled": "8/8"
+          },
+          {
+            "name": "Numer Id",
+            "type": "integer-as-string",
+            "filled": "8/8"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Długość geograficzna": "52.326697",
+          "Szerokość geograficzna": "21.107557",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "Urząd Miasta Marki",
+          "Adres": "Al.. Piłsudskiego 95, 05-270 Marki",
+          "Numer Id": "1"
+        },
+        {
+          "Długość geograficzna": "52.323960",
+          "Szerokość geograficzna": "21.098185",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "Szkoła Podstawowa nr 1",
+          "Adres": "ul. Okólna 14, 05-270 Marki",
+          "Numer Id": "2"
+        },
+        {
+          "Długość geograficzna": "52.317014",
+          "Szerokość geograficzna": "21.104131",
+          "Nazwa": "Defibrylator",
+          "Lokalizacja": "Szkoła Podstawowa nr 2",
+          "Adres": "ul. Szkolna 9, 05-270 Marki",
+          "Numer Id": "3"
+        }
+      ],
+      "notes": "each line wrapped in an extra pair of quotes; lat/lon order swapped vs header (header says lon,lat; values are lat,lon). Same column template as Krosno.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "danegov-legionowo",
+      "name": "Wykaz defibrylatorów AED wraz z ich lokalizacją w Legionowie (zbiór 'Zdrowie')",
+      "url": "https://dane.gov.pl/pl/dataset/40593",
+      "access_urls": {
+        "csv": "https://api.dane.gov.pl/media/resources/20260914/aed.csv",
+        "resource": "https://dane.gov.pl/pl/dataset/40593/resource/2625221"
+      },
+      "organization": "Urząd Miasta Legionowo",
+      "organization_type": "local government (city)",
+      "license": "CC0 1.0",
+      "format": "CSV (,)",
+      "access_method": "Direct download, no auth",
+      "coverage": "Legionowo",
+      "data_date": "2026-09-14",
+      "row_count": 24,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "nazwa",
+            "type": "string",
+            "filled": "24/24"
+          },
+          {
+            "name": "cecha_ulicy",
+            "type": "string",
+            "filled": "24/24"
+          },
+          {
+            "name": "nazwa_ulicy",
+            "type": "string",
+            "filled": "24/24"
+          },
+          {
+            "name": "nr_budynku",
+            "type": "integer-as-string|string",
+            "filled": "24/24"
+          },
+          {
+            "name": "nr_lokalu",
+            "type": "empty",
+            "filled": "0/24"
+          },
+          {
+            "name": "kod_pocztowy",
+            "type": "string",
+            "filled": "24/24"
+          },
+          {
+            "name": "miejscowosc",
+            "type": "string",
+            "filled": "24/24"
+          },
+          {
+            "name": "kod_terc",
+            "type": "integer-as-string",
+            "filled": "24/24"
+          },
+          {
+            "name": "kod_simc",
+            "type": "integer-as-string",
+            "filled": "24/24"
+          },
+          {
+            "name": "szerokosc_geograficzna",
+            "type": "number-as-string",
+            "filled": "24/24"
+          },
+          {
+            "name": "dlugosc_geograficzna",
+            "type": "number-as-string",
+            "filled": "24/24"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "nazwa": "Urząd Miasta Legionowo",
+          "cecha_ulicy": "ulica",
+          "nazwa_ulicy": "Piłsudskiego",
+          "nr_budynku": "41",
+          "nr_lokalu": "",
+          "kod_pocztowy": "05-120",
+          "miejscowosc": "Legionowo",
+          "kod_terc": "140801",
+          "kod_simc": "0920806",
+          "szerokosc_geograficzna": "52.395198",
+          "dlugosc_geograficzna": "20.931382"
+        },
+        {
+          "nazwa": "Starostwo Powiatowe",
+          "cecha_ulicy": "ulica",
+          "nazwa_ulicy": "Sikorskiego",
+          "nr_budynku": "11",
+          "nr_lokalu": "",
+          "kod_pocztowy": "05-119",
+          "miejscowosc": "Legionowo",
+          "kod_terc": "140801",
+          "kod_simc": "0920806",
+          "szerokosc_geograficzna": "52.421807",
+          "dlugosc_geograficzna": "20.939056"
+        },
+        {
+          "nazwa": "Arena Legionowo",
+          "cecha_ulicy": "ulica",
+          "nazwa_ulicy": "Chrobrego",
+          "nr_budynku": "50B",
+          "nr_lokalu": "",
+          "kod_pocztowy": "05-120",
+          "miejscowosc": "Legionowo",
+          "kod_terc": "140801",
+          "kod_simc": "0920806",
+          "szerokosc_geograficzna": "52.400177",
+          "dlugosc_geograficzna": "20.917295"
+        }
+      ],
+      "notes": "Uses the KPRM/dane.gov.pl standard address template (TERC/SIMC codes) – best-structured address of all sources.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "siemianowice-aed-map",
+      "name": "Mapa AED Siemianowice Śląskie (aed.siemianowice.pl)",
+      "url": "https://aed.siemianowice.pl/",
+      "access_urls": {
+        "csv": "https://aed.siemianowice.pl/aed-dane.csv"
+      },
+      "organization": "Urząd Miasta Siemianowice Śląskie (contact isi@um.siemianowice.pl)",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "CSV (,)",
+      "access_method": "CSV file loaded by the Leaflet web map, no auth",
+      "coverage": "Siemianowice Śląskie",
+      "row_count": 44,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "Kategoria",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Obiekt",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Adres",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Miejsce_AED",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Dostep_publiczny",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Tryb_dostepnosci",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Godziny",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Szerokosc_geogr",
+            "type": "number-as-string",
+            "filled": "44/44"
+          },
+          {
+            "name": "Dlugosc_geogr",
+            "type": "number-as-string",
+            "filled": "44/44"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Kategoria": "Urzędy i służby",
+          "Obiekt": "Urząd Miasta",
+          "Adres": "ul. Jana Pawła II 10, 41-100 Siemianowice Śląskie",
+          "Miejsce_AED": "Wewnątrz budynku.",
+          "Dostep_publiczny": "Tak",
+          "Tryb_dostepnosci": "24h",
+          "Godziny": "Ogólnodostępny dzięki całodobowej ochronie budynku.",
+          "Szerokosc_geogr": "50.3056",
+          "Dlugosc_geogr": "19.0284"
+        },
+        {
+          "Kategoria": "Urzędy i służby",
+          "Obiekt": "Urząd Miasta",
+          "Adres": "ul. Michałkowicka 105, 41-103 Siemianowice Śląskie",
+          "Miejsce_AED": "Wewnątrz budynku.",
+          "Dostep_publiczny": "Tak",
+          "Tryb_dostepnosci": "Godziny pracy",
+          "Godziny": "Dostępny w godzinach pn.-pt. 6:00–20:30.",
+          "Szerokosc_geogr": "50.318249",
+          "Dlugosc_geogr": "19.010993"
+        },
+        {
+          "Kategoria": "Urzędy i służby",
+          "Obiekt": "Straż Miejska",
+          "Adres": "ul. Jarosława Dąbrowskiego 13, 41-100 Siemianowice Śląskie",
+          "Miejsce_AED": "Parter, przy wejściu, wewnątrz budynku.",
+          "Dostep_publiczny": "Tak",
+          "Tryb_dostepnosci": "24h",
+          "Godziny": "Ogólnodostępny całodobowo",
+          "Szerokosc_geogr": "50.305041",
+          "Dlugosc_geogr": "19.023973"
+        }
+      ],
+      "notes": "Has structured access fields (public access yes/no, mode 24h/working hours, hours text).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "lodz-uml-xls",
+      "name": "Mapa defibrylatorów AED – Urząd Miasta Łodzi (lista XLS)",
+      "url": "https://uml.lodz.pl/dla-mieszkancow/zdrowie/mapa-defibrylatorow-aed/",
+      "access_urls": {
+        "xls": "https://uml.lodz.pl/files/public/dla_mieszkanca/Defibrylatory2026.xls"
+      },
+      "organization": "Urząd Miasta Łodzi",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "XLS (Excel 97-2003)",
+      "access_method": "Direct download, no auth",
+      "coverage": "Łódź (AED funded by the city)",
+      "data_date": "2026-08-13 (file last saved)",
+      "row_count": 140,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "lp",
+            "type": "number",
+            "filled": "140/140"
+          },
+          {
+            "name": "Podmiot",
+            "type": "string",
+            "filled": "140/140"
+          },
+          {
+            "name": "Obiekt",
+            "type": "string",
+            "filled": "140/140"
+          },
+          {
+            "name": "Adres",
+            "type": "string",
+            "filled": "140/140"
+          },
+          {
+            "name": "Lokalizacja w obiekcie",
+            "type": "string",
+            "filled": "140/140"
+          },
+          {
+            "name": "Godz. dostępu",
+            "type": "string",
+            "filled": "106/140"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "lp": 1.0,
+          "Podmiot": "3 Dom Pomocy Społecznej",
+          "Obiekt": "siedziba DPS",
+          "Adres": "ul. Paradna 36, 93-345 Łódź",
+          "Lokalizacja w obiekcie": "wewnątrz, parter- dyżurka pielęgniarek",
+          "Godz. dostępu": "całodobowe"
+        },
+        {
+          "lp": 2.0,
+          "Podmiot": "5 Dom Pomocy Społecznej",
+          "Obiekt": "siedziba DPS",
+          "Adres": "ul. Podgórna 2/14, 93-278 Łódź",
+          "Lokalizacja w obiekcie": "wewnątrz, dyżurka pielęgniarek I oddział  - I piętro\n- dyżurka pielęgniarek II oddział - II piętro",
+          "Godz. dostępu": "całodobowo"
+        },
+        {
+          "lp": 3.0,
+          "Podmiot": "6 Dom Pomocy Społecznej",
+          "Obiekt": "siedziba DPS",
+          "Adres": "ul. Złotnicza 10, 91-836 Łódź",
+          "Lokalizacja w obiekcie": "wewnątrz",
+          "Godz. dostępu": ""
+        }
+      ],
+      "notes": "Companion of the Google My Maps layer (lodz-uml-kml) which has coordinates.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "lodz-uml-kml",
+      "name": "Mapa defibrylatorów AED – Łódź (Google My Maps)",
+      "url": "https://www.google.com/maps/d/viewer?mid=1FMKFbebKJPYqD4C87pXWPqNjEHuEswE",
+      "access_urls": {
+        "kml": "https://www.google.com/maps/d/kml?forcekml=1&mid=1FMKFbebKJPYqD4C87pXWPqNjEHuEswE"
+      },
+      "organization": "Urząd Miasta Łodzi (embedded on uml.lodz.pl)",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "KML",
+      "access_method": "Google My Maps KML export, no auth",
+      "coverage": "Łódź",
+      "row_count": 136,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_folder",
+            "type": "string",
+            "filled": "136/136"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "136/136"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "filled": "135/136"
+          },
+          {
+            "name": "_coordinates",
+            "type": "string",
+            "filled": "136/136"
+          }
+        ],
+        "note": "name = 'defibrylator - <address>', description = '<entity> | <placement>'"
+      },
+      "sample_rows": [
+        {
+          "_folder": "defibrylatory",
+          "name": "defibrylator - Paradna 36",
+          "description": "3 Dom Pomocy Społecznej | wewnątrz",
+          "_coordinates": "19.4797692,51.7093566,0"
+        },
+        {
+          "_folder": "defibrylatory",
+          "name": "defibrylator - ul. Podgórna 2/14",
+          "description": "5 Dom Pomocy Społecznej | wewnątrz",
+          "_coordinates": "19.48769,51.7398892,0"
+        },
+        {
+          "_folder": "defibrylatory",
+          "name": "defibrylator - ul. Złotnicza 10, 91-836 Łódź",
+          "description": "6 Dom Pomocy Społecznej | wewnątrz",
+          "_coordinates": "19.4632551,51.7899422,0"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "koszalin-punkty-zycia-kml",
+      "name": "Punkty Życia – defibrylatory w Koszalinie (Google My Maps)",
+      "url": "https://www.google.com/maps/d/viewer?mid=1AQwJAfeZsGGB7fhz0-yBSxab83DwyIw",
+      "access_urls": {
+        "kml": "https://www.google.com/maps/d/kml?forcekml=1&mid=1AQwJAfeZsGGB7fhz0-yBSxab83DwyIw",
+        "city_page": "https://www.koszalin.pl/en/printpdf/9480"
+      },
+      "organization": "Urząd Miejski w Koszalinie (project from Budżet Obywatelski 2021)",
+      "organization_type": "local government (city)",
+      "license": "None stated (Google My Maps default)",
+      "format": "KML",
+      "access_method": "Google My Maps KML export, no auth",
+      "coverage": "Koszalin",
+      "row_count": 35,
+      "row_count_note": "City page states 40 AED incl. 8 mobile.",
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_folder",
+            "type": "string",
+            "filled": "35/35"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "35/35"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "filled": "33/35"
+          },
+          {
+            "name": "_coordinates",
+            "type": "string",
+            "filled": "35/35"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_folder": "AED",
+          "name": "Punkt Życia #1",
+          "description": "Dom Studenta nr 1 (na ścianie budynku obok Ksero w Akademikach) – ul. Rejtana",
+          "_coordinates": "16.2025342709805,54.1979870545911,0"
+        },
+        {
+          "_folder": "AED",
+          "name": "Punkt Życia #2",
+          "description": "Obok wejścia E na Cmentarz od ul. Kamieniarskiej (AED wolnostojące)",
+          "_coordinates": "16.1931868310074,54.1730414670271,0"
+        },
+        {
+          "_folder": "AED",
+          "name": "Punkt Życia #3",
+          "description": "Obok targowiska ul. Połczyńska 20 (AED na ścianie)",
+          "_coordinates": "16.1839332,54.185137,0"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "pawlowice-kml",
+      "name": "Mapa Defibrylatorów AED – Gmina Pawłowice (Google My Maps)",
+      "url": "https://www.pawlowice.pl/mieszkaniec/zdrowie/mapa-defibrylatorow-aed",
+      "access_urls": {
+        "kml": "https://www.google.com/maps/d/kml?forcekml=1&mid=1DSs_ESjkEU6AaxZjgpLgwtk5tlG11gc"
+      },
+      "organization": "Urząd Gminy Pawłowice",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "KML",
+      "access_method": "Google My Maps KML export, no auth",
+      "coverage": "Gmina Pawłowice",
+      "row_count": 12,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_folder",
+            "type": "string",
+            "filled": "12/12"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "12/12"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "filled": "12/12"
+          },
+          {
+            "name": "_coordinates",
+            "type": "string",
+            "filled": "12/12"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_folder": "Defibrylatory AED",
+          "name": "Defibrylator AED - Urząd Gminy Pawłowice",
+          "description": "ul. Zjednoczenia 60",
+          "_coordinates": "18.718821,49.9622173,0"
+        },
+        {
+          "_folder": "Defibrylatory AED",
+          "name": "Defibrylator AED - TARG",
+          "description": "ul. Zjednoczenia 77A",
+          "_coordinates": "18.7180295,49.9638181,0"
+        },
+        {
+          "_folder": "Defibrylatory AED",
+          "name": "Defibrylator AED - Gminny Ośrodek Sportu",
+          "description": "ul. Sportowa 14",
+          "_coordinates": "18.7147058,49.9622738,0"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-krakow-aed-zestawy",
+      "name": "AED_zestawy – MAPA DEFIBRYLATORÓW (Kraków)",
+      "url": "https://www.arcgis.com/home/item.html?id=cbd2aa03bc994b7490aabcbdb4867959",
+      "access_urls": {
+        "feature_layer": "https://services6.arcgis.com/w8Sm3ehkmwzR6bQc/arcgis/rest/services/AED_zestawy/FeatureServer/0",
+        "geojson_query": "https://services6.arcgis.com/w8Sm3ehkmwzR6bQc/arcgis/rest/services/AED_zestawy/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "ArcGIS Online user 'wasniowskip' (private account; affiliation unknown)",
+      "organization_type": "individual / unknown",
+      "license": "None stated",
+      "format": "ArcGIS FeatureServer (JSON/GeoJSON)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "Kraków",
+      "data_date": "2022-01-17 (item last modified)",
+      "row_count": 150,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "150/150"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "150/150"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "150/150"
+          },
+          {
+            "name": "objectid",
+            "type": "integer",
+            "filled": "150/150"
+          },
+          {
+            "name": "miasto",
+            "type": "string",
+            "filled": "150/150"
+          },
+          {
+            "name": "ulica",
+            "type": "string",
+            "filled": "150/150"
+          },
+          {
+            "name": "lokalizacj",
+            "type": "string",
+            "filled": "150/150"
+          },
+          {
+            "name": "uwagi",
+            "type": "string",
+            "filled": "150/150"
+          },
+          {
+            "name": "point_x",
+            "type": "number",
+            "filled": "150/150"
+          },
+          {
+            "name": "point_y",
+            "type": "number",
+            "filled": "150/150"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9097637907442,
+            50.0705003069473
+          ],
+          "_feature_id": 1,
+          "objectid": 1,
+          "miasto": "Kraków",
+          "ulica": "ul. Bydgoska 19A",
+          "lokalizacj": "Dom Studencki B-1 PK",
+          "uwagi": "przy portierni",
+          "point_x": 19.90976379,
+          "point_y": 50.07050031
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9433619995875,
+            50.0580439998251
+          ],
+          "_feature_id": 2,
+          "objectid": 2,
+          "miasto": "Kraków",
+          "ulica": "ul. Starowiślna 13-15",
+          "lokalizacj": "Pałac Pugetów",
+          "uwagi": " ",
+          "point_x": 19.943362,
+          "point_y": 50.058044
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9468539136919,
+            50.0357374110098
+          ],
+          "_feature_id": 3,
+          "objectid": 3,
+          "miasto": "Kraków",
+          "ulica": "Al. Powstańców Śląskich 26",
+          "lokalizacj": "Budynek Biurowy Onyx, Electrolux Poland Sp. z o.o.,",
+          "uwagi": "portiernia",
+          "point_x": 19.946853909999998,
+          "point_y": 50.035737409999996
+        }
+      ],
+      "notes": "Web map 'MAPA DEFIBRYLATORÓW' (item e7570deb7eca41fe8b868327e589952e) uses this layer.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-krakow-2022-sierpien",
+      "name": "AED_zestawy_2022_sierpien (Kraków, geocoded list)",
+      "url": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/AED_zestawy_2022_sierpien/FeatureServer",
+      "access_urls": {
+        "feature_layer": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/AED_zestawy_2022_sierpien/FeatureServer/0",
+        "geojson_query": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/AED_zestawy_2022_sierpien/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "ArcGIS Online account 'pica_1' (affiliation unknown)",
+      "organization_type": "individual / unknown",
+      "license": "None stated",
+      "format": "ArcGIS FeatureServer (JSON/GeoJSON)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "Kraków",
+      "data_date": "2022-08",
+      "row_count": 44,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "44/44"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "44/44"
+          },
+          {
+            "name": "objectid",
+            "type": "integer",
+            "filled": "44/44"
+          },
+          {
+            "name": "nazwa",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "ulica",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "nr",
+            "type": "integer-as-string|string",
+            "filled": "44/44"
+          },
+          {
+            "name": "kod",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "miasto",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "adres_geokod",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "score",
+            "type": "integer|number",
+            "filled": "44/44"
+          },
+          {
+            "name": "match_addr",
+            "type": "string",
+            "filled": "44/44"
+          },
+          {
+            "name": "y",
+            "type": "number",
+            "filled": "44/44"
+          },
+          {
+            "name": "x",
+            "type": "number",
+            "filled": "44/44"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9400273903708,
+            50.0614276342875
+          ],
+          "_feature_id": 1,
+          "objectid": 1,
+          "nazwa": "Bazylika Mariacka - Parafia pw. Wniebowzięcia Najświętszej Maryi Panny- Zakrystia",
+          "ulica": "Plac Mariacki ",
+          "nr": "5",
+          "kod": "31-042",
+          "miasto": "Kraków",
+          "adres_geokod": "Plac Mariacki  5, Kraków",
+          "status": "M",
+          "score": 100,
+          "match_addr": "plac Mariacki 5, 31-041, Śródmieście, Kraków, Małopolskie",
+          "y": 50.06142763,
+          "x": 19.94002739
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9359935145706,
+            50.0132988298633
+          ],
+          "_feature_id": 2,
+          "objectid": 2,
+          "nazwa": "Centrum Jana Pawła II „Nie lękajcie się!” – hol parter",
+          "ulica": "ul. Totus Tuus ",
+          "nr": "34",
+          "kod": "30-610",
+          "miasto": "Kraków",
+          "adres_geokod": "ul. Totus Tuus  34, Kraków",
+          "status": "M",
+          "score": 100,
+          "match_addr": "ulica Totus Tuus 34, 30-610, Podgórze, Kraków, Małopolskie",
+          "y": 50.01329883,
+          "x": 19.93599351
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            19.9407731277022,
+            50.0639259441023
+          ],
+          "_feature_id": 3,
+          "objectid": 3,
+          "nazwa": "Dom Jana Matejki - Muzeum Narodowe w Krakowie – hol parter",
+          "ulica": "ul. Floriańska ",
+          "nr": "41",
+          "kod": "30-001",
+          "miasto": "Kraków",
+          "adres_geokod": "ul. Floriańska  41, Kraków",
+          "status": "M",
+          "score": 100,
+          "match_addr": "ulica Floriańska 41, 31-019, Śródmieście, Kraków, Małopolskie",
+          "y": 50.06392594,
+          "x": 19.94077313
+        }
+      ],
+      "notes": "Addresses geocoded by ArcGIS (score/match_addr columns).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-mikolow",
+      "name": "Defibrylatory_AED (Mikołów)",
+      "url": "https://www.arcgis.com/home/item.html?id=e80338274081461ea3bafbbe02b141f1",
+      "access_urls": {
+        "feature_layer": "https://services9.arcgis.com/E1ZsJFZqsk2tR9yK/arcgis/rest/services/Defibrylatory_AED/FeatureServer/0",
+        "geojson_query": "https://services9.arcgis.com/E1ZsJFZqsk2tR9yK/arcgis/rest/services/Defibrylatory_AED/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "ArcGIS Online user 'd.bania' (affiliation unknown)",
+      "organization_type": "individual / unknown",
+      "license": "None stated",
+      "format": "ArcGIS FeatureServer (JSON/GeoJSON)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "Mikołów",
+      "data_date": "2026-11 (created/edited)",
+      "row_count": 21,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "20/21"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "20/21"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "21/21"
+          },
+          {
+            "name": "OBJECTID",
+            "type": "integer",
+            "filled": "21/21"
+          },
+          {
+            "name": "Lokalizacja",
+            "type": "string",
+            "filled": "20/21"
+          },
+          {
+            "name": "adres",
+            "type": "string",
+            "filled": "18/21"
+          },
+          {
+            "name": "Pietro",
+            "type": "integer-as-string",
+            "filled": "18/21"
+          },
+          {
+            "name": "Położenie",
+            "type": "string",
+            "filled": "20/21"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            18.8867050006824,
+            50.1790113997947
+          ],
+          "_feature_id": 1,
+          "OBJECTID": 1,
+          "Lokalizacja": "Auchan",
+          "adres": "Mikołów, Gliwicka 3",
+          "Pietro": "0",
+          "Położenie": "Na zewnątrz, przy paczkomacie InPost"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            18.8850993999514,
+            50.1819960001555
+          ],
+          "_feature_id": 2,
+          "OBJECTID": 2,
+          "Lokalizacja": "Leroy Merlin",
+          "adres": "Mikołów, Gliwicka 28",
+          "Pietro": "0",
+          "Położenie": "Wewnątrz budynku, przy kasie nr 8 i zwrotach"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            18.8947628994571,
+            50.1728318999175
+          ],
+          "_feature_id": 3,
+          "OBJECTID": 3,
+          "Lokalizacja": "Komenda Powiatowa Policji",
+          "adres": "Mikołów, Rymera 1",
+          "Pietro": "0",
+          "Położenie": "Wewnątrz budynku, recepcji na prawej ścianie"
+        }
+      ],
+      "notes": "Native CRS EPSG:2177 (PL-2000 zone 6); query with outSR=4326 for WGS84.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-pwr-2017",
+      "name": "defibrylatory – kampus Politechniki Wrocławskiej (2017)",
+      "url": "https://www.arcgis.com/home/item.html?id=1ceb7d6e05a147028fa6b239fb8195fa",
+      "access_urls": {
+        "feature_layer": "https://services3.arcgis.com/rrLByHvJ7zuJQDVw/ArcGIS/rest/services/defibrylatory/FeatureServer/0",
+        "geojson_query": "https://services3.arcgis.com/rrLByHvJ7zuJQDVw/ArcGIS/rest/services/defibrylatory/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "Politechnika Wrocławska org account (user 220029_pwr, student project)",
+      "organization_type": "university (student account)",
+      "license": "None stated",
+      "format": "ArcGIS FeatureServer (JSON/GeoJSON)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "PWr campus, Wrocław",
+      "data_date": "2017-11-27",
+      "row_count": 5,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "5/5"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "5/5"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "5/5"
+          },
+          {
+            "name": "FID",
+            "type": "integer",
+            "filled": "5/5"
+          },
+          {
+            "name": "Id",
+            "type": "integer",
+            "filled": "5/5"
+          },
+          {
+            "name": "budynek",
+            "type": "string",
+            "filled": "5/5"
+          },
+          {
+            "name": "piętro",
+            "type": "integer-as-string",
+            "filled": "5/5"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.0617808386053,
+            51.1073492504635
+          ],
+          "_feature_id": 1,
+          "FID": 1,
+          "Id": 0,
+          "budynek": "A-1",
+          "piętro": "0"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.0594914243677,
+            51.1104292666407
+          ],
+          "_feature_id": 2,
+          "FID": 2,
+          "Id": 0,
+          "budynek": "D-20",
+          "piętro": "0"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.0539173511989,
+            51.1047187284824
+          ],
+          "_feature_id": 3,
+          "FID": 3,
+          "Id": 0,
+          "budynek": "L-1",
+          "piętro": "0"
+        }
+      ],
+      "notes": "Student GIS exercise; stale.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "arcgis-pwr-2023",
+      "name": "Defibrylatory_2023 – Politechnika Wrocławska",
+      "url": "https://www.arcgis.com/home/item.html?id=8bdbfb0f853f4fd4b970be56945b3cf3",
+      "access_urls": {
+        "feature_layer": "https://services3.arcgis.com/rrLByHvJ7zuJQDVw/ArcGIS/rest/services/Defibrylatory_2023/FeatureServer/0",
+        "geojson_query": "https://services3.arcgis.com/rrLByHvJ7zuJQDVw/ArcGIS/rest/services/Defibrylatory_2023/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "organization": "Politechnika Wrocławska org account (user 253510_pwr)",
+      "organization_type": "university (student account)",
+      "license": "None stated",
+      "format": "ArcGIS FeatureServer (JSON/GeoJSON)",
+      "access_method": "ArcGIS REST query, no auth",
+      "coverage": "PWr campus, Wrocław",
+      "data_date": "2023-01-06",
+      "row_count": 10,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "10/10"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "10/10"
+          },
+          {
+            "name": "_feature_id",
+            "type": "integer",
+            "filled": "10/10"
+          },
+          {
+            "name": "FID",
+            "type": "integer",
+            "filled": "10/10"
+          },
+          {
+            "name": "Oznaczenie",
+            "type": "string",
+            "filled": "10/10"
+          },
+          {
+            "name": "Uwagi",
+            "type": "string",
+            "filled": "10/10"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.0594494150772,
+            51.1074015171913
+          ],
+          "_feature_id": 1,
+          "FID": 1,
+          "Oznaczenie": "C-13",
+          "Uwagi": " "
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.0568354325848,
+            51.1088162006026
+          ],
+          "_feature_id": 2,
+          "FID": 2,
+          "Oznaczenie": "C-18",
+          "Uwagi": " "
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.065008524009,
+            51.1081293283978
+          ],
+          "_feature_id": 3,
+          "FID": 3,
+          "Oznaczenie": "B-4",
+          "Uwagi": " "
+        }
+      ],
+      "notes": "Likely student project.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "inpost-helpbox365",
+      "name": "InPost – AED przy Paczkomatach (Helpbox 365)",
+      "url": "https://inpost.pl/aed",
+      "access_urls": {
+        "geojson": "https://inpost.pl/aed-points"
+      },
+      "organization": "InPost sp. z o.o. (devices serviced by Centrum Ratownictwa)",
+      "organization_type": "company",
+      "license": "None stated",
+      "format": "GeoJSON",
+      "access_method": "JSON feed behind the inpost.pl/aed map, no auth",
+      "coverage": "Poland (~98 towns; 39 in Wrocław)",
+      "row_count": 137,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "_geometry_type",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "_coordinates",
+            "type": "object",
+            "filled": "137/137"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "address_1",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "address_2",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "location_description",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "area",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "filled": "137/137"
+          },
+          {
+            "name": "variant",
+            "type": "string",
+            "filled": "137/137"
+          }
+        ],
+        "note": "name = Paczkomat code; variant blue = Wrocław program, yellow = rest"
+      },
+      "sample_rows": [
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            16.87537,
+            51.11946
+          ],
+          "name": "WRO03BAPP",
+          "address_1": "Gałowska 8D",
+          "address_2": "54-530 Wrocław",
+          "location_description": "Przy obiekcie mieszkaniowym.",
+          "area": "Wrocław",
+          "status": "active",
+          "variant": "blue"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            16.89373,
+            51.15904
+          ],
+          "name": "WRO337M",
+          "address_1": "Stabłowicka 55",
+          "address_2": "54-058 Wrocław",
+          "location_description": "Na prawo od wejścia do sklepu",
+          "area": "Wrocław",
+          "status": "active",
+          "variant": "blue"
+        },
+        {
+          "_geometry_type": "Point",
+          "_coordinates": [
+            17.00876,
+            51.08214
+          ],
+          "name": "WRO121M",
+          "address_1": "Powstańców Śląskich 185",
+          "address_2": "53-138 Wrocław",
+          "location_description": "Po lewej stronie od szlabanu",
+          "area": "Wrocław",
+          "status": "active",
+          "variant": "blue"
+        }
+      ],
+      "notes": "All stations 24/7, outdoors.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "gdansk-umg-html",
+      "name": "Defibrylatory w Gdańsku – lista UMG",
+      "url": "https://www.gdansk.pl/wiadomosci/Defibrylatory,a,216952",
+      "organization": "Urząd Miejski w Gdańsku – Wydział Bezpieczeństwa i Zarządzania Kryzysowego",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "HTML table",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gdańsk",
+      "data_date": "2022-02-25",
+      "row_count": 114,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Lp.",
+            "type": "string"
+          },
+          {
+            "name": "adres lokalizacji urządzenia",
+            "type": "string"
+          },
+          {
+            "name": "Opis lokalizacji",
+            "type": "string"
+          },
+          {
+            "name": "Czy znajduje się na zewnątrz budynku?",
+            "type": "string"
+          },
+          {
+            "name": "Godziny funkcjonowania?",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Lp.": "1",
+          "adres lokalizacji urządzenia": "Osowa, ul. Balcerskiego 35 ( IX komisariat policji)",
+          "Opis lokalizacji": "elewacja budynku",
+          "Czy znajduje się na zewnątrz budynku?": "na zewnątrz",
+          "Godziny funkcjonowania?": ""
+        },
+        {
+          "Lp.": "2",
+          "adres lokalizacji urządzenia": "Żabianka, ul. Sztormowa (deptak przy budynku poczty)",
+          "Opis lokalizacji": "wolnostojący postument",
+          "Czy znajduje się na zewnątrz budynku?": "na zewnątrz",
+          "Godziny funkcjonowania?": ""
+        },
+        {
+          "Lp.": "3",
+          "adres lokalizacji urządzenia": "Przymorze, ul. Kołobrzeska (zajezdnia przy SKM Przymorze)",
+          "Opis lokalizacji": "wolnostojący postument",
+          "Czy znajduje się na zewnątrz budynku?": "na zewnątrz",
+          "Godziny funkcjonowania?": ""
+        }
+      ],
+      "notes": "City says list is incomplete; includes schools, outdoor posts, pools and vehicles.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "gliwice-html",
+      "name": "Wykaz defibrylatorów AED w Gliwicach (aktualizowany)",
+      "url": "https://gliwice.eu/aktualnosci/bezpieczne-gliwice/wykaz-defibrylatorow-aed-aktualizowany",
+      "organization": "Urząd Miejski w Gliwicach / Centrum Ratownictwa Gliwice",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "HTML table",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gliwice",
+      "row_count": 95,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "LP.",
+            "type": "string"
+          },
+          {
+            "name": "LOKALIZACJA DEFIBRYLATORA AED",
+            "type": "string"
+          },
+          {
+            "name": "DZIELNICA",
+            "type": "string"
+          },
+          {
+            "name": "ADRES",
+            "type": "string"
+          },
+          {
+            "name": "SZCZEGÓŁY LOKALIZACJI",
+            "type": "string"
+          },
+          {
+            "name": "INFORMACJE O DOSTĘPNOŚCI",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "LP.": "1",
+          "LOKALIZACJA DEFIBRYLATORA AED": "Przedsiębiorstwo Energetyki Cieplnej – GLIWICE Sp. z o.o.",
+          "DZIELNICA": "Baildona",
+          "ADRES": "Królewskiej Tamy 135",
+          "SZCZEGÓŁY LOKALIZACJI": "wewnątrz budynku – przy głównym wejściu, portiernia",
+          "INFORMACJE O DOSTĘPNOŚCI": "całodobowo"
+        },
+        {
+          "LP.": "2",
+          "LOKALIZACJA DEFIBRYLATORA AED": "Przedsiębiorstwo Energetyki Cieplnej – GLIWICE Sp. z o.o.",
+          "DZIELNICA": "Baildona",
+          "ADRES": "Królewskiej Tamy 44",
+          "SZCZEGÓŁY LOKALIZACJI": "wewnątrz budynku – przy głównym wejściu, portiernia",
+          "INFORMACJE O DOSTĘPNOŚCI": "całodobowo"
+        },
+        {
+          "LP.": "3",
+          "LOKALIZACJA DEFIBRYLATORA AED": "Silesia Asfalty Sp. z o.o.",
+          "DZIELNICA": "Baildona",
+          "ADRES": "Nad Bytomką 1",
+          "SZCZEGÓŁY LOKALIZACJI": "wewnątrz budynku – hol główny",
+          "INFORMACJE O DOSTĘPNOŚCI": "od poniedziałku do piątku od 7.00 do 15.00"
+        }
+      ],
+      "notes": "Newest data reportedly in the MSIP geoportal layer and GAMA app (endpoint not found).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "krakow-impuls-zycia-html",
+      "name": "AED – Impuls Życia: gdzie znaleźć defibrylator (Kraków)",
+      "url": "https://krakow.pl/3992,artykul,gdzie-znalezc-defibrylator-.html",
+      "access_urls": {
+        "list_pages": "https://krakow.pl/instcbi/3992/2432/{1..3}/",
+        "map": "https://krakow.pl/aed---impuls-zycia/3992,artykul,mapa-aed.html"
+      },
+      "organization": "Urząd Miasta Krakowa (program 'Krakowski IMPULS ŻYCIA AED')",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "HTML (paginated list + map with per-object pages)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Kraków",
+      "data_date": "2026-10-01",
+      "row_count": 58,
+      "row_count_note": "3 list pages: 20+20+18 objects in the fixed-AED category (id 2432); AED in vehicles listed separately.",
+      "coordinates": "map points on per-object pages (not extracted)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Nazwa (name + placement + address in one string)",
+            "type": "string"
+          },
+          {
+            "name": "Kategoria",
+            "type": "string"
+          },
+          {
+            "name": "Mapa",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Nazwa": "Bazylika Mariacka - Parafia pw. Wniebowzięcia Najświętszej Maryi Panny- Zakrystia Plac Mariacki 5 31-042 Kraków",
+          "Kategoria": "Defibrylatory zewnętrzne AED"
+        },
+        {
+          "Nazwa": "Centrum Jana Pawła II „Nie lękajcie się!” – hol parter ul. Totus Tuus 34 30-610 Kraków",
+          "Kategoria": "Defibrylatory zewnętrzne AED"
+        },
+        {
+          "Nazwa": "Centrum Sportu i Kultury „ Sidzina” ul. Działowskiego 1 30-399 Kraków",
+          "Kategoria": "Defibrylatory zewnętrzne AED"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "wopr-zachodniopomorska-siec-aed",
+      "name": "Zachodniopomorska Sieć Defibrylatorów AED",
+      "url": "https://woprwz.pl/zachodniopomorska-siec-defibrylatorow-aed/",
+      "organization": "WOPR Województwa Zachodniopomorskiego (with Wojewoda Zachodniopomorski); submissions: aed@wopr.szczecin.pl",
+      "organization_type": "NGO (rescue service)",
+      "license": "None stated",
+      "format": "HTML tables (one per town)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Zachodniopomorskie (Szczecin, Świnoujście, Stargard, Koszalin, Kołobrzeg)",
+      "row_count": 95,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "L.p.",
+            "type": "string"
+          },
+          {
+            "name": "Lokalizacja / Miejsce",
+            "type": "string"
+          },
+          {
+            "name": "Adres",
+            "type": "string"
+          }
+        ],
+        "note": "Town is implied by the table heading, not a column."
+      },
+      "sample_rows": [
+        {
+          "L.p.": "1.",
+          "Lokalizacja": "Instytut Pamięci Narodowej",
+          "Adres": "ul. Janickiego 30"
+        },
+        {
+          "L.p.": "2.",
+          "Lokalizacja": "NZOZ Przychodnie Medycyny Rodzinnej",
+          "Adres": "ul. Górna 18b Bezrzecze"
+        },
+        {
+          "L.p.": "3.",
+          "Lokalizacja": "Media Markt – Omni Molo",
+          "Adres": "ul. Mieszka I"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "wiazowna-html",
+      "name": "Ogólnodostępne defibrylatory AED w gminie Wiązowna",
+      "url": "https://tuwiazowna.pl/mamy-juz-dziewiec-ogolnodostepnych-defibrylatorow-aed-na-terenie-gminy/",
+      "organization": "Gmina Wiązowna (portal tuWiązowna.pl)",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "HTML table",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gmina Wiązowna",
+      "row_count": 9,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Lp.",
+            "type": "string"
+          },
+          {
+            "name": "Adres",
+            "type": "string"
+          },
+          {
+            "name": "Miejsce instalacji",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "Lp.": "1.",
+          "Adres": "Wiązowna, ul. Lubelska 59",
+          "Miejsce instalacji": "na ścianie Urzędu Gminy Wiązowna"
+        },
+        {
+          "Lp.": "2.",
+          "Adres": "Wiązowna, Osiedle Parkowe 17",
+          "Miejsce instalacji": "na ścianie Gminnego Przedszkola im. Misia Uszatka"
+        },
+        {
+          "Lp.": "3.",
+          "Adres": "Wiązowna, ul. Kościelna 41",
+          "Miejsce instalacji": "w OSP w Wiązownie"
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "lublin-pdf",
+      "name": "AED Lublin (stan na 17.03.2026)",
+      "url": "https://lublin.eu/mieszkancy/zdrowie/aktualnosci/aed-w-lublinie,748,1345,1.html",
+      "access_urls": {
+        "pdf": "https://lublin.eu/download/gfx/lublin/userfiles/_public/mieszkancy/zdrowie/aktualnosci/2026/aed_lublin_stan_17.03.2026.pdf"
+      },
+      "organization": "Urząd Miasta Lublin",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "PDF (numbered list)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Lublin",
+      "data_date": "2026-03-17",
+      "row_count": 48,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "lp",
+            "type": "string"
+          },
+          {
+            "name": "name_and_address (one string: '<object>, <street>')",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "lp": "1",
+          "name_and_address": "Ośrodek Medyczny DMP, ul. Projektowa 5"
+        },
+        {
+          "lp": "2",
+          "name_and_address": "MPWiK Sp. z o.o. w Lublinie, ul. Zawilcowa 10"
+        },
+        {
+          "lp": "3",
+          "name_and_address": "GDDKiA Oddział w Lublinie, ul. Ogrodowa 21"
+        }
+      ],
+      "notes": "Contains duplicates (e.g. Radio Lublin, AGRO II).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "nieporet-pdf",
+      "name": "Defibrylatory AED ratujące życie w Gminie Nieporęt",
+      "url": "https://www.nieporet.pl/print/node/58?entity_type=node",
+      "access_urls": {
+        "pdf": "https://www.nieporet.pl/sites/default/files/paragraph.attachments.field_attachments/2026-05/plakat_defiblyratory_aed_word-1.pdf"
+      },
+      "organization": "Urząd Gminy Nieporęt",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "PDF (poster, bullet list)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gmina Nieporęt",
+      "data_date": "2026-05",
+      "row_count": 10,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "entry (free text: object, address, placement, hours, phone)",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "entry": "Straż Gminna w Nieporęcie, Nieporęt, ul. Zegrzyńska 10H (Dzika Plaża) na zewnątrz budynku, tel. 668 116 761"
+        },
+        {
+          "entry": "Legionowskie WOPR, Zegrze Południowe, ul. Warszawska 39B tel. 695 889 010 oraz 601 100 100"
+        },
+        {
+          "entry": "Ochotnicza Straż Pożarna w Kątach Węgierskich, ul. Kościelna 22 na wyposażeniu wozu, tel. 22/ 772 32 91, 998 lub 112"
+        }
+      ],
+      "notes": "3 of 10 are on OSP fire engines (mobile).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "polsl-pdf",
+      "name": "Spis i lokalizacja defibrylatorów AED na Politechnice Śląskiej (aktualizacja VI 2025)",
+      "url": "https://www.polsl.pl/bhp/wp-content/uploads/sites/467/2025/06/Spis-i-lokalizacja-defibrylatorow-AED-na-Politechnice-Slaskiej-aktualizacja-VI-2025.pdf",
+      "access_urls": {
+        "campus_map_pdf": "https://www.polsl.pl/wp-content/uploads/2025/05/Mapa-AED-strona-polsl-3.pdf"
+      },
+      "organization": "Politechnika Śląska – Dział BHP",
+      "organization_type": "university",
+      "license": "None stated",
+      "format": "PDF table (PL/EN)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Politechnika Śląska buildings (Gliwice, Katowice, Zabrze, Rybnik)",
+      "data_date": "2025-06",
+      "row_count": 26,
+      "row_count_note": "26 numbered university units/buildings with AED (one unit may hold more than one device); further columns (address, placement, hours) on later pages.",
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "lp",
+            "type": "string"
+          },
+          {
+            "name": "jednostka (PL)",
+            "type": "string"
+          },
+          {
+            "name": "unit (EN)",
+            "type": "string"
+          },
+          {
+            "name": "+ address / placement / hours columns on later pages",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "cols": [
+            "1",
+            "Akademickie Liceum Ogólnokształcące Politechniki Śląskiej",
+            "Academic Secondary School of the Silesian University of Technology"
+          ]
+        },
+        {
+          "cols": [
+            "2",
+            "Biblioteka Politechniki Śląskiej",
+            "Library of the Silesian University of Technology"
+          ]
+        },
+        {
+          "cols": [
+            "3",
+            "Biuro Rektora",
+            "Rector’s Office"
+          ]
+        }
+      ],
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "powiat-radomszczanski-kml",
+      "name": "Wykaz defibrylatorów AED na terenie powiatu radomszczańskiego (Google My Maps)",
+      "url": "https://radomszczanski.pl/strona-3890-wykaz_defibrylatorow_aed_na_terenie.html",
+      "access_urls": {
+        "kml": "https://www.google.com/maps/d/kml?forcekml=1&mid=1OKMaQzlgzJOSejdEysBCV-rwGPqHVVs",
+        "viewer": "https://www.google.com/maps/d/viewer?mid=1OKMaQzlgzJOSejdEysBCV-rwGPqHVVs"
+      },
+      "organization": "Starostwo Powiatowe w Radomsku",
+      "organization_type": "local government (county / powiat)",
+      "license": "None stated",
+      "format": "KML (Google My Maps) + HTML list on the page",
+      "access_method": "Google My Maps KML export, no auth",
+      "coverage": "Powiat radomszczański (Radomsko + 13 gminas)",
+      "row_count": 108,
+      "coordinates": "yes",
+      "schema": {
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string (address – placement – availability, free text)"
+          },
+          {
+            "name": "_coordinates",
+            "type": "lon,lat,alt"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "name": "Urząd Miasta w Radomsku",
+          "description": "ul. Tysiąclecia 5 97 – 500 Radomsko - na zewnątrz budynku przy wejściu głównym - całodobowo",
+          "_coordinates": "19.4474446,51.064179,0"
+        },
+        {
+          "name": "Ochotnicza Straż Pożarna Folwarki",
+          "description": "ul. Torowa 10 97 – 500 Radomsko - na zewnątrz budynku przy wejściu do strażnicy -całodobowo",
+          "_coordinates": "19.4338264,51.0435219,0"
+        },
+        {
+          "name": "Ochotnicza Straż Pożarna w Gidlach",
+          "description": "ul. Reymonta 2 97 – 540 Gidle -na zewnętrz budynku przy wejściu głównym -całodobowo",
+          "_coordinates": "19.4720155,50.9614406,0"
+        }
+      ],
+      "notes": "Only county-level AED dataset found. Many OSP fire stations; availability usually 'całodobowo'.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "kobylka-html",
+      "name": "Ogólnodostępne defibrylatory AED w Kobyłce",
+      "url": "https://www.kobylka.pl/aktualnosc-1724-zmiana_lokalizacji_defibrylatora_aed.html",
+      "organization": "Urząd Miasta Kobyłka",
+      "organization_type": "local government (city)",
+      "license": "None stated",
+      "format": "HTML (prose list in news item)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Kobyłka",
+      "data_date": "2025-10-09",
+      "row_count": 10,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "entry (object name, address/placement in one string)",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "entry": "Publiczna Szkoła Podstawowa z Oddziałami Dwujęzycznymi Nr 1 im. Zofii Nałkowskiej, ul. Jezuicka 1"
+        },
+        {
+          "entry": "Zespół Szkół Publicznych nr 2 im. Bohaterów Bitwy Ossowskiej, ul. Elizy Orzeszkowej 3/5"
+        },
+        {
+          "entry": "Publiczna Szkoła Podstawowa z Oddziałami Sportowymi nr 3 im. Karola Wojtyły, ul. Załuskiego 57"
+        }
+      ],
+      "notes": "All 10 outdoors in heated capsules, 24/7; bought under program PAD (Publiczny Dostęp do Defibrylacji).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "kolczyglowy-html",
+      "name": "Defibrylatory AED – Gmina Kołczygłowy",
+      "url": "https://kolczyglowy.pl/aktualnosci/defibrylatory-aed.html",
+      "organization": "Urząd Gminy Kołczygłowy",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "HTML (prose list)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gmina Kołczygłowy",
+      "row_count": 3,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "entry (village – placement, address)",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "entry": "Kołczygłowy – przy starej remizie strażackiej, ul. Szkolna 3"
+        },
+        {
+          "entry": "Łubno – przy remizie strażackiej"
+        },
+        {
+          "entry": "Gałąźnia Wielka – przy świetlicy wiejskiej"
+        }
+      ],
+      "notes": "Funded by Program Ochrony Ludności i Obrony Cywilnej 2025–2026 – that programme may be a source of many new gmina AEDs.",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "przemet-html",
+      "name": "Wykaz AED – Gmina Przemęt",
+      "url": "https://przemet.pl/2025,02,wykaz-aed/",
+      "organization": "Urząd Gminy Przemęt",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "HTML list; each entry links to a Google Maps place",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gmina Przemęt",
+      "data_date": "2026-01 (last modified)",
+      "row_count": 20,
+      "row_count_note": "18 of 20 entries have coordinates recoverable from the Google Maps link (!3d<lat>!4d<lon>).",
+      "coordinates": "partly (parsed from Google Maps links)",
+      "schema": {
+        "fields": [
+          {
+            "name": "entry",
+            "type": "string (village, address – placement)"
+          },
+          {
+            "name": "lat",
+            "type": "number (derived)"
+          },
+          {
+            "name": "lon",
+            "type": "number (derived)"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "entry": "Błotnica ul. Szkolna 19 – kapsuła zamontowana przy wejściu do Domu Dziennego Pobytu „Senior+”.",
+          "lat": null,
+          "lon": null
+        },
+        {
+          "entry": "Bucz, ul. Akacjowa 6 – kapsuła zamontowana na budynku Przychodni Lekarza Rodzinnego „Zdrowie” (główne wejście).",
+          "lat": 52.0044115,
+          "lon": 16.3834133
+        },
+        {
+          "entry": "Bucz, ul. Kasztanowa 77 – kapsuła zamontowana na paczkomacie InPost (prawa strona).",
+          "lat": 52.0114051,
+          "lon": 16.3949252
+        }
+      ],
+      "notes": "All listed AED are public 24/7 (capsules on OSP stations, village halls, InPost locker).",
+      "checked": "2026-11-21"
+    },
+    {
+      "id": "kamienica-polska-html",
+      "name": "Defibrylatory AED w Gminie Kamienica Polska",
+      "url": "https://www.kamienicapolska.pl/artykul/1468,defibrylatory-aed-ratujace-zyciowe-juz-dostepne-na-terenie-naszej-gminy",
+      "organization": "Urząd Gminy Kamienica Polska",
+      "organization_type": "local government (rural gmina)",
+      "license": "None stated",
+      "format": "HTML (prose list in news item)",
+      "access_method": "Scrape HTML / parse PDF",
+      "coverage": "Gmina Kamienica Polska",
+      "data_date": "2026-06-10",
+      "row_count": 10,
+      "coordinates": "no (addresses only)",
+      "schema": {
+        "fields": [
+          {
+            "name": "entry (building, address)",
+            "type": "string"
+          }
+        ]
+      },
+      "sample_rows": [
+        {
+          "entry": "Na budynku Gminnej Hali Sportowej w Kamienicy Polskiej, ul. Konopnickiej 12B"
+        },
+        {
+          "entry": "Na budynku Szkoły Podstawowej im. Henryka Sienkiewicza w Kamienicy Polskiej, ul. Ferensa 12A"
+        },
+        {
+          "entry": "Na budynku Gminnego Ośrodka Kultury, Sportu i Rekreacji w Kamienicy Polskiej, ul. Konopnickiej 135"
+        }
+      ],
+      "notes": "Funded by Program Ochrony Ludności i Obrony Cywilnej 2025–2026. Gmina links to openaedmap.org, so points are likely in OSM too.",
+      "checked": "2026-11-21"
+    }
+  ],
+  "leads_not_profiled": [
+    {
+      "name": "Geoportal krajowy (GUGiK) – warstwa 'Defibrylatory'",
+      "url": "https://mapy.geoportal.gov.pl/wss/ext/OSM/Defibrylatory",
+      "organization": "Główny Urząd Geodezji i Kartografii",
+      "why_not_profiled": "WMS only (raster); content is a copy of OSM data (agreement GUGiK–OSM Polska 2023).",
+      "license": "AccessConstraints NONE; underlying data ODbL"
+    },
+    {
+      "name": "Pierwszy Ratownik (app)",
+      "url": "https://pierwszyratownik.pl/",
+      "organization": "Związek OSP RP",
+      "why_not_profiled": "Closed app database (>8 500 AED claimed); no public export.",
+      "license": "unknown"
+    },
+    {
+      "name": "Staying Alive (app)",
+      "url": "https://www.stayingalive.org/",
+      "organization": "AED Map / Fundacja Ratuj Życie in PL",
+      "why_not_profiled": "Closed app; PL data overlaps ratujzsercem.pl.",
+      "license": "proprietary"
+    },
+    {
+      "name": "ZTM Gdańsk – Baza pojazdów (AED on vehicles)",
+      "url": "https://dane.gov.pl/pl/dataset/1803",
+      "organization": "ZTM w Gdańsku",
+      "why_not_profiled": "Vehicle fleet attribute (has AED yes/no), not fixed locations; team decided vehicles are out of scope.",
+      "license": "dane.gov.pl terms"
+    },
+    {
+      "name": "Przemyśl interactive map (live source of dane.gov.pl export)",
+      "url": "https://przemysl.pl/45/mapa-interaktywna.html#/map?category=54",
+      "organization": "UM Przemyśl",
+      "why_not_profiled": "Same data as danegov-przemysl."
+    },
+    {
+      "name": "Toruń list (2016)",
+      "url": "https://um.torun.pl/pl/print/215128",
+      "organization": "UM Toruń",
+      "why_not_profiled": "Prose article with ~14 AED, 2016, stale."
+    },
+    {
+      "name": "Chełm – Defibrylatory AED w miejskiej przestrzeni publicznej",
+      "url": "https://samorzad.gov.pl/web/miasto-chelm/defibrylatory-aed-w-miejskiej-przestrzeni-publicznej",
+      "organization": "UM Chełm",
+      "why_not_profiled": "Prose list (~10 entries)."
+    },
+    {
+      "name": "Uniwersytet Śląski – Defibrylatory (AED)",
+      "url": "https://us.edu.pl/bezpieczenstwo/defibrylatory-aed",
+      "organization": "Uniwersytet Śląski w Katowicach",
+      "why_not_profiled": "Prose list of buildings."
+    },
+    {
+      "name": "UMW Wrocław – AED list PDF (11.01.2023)",
+      "url": "https://www.umw.edu.pl/sites/default/files/2023-01/AED__11.01.2023_0.pdf",
+      "organization": "Uniwersytet Medyczny we Wrocławiu",
+      "why_not_profiled": "12-page PDF with floor plans; table extraction unreliable."
+    },
+    {
+      "name": "UMB Białystok – campus AED + evacuation map PDF",
+      "url": "https://www.umb.edu.pl/photo/image/bezpieczenstwo/lokalizacja_miejsc_zbiorek_do_ewakuacji_i_defibrylatorow_aed_na_terenie_kampusu_umb.pdf",
+      "organization": "Uniwersytet Medyczny w Białymstoku",
+      "why_not_profiled": "Map image PDF."
+    },
+    {
+      "name": "Gmina Radłów – Defibrylatory AED",
+      "url": "https://www.gminaradlow.pl/dla-mieszkanca/bezpieczenstwo/defibrylatory-aed",
+      "organization": "UMiG Radłów",
+      "why_not_profiled": "Prose list."
+    },
+    {
+      "name": "Gmina Miejsce Piastowe – Defibrylatory AED",
+      "url": "https://www.miejscepiastowe.pl/asp/pl_start.asp?typ=13&menu=22&artykul=6002&akcja=artykul",
+      "organization": "UG Miejsce Piastowe",
+      "why_not_profiled": "Prose article."
+    },
+    {
+      "name": "Gmina Pielgrzymka – Lokalizacje defibrylatorów AED",
+      "url": "https://www.pielgrzymka.biz/asp/pl_start.asp?typ=13&menu=217&artykul=1652&akcja=artykul",
+      "organization": "UG Pielgrzymka",
+      "why_not_profiled": "Prose article."
+    },
+    {
+      "name": "Elbląg – app 'wElblągu' (AED tab)",
+      "url": "https://dziennikelblaski.pl/artykul/defibrylatory-aed-w-aplikacji-n2421221",
+      "organization": "UM Elbląg",
+      "why_not_profiled": "Mobile app only; no endpoint found."
+    },
+    {
+      "name": "Szczecin – city AED map (announced)",
+      "url": "https://24kurier.pl/aktualnosci/wiadomosci/mapa-defibrylatorow-wroci-na-miejski-portal/",
+      "organization": "UM Szczecin",
+      "why_not_profiled": "Being re-built (inventory in progress, 10.2026)."
+    },
+    {
+      "name": "Gliwice MSIP geoportal – AED layer",
+      "url": "https://msip.gliwice.eu/",
+      "organization": "UM Gliwice",
+      "why_not_profiled": "Layer referenced by city, WMS/WFS endpoint not found."
+    },
+    {
+      "name": "Targeo – 'AED - Defibrylator' POI category",
+      "url": "https://mapa.targeo.pl/aed-defibrylator~23077475/aed-defibrylator/adres",
+      "organization": "Targeo (Emapa S.A.)",
+      "why_not_profiled": "Commercial map; thousands of AED POIs (IDs ~23077000–23081000) with no bulk export or licence; likely derived from OSM.",
+      "license": "proprietary"
+    },
+    {
+      "name": "Moja Okolica – 'Polska mapa defibrylatorów'",
+      "url": "https://www.mojaokolica.pl/mapa-aed-2",
+      "organization": "Moja Okolica (e-gmina app vendor)",
+      "why_not_profiled": "Map is inside the vendor's mobile app; web page is only a submission form.",
+      "license": "unknown"
+    },
+    {
+      "name": "Aplikacja Ratunek (TOPR/GOPR/WOPR)",
+      "url": "https://android.com.pl/porady/494471-telefon-w-gory-jakie-aplikacje/",
+      "organization": "Ratunek app with TOPR, GOPR, WOPR",
+      "why_not_profiled": "Closed mobile app with AED layer (mountains/water).",
+      "license": "proprietary"
+    },
+    {
+      "name": "Apteczka na szlaku – mapa (Beskidy)",
+      "url": "https://apteczkanaszlaku.pl/",
+      "organization": "Apteczka na szlaku (Beskidy initiative)",
+      "why_not_profiled": "mapa.apteczkanaszlaku.pl did not respond (connection failed); reported to show AED at PTTK shelters.",
+      "license": "unknown"
+    },
+    {
+      "name": "Poczta Polska – AED in 40 locations",
+      "url": "https://www.poczta-polska.pl/en/news/bezpieczna-poczta-polska-defibrylatory-aed-dostepne-w-placowkach-i-centrach-logistycznych/",
+      "organization": "Poczta Polska S.A.",
+      "why_not_profiled": "Press release only (18 post offices + 22 sorting centres); no address list.",
+      "license": "n/a"
+    },
+    {
+      "name": "Ostrów Wielkopolski – Mapa dostępnych defibrylatorów",
+      "url": "https://umostrow.pl/mapa-dostepnych-defibrylatorow.html",
+      "organization": "UM Ostrów Wielkopolski",
+      "why_not_profiled": "City points to openaedmap.org (OSM); 14 outdoor 24/7 stations + 21 in MZK buses per city news.",
+      "license": "ODbL via OSM"
+    },
+    {
+      "name": "Wrocław – AED at InPost lockers list + city program 'Bezpieczny Wrocław'",
+      "url": "https://www.wroclaw.pl/dla-mieszkanca/aed-we-wroclawiu-paczkomaty-inpost-adresy-lista",
+      "organization": "UM Wrocław",
+      "why_not_profiled": "Subset of inpost-helpbox365; city says >300 AED but links to ratujzsercem.pl, no own dataset.",
+      "license": "none"
+    },
+    {
+      "name": "Gmina Dopiewo – Lokalizacje defibrylatorów AED (11 AED, 08.2026)",
+      "url": "https://dopiewo.pl/lokalizacje-defibrylatorow-aed",
+      "organization": "UG Dopiewo",
+      "why_not_profiled": "Map rendered by JS (gmina also has dopiewo.e-mapa.net); list not in static HTML."
+    },
+    {
+      "name": "Gmina Lwówek – 10 new AED",
+      "url": "https://nowytomysl.naszemiasto.pl/az-10-nowych-defibrylatorow-aed-w-gminie-lwowek-sprawdz-gdzie-moga-uratowac-zycie/ar/c1p2-29535863",
+      "organization": "UG Lwówek (via local press)",
+      "why_not_profiled": "Press article, not an official list."
+    }
+  ]
+}

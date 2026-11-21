@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns2:datasets xmlns:ns2="urn:otwarte-dane:harvester:1.13" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataset status="published">
+		<extIdent>000036dataset1wykazrzeczyzna22042026</extIdent>
+		<title>
+			<polish>Wykaz rzeczy znalezionych - zbiór danych {nazwa dostawcy}</polish>
+			<english>Lost and Found Items - dataset of {publisher name}</english>
+		</title>
+		<description>
+			<polish>Zbiór zawiera dane o rzeczach znalezionych dostawcy {nazwa dostawcy zgodna z nazwą utworzonego profilu dostawcy w portalu} udostępnione zgodnie z art. 15 ust. 5 Ustawy z dnia 20 lutego 2015 r. o rzeczach znalezionych (Dz. U. z 2023 r. poz. 501 z późn. zm.)</polish>
+			<english>Dataset contains data on found property provided by {publisher name in portal}, made available in accordance with art. 15 ust. 5 Ustawy z dnia 20 lutego 2015 r. o rzeczach znalezionych (Dz. U. z 2023 r. poz. 501 z późn. zm.)</english>
+		</description>
+		<updateFrequency>irregular</updateFrequency>
+        <hasDynamicData>false</hasDynamicData>
+        <hasHighValueData>false</hasHighValueData>
+        <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+        <hasResearchData>false</hasResearchData>
+		<categories>
+			<category>REGI</category>
+		</categories>
+		<resources>
+			<resource status="published">
+				<extIdent>000036resource1wykazrzeczyzn22042026</extIdent>
+				<url>https://{nazwa-domeny}/WYKAZ-RZECZY-ZNALEZIONYCH-{nazwaDostawcy}.{csv}</url>
+				<title>
+					<polish>Dane z wykazu rzeczy znalezionych - {nazwa dostawcy}</polish>
+					<english>Data from Lost and Found Items - {publisher name}</english>
+				</title>
+				<description>
+					<polish>Wykaz zawiera dane o rzeczach znalezionych dostawcy {nazwa dostawcy} udostępnione zgodnie z art. 15 ust. 5 Ustawy z dnia 20 lutego 2015 r. o rzeczach znalezionych (Dz. U. z 2023 r. poz. 501 z późn. zm.)</polish>
+					<english>Data on found property provided by {publisher name}, made available in accordance with art. 15 ust. 5 Ustawy z dnia 20 lutego 2015 r. o rzeczach znalezionych (Dz. U. z 2023 r. poz. 501 z późn. zm.)</english>
+				</description>
+				<availability>local</availability>
+				<dataDate>YYYY-MM-DD</dataDate>
+				<specialSigns>
+					<specialSign>X</specialSign>
+                </specialSigns>
+                <hasDynamicData>false</hasDynamicData>
+                <hasHighValueData>false</hasHighValueData>
+                <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+                <hasResearchData>false</hasResearchData>
+                <containsProtectedData>false</containsProtectedData>
+			</resource>
+		</resources>
+		<tags>
+			<tag lang="pl">Rzeczy znalezione</tag>
+		</tags>
+	</dataset>
+</ns2:datasets>

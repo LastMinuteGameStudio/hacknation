@@ -1,0 +1,31 @@
+{
+    "id": 236,
+    "meta": {
+        "slug": "o-serwisie",
+        "url_path": "/page/o-serwisie/",
+        "seo_title": "",
+        "search_description": "",
+        "first_published_at": "2022-06-01T21:51:38.014496+02:00",
+        "last_published_at": "2025-03-13T15:06:24.841947+01:00",
+        "type": "cms.SimplePage",
+        "detail_url": "https://cms.dane.gov.pl/api/pages/page/o-serwisie/",
+        "html_url": "http://dane.gov.pl/page/o-serwisie/",
+        "show_in_menus": false,
+        "parent": {
+            "id": 9,
+            "meta": {
+                "type": "cms.SimplePageIndex",
+                "detail_url": "https://cms.dane.gov.pl/api/pages/page/",
+                "html_url": "http://dane.gov.pl/page/",
+                "slug": "pozostae-strony-www",
+                "first_published_at": "2020-03-09T11:09:19.212295+01:00",
+                "url_path": "/page/"
+            },
+            "title": "Pozostałe strony WWW"
+        },
+        "children": []
+    },
+    "title": "O Portalu",
+    "latest_revision_created_at": "2025-03-13T15:06:24.477758+01:00",
+    "body": "<p data-block-key=\"0dlfn\">Portal danych jest źródłem wiarygodnych, na bieżąco aktualizowanych danych, udostępnianych bezpłatnie do ponownego wykorzystywania. W jednym miejscu znajdziesz dane ponad 500 dostawców, tj.: administracji publicznej oraz podmiotów prywatnych. Aktualna lista dostawców danych jest dostępna w dziale <a href=\"https://dane.gov.pl/pl/institution\" title=\"\">Dostawcy</a>.</p><p data-block-key=\"etq97\">Portal stworzyliśmy z myślą o:</p><ul><li data-block-key=\"atd5\">obywatelach zainteresowanych działaniami państwa,</li><li data-block-key=\"8b6po\">firmach, które budują innowacyjne produkty i usługi oparte na danych,</li><li data-block-key=\"e9th0\">organizacjach pozarządowych, wykorzystujących dane w codziennej pracy,</li><li data-block-key=\"20dlg\">naukowcach prowadzących badania,</li><li data-block-key=\"9cnjk\">urzędnikach przygotowujących raporty i analizy.</li></ul><p data-block-key=\"besv0\">Do korzystania ze strony nie jest wymagana rejestracja. Jeśli chcesz uzyskać dostęp do dodatkowych funkcjonalności, w tym tworzenia własnych zestawień danych i wygodnego śledzenia aktualizacji danych, załóż konto w serwisie.</p><p data-block-key=\"3egrg\">Portal danych prowadzony jest przez ministra właściwego do spraw informatyzacji.</p><p data-block-key=\"97juj\"><br/></p><h2 data-block-key=\"7vd7l\"><b>Kontakt</b></h2><p data-block-key=\"aruf\">Pytania dotyczące funkcjonowania strony kieruj na adres: <a href=\"mailto:kontakt@dane.gov.pl\" title=\"kontakt\">kontakt@dane.gov.pl</a></p><p data-block-key=\"atqrb\">Jeśli stworzyłeś aplikacje, serwisy www lub inne produkty wykorzystujące dane dostępne w portalu - pochwal się nimi. Zamieścimy je na naszej stronie. Napisz do nas jeśli nie znalazłeś danych, których potrzebujesz. Opisz szczegółowo rodzaj poszukiwanych danych. Przeanalizujemy możliwość udostępnienia ich przez dostawców.</p><p data-block-key=\"aqvf8\"><br/></p><h2 data-block-key=\"ca8bl\"><b>Podstawa prawna</b></h2><p data-block-key=\"6loes\">Portal funkcjonuje na podstawie:</p><ul><li data-block-key=\"2l3uj\"><a href=\"https://dziennikustaw.gov.pl/DU/2021/1641\" title=\"\">ustawy z dnia 11 sierpnia 2021 r. o otwartych danych i ponownym wykorzystywaniu informacji sektora publicznego</a> (Dz. U. z 2023 r. poz. 1524)</li><li data-block-key=\"7uur9\"><a href=\"https://dziennikustaw.gov.pl/DU/2022/2415\" title=\"\">rozporządzenie Rady Ministrów z dnia 21 listopada 2022 r. w sprawie portalu danych</a> (Dz. U. poz. 2415).</li></ul><p data-block-key=\"6fd2q\">Rozbudowa portalu jest dofinansowywana w ramach projektu „Dane 3.0 – wymiana, wartość” FERC. W latach 2017-2022 rozbudowa portalu była realizowana z projektów \"Otwarte Dane - dostęp, standard, edukacja\" oraz \"Otwarte dane plus\" POPC.</p>"
+}

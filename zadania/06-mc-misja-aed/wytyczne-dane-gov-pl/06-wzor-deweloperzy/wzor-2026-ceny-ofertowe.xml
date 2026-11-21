@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='utf-8'?>
+<oferty xmlns="urn:otwarte-dane:harvester:1.13" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Deweloper</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>1234567890</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>mazowieckie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>warszawski</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Warszawa</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Warszawa</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Leśna</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>12</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>5</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>02-776</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Szczęśliwicka</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>5</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>2</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>01-211</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje>Mazowieckie:Piaseczyński:Piaseczno:Piaseczno:Puławska:28:12:05-500</adres_lokalu_sprzedazy_dodatkowe_lokalizacje>
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel. 224561234, biuro@example.com</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>płocki</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Słupno</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Słupno</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Wspólna</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>10H</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>09-408</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>19.721071</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.540385</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>lokal mieszkalny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A1</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>15000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen>strych</pomieszczenia_przynalezne_rodzaj_pomieszczen>
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia>STR03</pomieszczenia_przynalezne_identyfikator_pomieszczenia>
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen>35000.01</pomieszczenia_przynalezne_wyszczegolnienie_cen>
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen>2025-12-02T16:00:00</pomieszczenia_przynalezne_dataczas_obowiazywania_cen>
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>A1</pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>
+    <prawa_niezbedne_wyszczegolnienie_praw>udział w prawie własności działki stanowiącej jedyną drogę dojazdową do budynku, w którym znajduje się lokal mieszkalny</prawa_niezbedne_wyszczegolnienie_praw>
+    <prawa_niezbedne_wartosc_praw>1000.77</prawa_niezbedne_wartosc_praw>
+    <prawa_niezbedne_dataczas_obowiazywania_praw>2025-11-09T16:00:00</prawa_niezbedne_dataczas_obowiazywania_praw>
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu>A1</prawa_niezbedne_identyfikator_powiazanego_lokalu>
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>wynagrodzenie za uzgodnione zmiany lokatorskie</inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>2022.12</inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>2025-11-09T16:00:00</inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>A1</inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Deweloper</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>1234567890</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>mazowieckie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>warszawski</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Warszawa</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Warszawa</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Leśna</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>12</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>5</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>02-776</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Szczęśliwicka</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>5</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>2</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>01-211</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje>Mazowieckie:Piaseczyński:Piaseczno:Piaseczno:Puławska:28:12:05-500</adres_lokalu_sprzedazy_dodatkowe_lokalizacje>
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel. 224561234, biuro@example.com</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>płocki</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Słupno</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Słupno</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Wspólna</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>10H</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>09-408</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>19.721072</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.540385</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>lokal mieszkalny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A1</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>15000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen>garaż</pomieszczenia_przynalezne_rodzaj_pomieszczen>
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia>GAR03</pomieszczenia_przynalezne_identyfikator_pomieszczenia>
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen>17000.55</pomieszczenia_przynalezne_wyszczegolnienie_cen>
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen>2025-11-09T16:00:00</pomieszczenia_przynalezne_dataczas_obowiazywania_cen>
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>A1</pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>
+    <prawa_niezbedne_wyszczegolnienie_praw xsi:nil="true" />
+    <prawa_niezbedne_wartosc_praw xsi:nil="true" />
+    <prawa_niezbedne_dataczas_obowiazywania_praw xsi:nil="true" />
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Deweloper</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>1234567890</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>mazowieckie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>warszawski</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Warszawa</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Warszawa</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Leśna</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>12</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>5</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>02-776</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Szczęśliwicka</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>5</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>2</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>01-211</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje>Mazowieckie:Piaseczyński:Piaseczno:Piaseczno:Puławska:28:12:05-500</adres_lokalu_sprzedazy_dodatkowe_lokalizacje>
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel. 224561234, biuro@example.com</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>płocki</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Słupno</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Słupno</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Wspólna</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>10H</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>09-408</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>19.721074</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.540385</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>lokal mieszkalny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A1</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>15000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen>piwnica</pomieszczenia_przynalezne_rodzaj_pomieszczen>
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia>PIW03</pomieszczenia_przynalezne_identyfikator_pomieszczenia>
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen>17000.76</pomieszczenia_przynalezne_wyszczegolnienie_cen>
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen>2025-11-09T16:00:00</pomieszczenia_przynalezne_dataczas_obowiazywania_cen>
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>A1</pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>
+    <prawa_niezbedne_wyszczegolnienie_praw xsi:nil="true" />
+    <prawa_niezbedne_wartosc_praw xsi:nil="true" />
+    <prawa_niezbedne_dataczas_obowiazywania_praw xsi:nil="true" />
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Nowy DOM</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>9584736251</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>mazowieckie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>piaseczyński</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Piaseczno</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Piaseczno</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica xsi:nil="true" />
+    <adres_siedziby_firmy_numer_nieruchomosci>7</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu xsi:nil="true" />
+    <adres_siedziby_firmy_kod_pocztowy>05-520</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica xsi:nil="true" />
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>98</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu xsi:nil="true" />
+    <adres_lokalu_sprzedazy_kod_pocztowy>02-520</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje xsi:nil="true" />
+    <adres_lokalu_sprzedazy_sposob_kontaktu>nowdom@firma.pl</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>legionowski</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Legionowo</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Legionowo</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica xsi:nil="true" />
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci xsi:nil="true" />
+    <lokalizacja_przedsiewziecia_kod_pocztowy>05-120</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>20.956944</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.409513</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>lokal mieszkalny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A2</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>15000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia xsi:nil="true" />
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <prawa_niezbedne_wyszczegolnienie_praw xsi:nil="true" />
+    <prawa_niezbedne_wartosc_praw xsi:nil="true" />
+    <prawa_niezbedne_dataczas_obowiazywania_praw xsi:nil="true" />
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>NewHouse</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>7482910365</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>małopolskie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>krakowski</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Zielonki</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Węgrzce Dolne</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Akacjowa</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>15</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>1</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>32-087</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Północna</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>17</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>4D</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>02-495</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje xsi:nil="true" />
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel. 224561234</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>otwocki</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Józefów</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Józefów</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Graniczna</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>18</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>05-420</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>21.218111</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.145826</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>dom jednorodzinny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A3</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>16000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen>strych</pomieszczenia_przynalezne_rodzaj_pomieszczen>
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia>STR03</pomieszczenia_przynalezne_identyfikator_pomieszczenia>
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen>35000.43</pomieszczenia_przynalezne_wyszczegolnienie_cen>
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen>2025-12-02T16:00:00</pomieszczenia_przynalezne_dataczas_obowiazywania_cen>
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>A3</pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu>
+    <prawa_niezbedne_wyszczegolnienie_praw>udział w prawie własności działki stanowiącej drogę dojazdową do domu jednorodzinnego</prawa_niezbedne_wyszczegolnienie_praw>
+    <prawa_niezbedne_wartosc_praw>1000.22</prawa_niezbedne_wartosc_praw>
+    <prawa_niezbedne_dataczas_obowiazywania_praw>2025-11-11T16:00:00</prawa_niezbedne_dataczas_obowiazywania_praw>
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu>A3</prawa_niezbedne_identyfikator_powiazanego_lokalu>
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>wynagrodzenie za uzgodnione zmiany lokatorskie</inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>2000.13</inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>2025-11-11T16:00:00</inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>A3</inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Nova Residence Development Sp. z o.o.</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>6049283745</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>małopolskie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>krakowski</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Skawina</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Skawina</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Szkolna</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>4</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>3</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>32-050</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>mazowieckie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>m.st. Warszawa</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Warszawa</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Warszawa</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Jana Rosoła</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>45A</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>8</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>02-784</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje xsi:nil="true" />
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel. 224561288</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>mazowieckie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>miński</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Mińsk Mazowiecki</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Mińsk Mazowiecki</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Warszawska</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>77</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>05-300</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>21.553876</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>52.184112</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>dom jednorodzinny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>A4</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>15000.11</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia xsi:nil="true" />
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <prawa_niezbedne_wyszczegolnienie_praw>udział w prawie własności działki stanowiącej jedyną drogę dojazdową do budynku, w którym znajduje się lokal mieszkalny</prawa_niezbedne_wyszczegolnienie_praw>
+    <prawa_niezbedne_wartosc_praw>1000.21</prawa_niezbedne_wartosc_praw>
+    <prawa_niezbedne_dataczas_obowiazywania_praw>2025-11-12T16:00:00</prawa_niezbedne_dataczas_obowiazywania_praw>
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu>A4</prawa_niezbedne_identyfikator_powiazanego_lokalu>
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>wynagrodzenie za uzgodnione zmiany lokatorskie</inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia>
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>2000.88</inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia>
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>2025-11-12T16:00:00</inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci>
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>A4</inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu>
+  </oferta_sprzedazy>
+  <oferta_sprzedazy>
+    <dane_identyfikacyjne_firma_nazwa>Green Park Development Sp. j.</dane_identyfikacyjne_firma_nazwa>
+    <dane_identyfikacyjne_firma_nip>3029485761</dane_identyfikacyjne_firma_nip>
+    <adres_siedziby_firmy_wojewodztwo>śląskie</adres_siedziby_firmy_wojewodztwo>
+    <adres_siedziby_firmy_powiat>katowicki</adres_siedziby_firmy_powiat>
+    <adres_siedziby_firmy_gmina>Katowice-Wschód</adres_siedziby_firmy_gmina>
+    <adres_siedziby_firmy_miejscowosc>Katowice</adres_siedziby_firmy_miejscowosc>
+    <adres_siedziby_firmy_ulica>ul. Słoneczna</adres_siedziby_firmy_ulica>
+    <adres_siedziby_firmy_numer_nieruchomosci>19</adres_siedziby_firmy_numer_nieruchomosci>
+    <adres_siedziby_firmy_numer_lokalu>7</adres_siedziby_firmy_numer_lokalu>
+    <adres_siedziby_firmy_kod_pocztowy>40-001</adres_siedziby_firmy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_wojewodztwo>małopolskie</adres_lokalu_sprzedazy_wojewodztwo>
+    <adres_lokalu_sprzedazy_powiat>krakowski</adres_lokalu_sprzedazy_powiat>
+    <adres_lokalu_sprzedazy_gmina>Zielonki</adres_lokalu_sprzedazy_gmina>
+    <adres_lokalu_sprzedazy_miejscowosc>Zielonki</adres_lokalu_sprzedazy_miejscowosc>
+    <adres_lokalu_sprzedazy_ulica>ul. Rzeźnicza</adres_lokalu_sprzedazy_ulica>
+    <adres_lokalu_sprzedazy_numer_nieruchomosci>7</adres_lokalu_sprzedazy_numer_nieruchomosci>
+    <adres_lokalu_sprzedazy_numer_lokalu>1</adres_lokalu_sprzedazy_numer_lokalu>
+    <adres_lokalu_sprzedazy_kod_pocztowy>32-087</adres_lokalu_sprzedazy_kod_pocztowy>
+    <adres_lokalu_sprzedazy_dodatkowe_lokalizacje>Podkarpackie:Rzeszów:Rzeszów:Rzeszów:Kwiatkowskiego:12:5:35-311,Mazowieckie:Warszawski zachodni:Ożarów Mazowiecki:Ożarów Mazowiecki:Poznańska:15:4:05-850</adres_lokalu_sprzedazy_dodatkowe_lokalizacje>
+    <adres_lokalu_sprzedazy_sposob_kontaktu>tel.: 333444555, nowainwestycja@development.com</adres_lokalu_sprzedazy_sposob_kontaktu>
+    <lokalizacja_przedsiewziecia_wojewodztwo>małopolskie</lokalizacja_przedsiewziecia_wojewodztwo>
+    <lokalizacja_przedsiewziecia_powiat>wadowicki</lokalizacja_przedsiewziecia_powiat>
+    <lokalizacja_przedsiewziecia_gmina>Andrychów</lokalizacja_przedsiewziecia_gmina>
+    <lokalizacja_przedsiewziecia_miejscowosc>Andrychów</lokalizacja_przedsiewziecia_miejscowosc>
+    <lokalizacja_przedsiewziecia_ulica>ul. Legionów</lokalizacja_przedsiewziecia_ulica>
+    <lokalizacja_przedsiewziecia_numer_nieruchomosci>5</lokalizacja_przedsiewziecia_numer_nieruchomosci>
+    <lokalizacja_przedsiewziecia_kod_pocztowy>34-120</lokalizacja_przedsiewziecia_kod_pocztowy>
+    <lokalizacja_przedsiewziecia_dlugosc_geograficzna>19.445742</lokalizacja_przedsiewziecia_dlugosc_geograficzna>
+    <lokalizacja_przedsiewziecia_szerokosc_geograficzna>51.775929</lokalizacja_przedsiewziecia_szerokosc_geograficzna>
+    <dane_lokalu_rodzaj_nieruchomosci>lokal mieszkalny</dane_lokalu_rodzaj_nieruchomosci>
+    <dane_lokalu_identyfikator_lokalu>F4</dane_lokalu_identyfikator_lokalu>
+    <dane_lokalu_cena_m2_powierzchni>16366.33</dane_lokalu_cena_m2_powierzchni>
+    <dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_m2_powierzchni>
+    <dane_lokalu_cena_lokalu_lub_czesci>1500000.44</dane_lokalu_cena_lokalu_lub_czesci>
+    <dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>2025-11-09T16:00:00</dane_lokalu_dataczas_obowiazywania_ceny_lokalu_lub_czesci>
+    <pomieszczenia_przynalezne_rodzaj_pomieszczen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_pomieszczenia xsi:nil="true" />
+    <pomieszczenia_przynalezne_wyszczegolnienie_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_dataczas_obowiazywania_cen xsi:nil="true" />
+    <pomieszczenia_przynalezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <prawa_niezbedne_wyszczegolnienie_praw xsi:nil="true" />
+    <prawa_niezbedne_wartosc_praw xsi:nil="true" />
+    <prawa_niezbedne_dataczas_obowiazywania_praw xsi:nil="true" />
+    <prawa_niezbedne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wyszczegolnienie_rodzaju_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_wartosc_innego_swiadczenia xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_dataczas_obowiazywania_wartosci xsi:nil="true" />
+    <inne_swiadczenia_pieniezne_identyfikator_powiazanego_lokalu xsi:nil="true" />
+  </oferta_sprzedazy>
+</oferty>
