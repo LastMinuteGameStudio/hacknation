@@ -13,6 +13,10 @@
 
 02 COI, 03 KPRM, 04 KOWR, 05 MC Kompas, 06 MC AED, 08 MFiPR, 10 NASK, 13 UM Bydgoszcz, 14 UZP
 
+## Notatki zespołu
+
+- **Grzan:** 08 Risk Miner raczej odpada, bo wymaga zbyt wielu modułów.
+
 ## Ranking trudności (pozostałe zadania)
 
 Ocena wynika tylko z wymagań organizatorów: ile trzeba oddać, czy dane są gotowe i jak dokładna jest specyfikacja.
