@@ -1,14 +1,16 @@
-"""FastAPI: endpointy z app/KONTRAKT.md. T0 = szkielet z atrapami; ścieżka B podmienia atrapy na logikę + bazę."""
+"""FastAPI: endpointy z app/KONTRAKT.md. Logika importu w app/importy.py, baza w app/db.py."""
 
 from __future__ import annotations
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from typing import Iterator
+
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.orm import Session
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from aed_core.schema import load_schema
-
-from . import mock
+from . import importy
 from .api_models import (
     ImportOut,
     PoleSchematu,
@@ -17,22 +19,33 @@ from .api_models import (
     SchematOut,
     WalidacjaIn,
     WalidacjaOut,
+    ZbiorOut,
     ZdrowieOut,
 )
 from .config import STATIC_DIR, ZAKRES_DIR
-from .db import db_ok, init_db
+from .db import SessionLocal, db_ok, init_db
+from .importy import SCHEMA
 
-app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.1.0")
-SCHEMA = load_schema(ZAKRES_DIR)
+app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.2.0")
+
+_baza_gotowa = False
+
+
+def _init() -> None:
+    global _baza_gotowa
+    if not _baza_gotowa:
+        _baza_gotowa = init_db()
 
 
 @app.on_event("startup")
 def _startup() -> None:
-    init_db()
+    _init()
 
 
-def _blad(status: int, kod: str, komunikat: str) -> HTTPException:
-    return HTTPException(status_code=status, detail={"kod": kod, "komunikat": komunikat})
+def get_db() -> Iterator[Session]:
+    _init()
+    with SessionLocal() as s:
+        yield s
 
 
 @app.get("/api/zdrowie", response_model=ZdrowieOut)
@@ -49,22 +62,46 @@ def schemat() -> SchematOut:
     )
 
 
-# --- Import → walidacja → publikacja (B2: podmienić atrapy) ---------------------------------------
+# --- Import → walidacja → publikacja (B2) ---------------------------------------------------------
 
 
 @app.post("/api/importy", response_model=ImportOut)
-async def utworz_import(plik: UploadFile = File(...), arkusz: str | None = Form(None)) -> ImportOut:
-    return mock.import_out(plik.filename or "plik")
+async def utworz_import(
+    plik: UploadFile = File(...), arkusz: str | None = Form(None), db: Session = Depends(get_db)
+) -> ImportOut:
+    tresc = await importy.wczytaj_upload(plik)
+    return importy.nowy_import(db, plik.filename or "plik", tresc, arkusz)
 
 
 @app.post("/api/importy/{import_id}/walidacja", response_model=WalidacjaOut)
-def waliduj(import_id: str, body: WalidacjaIn) -> WalidacjaOut:
-    return mock.walidacja_out()
+def waliduj(import_id: str, body: WalidacjaIn, db: Session = Depends(get_db)) -> WalidacjaOut:
+    return importy.waliduj(db, import_id, body)
 
 
 @app.post("/api/importy/{import_id}/publikacja", response_model=PublikacjaOut)
-def publikuj(import_id: str) -> PublikacjaOut:
-    return mock.publikacja_out()
+def publikuj(import_id: str, db: Session = Depends(get_db)) -> PublikacjaOut:
+    return importy.publikuj(db, import_id)
+
+
+# --- Edycja przez prywatny link -------------------------------------------------------------------
+
+
+@app.get("/api/zbiory/{slug}", response_model=ZbiorOut)
+def zbior(slug: str, token: str = Query(""), db: Session = Depends(get_db)) -> ZbiorOut:
+    return importy.zbior_out(db, importy.zbior_z_tokenem(db, slug, token))
+
+
+@app.post("/api/zbiory/{slug}/importy", response_model=ImportOut)
+async def import_do_zbioru(
+    slug: str,
+    token: str = Query(""),
+    plik: UploadFile = File(...),
+    arkusz: str | None = Form(None),
+    db: Session = Depends(get_db),
+) -> ImportOut:
+    z = importy.zbior_z_tokenem(db, slug, token)
+    tresc = await importy.wczytaj_upload(plik)
+    return importy.nowy_import(db, plik.filename or "plik", tresc, arkusz, zbior=z)
 
 
 # --- Pliki publiczne (B3, B4) ---------------------------------------------------------------------
@@ -72,7 +109,7 @@ def publikuj(import_id: str) -> PublikacjaOut:
 
 @app.get("/d/{nazwa}")
 def plik_publiczny(nazwa: str):
-    raise _blad(404, "NIE_ZNALEZIONO", "Zbiór jeszcze nie istnieje (T0: atrapa).")
+    raise HTTPException(404, {"kod": "NIE_ZNALEZIONO", "komunikat": "Nie ma takiego pliku."})
 
 
 @app.get("/szablon.csv")
@@ -91,8 +128,20 @@ def szablon_xlsx() -> FileResponse:
 
 # --- Front (zbudowany Vite) -----------------------------------------------------------------------
 
+class _Spa(StaticFiles):
+    """Trasy frontu (np. /edycja/{slug}) nie są plikami: zwracamy index.html, żeby router Reacta je obsłużył."""
+
+    async def get_response(self, path, scope):
+        try:
+            return await super().get_response(path, scope)
+        except StarletteHTTPException as e:
+            if e.status_code != 404 or path.startswith(("api/", "d/")):
+                raise
+            return await super().get_response("index.html", scope)
+
+
 if STATIC_DIR.exists():
-    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="front")
+    app.mount("/", _Spa(directory=STATIC_DIR, html=True), name="front")
 else:
 
     @app.get("/", response_class=PlainTextResponse)

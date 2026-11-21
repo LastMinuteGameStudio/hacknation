@@ -22,3 +22,6 @@ venv/
 .vscode/
 .idea/
 dane/wynik/aed_wszystkie.geojson
+
+# Lokalna baza deweloperska (backend bez dockera)
+app/backend/aed-dev.db

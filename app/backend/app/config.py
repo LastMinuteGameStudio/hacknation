@@ -12,7 +12,8 @@ DANE_WYNIK_DIR = REPO_DIR / "dane" / "wynik"
 STATIC_DIR = Path(os.environ.get("STATIC_DIR", REPO_DIR / "app" / "frontend" / "dist"))
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000").rstrip("/")
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql+psycopg://aed:aed@localhost:5432/aed")
+# W dockerze: Postgres (docker-compose.yml). Lokalnie bez dockera: plik SQLite obok backendu.
+DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{Path(__file__).resolve().parents[1] / 'aed-dev.db'}")
 
 # Tryb atrap: gdy rdzeń (aed_core) jeszcze nie jest gotowy, endpointy zwracają przykładowe dane z kontraktu.
 MOCK = os.environ.get("MOCK", "auto")  # "1" = zawsze atrapy, "0" = nigdy, "auto" = gdy NotImplementedError
