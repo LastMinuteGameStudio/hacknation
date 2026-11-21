@@ -31,6 +31,10 @@ Zespół wybrał **06 Misja AED (MC)**.
   - Wzorcowy zakres danych o defibrylatorach: 10%
   - Prezentacja wypracowanego i kompletnego rozwiązania: 5%
   - Logotyp i hasło (proste i zrozumiałe, zgodne z tematyką wyzwania, nowoczesne, kreatywne, z potencjałem promocyjnym): 25%
+- **Grzan:** 06 Misja AED, zakres danych (wstępnie, lista będzie rozszerzana). Docelowe rozwiązanie na pewno przechowuje:
+  - lokalizację defibrylatora,
+  - słowną nazwę ulicy,
+  - opcjonalnie zdjęcie defibrylatora.
 - **Grzan:** 05 Kompas kompetencji: potencjalny problem to asystent AI, bo fajnie, żeby nie był zwykłym wrapperem wokół Claude'a czy innego modelu.
 - **Grzan:** 05 Kompas kompetencji: narzędzie ma łączyć różne dziedziny, m.in. analitykę i umiejętności interpersonalne.
 - **Grzan:** 05 Kompas kompetencji: użytkownikiem jest urzędnik, czyli osoba nietechniczna. Narzędzie nie zdejmuje z niego odpowiedzialności za ocenę.
