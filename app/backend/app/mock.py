@@ -136,7 +136,7 @@ def normalize_table(
         if "data_aktualizacji" in rec:
             rec["data_aktualizacji"] = today.isoformat()
         msgs: list[Message] = []
-        wiersz = table.header_row + 1 + i
+        wiersz = table.numer_wiersza(i)
         if not rec.get("status"):
             rec["status"] = "nieznany"
         if "data_weryfikacji" in rec and not rec["data_weryfikacji"]:
