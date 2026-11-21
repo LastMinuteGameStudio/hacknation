@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta
 from typing import Optional
@@ -692,6 +693,21 @@ def _geokoduj(wyniki: list[RecordResult], geocoder: Optional[Geocoder]) -> None:
     with ThreadPoolExecutor(max_workers=GEOKODOWANIE_ROWNOLEGLE) as ex:
         wyn = dict(zip(unikalne.keys(), ex.map(jeden, unikalne.values())))
 
+        # Drugie przejście: „Krosno, Jasna” bez numeru ma kilka trafień w Polsce. Gdy pewne trafienia z pliku
+        # leżą głównie w jednej gminie (TERC), niejednoznaczne pytamy ponownie z tą gminą.
+        terce = [g.kod_terc[:6] for g in wyn.values() if g and not g.niejednoznaczny and g.kod_terc]
+        terce += [re.sub(r"\D", "", r.record["kod_terc"])[:6] for r in wyniki if r.record["kod_terc"]]
+        if terce:
+            dominujacy, ile = Counter(terce).most_common(1)[0]
+            if ile >= 2 and ile >= len(terce) / 2:
+                ponownie = {k: AddressQuery(q.ulica, q.nr_budynku, q.kod_pocztowy, q.miejscowosc, dominujacy)
+                            for k, q in unikalne.items()
+                            if not q.kod_terc and (wyn.get(k) is None or (wyn[k].niejednoznaczny and
+                                                                         wyn[k].kod_terc[:6] != dominujacy))}
+                for k, g2 in zip(ponownie.keys(), ex.map(jeden, ponownie.values())):
+                    if g2 and g2.kod_terc[:6] == dominujacy:
+                        wyn[k] = g2
+
     for r, k in przypisanie:
         g = wyn.get(k)
         rec = r.record
@@ -715,6 +731,7 @@ def _geokoduj(wyniki: list[RecordResult], geocoder: Optional[Geocoder]) -> None:
                                    f"Adres „{adres}” jest niejednoznaczny; wybraliśmy najlepsze trafienie. Sprawdź punkt na mapie.",
                                    r.wiersz, "szerokosc_geograficzna"))
         else:
-            r.messages.append(_msg("info", "GEOKODOWANIE_OK",
-                                   f"Współrzędne ustalone z adresu „{adres}” (punkt adresowy budynku).", r.wiersz,
-                                   "szerokosc_geograficzna"))
+            jak = "punkt adresowy budynku" if g.dokladnosc == "punkt_adresowy" else \
+                "położenie przybliżone: środek ulicy lub miejscowości, sprawdź punkt na mapie"
+            r.messages.append(_msg("info", "GEOKODOWANIE_OK", f"Współrzędne ustalone z adresu „{adres}” ({jak}).",
+                                   r.wiersz, "szerokosc_geograficzna"))

@@ -103,6 +103,12 @@ def _sprawdz_pole(pole: str, v: str, f, schema: Schema) -> tuple[str, str] | Non
     return None
 
 
+def _zalecane(nazwa: str, pole: str, puste: list[int], wszystkich: int) -> Message:
+    ile = len(puste)
+    tekst = "we wszystkich wierszach" if ile == wszystkich else f"w {ile} wierszach, m.in. {', '.join(map(str, puste[:5]))}"
+    return _msg("ostrzezenie", "BRAK_POLA_ZALECANEGO", f"Brak pola zalecanego „{nazwa}” {tekst}.", None, pole)
+
+
 def validate_records(records: list[RecordResult], schema: Schema) -> list[Message]:
     out: list[Message] = []
     rr = [r for r in records if not r.pominiety]
@@ -110,6 +116,7 @@ def validate_records(records: list[RecordResult], schema: Schema) -> list[Messag
         return out
 
     # 1) wymagalność
+    godziny_puste: set[int] = set()
     for f in schema.pola:
         puste = [r.wiersz for r in rr if not r.record.get(f.pole, "")]
         if not puste:
@@ -125,10 +132,12 @@ def validate_records(records: list[RecordResult], schema: Schema) -> list[Messag
         elif f.wymagalnosc == "Z":
             if f.pole.startswith("godziny_") and all(r.record.get("dostepny_24_7") == "tak" for r in rr):
                 continue
-            ile = len(puste)
-            tekst = "we wszystkich wierszach" if ile == len(rr) else f"w {ile} wierszach, m.in. {', '.join(map(str, puste[:5]))}"
-            out.append(_msg("ostrzezenie", "BRAK_POLA_ZALECANEGO",
-                            f"Brak pola zalecanego „{f.nazwa}” {tekst}.", None, f.pole))
+            if f.pole.startswith("godziny_"):
+                godziny_puste.update(puste)
+                continue
+            out.append(_zalecane(f.nazwa, f.pole, puste, len(rr)))
+    if godziny_puste:  # 8 pól godzin → jedno ostrzeżenie zamiast ośmiu prawie identycznych
+        out.append(_zalecane("Godziny dostępności (godziny_pn…godziny_swieta)", "godziny_pn", sorted(godziny_puste), len(rr)))
 
     # 2) formaty i słowniki
     for r in rr:

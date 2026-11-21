@@ -80,3 +80,10 @@ def test_duplikaty_i_bliskie_punkty():
 def test_pominiete_nie_walidowane():
     rr = [RecordResult(wiersz=2, record=rekord(szerokosc_geograficzna=""), pominiety=True)]
     assert validate_records(rr, SCHEMA) == []
+
+
+def test_godziny_jedno_ostrzezenie():
+    puste = {p: "" for p in SCHEMA.nazwy if p.startswith("godziny_")}
+    m = val(rekord(dostepny_24_7="nie", **puste))
+    g = [x for x in m if x.kod == "BRAK_POLA_ZALECANEGO" and (x.pole or "").startswith("godziny_")]
+    assert len(g) == 1 and g[0].pole == "godziny_pn"
