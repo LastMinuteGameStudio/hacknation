@@ -43,6 +43,28 @@ Oznaczenia: ✅ zweryfikowane, ❔ niezweryfikowane (tylko wyniki wyszukiwania l
 - **Ratownik:** aplikacja, w której można dodawać AED. ❔
 - **Pierwsza Pomoc LUX MED:** mapa AED. ❔
 
+### Pierwszy Ratownik: szczegóły (research 21.11)
+
+**Skąd dane**
+- Baza powstała z crowdsourcingu. Zalogowani użytkownicy mogą dodawać i aktualizować AED oraz zgłaszać ich brak; robią to „społeczność ratownicza i ZOSP RP” (App Store, aplikacja Reanimator 1R).
+- FAQ: „dodawanie nowych urządzeń do bazy (aktualnie niedostępne)”. https://pierwszyratownik.pl/aplikacja/faq/
+- Liczba: ponad 8 500 AED (spidersweb, 03.2026). Strona główna podaje „10 000+” AED zarejestrowanych w programie. W styczniu 2024 było ponad 7 700 ❔.
+- Proces weryfikacji nie jest opisany. W źródłach nie ma wzmianki o OSM, fundacjach, samorządach ani dane.gov.pl ❔.
+
+**Jak działa aplikacja**
+- Jednym dotknięciem łączy z numerem 112 i jednocześnie alarmuje ratowników-wolontariuszy w promieniu kilku km.
+- Ratownik, który przyjmie zgłoszenie, dostaje trasę i informacje o zdarzeniu. Aplikacja wskazuje najbliższy AED, także po drodze, z szacowanym czasem dojścia.
+- Ma połączenie wideo (Google Meet), przez które można prowadzić osobę zgłaszającą.
+- Pilotaż: ok. 600 strażaków OSP, średni czas dotarcia pierwszej pomocy 87 s.
+- Ratownikiem może zostać osoba, która ma ukończone 18 lat i „odpowiednie kwalifikacje medyczne” (regulamin §3.2). Sposób weryfikacji kwalifikacji nie jest opisany. To wolontariat. Lokalizacja jest śledzona tylko podczas dyżuru.
+- Regulamin §5.1 mówi o przyjmowaniu zdarzeń z zewnętrznych systemów przez API. Integracji z CPR i dyspozytornią PRM nie potwierdzono ❔. Regulamin §8.2: aplikacja „nie zastępuje wezwania służb”.
+- Platformy: iOS i Android. Aplikacja jest bezpłatna. Osobna aplikacja Reanimator służy do wyszukiwania AED i podpowiada pierwszą pomoc.
+
+**Własność i udostępnianie**
+- Właścicielem jest ZOSP RP (regulamin §1.2). Aplikację stworzyła i utrzymuje HomerSafe Sp. z o.o. (§1.3). Administratorem danych osobowych jest ZOSP RP. Partnerzy to PZU i Google Cloud.
+- Strona mówi o „otwartej bazie”, ale **nie ma publicznego API, licencji ani eksportu**. Baza zasila też aplikację Reanimator „i inne usługi”.
+- Do dopytania w ZOSP i HomerSafe: skąd pochodzi początkowa baza, jak wygląda weryfikacja, licencja i API, integracja z CPR.
+
 ## Miejskie, wojewódzkie i instytucjonalne
 
 - **Warszawa, MCK 19115:** https://warszawa19115.pl/urzadzenia-aed. Mapa ładuje się dynamicznie i ma formularz „Zgłoś urządzenie AED”. Ok. 517 urządzeń (placówki, metro, autobusy, SKM, Straż Miejska). ❔ Na api.um.warszawa.pl nie znaleźliśmy zbioru AED.
