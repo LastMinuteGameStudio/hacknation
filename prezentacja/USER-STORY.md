@@ -5,9 +5,9 @@ Schemat przepływu: [`schemat-przeplywu.svg`](schemat-przeplywu.svg) (ręczny SV
 Odwołania 📷 wskazują zrzuty, które robi ścieżka D (`prezentacja/zrzuty/README.md`). Nazwy zrzutów są robocze:
 gdy README będzie gotowe, trzeba je dopasować.
 
-Wszystko w historii 1 działa w prototypie na pliku `app/backend/tests/fixtury/syntetyczny_gmina.xlsx`.
-Wyjątkiem jest krok na dane.gov.pl, który wykonuje się w portalu. W historii 2 synchronizacja z URL to plan (S1).
-Dziś to samo robi się, wgrywając nowy plik przez link edycji.
+Obie historie działają w prototypie (także na demo https://tuaed.wkrynski.dev). Historia 1 korzysta z pliku
+`app/backend/tests/fixtury/syntetyczny_gmina.xlsx`, historia 2 z plików Przemyśla (`przemysl_2024.csv` → `przemysl.csv`).
+Krok na dane.gov.pl wykonuje się w panelu portalu.
 
 ---
 
@@ -39,19 +39,22 @@ Nie zna CSV ani schematów danych. Chce, żeby AED z gminy były widoczne dla dy
 
 ## Historia 2: miasto z plikiem na swojej stronie (Przemyśl)
 
-**Persona.** Urząd Miejski w Przemyślu ma dane AED w CMS i eksportuje je jako CSV na swojej stronie.
+**Persona.** Urząd Miejski w Przemyślu ma dane AED w CMS, który sam eksportuje CSV na stronę miasta.
 Zbiór jest na dane.gov.pl z deklaracją „Codziennie”. Portal trzyma jednak kopię z 2024 r., bo zasób dodano bez
 aktualizacji automatycznej. Plik ma separator `;`, akapit marketingowy w każdym wierszu i współrzędne jako JSON w komórce.
+Miasto nie chce zmieniać CMS ani pamiętać o ręcznym wgrywaniu.
 
 | # | Co się dzieje | 📷 |
 |---|---|---|
-| 1 | Urzędnik wgrywa eksport z CMS. TuAED mapuje go bez poprawek: rozbija geometrię JSON na szerokość i długość, a 8 kolumn CMS (opis marketingowy, galeria, linki) pomija | `10-przemysl-mapowanie` |
-| 2 | Publikacja: stały URL z CSV zgodnym z v0.5 zamiast eksportu z CMS | `11-przemysl-csv` |
-| 3 | **Dziś (działa):** gdy CMS zmieni format (np. geometria z `{"lat","long"}` na `[lon, lat]`), urzędnik wgrywa nowy eksport przez link edycji. URL i `id_aed` zostają te same. Scenariusz demo: `app/backend/tests/fixtury/DEMO.md` | `12-przemysl-aktualizacja` |
-| 4 | **W planie (S1):** zamiast wgrywać plik, urzędnik podaje adres eksportu z CMS. TuAED pobiera go codziennie z zapamiętanym mapowaniem. Gdy zmieni się struktura pliku, wstrzymuje aktualizację i pisze do dysponenta, zamiast opublikować błędne dane | (brak, funkcja w planie) |
+| 1 | Urzędnik raz przechodzi kreator z eksportem z CMS. TuAED mapuje go bez poprawek: rozbija geometrię JSON na szerokość i długość, a 8 kolumn CMS (opis marketingowy, galeria, linki) pomija | `10-przemysl-mapowanie` |
+| 2 | Publikacja daje stały URL z CSV zgodnym z v0.5 zamiast eksportu z CMS | `11-przemysl-csv` |
+| 3 | Na stronie edycji (prywatny link), w sekcji **„Źródło automatyczne”**, wkleja adres eksportu z CMS i wybiera częstotliwość (np. co 24 h) | `12-przemysl-zrodlo` |
+| 4 | TuAED od razu pobiera plik i dalej robi to sam według harmonogramu: zapamiętane mapowanie → walidacja → publikacja pod tym samym slugiem. Status „aktywna”, komunikat **ZSYNCHRONIZOWANO**. Gdy plik się nie zmienił: **BEZ_ZMIAN** | `13-przemysl-zsynchronizowano` |
+| 5 | CMS zmienia format geometrii z `{"lat","long"}` na `[lon, lat]`. Przy następnej synchronizacji TuAED rozpoznaje nowy format, a **URL i `id_aed` zostają te same**. Nikt w urzędzie nic nie robi | `14-przemysl-nowy-format` |
+| 6 | Zabezpieczenie: gdy w źródle zniknie zmapowana kolumna albo pojawi się nowa (**ZMIANA_STRUKTURY**) lub zmieni się ponad połowa AED (**ZA_DUZA_ZMIANA**), synchronizacja jest **wstrzymana**, a opublikowane dane zostają bez zmian. Dysponent potwierdza zmianę („Synchronizuj teraz” z potwierdzeniem) albo wgrywa plik z nowym mapowaniem | `15-przemysl-wstrzymana` |
 
-**Efekt.** Dane z CMS miasta trafiają na dane.gov.pl w ujednoliconym formacie i są aktualne, a miasto nie musi
-zmieniać swojego systemu.
+**Efekt.** Dane z CMS miasta codziennie trafiają na dane.gov.pl w ujednoliconym formacie, bez zmian w systemie
+miasta i bez ręcznej pracy. Błędne źródło nie nadpisze dobrych danych.
 
 ---
 

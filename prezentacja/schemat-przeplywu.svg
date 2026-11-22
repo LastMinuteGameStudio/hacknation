@@ -48,7 +48,7 @@
   <g>
     <rect x="470" y="240" width="480" height="110" rx="14" fill="#ffffff"/>
     <text x="500" y="290" class="bb">1  Wgranie pliku</text>
-    <text x="540" y="330" class="s">lub synchronizacja z URL*</text>
+    <text x="540" y="330" class="s">lub synchronizacja z URL</text>
     <rect x="470" y="370" width="480" height="90" rx="14" fill="#ffffff"/>
     <text x="500" y="427" class="bb">2  Mapowanie kolumn</text>
     <rect x="470" y="480" width="480" height="90" rx="14" fill="#ffffff"/>
@@ -98,5 +98,4 @@
   <!-- OSM → agregat (bez kreatora), pod TuAED -->
   <path d="M215 850 L215 960 L1230 960 L1230 898" class="dash"/>
 
-  <text x="60" y="1040" class="s">* synchronizacja z URL źródła: w planie (demo na pliku Przemyśla). Pozostałe elementy działają w prototypie.</text>
 </svg>
