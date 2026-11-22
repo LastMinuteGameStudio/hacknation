@@ -7,6 +7,7 @@ Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** 
 - **Instrukcja dla jury (krok po kroku, każde wymaganie):** [JURY.md](JURY.md)
 - **Prototyp:** https://tuaed.wkrynski.dev (kreator dla dostawcy, mapa AED, zebrane dane, API w `/docs`)
 - **Prezentacja:** [prezentacja/AEDane-Misja-AED.pptx](prezentacja/AEDane-Misja-AED.pptx)
+- **Wykorzystanie AI:** [WYKORZYSTANIE-AI.md](WYKORZYSTANIE-AI.md) (do czego, co zrobili ludzie, jak sprawdzaliśmy)
 - **Wzorcowy zakres danych (xlsx):** [zakres-danych/wzorcowy-zakres-danych-AED.xlsx](zakres-danych/wzorcowy-zakres-danych-AED.xlsx)
 
 > Wersja robocza opisu (22.11.2026). Uzupełniamy ją do końca hackathonu.
