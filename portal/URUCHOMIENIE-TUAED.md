@@ -51,8 +51,9 @@ $DC run --rm mcod-local-run python manage.py shell -c "from mcod.tuaed_dane_test
 | `admin@tuaed.local` | superuser | `TuAED-test-2026!` |
 | `redaktor.przemysl@tuaed.local` | redaktor instytucji „Urząd Miejski w Przemyślu (test TuAED)” | jw. |
 | `redaktor.krosno@tuaed.local` | redaktor instytucji „Urząd Miasta Krosna (test TuAED)” | jw. |
+| `redaktor.szpital@tuaed.local` | redaktor instytucji „Szpital Wojewódzki w Przemyślu (test TuAED)” | jw. |
 
-Skrypt zakłada też instytucję-właściciela zbiorczego wykazu „Ministerstwo Cyfryzacji (test TuAED)” o pk 9001 (`MAIN_AED_DATASET_OWNER_ORGANIZATION_PK` w `env.tuaed`). Każda instytucja dostawcy dostaje zbiór „Defibrylatory AED w …” (CC0 1.0) z zasobem „Wykaz AED” (`is_aed_list`) jako linkiem do CSV z TuAED (domyślnie demo: `/d/kznsks42.csv` i `/d/qy7g6px5.csv`; inne adresy: zmienne `TUAED_URL_1`, `TUAED_URL_2`) i włączoną „Aktualizacją automatyczną” (codziennie, bez końca). Fixture `init_mcod_db` dodaje też konta `admin@mcod.local` i `pelnomocnik@mcod.local` z nieznanym hasłem (nie używamy ich).
+Skrypt zakłada też instytucję-właściciela zbiorczego wykazu „Ministerstwo Cyfryzacji (test TuAED)” o pk 9001 (`MAIN_AED_DATASET_OWNER_ORGANIZATION_PK` w `env.tuaed`). Każda instytucja dostawcy dostaje zbiór „Defibrylatory AED w …” (CC0 1.0) z zasobem „Wykaz AED” (`is_aed_list`) jako linkiem do CSV z TuAED (domyślnie demo: `/d/kznsks42.csv` i `/d/qy7g6px5.csv`, szpital: fixtura sesji D `app/backend/tests/fixtury/wykaz/szpital_przemysl_v05.csv` z GitHuba, licencja CC BY 4.0; inne adresy: zmienne `TUAED_URL_1`–`TUAED_URL_3`). Szpital ma AED 15 m od „ADM Centrum” z wykazu Przemyśla, więc scalenie pokazuje duplikat (oczekiwane wg sesji D: 45 rekordów, 1 duplikat) i włączoną „Aktualizacją automatyczną” (codziennie, bez końca). Fixture `init_mcod_db` dodaje też konta `admin@mcod.local` i `pelnomocnik@mcod.local` z nieznanym hasłem (nie używamy ich).
 
 ## Wykaz AED: scalenie i testy (ścieżka A)
 ```bash

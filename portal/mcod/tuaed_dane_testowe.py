@@ -2,8 +2,8 @@
 
 Tworzy (idempotentnie, po e-mailu / tytule):
 - superusera `admin@tuaed.local`,
-- dwie instytucje dostawców AED z kontami redaktorów,
-- w każdej zbiór „Defibrylatory AED …” (licencja CC0 1.0) z zasobem-linkiem do pliku z TuAED (CSV v0.5),
+- trzy instytucje dostawców AED z kontami redaktorów (Przemyśl, Krosno, Szpital w Przemyślu),
+- w każdej zbiór „Defibrylatory AED …” (CC0 1.0, szpital: CC BY 4.0) z zasobem-linkiem do pliku z TuAED (CSV v0.5),
   oznaczonym jako „Wykaz AED” (Resource.is_aed_list) i z „Aktualizacją automatyczną” (codziennie, bez końca),
 - instytucję-właściciela zbioru zbiorczego (pk = MAIN_AED_DATASET_OWNER_ORGANIZATION_PK, domyślnie 9001).
 
@@ -11,7 +11,7 @@ Uruchomienie (po init_mcod_db):
     docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml run --rm mcod-local-run \
         python manage.py shell -c "from mcod.tuaed_dane_testowe import main; main()"
 
-Adresy plików można podmienić zmiennymi TUAED_URL_1 i TUAED_URL_2.
+Adresy plików można podmienić zmiennymi TUAED_URL_1, TUAED_URL_2 i TUAED_URL_3.
 Zapis zasobu ze statusem `published` sam uruchamia pobranie linku (sygnał revalidate_resource →
 entrypoint_process_resource_validation_task) i harmonogram aktualizacji (Resource.schedule_data_date_update).
 """
@@ -23,10 +23,10 @@ import os
 
 from django.db import transaction
 
-HASLO = "TuAED-test-2026!"
+HASLO = "TuAED-test-2026!"  # tylko lokalne demo, nie używać nigdzie indziej
 # Instytucja-właściciel zbiorczego „wykazu AED” (env MAIN_AED_DATASET_OWNER_ORGANIZATION_PK w env.tuaed).
 WLASCICIEL_PK = int(os.environ.get("MAIN_AED_DATASET_OWNER_ORGANIZATION_PK") or 9001)
-WLASCICIEL_NAZWA = "Ministerstwo Cyfryzacji (test TuAED)"  # tylko lokalne demo, nie używać nigdzie indziej
+WLASCICIEL_NAZWA = "Ministerstwo Cyfryzacji (test TuAED)"
 
 DOSTAWCY = [
     {
@@ -48,6 +48,23 @@ DOSTAWCY = [
         "imie_nazwisko": "Redaktor Krosno",
         "zbior": "Defibrylatory AED w Krośnie",
         "url": os.environ.get("TUAED_URL_2", "https://tuaed.wkrynski.dev/d/qy7g6px5.csv"),
+    },
+    {
+        # Trzeci dostawca (sesja D): 3 AED, jeden 15 m od „ADM Centrum” z wykazu Przemyśla (duplikat), drugi 45 m
+        # (nie duplikat). Licencja CC BY 4.0, żeby pokazać licencję wykazu zbiorczego.
+        "instytucja": "Szpital Wojewódzki w Przemyślu (test TuAED)",
+        "slug": "szpital-przemysl-test-tuaed",
+        "email_instytucji": "aed@szpital-przemysl.test",
+        "miasto": "Przemyśl",
+        "redaktor": "redaktor.szpital@tuaed.local",
+        "imie_nazwisko": "Redaktor Szpital",
+        "zbior": "Defibrylatory AED w Szpitalu Wojewódzkim w Przemyślu",
+        "licencja": "CC BY 4.0",
+        "url": os.environ.get(
+            "TUAED_URL_3",
+            "https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/"
+            "app/backend/tests/fixtury/wykaz/szpital_przemysl_v05.csv",
+        ),
     },
 ]
 
@@ -111,7 +128,8 @@ def main() -> None:
         ds = Dataset.objects.filter(title=d["zbior"], organization=org).first() or Dataset(title=d["zbior"], organization=org)
         ds.notes = OPIS_ZBIORU
         ds.update_frequency = "daily"
-        ds.license_chosen = Dataset.LICENSE_CC0  # do wykazu AED wchodzą tylko CC0 1.0 i CC BY 4.0
+        # do wykazu AED wchodzą tylko CC0 1.0 i CC BY 4.0
+        ds.license_chosen = Dataset.LICENSE_CC_BY if d.get("licencja") == "CC BY 4.0" else Dataset.LICENSE_CC0
         ds.has_dynamic_data = False
         ds.has_high_value_data = False
         ds.has_research_data = False
