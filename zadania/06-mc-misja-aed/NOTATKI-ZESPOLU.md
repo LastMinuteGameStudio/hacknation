@@ -99,3 +99,9 @@ Wnioski i pomysły ludzi z zespołu, każdy podpisany autorem. Nowe notatki dopi
   2. Slug zbioru jest rezerwowany już przy wgraniu pliku, żeby wygenerowane `id_aed` (`<kod_terc lub slug>-<hex>`) były stałe od pierwszej walidacji.
   3. Agregat przyjmuje wszystkie zbiory od razu, bez weryfikacji dostawcy. Rekordy z bazy mają `status_walidacji = oczekuje`.
   4. Zgoda na CC0: wymagane pole w kroku 3 przed „Opublikuj” (tylko front).
+- **Grzan (wykaz AED w portalu, 22.11 ok. 02:30):** Po wskazówkach mentorów MC na Discordzie (D. Abramczyk, 21.11 23:32–23:45: „najważniejsze jest dostosowanie i przebudowanie logiki portalu, żeby WYKAZY pobierać i scalać w jedną standardową listę”, postawić portal lokalnie z panelem admina, rozpakowany kod portalu jako pierwszy commit, instrukcja dla jury, klikalny prototyp) robimy „wykaz AED” w kodzie portalu na wzór wykazu DGA (`Resource.contains_protected_data`, zadanie `create_main_dga_resource_task`, `AggregatedDGAInfo`). Decyzje:
+  1. Zbiorczy wykaz w portalu składa **tylko wykazy opublikowane przez dostawców** (odpowiedzialność dostawcy). Nasz agregat z OSM i stron miast zostaje na TuAED jako pokaz skali.
+  2. Kod portalu (mcod-backend 2.62.3, mirror olekstomek) w podkatalogu **`portal/`**: najpierw commit z czystym kodem, potem nasze zmiany.
+  3. Stawiamy **backend + panel admina + API**. Frontend portalu tylko, jeśli zostanie czas.
+  4. Duplikaty między dostawcami: **oba rekordy zostają**, drugi dostaje `duplikat_id_aed` (numer seryjny albo do 30 m).
+  TuAED zostaje narzędziem dla dostawcy, które przygotowuje poprawny wykaz. Plan awaryjny: jeśli portal nie wstanie do ok. 07:00, pokazujemy kod zmian z testami i opisujemy go na slajdzie.
