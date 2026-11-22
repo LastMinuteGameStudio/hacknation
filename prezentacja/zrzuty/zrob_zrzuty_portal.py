@@ -6,7 +6,8 @@ scalenie: create_main_aed_resource_task). Skrypt tylko czyta i robi zrzuty, nicz
 Uruchomienie (hasło wyłącznie ze zmiennej środowiskowej, nie w repo):
     python3 -m venv /tmp/pw && /tmp/pw/bin/pip install playwright && /tmp/pw/bin/playwright install chromium
     PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py \
-        [--url http://localhost:8101] [--login admin@tuaed.local] [--zasob-z-bledem 'tytuł zasobu']
+        [--url http://localhost:8101] [--login admin@tuaed.local] [--zasob-z-bledem 'tytuł zasobu'] \
+        [--ekrany 01,02a,02b,03a,03b,04] [--zasob-id 40207]
 Kolejność: najpierw test e2e D (portal/tuaed_e2e.sh), który zakłada zasób z błędem słownika, potem ten skrypt.
 
 Ekrany (podpisy w README.md, sekcja „Portal dane.gov.pl: wykaz AED”):
@@ -61,25 +62,77 @@ MASKUJ_JS = r"""(maska) => {
 PODSWIETL_JS = """(el) => { el.style.outline = '4px solid #008c15'; el.style.outlineOffset = '4px';
   el.style.borderRadius = '6px'; el.scrollIntoView({block: 'center'}); }"""
 
-# Raport scalania (JSONField, tylko do odczytu) pokazujemy jako sformatowany JSON.
-RAPORT_JS = """() => {
+# Raport scalania (JSONField, tylko do odczytu; admin pokazuje go jako repr słownika Pythona) zamieniamy
+# na czytelne tabele: każda lista obiektów (dołączone, pominięte, …) to osobna tabela.
+RAPORT_JS = r"""() => {
   const el = document.querySelector('.field-report .readonly, .field-report p, .field-report div.readonly');
   if (!el) return false;
-  try {
-    const dane = JSON.parse(el.textContent);
-    const pre = document.createElement('pre');
-    pre.textContent = JSON.stringify(dane, null, 2);
-    pre.style.cssText = 'white-space:pre-wrap;font:13px/1.45 ui-monospace,Menlo,monospace;max-width:1100px;margin:0';
-    el.replaceWith(pre);
-    return true;
-  } catch (e) { return false; }
+  let t = el.textContent.trim();
+  let dane;
+  try { dane = JSON.parse(t); } catch (e) {
+    // repr Pythona → JSON: apostrofy jako ograniczniki napisów, None/True/False.
+    const j = t.replace(/'((?:[^'\\]|\\.)*)'/g, (_, w) => JSON.stringify(w.replace(/\\'/g, "'")))
+               .replace(/\bNone\b/g, 'null').replace(/\bTrue\b/g, 'true').replace(/\bFalse\b/g, 'false');
+    try { dane = JSON.parse(j); } catch (e2) { return false; }
+  }
+  const NAZWY = {dolaczone: 'Dołączone wykazy dostawców', pominiete: 'Pominięte wykazy (z powodem)',
+    duplikaty: 'Oznaczone duplikaty', instytucja: 'Instytucja', liczba_aed: 'Liczba AED', licencja: 'Licencja',
+    zasob_id: 'Zasób', powod: 'Powód', bledy: 'Błędy'};
+  const n = k => NAZWY[k] || k;
+  const fmt = v => Array.isArray(v) ? v.join('; ') : (v && typeof v === 'object') ? JSON.stringify(v) : (v ?? '');
+  const box = document.createElement('div');
+  box.style.cssText = 'font:14px/1.45 "Helvetica Neue",Arial,sans-serif;max-width:1150px';
+  for (const [klucz, wart] of Object.entries(dane)) {
+    const h = document.createElement('h4');
+    h.textContent = n(klucz) + (Array.isArray(wart) ? ` (${wart.length})` : '');
+    h.style.cssText = 'margin:14px 0 6px;font-size:16px;color:#008c15';
+    box.appendChild(h);
+    if (Array.isArray(wart) && wart.length && typeof wart[0] === 'object') {
+      const KOLEJNOSC = ['instytucja', 'liczba_aed', 'licencja', 'powod', 'bledy', 'zasob_id'];
+      const poz = k => (KOLEJNOSC.indexOf(k) + 1) || 99;
+      const kol = [...new Set(wart.flatMap(o => Object.keys(o)))].sort((x, y) => poz(x) - poz(y)).filter(k => !(k === 'bledy' && wart.every(o => !o.bledy || !o.bledy.length)));
+      const tab = document.createElement('table');
+      tab.style.cssText = 'border-collapse:collapse;width:100%;background:#fff';
+      tab.innerHTML = '<tr>' + kol.map(k => `<th style="text-align:left;padding:6px 10px;background:#333;color:#fff">${n(k)}</th>`).join('') + '</tr>';
+      for (const o of wart) {
+        const tr = document.createElement('tr');
+        for (const k of kol) {
+          const td = document.createElement('td');
+          td.textContent = fmt(o[k]);
+          td.style.cssText = 'padding:6px 10px;border-bottom:1px solid #ddd;vertical-align:top';
+          tr.appendChild(td);
+        }
+        tab.appendChild(tr);
+      }
+      box.appendChild(tab);
+    } else {
+      const d = document.createElement('div');
+      d.textContent = Array.isArray(wart) && !wart.length ? '(brak)' : fmt(wart);
+      box.appendChild(d);
+    }
+  }
+  el.replaceWith(box);
+  return true;
 }"""
 
 
+def statyczne_z_ponowieniem(route) -> None:
+    """Lokalny panel (daphne w dockerze na macOS) potrafi zawiesić pojedyncze żądanie /static/*.js na zawsze,
+    przez co strona nigdy nie kończy ładowania. Pobieramy statyczne pliki sami, z limitem i ponowieniem."""
+    for _ in range(4):
+        try:
+            route.fulfill(response=route.fetch(timeout=5_000))
+            return
+        except Exception:
+            continue
+    route.abort()
+
+
 class Portal:
-    def __init__(self, page: Page, baza: str):
+    def __init__(self, page: Page, baza: str, ekrany: set[str] | None = None):
         self.p = page
         self.baza = baza
+        self.ekrany = ekrany  # None = wszystkie
         self.zapisane: list[str] = []
         self.pominiete: list[str] = []
 
@@ -87,7 +140,12 @@ class Portal:
         self.p.goto(self.baza + sciezka, wait_until="domcontentloaded")
         self.p.wait_for_load_state("networkidle", timeout=30_000)
 
+    def chce(self, *kody: str) -> bool:
+        return self.ekrany is None or any(k in self.ekrany for k in kody)
+
     def zrob(self, nazwa: str, pelna: bool = True) -> None:
+        if not self.chce(nazwa.split("-")[1]):
+            return
         self.p.evaluate(MASKUJ_JS, MASKA)
         plik = KATALOG / f"{nazwa}.png"
         self.p.screenshot(path=str(plik), full_page=pelna, animations="disabled",
@@ -131,9 +189,11 @@ class Portal:
         return True
 
 
-def ekran_formularz_i_walidacja(pt: Portal) -> None:
+def ekran_formularz_i_walidacja(pt: Portal, zasob_id: str | None = None) -> None:
     print("1, 2a: zasób-wykaz dostawcy (formularz i walidacja)")
-    if not pt.otworz_z_listy("/resources/resource/", ZBIOR_DOSTAWCY, re.compile(re.escape(ZBIOR_DOSTAWCY))):
+    if zasob_id:
+        pt.idz(f"/resources/resource/{zasob_id}/change/")
+    elif not pt.otworz_z_listy("/resources/resource/", ZBIOR_DOSTAWCY, re.compile(re.escape(ZBIOR_DOSTAWCY))):
         pt.pomin("portal-01", f"nie ma zasobu „{ZBIOR_DOSTAWCY}” (czy uruchomiono tuaed_dane_testowe.py?)")
         return
     adres_zasobu = pt.p.url.split("#")[0]
@@ -146,6 +206,8 @@ def ekran_formularz_i_walidacja(pt: Portal) -> None:
     else:
         pt.pomin("portal-01", f"brak pola „{ETYKIETA_WYKAZ}” w formularzu (migracja 0075 zastosowana?)")
 
+    if not pt.chce("02a"):
+        return
     pt.p.goto(adres_zasobu, wait_until="networkidle")
     if pt.zakladka("data"):
         pt.zrob("portal-02a-walidacja-poprawny")
@@ -207,7 +269,12 @@ def main() -> None:
     ap.add_argument("--login", default=os.environ.get("PORTAL_LOGIN", "admin@tuaed.local"))
     # Zasób z błędem słownika zakłada test e2e D (portal/tuaed_e2e.sh): dostepnosc = „dla wszystkich”.
     ap.add_argument("--zasob-z-bledem", default=os.environ.get("PORTAL_ZASOB_Z_BLEDEM", ZASOB_Z_BLEDEM))
+    ap.add_argument("--ekrany", default=None,
+                    help="tylko wybrane ekrany, np. 01 albo 01,02a (domyślnie wszystkie)")
+    ap.add_argument("--zasob-id", default=os.environ.get("PORTAL_ZASOB_ID"),
+                    help="pk zasobu-wykazu dostawcy (ekrany 01, 02a) zamiast wyszukiwania na liście")
     a = ap.parse_args()
+    ekrany = {e.strip() for e in a.ekrany.split(",")} if a.ekrany else None
     haslo = os.environ.get("PORTAL_HASLO")
     if not haslo:
         sys.exit("Ustaw PORTAL_HASLO (hasło konta testowego z portal/URUCHOMIENIE-TUAED.md). Hasła nie trzymamy w repo.")
@@ -215,14 +282,21 @@ def main() -> None:
     with sync_playwright() as pw:
         przegl = pw.chromium.launch(args=["--lang=pl-PL"])
         ctx = przegl.new_context(viewport={"width": 1440, "height": 900}, locale="pl-PL", device_scale_factor=2)
-        pt = Portal(ctx.new_page(), a.url.rstrip("/"))
+        ctx.route("**/static/**", statyczne_z_ponowieniem)
+        pt = Portal(ctx.new_page(), a.url.rstrip("/"), ekrany)
         pt.zaloguj(a.login, haslo)
-        for krok in (ekran_formularz_i_walidacja, lambda p: ekran_blad_slownika(p, a.zasob_z_bledem),
-                     ekran_zbior_zbiorczy, ekran_raport):
+        kroki = ((("01", "02a"), lambda p: ekran_formularz_i_walidacja(p, a.zasob_id)),
+                 (("02b",), lambda p: ekran_blad_slownika(p, a.zasob_z_bledem)),
+                 (("03a", "03b"), ekran_zbior_zbiorczy),
+                 (("04",), ekran_raport))
+        for kody, krok in kroki:
+            if not pt.chce(*kody):
+                continue
             try:
                 krok(pt)
             except Exception as e:  # jeden ekran nie blokuje pozostałych
                 pt.pomin(getattr(krok, "__name__", "ekran"), f"{type(e).__name__}: {e}")
+        ctx.unroute_all(behavior="ignoreErrors")
         przegl.close()
 
     print("\nzapisane:", ", ".join(pt.zapisane) or "brak")
