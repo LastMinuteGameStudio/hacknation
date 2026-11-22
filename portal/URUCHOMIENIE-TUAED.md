@@ -41,11 +41,22 @@ $DC run --rm mcod-local-run python manage.py search_index --rebuild -f   # jedno
 $DC up -d mcod-local-admin mcod-local-api mcod-local-celery mcod-flower
 ```
 
-## Konta testowe
+## Dane testowe (konta, instytucje, zbiory)
+Skrypt [`mcod/tuaed_dane_testowe.py`](mcod/tuaed_dane_testowe.py) (idempotentny, można uruchamiać wielokrotnie):
 ```bash
-$DC run --rm mcod-local-run python manage.py createsuperuser
+$DC run --rm mcod-local-run python manage.py shell -c "from mcod.tuaed_dane_testowe import main; main()"
 ```
-Instytucje dostawców i ich konta: w panelu admina (Instytucje → Dodaj, Użytkownicy → Dodaj z rolą redaktora instytucji). Loginy testowe zostaną dopisane po pierwszym uruchomieniu.
+| Konto | Rola | Hasło |
+|---|---|---|
+| `admin@tuaed.local` | superuser | `TuAED-test-2026!` |
+| `redaktor.przemysl@tuaed.local` | redaktor instytucji „Urząd Miejski w Przemyślu (test TuAED)” | jw. |
+| `redaktor.krosno@tuaed.local` | redaktor instytucji „Urząd Miasta Krosna (test TuAED)” | jw. |
 
-## Zasób-link z TuAED i „Aktualizacja automatyczna”
-Panel admina → Zbiory danych → Dodaj (instytucja dostawcy) → Zasoby → Dodaj: link do pliku, np. `https://tuaed.wkrynski.dev/d/<slug>.csv`. W zasobie zaznacz „Aktualizacja automatyczna” (częstotliwość). Pobranie wykonuje zadanie Celery (podgląd: Flower).
+Każda instytucja dostaje zbiór „Defibrylatory AED w …” z zasobem-linkiem do CSV z TuAED (domyślnie demo: `/d/kznsks42.csv` i `/d/qy7g6px5.csv`; inne adresy: zmienne `TUAED_URL_1`, `TUAED_URL_2`) i włączoną „Aktualizacją automatyczną” (codziennie, bez końca). Fixture `init_mcod_db` dodaje też konta `admin@mcod.local` i `pelnomocnik@mcod.local` z nieznanym hasłem (nie używamy ich).
+
+## Zasób-link i „Aktualizacja automatyczna”: jak to działa w kodzie
+- W panelu: Zbiory danych → zbiór → Zasoby → Dodaj → link do pliku. Pole „Aktualizacja automatyczna” (`Resource.is_auto_data_date`) z okresem (codziennie / co tydzień / co miesiąc), datą startu i opcją „bez końca”.
+- Zapis opublikowanego zasobu wysyła sygnał `revalidate_resource`. Wtedy `process_resource` planuje zadanie okresowe w Celery beat (`Resource.schedule_data_date_update`, tabele `django_celery_beat`), a dla nowego linku uruchamia pobranie i walidację (`entrypoint_process_resource_validation_task`).
+- Zadanie okresowe `mcod.resources.tasks.update_data_date` ustawia datę danych i dla zasobu-linku ponownie pobiera plik.
+- Podgląd: Flower (http://localhost:5555), w panelu zasób → „Zadania pobierania”.
+- Wzór scalania wykazów (dla „wykazu AED”, ścieżka A): `resources/tasks/dga.py` (`create_main_dga_resource_task`), `resources/dga_utils.py`, harmonogram `celeryapp.py` („dga_main_resource_creation”).
