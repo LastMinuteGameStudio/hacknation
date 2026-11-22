@@ -40,7 +40,7 @@ els=[title("s3b","Portal dane.gov.pl sam skleja wykazy dostawców w jeden zbiór
 for i,(n,t) in enumerate(kroki_p):
     y=1.45+i*1.27
     els+=[card(f"s3b_k{i}",0.5,y,4.3,1.12), T(f"s3b_n{i}",0.62,y+0.12,0.6,0.85,n,size=32,bold=True,color=GR), T(f"s3b_t{i}",1.25,y+0.14,3.45,0.9,t,size=16,bold=True)]
-els.append(T("s3b_b",5.15,1.45,4.35,3.7,"Wzór: istniejący w portalu wykaz danych chronionych (DGA)\nTylko wykazy dostawców na CC0 1.0 albo CC BY 4.0\nPrzy każdym AED instytucja, zasób, data i licencja\nAED od dwóch dostawców: oba zostają, drugi oznaczony jako duplikat\n18 testów logiki scalania przechodzi",size=15,bullets=True,space_below=8))
+els.append(T("s3b_b",5.15,1.45,4.35,3.7,"Wzór: istniejący w portalu wykaz danych chronionych (DGA)\nTylko wykazy dostawców na CC0 1.0 albo CC BY 4.0\nPrzy każdym AED instytucja, zasób, data i licencja\nAED od dwóch dostawców: oba zostają, drugi oznaczony jako duplikat\nPokaz: 4 wykazy, 46 AED, 2 duplikaty, 2 wykazy pominięte (licencja BY-NC, błąd danych)\n18 testów logiki scalania przechodzi",size=14,bullets=True,space_below=8))
 els.append(T("s3b_f",0.5,5.12,9.0,0.4,"Kod: branch portal-aed, portal/WYKAZ-AED.md. Zbiór wynikowy: „Defibrylatory AED: wykaz zbiorczy” (CSV i XLSX).",size=10,color=MU))
 S("s3b",els)
 # 4 kreator: jeden krok na slajd, duzy zrzut
