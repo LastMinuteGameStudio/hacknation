@@ -20,7 +20,10 @@ class BladOdczytu(Exception):
 
 def _dekoduj(content: bytes) -> str:
     if content.startswith((b"\xff\xfe", b"\xfe\xff")):
-        return content.decode("utf-16")
+        try:
+            return content.decode("utf-16")
+        except UnicodeDecodeError:
+            raise BladOdczytu("Nie udało się odczytać kodowania pliku (oczekiwane UTF-8).")
     for kodowanie in ("utf-8-sig", "cp1250"):
         try:
             return content.decode(kodowanie)
@@ -77,17 +80,25 @@ def read_table(content: bytes, extension: str) -> Tabela:
     ext = (extension or "").lower().lstrip(".")
     if ext == "csv":
         tekst = _dekoduj(content)
-        czytnik = csv.reader(io.StringIO(tekst, newline=""), delimiter=_separator(tekst))
-        return _wiersze([list(w) for w in czytnik])
+        try:
+            czytnik = csv.reader(io.StringIO(tekst, newline=""), delimiter=_separator(tekst))
+            return _wiersze([list(w) for w in czytnik])
+        except csv.Error as exc:
+            raise BladOdczytu(f"Nie udało się odczytać pliku CSV: {exc}")
     if ext == "xlsx":
         from openpyxl import load_workbook
 
         try:
             wb = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
-        except Exception as exc:
+            try:
+                if not wb.worksheets:
+                    raise BladOdczytu("Plik XLSX nie ma arkuszy.")
+                siatka = [[_komorka(c) for c in w] for w in wb.worksheets[0].iter_rows(values_only=True)]
+            finally:
+                wb.close()
+        except BladOdczytu:
+            raise
+        except Exception as exc:  # noqa: BLE001 - uszkodzony plik ma dać komunikat walidacji, nie wyjątek zadania
             raise BladOdczytu(f"Nie udało się otworzyć pliku XLSX: {exc}")
-        ws = wb.worksheets[0]
-        siatka = [[_komorka(c) for c in w] for w in ws.iter_rows(values_only=True)]
-        wb.close()
         return _wiersze(siatka)
     raise BladOdczytu(f"Wykaz AED musi być plikiem CSV albo XLSX (jest: {ext or 'nieznany'}).")

@@ -95,8 +95,11 @@ def read_aed_resource_table(resource: "Resource") -> Tabela:
     """Czyta surowy plik główny zasobu (nie tabular_data portalu, żeby nie zmieniać typów wartości)."""
     if not resource.main_file:
         raise BladOdczytu("Zasób nie ma pliku głównego (wykaz AED musi być plikiem CSV albo XLSX).")
-    with resource.main_file.open("rb") as f:
-        content = f.read()
+    try:
+        with resource.main_file.open("rb") as f:
+            content = f.read()
+    except (OSError, ValueError) as exc:
+        raise BladOdczytu(f"Nie udało się odczytać pliku głównego zasobu: {exc}")
     return read_table(content, resource_extension(resource))
 
 

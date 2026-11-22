@@ -104,6 +104,15 @@ def test_nieobslugiwany_format():
         read_table(b"{}", "json")
 
 
+@pytest.mark.parametrize("content, ext", [
+    (b"PK\x03\x04 to nie jest xlsx", "xlsx"),  # uszkodzony XLSX
+    (b"\xff\xfe\x00", "csv"),  # ucięty UTF-16
+])
+def test_uszkodzony_plik_to_blad_odczytu_a_nie_wyjatek(content, ext):
+    with pytest.raises(BladOdczytu):
+        read_table(content, ext)
+
+
 def test_brak_kolumny_obowiazkowej_to_blad_naglowka():
     r = rekord("a1", "49.693000", "21.765000")
     del r["status"]
