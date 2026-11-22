@@ -1,0 +1,2 @@
+id_aed,szerokosc_geograficzna,dlugosc_geograficzna,dokladnosc_polozenia,nazwa_obiektu,cecha_ulicy,nazwa_ulicy,nr_budynku,miejscowosc,wewnatrz_budynku,dostepnosc,dostepny_24_7,status,data_weryfikacji,numer_seryjny,dysponent_nazwa,dysponent_typ,zrodlo_danych,data_aktualizacji,uwagi
+gmina-1,49.900000,22.100000,pomiar_przy_urzadzeniu,"Gmina (pokaz), urząd",ulica,Rynek,1,Wieś Pokazowa,true,dla wszystkich,tak,sprawny,2026-11-15,,Gmina (pokaz),jst,dysponent,2026-11-22T06:00:00,Rekord pokazowy (fikcyjny).

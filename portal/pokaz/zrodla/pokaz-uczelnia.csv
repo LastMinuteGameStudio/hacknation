@@ -1,0 +1,2 @@
+id_aed,szerokosc_geograficzna,dlugosc_geograficzna,dokladnosc_polozenia,nazwa_obiektu,cecha_ulicy,nazwa_ulicy,nr_budynku,miejscowosc,wewnatrz_budynku,dostepnosc,dostepny_24_7,status,data_weryfikacji,numer_seryjny,dysponent_nazwa,dysponent_typ,zrodlo_danych,data_aktualizacji,uwagi
+uczelnia-przemysl-1,49.786100,22.773900,pomiar_przy_urzadzeniu,"Uczelnia (pokaz), budynek A",ulica,Książąt Lubomirskich,6,Przemyśl,true,publiczny,tak,sprawny,2026-11-15,SN-PL-2024-0001,Uczelnia (pokaz),edukacja,dysponent,2026-11-22T06:00:00,Rekord pokazowy (fikcyjny).

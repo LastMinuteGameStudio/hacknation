@@ -1,0 +1,2 @@
+id_aed,szerokosc_geograficzna,dlugosc_geograficzna,dokladnosc_polozenia,nazwa_obiektu,cecha_ulicy,nazwa_ulicy,nr_budynku,miejscowosc,wewnatrz_budynku,dostepnosc,dostepny_24_7,status,data_weryfikacji,numer_seryjny,dysponent_nazwa,dysponent_typ,zrodlo_danych,data_aktualizacji,uwagi
+fundacja-1,49.780000,22.770000,pomiar_przy_urzadzeniu,"Fundacja (pokaz), siedziba",ulica,Mickiewicza,1,Przemyśl,true,publiczny,tak,sprawny,2026-11-15,,Fundacja (pokaz),ngo,dysponent,2026-11-22T06:00:00,Rekord pokazowy (fikcyjny).

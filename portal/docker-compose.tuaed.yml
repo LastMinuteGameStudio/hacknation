@@ -1,0 +1,66 @@
+# TuAED: lokalny portal dane.gov.pl bez nginx, Discourse i CMS. Opis: URUCHOMIENIE-TUAED.md.
+#   cp env.tuaed .env
+#   docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml up -d mcod-local-admin mcod-local-api mcod-local-celery
+# Pliki mirrora zostają bez zmian, ta nakładka:
+# - nie publikuje portów infrastruktury, admin, API, poczta i Flower tylko na 127.0.0.1;
+# - wyłącza nginx (certyfikaty i /etc/hosts), Discourse (obrazy z prywatnego rejestru) i CMS (profile);
+# - włącza Celery beat (zadania okresowe, m.in. „Aktualizacja automatyczna” zasobów).
+x-zaleznosci: &zaleznosci
+  depends_on: !override
+    - mcod-db
+    - mcod-rabbitmq
+    - mcod-redis
+    - mcod-elasticsearch
+    - mcod-rdfdb
+    - mcod-smtp
+
+services:
+  mcod-db:
+    ports: !reset []
+  mcod-rabbitmq:
+    ports: !reset []
+  mcod-redis:
+    ports: !reset []
+  mcod-elasticsearch:
+    ports: !reset []
+  mcod-rdfdb:
+    ports: !reset []
+  mcod-smtp:
+    ports: !override
+      - "127.0.0.1:8025:8025"  # MailHog: podgląd wysłanych maili
+  mcod-flower:
+    ports: !override
+      - "127.0.0.1:5555:8888"  # Flower: podgląd zadań Celery
+  mcod-nginx:
+    ports: !reset []
+    profiles: ["nginx"]
+  mcod-discourse:
+    ports: !reset []
+    profiles: ["forum"]
+  mcod-discourse-sidekiq:
+    ports: !reset []
+    profiles: ["forum"]
+  mcod-local-cms:
+    profiles: ["cms"]
+  mcod-local-ws:
+    profiles: ["ws"]
+
+  mcod-local-admin:
+    <<: *zaleznosci
+    ports:
+      - "127.0.0.1:8101:8001"  # panel admina
+  mcod-local-api:
+    <<: *zaleznosci
+    ports:
+      - "127.0.0.1:8100:8000"  # API
+  mcod-local-celery:
+    <<: *zaleznosci
+    environment:
+      CELERY_INSTALL_CERTIFICATES: 0
+      CELERY_OPTS: "-l INFO -B --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+  mcod-local-tests:
+    <<: *zaleznosci
+  mcod-local-tests-api:
+    <<: *zaleznosci
+  mcod-local-tests-cms:
+    <<: *zaleznosci

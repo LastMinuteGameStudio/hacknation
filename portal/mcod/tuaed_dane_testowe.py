@@ -1,0 +1,162 @@
+"""TuAED: dane testowe lokalnego portalu (portal/URUCHOMIENIE-TUAED.md).
+
+Tworzy (idempotentnie, po e-mailu / tytule):
+- superusera `admin@tuaed.local`,
+- trzy instytucje dostawców AED z kontami redaktorów (Przemyśl, Krosno, Szpital w Przemyślu),
+- w każdej zbiór „Defibrylatory AED …” (CC0 1.0, szpital: CC BY 4.0) z zasobem-linkiem do pliku z TuAED (CSV v0.5),
+  oznaczonym jako „Wykaz AED” (Resource.is_aed_list) i z „Aktualizacją automatyczną” (codziennie, bez końca),
+- instytucję-właściciela zbioru zbiorczego (pk = MAIN_AED_DATASET_OWNER_ORGANIZATION_PK, domyślnie 9001).
+
+Uruchomienie (po init_mcod_db):
+    docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml run --rm mcod-local-run \
+        python manage.py shell -c "from mcod.tuaed_dane_testowe import main; main()"
+
+Adresy plików można podmienić zmiennymi TUAED_URL_1, TUAED_URL_2 i TUAED_URL_3.
+Zapis zasobu ze statusem `published` sam uruchamia pobranie linku (sygnał revalidate_resource →
+entrypoint_process_resource_validation_task) i harmonogram aktualizacji (Resource.schedule_data_date_update).
+"""
+
+from __future__ import annotations
+
+import datetime
+import os
+
+from django.db import transaction
+
+HASLO = "TuAED-test-2026!"  # tylko lokalne demo, nie używać nigdzie indziej
+# Instytucja-właściciel zbiorczego „wykazu AED” (env MAIN_AED_DATASET_OWNER_ORGANIZATION_PK w env.tuaed).
+WLASCICIEL_PK = int(os.environ.get("MAIN_AED_DATASET_OWNER_ORGANIZATION_PK") or 9001)
+WLASCICIEL_NAZWA = "Ministerstwo Cyfryzacji (test TuAED)"
+
+DOSTAWCY = [
+    {
+        "instytucja": "Urząd Miejski w Przemyślu (test TuAED)",
+        "slug": "um-przemysl-test-tuaed",
+        "email_instytucji": "aed@przemysl.test",
+        "miasto": "Przemyśl",
+        "redaktor": "redaktor.przemysl@tuaed.local",
+        "imie_nazwisko": "Redaktor Przemyśl",
+        "zbior": "Defibrylatory AED w Przemyślu",
+        "url": os.environ.get("TUAED_URL_1", "https://tuaed.wkrynski.dev/d/kznsks42.csv"),
+    },
+    {
+        "instytucja": "Urząd Miasta Krosna (test TuAED)",
+        "slug": "um-krosno-test-tuaed",
+        "email_instytucji": "aed@krosno.test",
+        "miasto": "Krosno",
+        "redaktor": "redaktor.krosno@tuaed.local",
+        "imie_nazwisko": "Redaktor Krosno",
+        "zbior": "Defibrylatory AED w Krośnie",
+        "url": os.environ.get("TUAED_URL_2", "https://tuaed.wkrynski.dev/d/qy7g6px5.csv"),
+    },
+    {
+        # Trzeci dostawca (sesja D): 3 AED, jeden 15 m od „ADM Centrum” z wykazu Przemyśla (duplikat), drugi 45 m
+        # (nie duplikat). Licencja CC BY 4.0, żeby pokazać licencję wykazu zbiorczego.
+        "instytucja": "Szpital Wojewódzki w Przemyślu (test TuAED)",
+        "slug": "szpital-przemysl-test-tuaed",
+        "email_instytucji": "aed@szpital-przemysl.test",
+        "miasto": "Przemyśl",
+        "redaktor": "redaktor.szpital@tuaed.local",
+        "imie_nazwisko": "Redaktor Szpital",
+        "zbior": "Defibrylatory AED w Szpitalu Wojewódzkim w Przemyślu",
+        "licencja": "CC BY 4.0",
+        "url": os.environ.get(
+            "TUAED_URL_3",
+            "https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/"
+            "app/backend/tests/fixtury/wykaz/szpital_przemysl_v05.csv",
+        ),
+    },
+]
+
+OPIS_ZBIORU = (
+    "Wykaz automatycznych defibrylatorów zewnętrznych (AED) w formacie wzorcowego zakresu danych v0.5. "
+    "Plik przygotowany w TuAED i aktualizowany automatycznie z adresu dostawcy. Dane testowe."
+)
+
+
+def _uzytkownik(User, email: str, fullname: str, **pola):
+    u = User.objects.filter(email=email).first()
+    if u is None:
+        u = User(email=email)
+    u.fullname = fullname
+    u.state = "active"
+    for k, v in pola.items():
+        setattr(u, k, v)
+    u.set_password(HASLO)  # z pominięciem walidatorów siły hasła (to konto testowe)
+    u.save()
+    return u
+
+
+def _kategoria(Category):
+    kat = Category.objects.filter(code="HEAL").first()
+    if kat is None:
+        kat = Category.objects.create(code="HEAL", title="Zdrowie", description="Zdrowie")
+    return kat
+
+
+@transaction.atomic
+def main() -> None:
+    from mcod.categories.models import Category
+    from mcod.datasets.models import Dataset
+    from mcod.organizations.models import Organization
+    from mcod.resources.models import Resource
+    from mcod.users.models import User
+
+    _uzytkownik(User, "admin@tuaed.local", "Administrator TuAED", is_staff=True, is_superuser=True)
+    wlasciciel = Organization.objects.filter(pk=WLASCICIEL_PK).first() or Organization(pk=WLASCICIEL_PK)
+    wlasciciel.title = WLASCICIEL_NAZWA
+    wlasciciel.slug = "mc-test-tuaed"
+    wlasciciel.institution_type = Organization.INSTITUTION_TYPE_STATE
+    wlasciciel.email = "aed@mc.test"
+    wlasciciel.status = "published"
+    wlasciciel.save()
+    kategoria = _kategoria(Category)
+    dzis = datetime.date.today()
+
+    for d in DOSTAWCY:
+        org = Organization.objects.filter(title=d["instytucja"]).first() or Organization(title=d["instytucja"])
+        org.slug = d["slug"]
+        org.institution_type = Organization.INSTITUTION_TYPE_LOCAL
+        org.email = d["email_instytucji"]
+        org.city = d["miasto"]
+        org.status = "published"
+        org.save()
+
+        redaktor = _uzytkownik(User, d["redaktor"], d["imie_nazwisko"], is_staff=True, is_superuser=False)
+        redaktor.organizations.add(org)
+
+        ds = Dataset.objects.filter(title=d["zbior"], organization=org).first() or Dataset(title=d["zbior"], organization=org)
+        ds.notes = OPIS_ZBIORU
+        ds.update_frequency = "daily"
+        # do wykazu AED wchodzą tylko CC0 1.0 i CC BY 4.0
+        ds.license_chosen = Dataset.LICENSE_CC_BY if d.get("licencja") == "CC BY 4.0" else Dataset.LICENSE_CC0
+        ds.has_dynamic_data = False
+        ds.has_high_value_data = False
+        ds.has_research_data = False
+        ds.status = "published"
+        ds.save()
+        ds.categories.add(kategoria)
+
+        res = Resource.objects.filter(dataset=ds, title=f"{d['zbior']} (CSV)").first()
+        if res is None:
+            res = Resource(dataset=ds, title=f"{d['zbior']} (CSV)")
+        res.description = "Plik CSV (RFC 4180, UTF-8) zgodny z zakresem v0.5, publikowany przez TuAED."
+        res.link = d["url"]
+        res.type = "file"
+        res.format = "csv"
+        res.has_dynamic_data = False
+        res.has_high_value_data = False
+        res.has_research_data = False
+        res.data_date = dzis
+        res.is_aed_list = True  # „Wykaz AED” w panelu (ścieżka A)
+        res.is_auto_data_date = True  # „Aktualizacja automatyczna” w panelu
+        res.data_date_update_period = "daily"
+        res.automatic_data_date_start = dzis
+        res.endless_data_date_update = True
+        res.status = "published"
+        res.save()
+
+        print(f"{org.title}: redaktor {redaktor.email}, zbiór #{ds.pk}, zasób #{res.pk} → {res.link}")
+
+    print(f"Właściciel wykazu zbiorczego: {wlasciciel.title} (pk {wlasciciel.pk})")
+    print(f"Superuser: admin@tuaed.local. Hasło wszystkich kont testowych: {HASLO}")

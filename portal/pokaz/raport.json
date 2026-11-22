@@ -1,0 +1,73 @@
+{
+  "opis": "Wynik scalania wykazów AED tą samą logiką co zadanie portalu create_main_aed_resource_task (portal/mcod/resources/aed/). Reguły: portal/WYKAZ-AED.md.",
+  "zakres": "wzorcowy zakres danych o AED v0.5",
+  "licencja_wykazu": "CC BY 4.0",
+  "liczba_aed": 46,
+  "liczba_duplikatow": 2,
+  "dolaczone": [
+    {
+      "instytucja": "Uczelnia (pokaz)",
+      "zasob_id": 103,
+      "url": "pokaz/zrodla/pokaz-uczelnia.csv",
+      "licencja": "CC0 1.0",
+      "liczba_aed": 1,
+      "ostrzezenia": 6
+    },
+    {
+      "instytucja": "Urząd Miasta Krosna",
+      "zasob_id": 102,
+      "url": "https://tuaed.wkrynski.dev/d/qy7g6px5.csv",
+      "licencja": "CC0 1.0",
+      "liczba_aed": 21,
+      "ostrzezenia": 8
+    },
+    {
+      "instytucja": "Urząd Miejski w Przemyślu",
+      "zasob_id": 101,
+      "url": "https://tuaed.wkrynski.dev/d/kznsks42.csv",
+      "licencja": "CC0 1.0",
+      "liczba_aed": 21,
+      "ostrzezenia": 8
+    },
+    {
+      "instytucja": "Wojewódzki Szpital (pokaz)",
+      "zasob_id": 104,
+      "url": "pokaz/zrodla/pokaz-szpital.csv",
+      "licencja": "CC BY 4.0",
+      "liczba_aed": 3,
+      "ostrzezenia": 6
+    }
+  ],
+  "pominiete": [
+    {
+      "instytucja": "Fundacja (pokaz)",
+      "zasob_id": 105,
+      "url": "pokaz/zrodla/pokaz-fundacja.csv",
+      "licencja": "CC BY-NC 4.0",
+      "powod": "Wykaz nie zostanie dołączony do wykazu zbiorczego AED z powodu licencji zbioru (CC BY-NC 4.0). Dozwolone: CC0 1.0 albo CC BY 4.0.",
+      "bledy": []
+    },
+    {
+      "instytucja": "Gmina (pokaz)",
+      "zasob_id": 106,
+      "url": "pokaz/zrodla/pokaz-gmina-z-bledem.csv",
+      "licencja": "CC0 1.0",
+      "powod": "Liczba błędów walidacji zakresu v0.5: 1.",
+      "bledy": [
+        "Wiersz 2: Kto ma dostęp: „dla wszystkich” nie jest wartością ze słownika dostepnosc (publiczny, klienci, na_prosbe, prywatny)."
+      ]
+    }
+  ],
+  "duplikaty": [
+    {
+      "id_aed": "szpital-krosno-1",
+      "instytucja": "Wojewódzki Szpital (pokaz)",
+      "duplikat_id_aed": "uczelnia-przemysl-1"
+    },
+    {
+      "id_aed": "szpital-krosno-2",
+      "instytucja": "Wojewódzki Szpital (pokaz)",
+      "duplikat_id_aed": "qy7g6px5-26c91c"
+    }
+  ]
+}
