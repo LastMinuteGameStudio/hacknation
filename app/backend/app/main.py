@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from typing import Iterator
 
@@ -11,13 +12,15 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from . import importy, publiczne
+from . import importy, publiczne, synchronizacja
 from .api_models import (
     ImportOut,
     PoleSchematu,
     PozycjaSlownika,
     PublikacjaOut,
     SchematOut,
+    SynchronizacjaIn,
+    SynchronizacjaOut,
     WalidacjaIn,
     WalidacjaOut,
     ZbiorOut,
@@ -39,7 +42,10 @@ def _init() -> None:
 @asynccontextmanager
 async def _lifespan(_app: FastAPI):
     _init()
+    stop = synchronizacja.start_harmonogramu() if os.environ.get("SYNC", "1") == "1" else None
     yield
+    if stop:
+        stop.set()
 
 
 app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.2.0", lifespan=_lifespan)
@@ -105,6 +111,24 @@ async def import_do_zbioru(
     z = importy.zbior_z_tokenem(db, slug, token)
     tresc = await importy.wczytaj_upload(plik)
     return importy.nowy_import(db, plik.filename or "plik", tresc, arkusz, zbior=z)
+
+
+# --- S1: synchronizacja z URL źródła -------------------------------------------------------------
+
+
+@app.get("/api/zbiory/{slug}/zrodlo", response_model=SynchronizacjaOut)
+def zrodlo(slug: str, token: str = Query(""), db: Session = Depends(get_db)) -> SynchronizacjaOut:
+    return synchronizacja.out(db, importy.zbior_z_tokenem(db, slug, token))
+
+
+@app.put("/api/zbiory/{slug}/zrodlo", response_model=SynchronizacjaOut)
+def ustaw_zrodlo(slug: str, body: SynchronizacjaIn, token: str = Query(""), db: Session = Depends(get_db)) -> SynchronizacjaOut:
+    return synchronizacja.ustaw(db, importy.zbior_z_tokenem(db, slug, token), body)
+
+
+@app.post("/api/zbiory/{slug}/synchronizacja", response_model=SynchronizacjaOut)
+def synchronizuj(slug: str, token: str = Query(""), wymus: bool = Query(False), db: Session = Depends(get_db)) -> SynchronizacjaOut:
+    return synchronizacja.synchronizuj(db, importy.zbior_z_tokenem(db, slug, token), wymus=wymus)
 
 
 # --- Pliki publiczne (B3, B4) ---------------------------------------------------------------------

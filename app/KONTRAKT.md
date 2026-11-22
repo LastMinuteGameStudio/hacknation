@@ -102,6 +102,18 @@ Token pokazujemy tylko raz. W bazie trzymamy wyłącznie jego hash.
 - POST `/api/zbiory/{slug}/importy?token=…` (multipart jak wyżej) → `ImportOut`. Import jest powiązany ze zbiorem, a propozycja mapowania uwzględnia mapowanie z poprzedniej wersji.
 - Dalej `walidacja` i `publikacja` bez zmian. Publikacja importu powiązanego ze zbiorem **zastępuje rekordy pod tym samym slugiem** i zwraca te same URL (bez nowego tokenu: `token_edycji = null`).
 
+### Synchronizacja z URL źródła (S1)
+Zbiór może być odświeżany z pliku pod stałym adresem (np. CSV na stronie urzędu). Wszystkie wywołania z `?token=…` jak w edycji.
+- GET `/api/zbiory/{slug}/zrodlo` → `SynchronizacjaOut`.
+- PUT `/api/zbiory/{slug}/zrodlo`, body `{"url": "https://…" | null, "co_ile_godzin": 24}` (1–720) → `SynchronizacjaOut`. Od razu synchronizuje. `url: null` wyłącza. Zły adres (nie http(s), sieć prywatna) → 422 `ZLY_URL`.
+- POST `/api/zbiory/{slug}/synchronizacja[?wymus=true]` → `SynchronizacjaOut`. Synchronizuj teraz; `wymus` pomija kontrolę `ZA_DUZA_ZMIANA` i porównanie skrótu pliku. Brak źródła → 404.
+```json
+{"url": "https://…/aed.csv", "co_ile_godzin": 24, "status": "aktywna",
+ "komunikaty": [{"poziom": "info", "kod": "ZSYNCHRONIZOWANO", "komunikat": "Opublikowano 21 AED z pliku źródła.", "wiersz": null, "pole": null}],
+ "ostatnia_proba": "2026-11-22T10:00:00+00:00", "ostatni_sukces": "2026-11-22T10:00:00+00:00", "liczba_rekordow": 21}
+```
+`status`: `brak` (nie ustawiono), `aktywna`, `wstrzymana` (dane nie zostały podmienione, potrzebna decyzja dostawcy), `blad` (nie udało się pobrać lub odczytać; harmonogram ponowi). Każde odświeżenie to import powiązany ze zbiorem → walidacja z zapamiętanym mapowaniem, dysponentem i wartościami stałymi → publikacja pod tym samym slugiem. Harmonogram w aplikacji sprawdza zaległe zbiory co 5 minut. Wznowienie po wstrzymaniu: PUT z adresem albo POST z `wymus=true` (dla `ZA_DUZA_ZMIANA`), albo zwykłe wgranie przez link edycji z nowym mapowaniem.
+
 ### Pliki publiczne
 | GET | Zawartość |
 |---|---|
@@ -177,6 +189,11 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `SA_BLEDY` | HTTP 409 | publikacja przy błędach |
 | `ZLY_TOKEN` | HTTP 403 | zły token edycji |
 | `NIE_ZNALEZIONO` | HTTP 404 | brak importu lub zbioru |
+| `ZLY_URL` | HTTP 422 | S1: adres źródła nie jest publicznym http(s) |
+| `ZSYNCHRONIZOWANO` / `BEZ_ZMIAN` | info | S1: opublikowano nową wersję / plik źródła się nie zmienił |
+| `BLAD_POBIERANIA` | błąd | S1: serwer źródła nie odpowiedział, kod inny niż 200, plik > 10 MB |
+| `ZMIANA_STRUKTURY` | błąd | S1: zniknęła zmapowana kolumna albo pojawiła się nowa; synchronizacja wstrzymana |
+| `ZA_DUZA_ZMIANA` | ostrzeżenie | S1: zmieniło się > 50% `id_aed` albo rekordów jest o ponad połowę mniej; wstrzymana do potwierdzenia |
 
 ## 5. Decyzje, które implementuje kontrakt
 Licencja zbioru: stała CC0 1.0. Ponowne wgranie przez prywatny link pod ten sam URL. Geokoder GUGiK UUG (Nominatim jako zapas). Limity: 10 MB i 20 000 wierszy. Agregat w dwóch plikach (z OSM i bez OSM) z kolumnami pochodzenia. Doprecyzowanie backendu (Grzan, 22.11): wartości stałe dla pól O bez kolumny, pola `_adres_pelny` i `_godziny`, rekord z nieznalezionym adresem pomijany, precyzja współrzędnych bez dopisywania zer, stabilny `id_aed` z treści rekordu, w agregacie rekord dostawcy jest główny. Źródło: `zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md`.

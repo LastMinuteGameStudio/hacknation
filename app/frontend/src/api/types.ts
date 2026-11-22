@@ -92,6 +92,35 @@ export interface PublikacjaOut {
   url_edycji: string;
 }
 
+/** GET /api/zbiory/{slug}?token=… (lustro ZbiorOut z api_models.py). */
+export interface ZbiorOut {
+  slug: string;
+  dysponent: Dysponent;
+  utworzono: string; // ISO 8601
+  zaktualizowano: string; // ISO 8601
+  liczba_rekordow: number;
+  mapowanie: Mapowanie;
+}
+
+/** S1: PUT /api/zbiory/{slug}/zrodlo?token=… (url null = wyłącz synchronizację). */
+export interface SynchronizacjaIn {
+  url: string | null;
+  co_ile_godzin?: number; // domyślnie 24, od 1 do 720
+}
+
+export type StatusSynchronizacji = "brak" | "aktywna" | "wstrzymana" | "blad";
+
+/** S1: GET/PUT /api/zbiory/{slug}/zrodlo, POST /api/zbiory/{slug}/synchronizacja?token=…[&wymus=true]. */
+export interface SynchronizacjaOut {
+  url: string | null;
+  co_ile_godzin: number;
+  status: StatusSynchronizacji;
+  komunikaty: Komunikat[];
+  ostatnia_proba: string | null; // ISO 8601
+  ostatni_sukces: string | null; // ISO 8601
+  liczba_rekordow: number;
+}
+
 export interface BladApi {
   kod: string;
   komunikat: string;

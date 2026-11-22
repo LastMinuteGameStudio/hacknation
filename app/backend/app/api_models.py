@@ -110,3 +110,18 @@ class ZdrowieOut(BaseModel):
     status: str
     baza: bool
     wersja_zakresu: str
+
+
+class SynchronizacjaIn(BaseModel):
+    url: Optional[str]  # None = wyłącz synchronizację
+    co_ile_godzin: int = 24
+
+
+class SynchronizacjaOut(BaseModel):
+    url: Optional[str]
+    co_ile_godzin: int
+    status: Literal["brak", "aktywna", "wstrzymana", "blad"]
+    komunikaty: list[Komunikat] = []
+    ostatnia_proba: Optional[str] = None
+    ostatni_sukces: Optional[str] = None
+    liczba_rekordow: int

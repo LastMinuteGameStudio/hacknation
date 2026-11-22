@@ -87,6 +87,20 @@ class Import(Base):
     utworzono: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
 
 
+class Synchronizacja(Base):
+    """S1: zbiór odświeżany z URL źródła. Osobna tabela, bo create_all nie dodaje kolumn do istniejącej tabeli zbior."""
+
+    __tablename__ = "synchronizacja"
+    zbior_id: Mapped[int] = mapped_column(ForeignKey("zbior.id", ondelete="CASCADE"), primary_key=True)
+    url: Mapped[str] = mapped_column(Text)
+    co_ile_godzin: Mapped[int] = mapped_column(Integer, default=24)
+    status: Mapped[str] = mapped_column(String(16), default="aktywna")  # aktywna | wstrzymana | blad
+    komunikaty: Mapped[list] = mapped_column(JSONType, default=list)
+    hash_pliku: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)  # ostatni opublikowany plik
+    ostatnia_proba: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    ostatni_sukces: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
 class GeokodCache(Base):
     __tablename__ = "geokod_cache"
     zapytanie: Mapped[str] = mapped_column(Text, primary_key=True)
