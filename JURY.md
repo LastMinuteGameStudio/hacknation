@@ -156,16 +156,29 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 | Szpital Wojewódzki w Przemyślu (test TuAED) | [szpital_przemysl_v05.csv](app/backend/tests/fixtury/wykaz/szpital_przemysl_v05.csv) (3 AED: jeden 15 m od AED Przemyśla, jeden 45 m od innego) | CC BY 4.0 |
 
 1. Uruchom portal lokalnie według URUCHOMIENIE-TUAED.md i wczytaj dane testowe. Panel: http://localhost:8101.
-2. Zaloguj się jako redaktor szpitala i otwórz zasób jego zbioru. Pole „Wykaz AED: Tak” ma opis; błędy zakresu
-   v0.5 widać w wynikach walidacji zasobu. _(zrzut)_
-3. Uruchom scalanie: `python manage.py shell -c "from mcod.resources.tasks import create_main_aed_resource_task as t; print(t.apply().result)"`.
-4. Oczekiwany wynik: **45 AED, 1 duplikat**, licencja wykazu zbiorczego **CC BY 4.0** (jeden dostawca ma CC BY).
-   Rekord „ADM Centrum” z wykazu Przemyśla ma `duplikat_id_aed` wskazujący AED szpitala. Wykazy są
-   przetwarzane alfabetycznie według instytucji, więc oznaczony jest rekord z wykazu przetworzonego później. AED
-   oddalony o 45 m nie jest oznaczony. Kolumny pochodzenia: `zrodlo_instytucja`, `zrodlo_zasob_id`, `zrodlo_url`,
-   `zrodlo_data_aktualizacji`, `licencja_zrodla`. _(zrzut, fragment pliku)_
-5. Panel: Zasoby → „Wykaz zbiorczy AED”. Raport pokazuje, które wykazy dołączono, a które pominięto i dlaczego
-   (błędy walidacji albo licencja spoza CC0 i CC BY 4.0). _(zrzut)_
+2. Zaloguj się jako redaktor szpitala i otwórz zasób jego zbioru. Pole „Wykaz AED: Tak” ma opis, a błędy zakresu
+   v0.5 widać w wynikach walidacji zasobu. _(zrzut `portal-*.png`, w przygotowaniu)_
+3. Uruchom test end-to-end jedną komendą z katalogu `portal/`: **`./tuaed_e2e.sh`**
+   ([tuaed_e2e.sh](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/tuaed_e2e.sh), etapy w kontenerze: [mcod/tuaed_e2e.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/tuaed_e2e.py)). Skrypt
+   dokłada do danych testowych 4 wykazy z pokazu A (uczelnia, szpital, fundacja z licencją CC BY-NC 4.0, gmina
+   z błędem) i wypisuje PASS/FAIL dla punktów:
+   1. migracja `resources.0075` (pole „Wykaz AED” i `AggregatedAEDInfo`) jest zastosowana;
+   2. zasoby z flagą mają wyniki walidacji v0.5: 5 poprawnych (SUCCESS), a fundacja i gmina mają błąd (FAILURE);
+   3. `create_main_aed_resource_task` (synchronicznie) i `finalize_main_aed_resource_task` kończą się nowym
+      zasobem wykazu zbiorczego;
+   4. zbiór „Defibrylatory AED: wykaz zbiorczy”: **49 AED z 5 wykazów, 3 duplikaty, 2 wykazy pominięte, licencja
+      CC BY 4.0**. Duplikaty: `szpital-krosno-1 → uczelnia-przemysl-1` (numer seryjny), `szpital-krosno-2 →
+      qy7g6px5-26c91c` (ok. 15 m), `kznsks42-9c48a7 → szpital-przemysl-test-0c95af` (15 m);
+   5. plik CSV pobrany przez API portalu (`http://localhost:8100/1.4/…`) zawiera wszystkie 46 AED z pokazu A z tymi
+      samymi polami, a ponad to tylko 3 AED szpitala z danych testowych.
+4. Panel: Zasoby → „Wykaz zbiorczy AED”. Raport pokazuje, które wykazy dołączono, a które pominięto i dlaczego
+   (błędy walidacji albo licencja spoza CC0 i CC BY 4.0). _(zrzut `portal-*.png`, w przygotowaniu)_
+
+**Wynik testu e2e w portalu:** _uruchomienie po starcie portalu (stack dgp), wynik i data zostaną wpisane tutaj._
+
+| Zrzut | Co pokazuje |
+|---|---|
+| _`portal-*.png` (od C)_ | _w przygotowaniu_ |
 
 **Bez uruchamiania portalu (pokaz scalania, ok. 1 minuta):**
 
@@ -211,4 +224,5 @@ Instrukcję przeszliśmy jak juror. Sprawdzone:
 - **Sekcja 2:** `DOWOD-URL.md` 21/21 dla `kznsks42`, agregat `/d/aed-polska.csv` ma 19 871 wierszy.
 - **Sekcja 3:** `python tuaed_pokaz_scalania.py` ze świeżego klonu `portal-aed`, online i `--offline`: **46 AED z 4
   wykazów, 2 duplikaty, 2 wykazy pominięte, CC BY 4.0**, zgodnie z opisem. Portalu w Dockerze jeszcze nie
-  uruchamialiśmy, więc kroki 1–5 sekcji 3 i ich zrzuty czekają.
+  uruchamialiśmy. Test e2e (`portal/tuaed_e2e.sh`) jest gotowy, a jego krok (5) sprawdzony na sucho na symulowanym
+  wyniku (PASS, a po zepsuciu jednego pola FAIL).
