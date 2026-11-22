@@ -76,3 +76,25 @@ python3 prezentacja/zrzuty/sprawdz_url.py https://tuaed.wkrynski.dev/d/kznsks42.
 | `cfseuu37`, `r9ba4cvw` | Próbne przebiegi skryptu | tak |
 
 Wszystkie mają dysponenta „Urząd Miejski w Przemyślu (demo)”. Sprzątanie należy do Grzana. Skrypty niczego nie usuwają.
+
+### Portal dane.gov.pl: wykaz AED (panel admina lokalnego portalu, branch `portal-aed`)
+
+Skrypt `zrob_zrzuty_portal.py` (Playwright, tylko czyta). Portal i dane testowe: `portal/URUCHOMIENIE-TUAED.md`
+(panel `http://localhost:8101`, konto `admin@tuaed.local`). Hasło podajemy tylko w zmiennej środowiskowej:
+
+```bash
+PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py [--zasob-z-bledem 'tytuł zasobu']
+```
+
+Przed każdym zrzutem tokeny (`token=…`, długie losowe ciągi) są zamieniane na „••••••••”, a pola haseł czyszczone.
+Zrzuty 1440 px, gęstość 2×. Ekran, którego nie ma w portalu (np. brak zasobu z błędem), jest pomijany z powodem
+w wyniku skryptu, a pozostałe powstają.
+
+| Plik | Podpis |
+|---|---|
+| `portal-01-formularz-wykaz-aed` | Formularz zasobu w panelu dostawcy: pole „Wykaz AED” (TAK/NIE) z opisem. TAK oznacza wykaz w formacie zakresu v0.5, który portal sprawdzi i co noc dołączy do zbioru „Defibrylatory AED: wykaz zbiorczy”. |
+| `portal-02a-walidacja-poprawny` | Zakładka walidacji danych zasobu-wykazu: plik zgodny z zakresem v0.5, bez błędów. |
+| `portal-02b-walidacja-blad-slownika` | Ten sam widok dla wykazu z wartością spoza słownika (np. `dostepnosc`): komunikat z numerem wiersza i podpowiedzią „Użyj jednej z wartości słownika zakresu v0.5”. Taki wykaz nie trafia do wykazu zbiorczego. |
+| `portal-03a-zbior-wykaz-zbiorczy` | Zbiór „Defibrylatory AED: wykaz zbiorczy” utworzony przez portal (instytucja-właściciel, kategoria Zdrowie, słowa kluczowe AED, defibrylator, wykaz AED). |
+| `portal-03b-zasoby-csv-xlsx` | Zasoby zbioru zbiorczego: ten sam wykaz w CSV i XLSX, odświeżany po każdym scaleniu. |
+| `portal-04-wykaz-zbiorczy-raport` | „Wykaz zbiorczy AED” (wzór: wykaz DGA): liczba AED, dołączone wykazy dostawców, pominięte wykazy z powodem (licencja, błędy walidacji), oznaczone duplikaty i licencja wykazu. |
