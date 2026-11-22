@@ -34,14 +34,20 @@ def _resolve_tabular_data_schema(resource: "Resource") -> Dict[str, Any]:
         if tds.get("fields") == old_fields:
             tds = resource.from_resource.tabular_data_schema
 
-    if resource.is_aed_list:
+    if resource.is_aed_list or _is_main_aed_resource(resource):
         tds = _aed_list_tabular_data_schema(tds)
 
     return tds
 
 
+def _is_main_aed_resource(resource: "Resource") -> bool:
+    from mcod.resources.aed_utils import is_main_aed_resource
+
+    return is_main_aed_resource(resource)
+
+
 def _aed_list_tabular_data_schema(tds: Dict[str, Any]) -> Dict[str, Any]:
-    """Wykaz AED: typy kolumn z inferencji (np. nr_budynku jako integer, współrzędne jako date) odrzucają poprawne
+    """Wykaz AED (zasób z flagą albo wykaz zbiorczy): typy kolumn z inferencji (np. nr_budynku jako integer, współrzędne jako date) odrzucają poprawne
     pliki v0.5, zanim dojdzie do _validate_aed_list. Wszystkie kolumny traktujemy jako tekst, ogólna walidacja
     sprawdza tylko strukturę, a typy i formaty sprawdza walidacja zakresu v0.5."""
     tds = deepcopy(tds)

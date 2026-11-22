@@ -162,3 +162,25 @@ def test_schemat_wykazu_aed_wszystkie_kolumny_tekstowe():
     ]
     assert wynik["missingValues"] == [""]
     assert tds["fields"][0]["type"] == "integer"
+
+
+@pytest.mark.django_db
+def test_rozpoznanie_zasobu_wykazu_zbiorczego():
+    """Wykaz zbiorczy ma is_aed_list=False, a też musi dostać schemat tekstowy (inaczej id „SZP-1” ≠ integer)."""
+    from django.conf import settings
+
+    from mcod.resources.aed_utils import is_main_aed_resource
+
+    wlasciciel = OrganizationFactory()
+    zbior = DatasetFactory(organization=wlasciciel, title=settings.MAIN_AED_DATASET_DEFAULT_TITLE)
+    zbiorczy = ResourceFactory(dataset=zbior, is_aed_list=False)
+    inny = ResourceFactory(dataset=DatasetFactory(organization=wlasciciel, title="Inny zbiór"), is_aed_list=False)
+    with override_settings(MAIN_AED_DATASET_OWNER_ORGANIZATION_PK=str(wlasciciel.pk)):
+        assert is_main_aed_resource(zbiorczy)
+        assert not is_main_aed_resource(inny)
+    with override_settings(MAIN_AED_DATASET_OWNER_ORGANIZATION_PK=None):
+        assert not is_main_aed_resource(zbiorczy)
+        plik = mock.Mock()
+        plik.name = "resources/20261122/wykaz-zbiorczy-aed-20261122.csv"
+        with mock.patch.object(Resource, "main_file", new_callable=mock.PropertyMock, return_value=plik):
+            assert is_main_aed_resource(inny)

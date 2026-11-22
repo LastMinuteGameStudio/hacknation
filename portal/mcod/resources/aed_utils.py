@@ -69,6 +69,19 @@ def get_main_aed_dataset() -> Optional["Dataset"]:
     return info.main_aed_dataset if info else None
 
 
+def is_main_aed_resource(resource: "Resource") -> bool:
+    """Zasób wykazu zbiorczego (is_aed_list=False). AggregatedAEDInfo nie wystarcza, bo przy pierwszym scalaniu
+    zasób trafia tam dopiero w finalize, już po walidacji danych. Rozpoznajemy go po zbiorze (instytucja-właściciel
+    i tytuł) albo po prefiksie nazwy pliku głównego. Fałszywe trafienie skutkuje tylko schematem z samymi kolumnami tekstowymi."""
+    dataset = resource.dataset
+    owner_pk = settings.MAIN_AED_DATASET_OWNER_ORGANIZATION_PK
+    if dataset and owner_pk and str(dataset.organization_id) == str(owner_pk) and dataset.title == settings.MAIN_AED_DATASET_DEFAULT_TITLE:
+        return True
+    main_file = resource.main_file
+    name = os.path.basename(main_file.name) if main_file else ""
+    return name.startswith(f"{settings.MAIN_AED_FILE_NAME_PREFIX}-")
+
+
 # --- źródła ---------------------------------------------------------------------------------------
 
 
