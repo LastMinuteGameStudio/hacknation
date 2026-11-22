@@ -86,6 +86,9 @@ Skrypt `zrob_zrzuty_portal.py` (Playwright, tylko czyta). Portal i dane testowe:
 PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py [--zasob-z-bledem 'tytuł zasobu']
 ```
 
+Uruchamiamy po teście e2e sesji D (`portal/tuaed_e2e.sh`): to on zakłada zasób z błędem słownika
+„Defibrylatory AED: Gmina (pokaz) (CSV)” (`dostepnosc` = „dla wszystkich”), domyślny dla ekranu `portal-02b`.
+
 Przed każdym zrzutem tokeny (`token=…`, długie losowe ciągi) są zamieniane na „••••••••”, a pola haseł czyszczone.
 Zrzuty 1440 px, gęstość 2×. Ekran, którego nie ma w portalu (np. brak zasobu z błędem), jest pomijany z powodem
 w wyniku skryptu, a pozostałe powstają.

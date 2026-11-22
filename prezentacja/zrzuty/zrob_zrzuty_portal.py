@@ -7,6 +7,7 @@ Uruchomienie (hasło wyłącznie ze zmiennej środowiskowej, nie w repo):
     python3 -m venv /tmp/pw && /tmp/pw/bin/pip install playwright && /tmp/pw/bin/playwright install chromium
     PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py \
         [--url http://localhost:8101] [--login admin@tuaed.local] [--zasob-z-bledem 'tytuł zasobu']
+Kolejność: najpierw test e2e D (portal/tuaed_e2e.sh), który zakłada zasób z błędem słownika, potem ten skrypt.
 
 Ekrany (podpisy w README.md, sekcja „Portal dane.gov.pl: wykaz AED”):
   portal-01-formularz-wykaz-aed      formularz zasobu: pole „Wykaz AED” z opisem
@@ -36,6 +37,7 @@ ETYKIETA_WYKAZ = "Wykaz AED"
 ZBIOR_DOSTAWCY = "Defibrylatory AED w Przemyślu"
 ZBIOR_ZBIORCZY = "Defibrylatory AED: wykaz zbiorczy"
 SLOWA_BLEDU = ("błąd", "blad", "błędem", "niepoprawny")
+ZASOB_Z_BLEDEM = "Defibrylatory AED: Gmina (pokaz) (CSV)"  # z portal/tuaed_e2e.sh (sesja D)
 
 # Przed każdym zrzutem: tokeny w tekście i atrybutach zamieniamy na maskę, pola haseł czyścimy.
 MASKUJ_JS = r"""(maska) => {
@@ -203,7 +205,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--url", default=os.environ.get("PORTAL_URL", "http://localhost:8101"))
     ap.add_argument("--login", default=os.environ.get("PORTAL_LOGIN", "admin@tuaed.local"))
-    ap.add_argument("--zasob-z-bledem", default=os.environ.get("PORTAL_ZASOB_Z_BLEDEM"))
+    # Zasób z błędem słownika zakłada test e2e D (portal/tuaed_e2e.sh): dostepnosc = „dla wszystkich”.
+    ap.add_argument("--zasob-z-bledem", default=os.environ.get("PORTAL_ZASOB_Z_BLEDEM", ZASOB_Z_BLEDEM))
     a = ap.parse_args()
     haslo = os.environ.get("PORTAL_HASLO")
     if not haslo:
