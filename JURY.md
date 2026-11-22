@@ -130,7 +130,7 @@ opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)�
 | Wymaganie | Gdzie |
 |---|---|
 | Tytuł i szczegółowy opis | [README.md](README.md) |
-| Prezentacja (min. 5 slajdów, zrzuty, kroki użytkownika, ograniczenia) | [prezentacja/TuAED-Misja-AED.pptx](prezentacja/TuAED-Misja-AED.pptx), zrzuty: [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) |
+| Prezentacja (min. 5 slajdów, zrzuty, kroki użytkownika, ograniczenia) | [prezentacja/AEDane-Misja-AED.pptx](prezentacja/AEDane-Misja-AED.pptx), zrzuty: [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) |
 | Prototyp | https://tuaed.wkrynski.dev, sekcja 1 tej instrukcji |
 | Wzorcowy zakres danych (xlsx) | [zakres-danych/wzorcowy-zakres-danych-AED.xlsx](zakres-danych/wzorcowy-zakres-danych-AED.xlsx) |
 | Kod źródłowy | to repozytorium: [app/](app/) (AEDane), [dane/skrypty/](dane/skrypty/) (agregacja), portal: sekcja 3 |

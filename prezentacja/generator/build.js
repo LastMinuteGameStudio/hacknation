@@ -5,7 +5,7 @@ const imgs = JSON.parse(fs.readFileSync('images.json'));
 const imap = JSON.parse(fs.readFileSync('imgmap.json'));
 const pres = new pptxgen();
 pres.layout = 'LAYOUT_16x9';
-pres.title = 'TuAED – Misja AED (HackNation 2026)';
+pres.title = 'AEDane – Misja AED (HackNation 2026)';
 pres.theme = { headFontFace: 'Noto Sans', bodyFontFace: 'Noto Sans' };
 const hx = c => c.replace('#','').toUpperCase();
 for (const sl of spec.slides) {
@@ -39,4 +39,4 @@ for (const sl of spec.slides) {
     s.addImage({ path: imap[oid], x, y, w, h, objectName: oid, altText: oid });
   }
 }
-pres.writeFile({ fileName: 'TuAED-Misja-AED.pptx' }).then(f => console.log('zapisano', f));
+pres.writeFile({ fileName: 'AEDane-Misja-AED.pptx' }).then(f => console.log('zapisano', f));

@@ -33,7 +33,7 @@ S("s02",[title("s02","Dane o AED leżą w kilkunastu źródłach i każde ma inn
   T("s02_b",6.6,1.6,2.75,3.3,"Nie ma krajowego rejestru AED.\n5 zbiorów AED na dane.gov.pl ma 5 różnych schematów.\nPrzemyśl deklaruje aktualizację codziennie, a portal pokazuje kopię z 2024 r.",size=15,space_below=10)])
 # 3 rozwiazanie
 img("s03","s03_img",RAW+"slajdy/schemat-przeplywu.png",0.5,1.3,9.0,4.0,2880,1620)
-S("s03",[title("s03","TuAED zamienia plik dysponenta w stały, otwarty zbiór na dane.gov.pl")])
+S("s03",[title("s03","AEDane zamienia plik dysponenta w stały, otwarty zbiór na dane.gov.pl")])
 # 3b portal: wykaz AED na wzor DGA
 kroki_p=[("1","Dostawca publikuje swój wykaz i zaznacza „Wykaz AED”"),("2","Portal sprawdza plik według zakresu v0.5"),("3","Co noc portal scala wykazy w jeden zbiór")]
 els=[title("s3b","Portal dane.gov.pl sam skleja wykazy dostawców w jeden zbiór AED")]
@@ -46,7 +46,7 @@ S("s3b",els)
 # 4 kreator: jeden krok na slajd, duzy zrzut
 kroki=[("s04","Krok 1: dysponent podaje nazwę i typ instytucji","09-krok1-dysponent",2880,1860,
         "Typ instytucji wybiera z listy: gmina, szkoła, OSP, firma\nTelefon i e-mail są opcjonalne i nie trafiają do pliku publicznego"),
-       ("s4b","Krok 2: TuAED sam rozpoznaje kolumny z pliku urzędu","09-krok2-mapowanie",2880,1512,
+       ("s4b","Krok 2: AEDane sam rozpoznaje kolumny z pliku urzędu","09-krok2-mapowanie",2880,1512,
         "Dysponent wgrywa swój arkusz CSV, XLSX lub GeoJSON\nDla każdej kolumny widzi podpowiedź pola i jej pewność\nBłędy blokują publikację, ostrzeżenia mówią, co poprawić"),
        ("s4c","Krok 3: dysponent dostaje stały adres do wklejenia na dane.gov.pl","09-krok3-publikacja",2880,2408,
         "Zgoda na licencję CC0 1.0\nPrywatny link do aktualizacji pod tym samym adresem\nInstrukcja: dodaj zasób jako link i włącz Aktualizację automatyczną")]
@@ -77,7 +77,7 @@ for i,(f,cap) in enumerate([("09-sync-3-zsynchronizowano","Miasto zmieniło form
 S("s06",els)
 # 7 zgodnosc
 img("s07","s07_img",RAW+"zrzuty/08-csv-w-przegladarce-1440.png",5.6,1.45,3.9,3.6,2880,1800)
-S("s07",[title("s07","Plik TuAED spełnia wymagania dane.gov.pl: 21 z 21 sprawdzeń"),
+S("s07",[title("s07","Plik AEDane spełnia wymagania dane.gov.pl: 21 z 21 sprawdzeń"),
   dict(id="s07_tab",type="table",x=0.5,y=1.45,w=4.85,size=14,header=True,col_widths=[1.55,3.3],
        rows=[["Wymaganie","Jak spełniamy"],["Format","CSV RFC 4180, JSON, GeoJSON"],["Kodowanie","UTF-8 bez BOM, przecinek, CRLF"],
              ["Metadane","CSVW, czyli 4 gwiazdki otwartości"],["Daty","ISO 8601"],["Licencja","CC0 1.0"],
@@ -99,7 +99,7 @@ S("s09",els)
 # 10 odbiorcy
 img("s10","s10_img",RAW+"slajdy/dane-1440.png",0.5,1.4,5.0,3.8,2880,2000,align="top")
 S("s10",[title("s10","Służby, mapy i aplikacje pobierają jeden plik dla całej Polski"),
-  T("s10_b",5.8,1.4,3.7,3.8,"Plik zbiorczy CSV i GeoJSON, z OSM i bez OSM\nPrzy każdym AED źródło, licencja, data i status weryfikacji\nAPI z dokumentacją OpenAPI\nMapa i tabela z wyszukiwaniem na stronie TuAED",size=16,bullets=True,space_below=10)])
+  T("s10_b",5.8,1.4,3.7,3.8,"Plik zbiorczy CSV i GeoJSON, z OSM i bez OSM\nPrzy każdym AED źródło, licencja, data i status weryfikacji\nAPI z dokumentacją OpenAPI\nMapa i tabela z wyszukiwaniem na stronie AEDane",size=16,bullets=True,space_below=10)])
 # 11 wcag
 img("s11","s11_i0",RAW+"slajdy/start-1440.png",3.45,1.4,4.6,3.75,2880,1800)
 img("s11","s11_i1",RAW+"slajdy/start-320.png",8.2,1.4,1.3,3.75,640,1280,align="top")
@@ -109,11 +109,11 @@ for i,(n,l) in enumerate([("0","naruszeń WCAG 2.2 AA"),("100","Lighthouse: dost
 S("s11",els)
 # 12 akcja
 img("s12","s12_logo",KV+"logo_vertical.png",0.6,1.45,3.6,3.5,2941,2370)
-S("s12",[title("s12","Akcja TuAED zaprasza dysponentów AED do publikacji danych"),
+S("s12",[title("s12","Akcja AEDane zaprasza dysponentów AED do publikacji danych"),
   T("s12_h",4.6,1.5,4.9,1.3,"„Opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach”",size=22,bold=True,color=GR),
   T("s12_b",4.6,2.95,4.9,2.1,"Do kogo: gminy, urzędy, OSP, szkoły, firmy, czyli dysponenci AED\nCo zyskują: ich AED trafiają do map, aplikacji i do dyspozytorów\nIle to kosztuje: jeden arkusz, który już mają",size=16,bullets=True,space_below=8)])
 # 13 ksiega
-els=[title("s13","Księga znaku TuAED w skrócie")]
+els=[title("s13","Księga znaku AEDane w skrócie")]
 for i,(hexc,name,txt) in enumerate([("#008C15","Główny","#008C15\nPantone 2426 C"),("#1A4E8A","Pomocniczy","#1A4E8A\nPantone 4153 C"),("#FFFFFF","Tło","#FFFFFF"),("#000000","Tekst","#000000")]):
     x=0.5+i*2.28
     els+=([dict(id=f"s13_bd{i}",type="rect",x=x-0.02,y=1.43,w=2.14,h=0.94,fill="#D1E0D7")] if hexc=="#FFFFFF" else [])+[dict(id=f"s13_sw{i}",type="rect",x=x,y=1.45,w=2.1,h=0.9,fill=hexc), T(f"s13_sn{i}",x,2.4,2.1,0.43,name,size=14,bold=True), T(f"s13_sv{i}",x,2.8,2.15,0.72,txt,size=14,color=MU)]
@@ -122,7 +122,7 @@ img("s13","s13_logo",KV+"logo_text_no_bg.png",5.8,3.7,3.7,1.4,4803,1361)
 S("s13",els)
 # 14 ograniczenia
 S("s14",[title("s14","Ograniczenia prototypu"),
-  T("s14_b",0.5,1.4,9.0,3.9,"Wykaz AED w portalu ma kod i testy logiki; portalu z tą zmianą nie uruchomiliśmy jeszcze w całości\nBez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nDuplikaty między dostawcami oznacza wykaz w portalu; agregat na stronie TuAED jeszcze nie\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
+  T("s14_b",0.5,1.4,9.0,3.9,"Wykaz AED w portalu ma kod i testy logiki; portalu z tą zmianą nie uruchomiliśmy jeszcze w całości\nBez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nDuplikaty między dostawcami oznacza wykaz w portalu; agregat na stronie AEDane jeszcze nie\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
 # 15 AI i dalsze kroki
 S("s15",[title("s15","AI przyspieszyło budowę, decyzje podjął zespół"),
   T("s15_h1",0.5,1.45,4.3,0.55,"Jak używaliśmy AI",size=20,bold=True,color=GR),
