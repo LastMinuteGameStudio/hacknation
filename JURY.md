@@ -2,7 +2,7 @@
 
 ## Masz 2 minuty?
 
-1. **[Nagranie: portal dane.gov.pl scala wykazy AED (101 s)](prezentacja/zrzuty/portal-nagranie.mp4)**. To
+1. **[Nagranie: portal dane.gov.pl scala wykazy AED (101 s)](https://www.youtube.com/watch?v=HSOX3kP-rRw)**. To
    nasza zmiana w kodzie portalu: dostawca zaznacza „Wykaz AED”, portal sprawdza dane i łączy wykazy wszystkich
    dostawców w jeden zbiór.
 2. **[Mapa AED z całej Polski](https://tuaed.wkrynski.dev/mapa)** i **[prototyp](https://tuaed.wkrynski.dev)**:
@@ -37,7 +37,7 @@ Dopisaliśmy do kodu portalu „wykaz AED”. Dostawca zaznacza pole przy zasobi
    (3 dostawców, 45 AED, 1 duplikat oznaczony w kolumnie `duplikat_id_aed`).
 
 Portal działa na komputerze zespołu. Jeśli link nie działa, zobacz
-[nagranie panelu (101 s)](prezentacja/zrzuty/portal-nagranie.mp4) i [zrzuty](prezentacja/zrzuty/README.md) (pliki `portal-*`).
+[nagranie panelu (101 s)](https://www.youtube.com/watch?v=HSOX3kP-rRw) i [zrzuty](prezentacja/zrzuty/README.md) (pliki `portal-*`).
 
 ## 3. Pozostałe elementy zadania
 
