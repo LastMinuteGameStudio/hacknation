@@ -108,8 +108,9 @@ Opublikowane zbiory od ostatnio aktualizowanych (`zaktualizowano` malejąco), `A
 `synchronizacja` = `null`, gdy zbiór nie ma źródła. `dysponent_typ` to kod ze słownika `dysponent_typ`. Rekordów agregatu nie stronicujemy po stronie serwera: tabela na froncie filtruje `/d/aed-polska.geojson` w przeglądarce.
 
 ### Edycja przez prywatny link (ten sam slug i URL)
-- GET `/api/zbiory/{slug}?token=…` → `{"slug", "dysponent": Dysponent, "utworzono", "zaktualizowano", "liczba_rekordow", "mapowanie"}`. Zły token zwraca 403 `{"kod": "ZLY_TOKEN"}`.
+- GET `/api/zbiory/{slug}?token=…` → `{"slug", "dysponent": Dysponent, "utworzono", "zaktualizowano", "liczba_rekordow", "mapowanie", "wartosci_stale"}`. `wartosci_stale` pochodzą z ostatniej publikacji; kreator podpowiada je przy ponownym wgraniu, tak jak mapowanie. Zły token zwraca 403 `{"kod": "ZLY_TOKEN"}`.
 - POST `/api/zbiory/{slug}/importy?token=…` (multipart jak wyżej) → `ImportOut`. Import jest powiązany ze zbiorem, a propozycja mapowania uwzględnia mapowanie z poprzedniej wersji.
+- Walidacja importu powiązanego ze zbiorem bierze `wartosci_stale` zbioru jako domyślne: wartości przysłane w body mają pierwszeństwo, a pusty string usuwa wartość. Publikacja zapisuje w zbiorze wynik tego scalenia.
 - Dalej `walidacja` i `publikacja` bez zmian. Publikacja importu powiązanego ze zbiorem **zastępuje rekordy pod tym samym slugiem** i zwraca te same URL (bez nowego tokenu: `token_edycji = null`).
 
 ### Synchronizacja z URL źródła (S1)

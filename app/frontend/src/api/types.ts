@@ -100,6 +100,7 @@ export interface ZbiorOut {
   zaktualizowano: string; // ISO 8601
   liczba_rekordow: number;
   mapowanie: Mapowanie;
+  wartosci_stale: Record<string, string>; // z ostatniej publikacji, do podpowiedzi przy ponownym wgraniu
 }
 
 /** S1: PUT /api/zbiory/{slug}/zrodlo?token=… (url null = wyłącz synchronizację). */
