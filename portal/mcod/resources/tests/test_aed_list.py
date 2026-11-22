@@ -43,7 +43,8 @@ def _rekord(id_aed, lat, lon, **kw):
 
 def _tabela(rekordy):
     buf = io.StringIO(newline="")
-    w = csv.DictWriter(buf, fieldnames=list(rekordy[0].keys()), lineterminator="\r\n")
+    kolumny = list(dict.fromkeys(k for r in rekordy for k in r))
+    w = csv.DictWriter(buf, fieldnames=kolumny, restval="", lineterminator="\r\n")
     w.writeheader()
     w.writerows(rekordy)
     return read_table(buf.getvalue().encode("utf-8"), "csv")
