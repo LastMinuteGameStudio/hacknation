@@ -169,8 +169,12 @@ export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz,
     if (!imp) return;
     setBladApi(null);
     setSprawdzam(true);
-    // Wysyłamy tylko wartości stałe dla pól bez kolumny.
-    const stale = Object.fromEntries(Object.entries(wartosciStale).filter(([p]) => !pokryte.has(p)));
+    // Wysyłamy tylko wartości stałe dla pól bez kolumny. W edycji backend bierze wartości zbioru jako domyślne,
+    // więc pole ustawione na „— nie ustawiaj —” wysyłamy jawnie jako "" (usuwa wartość ze zbioru).
+    const stale: Record<string, string> = Object.fromEntries(
+      Object.entries(wartosciStale).filter(([p]) => !pokryte.has(p)),
+    );
+    if (edycja) for (const p of doStalych) if (!(p in stale)) stale[p] = "";
     try {
       const w = await api.waliduj(imp.import_id, { mapowanie, dysponent, wartosci_stale: stale });
       setStan({ ...stan, walidacja: w, aktualna: true });

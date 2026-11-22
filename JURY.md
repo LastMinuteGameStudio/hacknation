@@ -169,14 +169,9 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 
 **Bez uruchamiania portalu (pokaz scalania, ok. 1 minuta):**
 
-<<<<<<< HEAD
 1. `git clone --depth 1 -b portal-aed https://github.com/LastMinuteGameStudio/hacknation hacknation-portal && cd hacknation-portal/portal`
 2. `python3 -m venv .venv && .venv/bin/pip install openpyxl && .venv/bin/python tuaed_pokaz_scalania.py --offline`
    (Python ≥ 3.8, bez Django i bazy). Bez
-=======
-1. `git clone https://github.com/LastMinuteGameStudio/hacknation && cd hacknation && git checkout portal-aed && cd portal`
-2. `pip install openpyxl && python tuaed_pokaz_scalania.py --offline` (Python ≥ 3.8, bez Django i bazy). Bez
->>>>>>> a101ee7 (JURY.md sekcja 3: pokaz scalania bez portalu (tuaed_pokaz_scalania.py A: 46 AED, 2 duplikaty, 2 wykazy pominięte), sprawdzony offline)
    `--offline` skrypt pobiera wykazy Przemyśla i Krosna z demo. Skrypt używa tego samego kodu, który wywołuje
    zadanie portalu ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)).
 3. Oczekiwany wynik: **46 AED z 4 wykazów, licencja CC BY 4.0.**
