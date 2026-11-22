@@ -2,8 +2,10 @@
 
 Schemat przepływu: [`schemat-przeplywu.svg`](schemat-przeplywu.svg) (ręczny SVG 1920×1080, ten plik jest też źródłem).
 
-Odwołania 📷 wskazują zrzuty, które robi ścieżka D (`prezentacja/zrzuty/README.md`). Nazwy zrzutów są robocze:
-gdy README będzie gotowe, trzeba je dopasować.
+Kolumna 📷 wskazuje zrzuty ścieżki D w [`zrzuty/`](zrzuty/README.md). Numer w nazwie to numer slajdu z
+`SZKIC-SLAJDOW.md`, a każdy zrzut jest w wersji `-1440.png` i `-320.png`. Zrzuty kreatora zrobiono na pliku
+Przemyśla, więc ilustrują kroki obu historii. „Brak zrzutu” oznacza krok, który działa, ale nie ma jeszcze zrzutu:
+do synchronizacji potrzebny jest publiczny adres źródła ze zmienionym plikiem.
 
 Obie historie działają w prototypie (także na demo https://tuaed.wkrynski.dev). Historia 1 korzysta z pliku
 `app/backend/tests/fixtury/syntetyczny_gmina.xlsx`, historia 2 z plików Przemyśla (`przemysl_2024.csv` → `przemysl.csv`).
@@ -22,15 +24,15 @@ Nie zna CSV ani schematów danych. Chce, żeby AED z gminy były widoczne dla dy
 
 | # | Co robi Anna | Co robi TuAED | 📷 |
 |---|---|---|---|
-| 0 | Wchodzi na stronę TuAED. Może pobrać szablon CSV/XLSX, ale ma już swój arkusz | Strona startowa: trzy kroki, szablony do pobrania | `01-start` |
-| 1 | **Krok 1, Dysponent:** wpisuje „Urząd Gminy Przykładowo”, wybiera typ „Jednostka samorządu terytorialnego”, podaje służbowy telefon i e-mail | Kontakt oznacza jako niepubliczny: nie trafia do pliku na dane.gov.pl | `02-dysponent` |
-| 2 | **Krok 2, Dane:** wgrywa swój plik XLSX bez żadnych zmian | Sam znajduje nagłówek w 4. wierszu, pomija tytuł i stopkę, wpisuje scaloną miejscowość do każdego wiersza | `03-wgranie` |
-| 3 | Przegląda propozycję mapowania. Nic nie poprawia | Proponuje pole v0.5 dla 9 z 10 kolumn, każde z pewnością i powodem. „Lp.” to liczba porządkowa, więc jej nie importuje | `04-mapowanie` |
-| 4 | Czyta wynik walidacji: **0 błędów**, kilka ostrzeżeń | Rozbija adres „ul. Rynek 1, 34-100 Przykładowo” na pola. „24h” i „całodobowo” to dostęp 24/7, a „na zewnątrz, przy wejściu” to `wewnatrz_budynku = false`. Ostrzega o tym, co ustawił sam: status „nieznany”, data weryfikacji = dziś, identyfikatory nadane automatycznie, a „w godzinach otwarcia ośrodka” przeniesione do uwag | `05-walidacja` |
-| 5 | **Krok 3, Publikacja:** zaznacza zgodę na licencję CC0 1.0 i klika „Opublikuj” | Daje stały adres `/d/{slug}.csv` oraz JSON i metadane CSVW. Prywatny link edycji pokazuje tylko raz i przypomina, żeby go zapisać | `06-publikacja` |
-| 6 | W panelu dane.gov.pl dodaje zasób jako link do `/d/{slug}.csv` i włącza **„Aktualizacja automatyczna: codziennie”** | Instrukcja krok po kroku jest w kroku 3 kreatora | `07-dane-gov-pl` |
-| 7 | **Po pół roku:** w świetlicy wymieniono AED, a w ośrodku zdrowia zmieniły się godziny. Anna poprawia swój arkusz i otwiera zapisany link edycji | Pamięta poprzednie mapowanie, więc kreator od razu proponuje te same pola | `08-edycja` |
-| 8 | Klika „Opublikuj” | **Adres URL się nie zmienia.** Te same AED mają te same `id_aed`. dane.gov.pl pobiera nową wersję w nocy, bez logowania się do portalu | `09-ten-sam-url` |
+| 0 | Wchodzi na stronę TuAED. Może pobrać szablon CSV/XLSX, ale ma już swój arkusz | Strona startowa: trzy kroki, szablony do pobrania | [`09-start`](zrzuty/09-start-1440.png) |
+| 1 | **Krok 1, Dysponent:** wpisuje „Urząd Gminy Przykładowo”, wybiera typ „Jednostka samorządu terytorialnego”, podaje służbowy telefon i e-mail | Kontakt oznacza jako niepubliczny: nie trafia do pliku na dane.gov.pl | [`09-krok1-dysponent`](zrzuty/09-krok1-dysponent-1440.png) |
+| 2 | **Krok 2, Dane:** wgrywa swój plik XLSX bez żadnych zmian | Sam znajduje nagłówek w 4. wierszu, pomija tytuł i stopkę, wpisuje scaloną miejscowość do każdego wiersza | [`09-krok2-mapowanie`](zrzuty/09-krok2-mapowanie-1440.png) |
+| 3 | Przegląda propozycję mapowania. Nic nie poprawia | Proponuje pole v0.5 dla 9 z 10 kolumn, każde z pewnością i powodem. „Lp.” to liczba porządkowa, więc jej nie importuje | [`09-krok2-mapowanie-tabela`](zrzuty/09-krok2-mapowanie-tabela-1440.png) |
+| 4 | Czyta wynik walidacji: **0 błędów**, kilka ostrzeżeń | Rozbija adres „ul. Rynek 1, 34-100 Przykładowo” na pola. „24h” i „całodobowo” to dostęp 24/7, a „na zewnątrz, przy wejściu” to `wewnatrz_budynku = false`. Ostrzega o tym, co ustawił sam: status „nieznany”, data weryfikacji = dziś, identyfikatory nadane automatycznie, a „w godzinach otwarcia ośrodka” przeniesione do uwag | [`09-krok2-walidacja`](zrzuty/09-krok2-walidacja-1440.png), [`09-krok2-podglad-wyniku`](zrzuty/09-krok2-podglad-wyniku-1440.png) |
+| 5 | **Krok 3, Publikacja:** zaznacza zgodę na licencję CC0 1.0 i klika „Opublikuj” | Daje stały adres `/d/{slug}.csv` oraz JSON i metadane CSVW. Prywatny link edycji pokazuje tylko raz i przypomina, żeby go zapisać | [`09-krok3-zgoda`](zrzuty/09-krok3-zgoda-1440.png), [`09-krok3-publikacja`](zrzuty/09-krok3-publikacja-1440.png) |
+| 6 | W panelu dane.gov.pl dodaje zasób jako link do `/d/{slug}.csv` i włącza **„Aktualizacja automatyczna: codziennie”** | Instrukcja krok po kroku jest w kroku 3 kreatora | [`09-krok3-publikacja`](zrzuty/09-krok3-publikacja-1440.png) (instrukcja) |
+| 7 | **Po pół roku:** w świetlicy wymieniono AED, a w ośrodku zdrowia zmieniły się godziny. Anna poprawia swój arkusz i otwiera zapisany link edycji | Pamięta poprzednie mapowanie, więc kreator od razu proponuje te same pola | [`09-edycja-zrodlo-automatyczne`](zrzuty/09-edycja-zrodlo-automatyczne-1440.png) |
+| 8 | Klika „Opublikuj” | **Adres URL się nie zmienia.** Te same AED mają te same `id_aed`. dane.gov.pl pobiera nową wersję w nocy, bez logowania się do portalu | brak zrzutu |
 
 **Efekt.** Gmina po raz pierwszy publikuje AED w formacie zgodnym ze wzorcowym zakresem v0.5. Aktualizacja to
 „popraw Excel i wgraj przez link”: pięć minut raz na jakiś czas, bez znajomości CSV.
@@ -46,12 +48,12 @@ Miasto nie chce zmieniać CMS ani pamiętać o ręcznym wgrywaniu.
 
 | # | Co się dzieje | 📷 |
 |---|---|---|
-| 1 | Urzędnik raz przechodzi kreator z eksportem z CMS. TuAED mapuje go bez poprawek: rozbija geometrię JSON na szerokość i długość, a 8 kolumn CMS (opis marketingowy, galeria, linki) pomija | `10-przemysl-mapowanie` |
-| 2 | Publikacja daje stały URL z CSV zgodnym z v0.5 zamiast eksportu z CMS | `11-przemysl-csv` |
-| 3 | Na stronie edycji (prywatny link), w sekcji **„Źródło automatyczne”**, wkleja adres eksportu z CMS i wybiera częstotliwość (np. co 24 h) | `12-przemysl-zrodlo` |
-| 4 | TuAED od razu pobiera plik i dalej robi to sam według harmonogramu: zapamiętane mapowanie → walidacja → publikacja pod tym samym slugiem. Status „aktywna”, komunikat **ZSYNCHRONIZOWANO**. Gdy plik się nie zmienił: **BEZ_ZMIAN** | `13-przemysl-zsynchronizowano` |
-| 5 | CMS zmienia format geometrii z `{"lat","long"}` na `[lon, lat]`. Przy następnej synchronizacji TuAED rozpoznaje nowy format, a **URL i `id_aed` zostają te same**. Nikt w urzędzie nic nie robi | `14-przemysl-nowy-format` |
-| 6 | Zabezpieczenie: gdy w źródle zniknie zmapowana kolumna albo pojawi się nowa (**ZMIANA_STRUKTURY**) lub zmieni się ponad połowa AED (**ZA_DUZA_ZMIANA**), synchronizacja jest **wstrzymana**, a opublikowane dane zostają bez zmian. Dysponent potwierdza zmianę („Synchronizuj teraz” z potwierdzeniem) albo wgrywa plik z nowym mapowaniem | `15-przemysl-wstrzymana` |
+| 1 | Urzędnik raz przechodzi kreator z eksportem z CMS. TuAED mapuje go bez poprawek: rozbija geometrię JSON na szerokość i długość, a 8 kolumn CMS (opis marketingowy, galeria, linki) pomija | [`09-krok2-mapowanie-tabela`](zrzuty/09-krok2-mapowanie-tabela-1440.png), [`09-krok2-wartosci-stale`](zrzuty/09-krok2-wartosci-stale-1440.png) |
+| 2 | Publikacja daje stały URL z CSV zgodnym z v0.5 zamiast eksportu z CMS | [`08-csv-w-przegladarce`](zrzuty/08-csv-w-przegladarce-1440.png) |
+| 3 | Na stronie edycji (prywatny link), w sekcji **„Źródło automatyczne”**, wkleja adres eksportu z CMS i wybiera częstotliwość (np. co 24 h) | [`09-edycja-zrodlo-automatyczne-sekcja`](zrzuty/09-edycja-zrodlo-automatyczne-sekcja-1440.png) |
+| 4 | TuAED od razu pobiera plik i dalej robi to sam według harmonogramu: zapamiętane mapowanie → walidacja → publikacja pod tym samym slugiem. Status „aktywna”, komunikat **ZSYNCHRONIZOWANO**. Gdy plik się nie zmienił: **BEZ_ZMIAN** | brak zrzutu |
+| 5 | CMS zmienia format geometrii z `{"lat","long"}` na `[lon, lat]`. Przy następnej synchronizacji TuAED rozpoznaje nowy format, a **URL i `id_aed` zostają te same**. Nikt w urzędzie nic nie robi | brak zrzutu |
+| 6 | Zabezpieczenie: gdy w źródle zniknie zmapowana kolumna albo pojawi się nowa (**ZMIANA_STRUKTURY**) lub zmieni się ponad połowa AED (**ZA_DUZA_ZMIANA**), synchronizacja jest **wstrzymana**, a opublikowane dane zostają bez zmian. Dysponent potwierdza zmianę („Synchronizuj teraz” z potwierdzeniem) albo wgrywa plik z nowym mapowaniem | brak zrzutu |
 
 **Efekt.** Dane z CMS miasta codziennie trafiają na dane.gov.pl w ujednoliconym formacie, bez zmian w systemie
 miasta i bez ręcznej pracy. Błędne źródło nie nadpisze dobrych danych.
