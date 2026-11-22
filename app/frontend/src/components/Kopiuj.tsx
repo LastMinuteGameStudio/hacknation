@@ -1,7 +1,18 @@
 import { useState } from "react";
 
-/** Adres z przyciskiem „Kopiuj”. Wynik ogłaszany przez region aria-live. */
-export function Kopiuj({ wartosc, etykieta, id }: { wartosc: string; etykieta: string; id: string }) {
+/** Adres (albo tekst) z przyciskiem „Kopiuj”. Wynik ogłaszany przez region aria-live. */
+export function Kopiuj({
+  wartosc,
+  etykieta,
+  id,
+  tekst = false,
+}: {
+  wartosc: string;
+  etykieta: string;
+  id: string;
+  /** zwykły tekst zamiast adresu (bez kroju o stałej szerokości) */
+  tekst?: boolean;
+}) {
   const [stan, setStan] = useState<"" | "ok" | "blad">("");
 
   async function kopiuj() {
@@ -25,7 +36,7 @@ export function Kopiuj({ wartosc, etykieta, id }: { wartosc: string; etykieta: s
 
   return (
     <div className="adres">
-      <span id={id} className="url">
+      <span id={id} className={tekst ? "kopiuj-tekst" : "url"}>
         {wartosc}
       </span>
       <button type="button" className="drugorzedny maly" onClick={kopiuj} aria-describedby={id}>

@@ -4,9 +4,16 @@ import type { PublikacjaOut, WalidacjaOut } from "../api/types";
 import { Kopiuj } from "../components/Kopiuj";
 
 const CC0_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.pl";
+const META_SLOWA = "AED, defibrylator, pierwsza pomoc";
+
+function aedLiczba(n: number) {
+  const m10 = n % 10, m100 = n % 100;
+  return n === 1 ? "1 defibrylator AED" : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? `${n} defibrylatory AED` : `${n} defibrylatorów AED`;
+}
 
 interface Props {
   importId: string;
+  dysponentNazwa: string;
   walidacja: WalidacjaOut;
   edycja: boolean;
   publikacja: PublikacjaOut | null;
@@ -14,12 +21,18 @@ interface Props {
   onWstecz: () => void;
 }
 
-export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPublikacja, onWstecz }: Props) {
+export function Krok3Publikacja({ importId, dysponentNazwa, walidacja, edycja, publikacja, setPublikacja, onWstecz }: Props) {
   const [zgoda, setZgoda] = useState(false);
   const [publikuje, setPublikuje] = useState(false);
   const [blad, setBlad] = useState<string | null>(null);
   const gotoweRef = useRef<HTMLHeadingElement>(null);
   const poPublikacji = useRef(false);
+  const metaTytul = `Defibrylatory AED: ${dysponentNazwa}`;
+  const metaOpis =
+    `Wykaz obejmuje ${aedLiczba(walidacja.liczba_rekordow)} (automatyczne defibrylatory zewnętrzne), ` +
+    `za które odpowiada ${dysponentNazwa}: położenie, adres, kto ma dostęp, godziny dostępności i stan urządzenia. ` +
+    "Format zgodny z zakresem danych AED v0.5 (CSV UTF-8, jeden wiersz to jedno urządzenie, metadane CSVW). " +
+    "Dane aktualizowane automatycznie.";
 
   // Fokus na nagłówek „Dane opublikowane” dopiero po wyrenderowaniu (przycisk był wyłączony, fokus by przepadł).
   useEffect(() => {
@@ -88,7 +101,7 @@ export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPu
             <ol className="instrukcja">
               <li>
                 Zaloguj się na <a href="https://dane.gov.pl">dane.gov.pl</a> jako dostawca i otwórz swój zbiór danych
-                (albo utwórz nowy, np. „Defibrylatory AED”).
+                o AED albo utwórz nowy. Tytuł, opis i słowa kluczowe skopiujesz z sekcji „Metadane zbioru” niżej.
               </li>
               <li>
                 Wybierz <strong>Dodaj zasób</strong>.
@@ -101,9 +114,40 @@ export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPu
                 Zaznacz <strong>Aktualizacja automatyczna</strong> i ustaw <strong>powtarzać co: dziennie</strong>.
               </li>
               <li>
+                Zaznacz pole <strong>„Wykaz AED”</strong> przy zasobie, żeby portal dołączył Twoje dane do
+                ogólnopolskiego wykazu AED.
+              </li>
+              <li>
                 Jako licencję wybierz <strong>CC0 1.0</strong> i zapisz zasób.
               </li>
             </ol>
+            <p className="ramka ramka-info">
+              <strong>Po co „Wykaz AED”?</strong> Portal co noc łączy wszystkie zaznaczone wykazy w jeden zbiór dla całej
+              Polski. Dyspozytor medyczny i aplikacje ratunkowe pobierają wtedy jeden plik zamiast setek osobnych.
+            </p>
+
+            <h2>Metadane zbioru do skopiowania</h2>
+            <p>Wklej je przy tworzeniu albo edycji zbioru na dane.gov.pl.</p>
+            <dl className="metadane">
+              <dt>Tytuł</dt>
+              <dd>
+                <Kopiuj id="meta-tytul" etykieta="tytuł zbioru" wartosc={metaTytul} tekst />
+              </dd>
+              <dt>Opis</dt>
+              <dd>
+                <Kopiuj id="meta-opis" etykieta="opis zbioru" wartosc={metaOpis} tekst />
+              </dd>
+              <dt>Słowa kluczowe</dt>
+              <dd>
+                <Kopiuj id="meta-slowa" etykieta="słowa kluczowe" wartosc={META_SLOWA} tekst />
+              </dd>
+              <dt>Kategoria</dt>
+              <dd>Zdrowie</dd>
+              <dt>Częstotliwość aktualizacji</dt>
+              <dd>codziennie (zasób aktualizuje się automatycznie z TuAED)</dd>
+              <dt>Licencja</dt>
+              <dd>CC0 1.0</dd>
+            </dl>
           </>
         )}
 

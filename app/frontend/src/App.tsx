@@ -188,6 +188,7 @@ export default function App() {
         {!POZA_KREATOREM && krok === "publikacja" && dane.imp && dane.walidacja && (
           <Krok3Publikacja
             importId={dane.imp.import_id}
+            dysponentNazwa={dysponent?.nazwa ?? ""}
             walidacja={dane.walidacja}
             edycja={!!edycja}
             publikacja={publikacja}

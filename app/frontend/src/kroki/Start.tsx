@@ -21,7 +21,7 @@ export function Start({ onZacznij }: { onZacznij: () => void }) {
         </li>
         <li>
           <strong>Opublikuj.</strong> Dostaniesz stały adres pliku. Dodasz go na dane.gov.pl, a portal sam pobierze
-          każdą aktualizację.
+          każdą aktualizację i dołączy Twoje dane do zbiorczego wykazu AED dla całej Polski.
         </li>
       </ol>
 
