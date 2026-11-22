@@ -97,7 +97,7 @@ def scal_wykazy(zrodla: List[ZrodloWykazu], zakres: Zakres) -> WynikScalania:
             continue
         komunikaty = validate_table(z.tabela, zakres)
         if bledy(komunikaty):
-            pominiete.append(Pominiety(z, f"Wykaz ma {len(bledy(komunikaty))} błędów walidacji zakresu v0.5.",
+            pominiete.append(Pominiety(z, f"Liczba błędów walidacji zakresu v0.5: {len(bledy(komunikaty))}.",
                                        bledy(komunikaty)))
             continue
         dolaczone.append(z)

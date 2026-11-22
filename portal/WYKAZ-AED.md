@@ -73,6 +73,25 @@ python -m pytest mcod/resources/tests/test_aed_merge.py mcod/resources/tests/tes
 
 `test_aed_merge.py` nie używa bazy. Moduły `mcod/resources/aed/` nie importują Django, więc te testy przechodzą też poza portalem: na Pythonie 3.8 (wersja portalu) i 3.12, z samym pakietem `aed` i openpyxl.
 
+## Pokaz bez uruchamiania portalu
+
+```bash
+cd portal && python tuaed_pokaz_scalania.py   # Python ≥ 3.8 i openpyxl; --offline: bez sieci, z kopii w pokaz/zrodla/
+```
+
+Skrypt nie używa Django ani bazy. Przepuszcza wykazy przez ten sam kod (`mcod/resources/aed/`), którego używa zadanie `create_main_aed_resource_task`. Zapisuje `pokaz/wykaz-zbiorczy.csv`, `pokaz/wykaz-zbiorczy.xlsx` i `pokaz/raport.json` (co dołączono, co pominięto i dlaczego, które rekordy są duplikatami), a wejściowe wykazy w `pokaz/zrodla/`.
+
+| Wykaz | Licencja | Wynik |
+|---|---|---|
+| Urząd Miejski w Przemyślu, `https://tuaed.wkrynski.dev/d/kznsks42.csv` | CC0 1.0 | dołączony, 21 AED |
+| Urząd Miasta Krosna, `https://tuaed.wkrynski.dev/d/qy7g6px5.csv` | CC0 1.0 | dołączony, 21 AED |
+| Uczelnia (pokaz, fikcyjny) | CC0 1.0 | dołączony, 1 AED z numerem seryjnym SN-PL-2024-0001 |
+| Wojewódzki Szpital (pokaz, fikcyjny) | CC BY 4.0 | dołączony, 3 AED. `szpital-krosno-1` ma ten sam numer seryjny co AED uczelni, więc dostaje `duplikat_id_aed = uczelnia-przemysl-1`. `szpital-krosno-2` leży ok. 15 m od pierwszego AED z wykazu Krosna, więc dostaje `duplikat_id_aed = qy7g6px5-26c91c`. |
+| Fundacja (pokaz, fikcyjny) | CC BY-NC 4.0 | pominięty z powodu licencji |
+| Gmina (pokaz, fikcyjny) | CC0 1.0 | pominięty: wartość „dla wszystkich” spoza słownika `dostepnosc` |
+
+Wynik: 46 AED z 4 wykazów, 2 duplikaty oznaczone (oba rekordy zostają), licencja wykazu CC BY 4.0, bo jeden dołączony wykaz ma CC BY.
+
 ## Ograniczenia
 
 - `id_aed` jest unikalny w wykazie dostawcy, ale nie w całym wykazie zbiorczym. Para (`zrodlo_zasob_id`, `id_aed`) jest unikalna. `duplikat_id_aed` wskazuje `id_aed` rekordu głównego, a jego dostawcę podają kolumny pochodzenia rekordu głównego.
