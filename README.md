@@ -29,7 +29,7 @@ Przy nagłym zatrzymaniu krążenia liczy się każda minuta, a defibrylatora AE
 
 Za zbiór na portalu odpowiada dostawca, a dostawców AED jest wielu. Dlatego dopisaliśmy do kodu portalu (mcod-backend 2.62.3) **wykaz AED** na wzór istniejącego wykazu chronionych danych (DGA). Dostawca zaznacza przy swoim zasobie pole „Wykaz AED”, portal sprawdza plik według zakresu v0.5, a raz dziennie scala poprawne wykazy wszystkich dostawców w jeden zbiór **„Defibrylatory AED: wykaz zbiorczy”** (CSV i XLSX). Przy każdym AED zapisuje, od kogo pochodzi. AED zgłoszone przez dwóch dostawców zostają oba, a drugi rekord dostaje `duplikat_id_aed`. Dołączane są tylko wykazy na CC0 1.0 albo CC BY 4.0 ([propozycja licencji](prezentacja/LICENCJE.md)).
 
-Kod jest na branchu [`portal-aed`](https://github.com/LastMinuteGameStudio/hacknation/tree/portal-aed/portal): pierwszy commit to niezmieniony kod portalu, kolejne to nasze zmiany. Opis zmian: [portal/WYKAZ-AED.md](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/WYKAZ-AED.md), uruchomienie: [portal/URUCHOMIENIE-TUAED.md](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/URUCHOMIENIE-TUAED.md). 18 testów logiki scalania przechodzi. Portalu z tą zmianą nie uruchomiliśmy jeszcze w całości (stan na 22.11, 07:15).
+Kod jest w katalogu [portal/](portal/) (rozwijany na branchu `portal-aed`): pierwszy commit to niezmieniony kod portalu, kolejne to nasze zmiany. Opis zmian: [portal/WYKAZ-AED.md](portal/WYKAZ-AED.md), uruchomienie: [portal/URUCHOMIENIE-TUAED.md](portal/URUCHOMIENIE-TUAED.md). Portal z tą zmianą uruchomiliśmy lokalnie w Dockerze (admin, API, Celery). Scalenie wykazów 3 testowych dostawców: 45 AED, 1 duplikat, licencja wykazu CC BY 4.0; testy wykazu AED w kontenerze portalu: 26 passed (stan na 22.11, 09:15).
 
 Mapowanie kolumn działa bez AI (synonimy z realnych plików i analiza zawartości) i trafia w 100% na 10 plikach testowych. Brakujące współrzędne uzupełnia geokoder GUGiK. Front spełnia WCAG 2.2 AA (axe-core: 0 naruszeń, Lighthouse: 100) i działa od 320 px szerokości.
 
@@ -45,8 +45,8 @@ Ponumerowane kroki sprawdzenia każdego wymagania, także bez dostępu do demo: 
 | Dane zebrane z wielu źródeł | [dane/](dane/) (skrypty i wynik agregacji) |
 | Zgodność z dane.gov.pl | [prezentacja/zrzuty/DOWOD-URL.md](prezentacja/zrzuty/DOWOD-URL.md), [zadania/06-mc-misja-aed/RESEARCH.md](zadania/06-mc-misja-aed/RESEARCH.md) |
 | WCAG i responsywność | [prezentacja/AUDYT-WCAG.md](prezentacja/AUDYT-WCAG.md) |
-| Logotyp i księga znaku | w przygotowaniu |
-| Zmiany w portalu dane.gov.pl (wykaz AED) | branch [`portal-aed`](https://github.com/LastMinuteGameStudio/hacknation/tree/portal-aed/portal), opis w `portal/WYKAZ-AED.md` |
+| Logotyp i księga znaku | [visual/](visual/) (logo JPG, PNG, PDF, SVG; księga znaku [PDF](visual/podstawowa_ksiega_znaku.pdf)) |
+| Zmiany w portalu dane.gov.pl (wykaz AED) | [portal/](portal/), opis w [portal/WYKAZ-AED.md](portal/WYKAZ-AED.md) |
 | Kod źródłowy | to repozytorium |
 
 ## Uruchomienie
