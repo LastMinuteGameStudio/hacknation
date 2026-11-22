@@ -71,11 +71,10 @@ python3 prezentacja/zrzuty/sprawdz_url.py https://tuaed.wkrynski.dev/d/kznsks42.
 | Slug | Rola | Do posprzątania? |
 |---|---|---|
 | `kznsks42` | Zbiór na prezentację: synchronizacja z `demo-zrodlo` włączona, zrzuty `09-sync-*`, `DOWOD-URL.md` | nie |
-| `qps44qst` | Ostatnie uruchomienie `zrob_zrzuty.py` (zrzuty kreatora z nową nawigacją i „Wykaz AED” w kroku 3) | tak, po prezentacji |
-| `gh4e9uju` | Wcześniejsze uruchomienie `zrob_zrzuty.py` | tak |
-| `cfseuu37`, `r9ba4cvw` | Próbne przebiegi skryptu | tak |
+| `qps44qst` | Ostatnie uruchomienie `zrob_zrzuty.py` (zrzuty kreatora z nową nawigacją i „Wykaz AED” w kroku 3) | po prezentacji |
+| `r9ba4cvw`, `cfseuu37`, `gh4e9uju` | Próbne i wcześniejsze przebiegi skryptu | usunięte 22.11 (decyzja Grzana) |
 
-Wszystkie mają dysponenta „Urząd Miejski w Przemyślu (demo)”. Sprzątanie należy do Grzana. Skrypty niczego nie usuwają.
+Zbiory ze skryptów mają dysponenta „Urząd Miejski w Przemyślu (demo)”. Sprzątanie należy do Grzana. Skrypty niczego nie usuwają.
 
 ### Portal dane.gov.pl: wykaz AED (panel admina lokalnego portalu, branch `portal-aed`)
 
