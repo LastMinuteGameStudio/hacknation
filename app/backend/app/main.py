@@ -6,7 +6,7 @@ import os
 from contextlib import asynccontextmanager
 from typing import Iterator
 
-from fastapi import Depends, FastAPI, File, Form, Query, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Query, Response, UploadFile
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
@@ -25,6 +25,7 @@ from .api_models import (
     WalidacjaIn,
     WalidacjaOut,
     ZbiorOut,
+    ZbiorPublicznyOut,
     ZdrowieOut,
 )
 from .config import STATIC_DIR, ZAKRES_DIR
@@ -95,6 +96,12 @@ def publikuj(import_id: str, db: Session = Depends(get_db)) -> PublikacjaOut:
 
 
 # --- Edycja przez prywatny link -------------------------------------------------------------------
+
+
+@app.get("/api/zbiory", response_model=list[ZbiorPublicznyOut])
+def lista_zbiorow(response: Response, db: Session = Depends(get_db)) -> list[ZbiorPublicznyOut]:
+    response.headers.update(publiczne.NAGLOWKI)  # jak /d/*: CORS *, bez cache
+    return publiczne.lista_zbiorow(db)
 
 
 @app.get("/api/zbiory/{slug}", response_model=ZbiorOut)

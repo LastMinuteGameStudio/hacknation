@@ -6,12 +6,13 @@ import json
 from typing import Optional
 
 from fastapi import Response
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from . import agregat, core
 from .config import BASE_URL, LICENCJA
-from .db import Rekord, Zbior
+from .api_models import SynchronizacjaPublicznaOut, ZbiorPublicznyOut
+from .db import Rekord, Synchronizacja, Zbior
 from .importy import SCHEMA, _iso, blad
 
 CSV = "text/csv; charset=utf-8"
@@ -82,3 +83,20 @@ def plik(db: Session, nazwa: str) -> Response:
         tresc = agregat.geojson([agregat.feature(r, SCHEMA.publiczne) for r in recs], metadane=metadane(z, len(recs)))
         return Response(tresc, media_type=GEOJSON, headers=NAGLOWKI)
     return Response(core.to_json(recs, SCHEMA, metadane(z, len(recs))), media_type=JSON, headers=NAGLOWKI)
+
+
+def lista_zbiorow(db: Session) -> list[ZbiorPublicznyOut]:
+    """GET /api/zbiory: opublikowane zbiory, od ostatnio aktualizowanych. Tylko dane publiczne."""
+    liczby = dict(db.execute(select(Rekord.zbior_id, func.count()).group_by(Rekord.zbior_id)).all())
+    synchro = {s.zbior_id: s for s in db.scalars(select(Synchronizacja))}
+    wynik = []
+    for z in db.scalars(select(Zbior).where(Zbior.status == "opublikowany").order_by(Zbior.zaktualizowano.desc(), Zbior.id.desc())):
+        s = synchro.get(z.id)
+        u = f"{BASE_URL}/d/{z.slug}"
+        wynik.append(ZbiorPublicznyOut(
+            slug=z.slug, dysponent_nazwa=z.dysponent_nazwa, dysponent_typ=z.dysponent_typ,
+            liczba_rekordow=liczby.get(z.id, 0), utworzono=_iso(z.utworzono), zaktualizowano=_iso(z.zaktualizowano),
+            synchronizacja=SynchronizacjaPublicznaOut(status=s.status, co_ile_godzin=s.co_ile_godzin, ostatni_sukces=_iso(s.ostatni_sukces) if s.ostatni_sukces else None) if s else None,
+            url_csv=f"{u}.csv", url_json=f"{u}.json", url_geojson=f"{u}.geojson", url_metadane=f"{u}.csv-metadata.json",
+        ))
+    return wynik

@@ -97,6 +97,16 @@ Wymaga wcześniejszej walidacji bez błędów, inaczej zwraca 409 `{"kod": "SA_B
 ```
 Token pokazujemy tylko raz. W bazie trzymamy wyłącznie jego hash.
 
+### GET `/api/zbiory`: publiczna lista zbiorów (strona `/dane`)
+Opublikowane zbiory od ostatnio aktualizowanych (`zaktualizowano` malejąco), `Access-Control-Allow-Origin: *`. Bez telefonu, e-maila, tokenów i adresu źródła synchronizacji (może być wewnętrzny). Odpowiedź `ZbiorPublicznyOut[]`:
+```json
+[{"slug": "k7q2m9xa", "dysponent_nazwa": "Urząd Miasta Krosna", "dysponent_typ": "jst", "liczba_rekordow": 21,
+  "utworzono": "2026-11-22T09:00:00+00:00", "zaktualizowano": "2026-11-22T10:00:00+00:00",
+  "synchronizacja": {"status": "aktywna", "co_ile_godzin": 24, "ostatni_sukces": "2026-11-22T10:00:00+00:00"},
+  "url_csv": "{BASE_URL}/d/k7q2m9xa.csv", "url_json": "….json", "url_geojson": "….geojson", "url_metadane": "….csv-metadata.json"}]
+```
+`synchronizacja` = `null`, gdy zbiór nie ma źródła. `dysponent_typ` to kod ze słownika `dysponent_typ`. Rekordów agregatu nie stronicujemy po stronie serwera: tabela na froncie filtruje `/d/aed-polska.geojson` w przeglądarce.
+
 ### Edycja przez prywatny link (ten sam slug i URL)
 - GET `/api/zbiory/{slug}?token=…` → `{"slug", "dysponent": Dysponent, "utworzono", "zaktualizowano", "liczba_rekordow", "mapowanie"}`. Zły token zwraca 403 `{"kod": "ZLY_TOKEN"}`.
 - POST `/api/zbiory/{slug}/importy?token=…` (multipart jak wyżej) → `ImportOut`. Import jest powiązany ze zbiorem, a propozycja mapowania uwzględnia mapowanie z poprzedniej wersji.

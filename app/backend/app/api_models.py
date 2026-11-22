@@ -146,3 +146,26 @@ class AedFeatureCollection(BaseModel):
     type: Literal["FeatureCollection"] = "FeatureCollection"
     metadane: Optional[dict] = None  # tylko /d/{slug}.geojson
     features: list[AedFeature]
+
+
+# --- GET /api/zbiory: publiczna lista zbiorów (strona /dane). Bez danych kontaktowych, tokenów i adresu źródła.
+
+
+class SynchronizacjaPublicznaOut(BaseModel):
+    status: Literal["aktywna", "wstrzymana", "blad"]
+    co_ile_godzin: int
+    ostatni_sukces: Optional[str] = None
+
+
+class ZbiorPublicznyOut(BaseModel):
+    slug: str
+    dysponent_nazwa: str
+    dysponent_typ: str
+    liczba_rekordow: int
+    utworzono: str
+    zaktualizowano: str
+    synchronizacja: Optional[SynchronizacjaPublicznaOut] = None
+    url_csv: str
+    url_json: str
+    url_geojson: str
+    url_metadane: str

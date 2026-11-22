@@ -121,6 +121,27 @@ export interface SynchronizacjaOut {
   liczba_rekordow: number;
 }
 
+/** GET /api/zbiory: publiczna lista zbiorów (strona /dane), od ostatnio aktualizowanych. */
+export interface SynchronizacjaPublicznaOut {
+  status: Exclude<StatusSynchronizacji, "brak">;
+  co_ile_godzin: number;
+  ostatni_sukces: string | null; // ISO 8601
+}
+
+export interface ZbiorPublicznyOut {
+  slug: string;
+  dysponent_nazwa: string;
+  dysponent_typ: string; // kod ze słownika dysponent_typ
+  liczba_rekordow: number;
+  utworzono: string; // ISO 8601
+  zaktualizowano: string; // ISO 8601
+  synchronizacja: SynchronizacjaPublicznaOut | null;
+  url_csv: string;
+  url_json: string;
+  url_geojson: string;
+  url_metadane: string;
+}
+
 /** S2: GeoJSON (RFC 7946) z /d/{slug}.geojson i /d/aed-polska[-bez-osm].geojson. */
 export interface GeoPunkt {
   type: "Point";
