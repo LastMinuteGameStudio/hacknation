@@ -3,6 +3,7 @@ export function Start({ onZacznij }: { onZacznij: () => void }) {
     <section aria-labelledby="naglowek-kroku">
       <h1 id="naglowek-kroku" tabIndex={-1}>
         Opublikuj dane o defibrylatorach na dane.gov.pl
+        <span className="podtytul-h1">W 3 prostych krokach</span>
       </h1>
       <p className="wstep">
         Masz listę AED w arkuszu? W kilka minut zamienisz ją na otwarte dane w jednym, wspólnym formacie.
