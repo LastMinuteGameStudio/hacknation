@@ -89,7 +89,9 @@ tekst = surowe.decode("utf-8")
 sprawdz(not tekst.startswith("﻿") and tekst.endswith("\r\n"), "CSV z API: UTF-8 bez BOM, wiersze zakończone CRLF")
 portal = {w["id_aed"]: w for w in csv.DictReader(io.StringIO(tekst, newline=""))}
 pokaz = {w["id_aed"]: w for w in csv.DictReader(open("pokaz/wykaz-zbiorczy.csv", encoding="utf-8", newline=""))}
-POCHODZENIE = {"zrodlo_instytucja", "zrodlo_zasob_id", "zrodlo_url", "zrodlo_data_aktualizacji", "data_aktualizacji"}
+# pk zasobów, adresy i daty nadaje portal; data_aktualizacji pochodzi z żywego pliku TuAED (pokaz ma kopię)
+POCHODZENIE = {"zrodlo_zasob_id", "zrodlo_url", "zrodlo_data_aktualizacji", "data_aktualizacji"}
+NAZWA = lambda v: v.replace(" (test TuAED)", "")  # dane B mają nazwy z dopiskiem, pokaz bez
 DOPUSZCZALNE = {"kznsks42-9c48a7": {"duplikat_id_aed"}}  # w portalu duplikat wykazu szpitala z danych B
 braki = sorted(set(pokaz) - set(portal))
 dodatkowe = sorted(set(portal) - set(pokaz))
@@ -104,9 +106,11 @@ for i, w in pokaz.items():
     for k in w:
         if k in POCHODZENIE or k in DOPUSZCZALNE.get(i, set()):
             continue
+        if k == "zrodlo_instytucja" and NAZWA(p.get(k, "")) == w[k]:
+            continue
         if p.get(k, "") != w[k]:
             roznice.append((i, k, w[k], p.get(k)))
-sprawdz(not roznice, "pola rekordów jak w pokazie (bez kolumn pochodzenia i data_aktualizacji)"
+sprawdz(not roznice, "id_aed, pola v0.5, zrodlo_instytucja, licencja_zrodla i duplikat_id_aed jak w pokazie"
         + (f": {roznice[:5]}" if roznice else ""))
 sprawdz(list(next(iter(portal.values())).keys()) == list(next(iter(pokaz.values())).keys()), "kolumny i ich kolejność jak w pokazie")
 print(("PASS" if ok else "FAIL") + f" (5) wykaz zbiorczy z API portalu ({len(portal)} AED) zgodny z pokazem scalania A")
