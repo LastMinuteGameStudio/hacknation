@@ -151,3 +151,41 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .ladowanie { color: var(--kolor-tekst-drugi); }
 .zrodlo { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); padding: 0 1rem 0.75rem; margin: 1.25rem 0; }
 .zrodlo h2 { margin-top: 1rem; }
+
+/* Nawigacja w nagłówku */
+.nawigacja ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0; padding: 0; }
+.nawigacja a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.25rem; font-weight: 600; color: var(--kolor-info); }
+.nawigacja a[aria-current="page"] { color: var(--kolor-tekst); text-decoration-thickness: 3px; text-decoration-color: var(--kolor-glowny-ciemny); }
+
+/* Mapa (S2) */
+.przelacznik { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); padding: 0.25rem 1rem 0.5rem; margin: 1rem 0; }
+.przelacznik legend { font-weight: 700; padding: 0 0.3rem; }
+.przelacznik label { display: flex; align-items: center; gap: 0.5rem; min-height: 36px; }
+.przelacznik input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--kolor-glowny-ciemny); }
+.mapa-stan { font-weight: 600; }
+.mapa { height: 70vh; min-height: 360px; max-height: 720px; width: 100%; border: 2px solid var(--kolor-ramka); border-radius: var(--promien); }
+.mapa:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 2px; }
+.legenda { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0.5rem 0; }
+.legenda li { display: flex; align-items: center; gap: 0.4rem; }
+.punkt { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #101820; flex: none; }
+.punkt-tuaed { background: var(--kolor-glowny-ciemny); }
+.punkt-urzad { background: var(--kolor-info); }
+.punkt-osm { background: #6b4fa0; }
+.punkt-cel { display: flex !important; align-items: center; justify-content: center; background: transparent; border: 0; }
+.punkt-cel:focus-visible, .klaster:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 2px; }
+.klaster { display: flex !important; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0, 107, 16, 0.9);
+  color: #fff; font-weight: 700; font-size: 0.85rem; border: 3px solid #fff; box-shadow: 0 0 0 1px #101820; }
+.popup-aed h2 { font-size: 1rem; margin: 0 0 0.4rem; }
+.popup-aed dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.6rem; font-size: 0.9rem; }
+.popup-aed dt { font-weight: 600; color: var(--kolor-tekst-drugi); }
+.popup-aed dd { margin: 0; word-break: break-word; }
+.popup-aed:focus { outline: none; }
+.popup-aed:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 4px; }
+.leaflet-container { font: inherit; }
+.leaflet-container a { color: var(--kolor-info); }
+.leaflet-control-attribution { font-size: 0.75rem; }
+.leaflet-control-zoom a { width: 36px !important; height: 36px !important; line-height: 36px !important; }
+.leaflet-popup-close-button { width: 32px !important; height: 32px !important; font-size: 22px !important; line-height: 30px !important; }
+.tabela-liczb { width: auto; min-width: 16rem; margin: 1rem 0; }
+.tabela-liczb caption { text-align: left; font-weight: 700; margin-bottom: 0.3rem; }
+.tabela-liczb td { text-align: right; }

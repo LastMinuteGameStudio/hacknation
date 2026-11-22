@@ -1,5 +1,5 @@
 // Kreator 3 kroków (app/PLAN.md, sekcja 4). Ścieżka /edycja/{slug}?token=… pomija krok 1.
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { api, ApiError } from "./api/client";
 import type { Dysponent, PublikacjaOut, SchematOut } from "./api/types";
 import { Logo } from "./components/Logo";
@@ -9,6 +9,9 @@ import { Krok2Dane, PUSTY_STAN, type StanDanych } from "./kroki/Krok2Dane";
 import { Krok3Publikacja } from "./kroki/Krok3Publikacja";
 import { Start } from "./kroki/Start";
 import { ZrodloAutomatyczne } from "./components/ZrodloAutomatyczne";
+
+const Mapa = lazy(() => import("./mapa/Mapa"));
+const NA_MAPIE = /^\/mapa\/?$/.test(window.location.pathname);
 
 type Krok = "start" | "dysponent" | "dane" | "publikacja" | "edycja-wczytywanie";
 type Edycja = { slug: string; token: string };
@@ -76,6 +79,7 @@ export default function App() {
 
   // WCAG 2.4.2 / 2.4.3: tytuł strony i fokus na nagłówek po zmianie kroku.
   useEffect(() => {
+    if (NA_MAPIE) return;
     document.title = `${tytul} | TuAED`;
     if (pierwszyRender.current) {
       pierwszyRender.current = false;
@@ -93,15 +97,33 @@ export default function App() {
       <header className="naglowek">
         <div className="kontener naglowek-wnetrze">
           <Logo />
-          <span className="naglowek-podpis">Otwarte dane o AED</span>
+          <nav className="nawigacja" aria-label="Główna">
+            <ul>
+              <li>
+                <a href="/" aria-current={!NA_MAPIE ? "page" : undefined}>
+                  Opublikuj dane
+                </a>
+              </li>
+              <li>
+                <a href="/mapa" aria-current={NA_MAPIE ? "page" : undefined}>
+                  Mapa AED
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </header>
       <main id="tresc" className="kontener">
-        {nazwaKroku && <Postep kroki={kroki} biezacy={krok} />}
+        {NA_MAPIE && (
+          <Suspense fallback={<p role="status">Wczytuję mapę…</p>}>
+            <Mapa schemat={schemat} />
+          </Suspense>
+        )}
+        {!NA_MAPIE && nazwaKroku && <Postep kroki={kroki} biezacy={krok} />}
 
-        {krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
+        {!NA_MAPIE && krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
 
-        {krok === "edycja-wczytywanie" && (
+        {!NA_MAPIE && krok === "edycja-wczytywanie" && (
           <section aria-labelledby="naglowek-kroku">
             <h1 id="naglowek-kroku" tabIndex={-1}>
               Aktualizacja danych
@@ -121,7 +143,7 @@ export default function App() {
           </section>
         )}
 
-        {krok === "dysponent" && (
+        {!NA_MAPIE && krok === "dysponent" && (
           <Krok1Dysponent
             schemat={schemat}
             bladSchematu={bladSchematu}
@@ -134,7 +156,7 @@ export default function App() {
           />
         )}
 
-        {krok === "dane" && dysponent && (
+        {!NA_MAPIE && krok === "dane" && dysponent && (
           <Krok2Dane
             schemat={schemat}
             dysponent={dysponent}
@@ -147,7 +169,7 @@ export default function App() {
           />
         )}
 
-        {krok === "publikacja" && dane.imp && dane.walidacja && (
+        {!NA_MAPIE && krok === "publikacja" && dane.imp && dane.walidacja && (
           <Krok3Publikacja
             importId={dane.imp.import_id}
             walidacja={dane.walidacja}
