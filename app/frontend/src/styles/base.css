@@ -236,3 +236,10 @@ input[type="search"] { font: inherit; width: 100%; min-height: 44px; padding: 0.
   .tabela-karty td[data-etykieta]::before { content: attr(data-etykieta); display: block; font-size: 0.85rem; font-weight: 600; color: var(--kolor-tekst-drugi); }
   .tabela-karty th[scope="row"] { font-size: 1.05rem; }
 }
+
+/* Krok 3: metadane zbioru do skopiowania */
+.metadane { display: grid; grid-template-columns: 1fr; gap: 0.25rem 1rem; margin: 0.75rem 0; }
+.metadane dt { font-weight: 700; margin-top: 0.5rem; }
+.metadane dd { margin: 0; }
+@media (min-width: 700px) { .metadane { grid-template-columns: 12rem 1fr; } .metadane dt { margin-top: 0.6rem; } }
+.kopiuj-tekst { flex: 1 1 14rem; }
