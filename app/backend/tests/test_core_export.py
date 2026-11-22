@@ -52,3 +52,9 @@ def test_csvw_zgodny_ze_wzorem():
     assert m["tableSchema"]["null"] == wzor["tableSchema"]["null"]
     for a, b in zip(m["tableSchema"]["columns"], wzor["tableSchema"]["columns"], strict=True):
         assert (a["name"], a["datatype"], a["required"]) == (b["name"], b["datatype"], b["required"])
+
+
+def test_csvw_titles_zawiera_naglowek_csv():
+    m = csvw_metadata(SCHEMA, "u", "t")
+    naglowek = to_csv([], SCHEMA).decode().split("\r\n")[0].split(",")
+    assert [c["titles"][0] for c in m["tableSchema"]["columns"]] == naglowek

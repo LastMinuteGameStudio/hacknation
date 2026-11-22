@@ -56,7 +56,7 @@ def csvw_metadata(schema: Schema, csv_url: str, title: str) -> dict:
         f = schema.pole(p)
         kolumny.append({
             "name": f.pole,
-            "titles": f.nazwa,
+            "titles": [f.pole, f.nazwa],  # CSVW §5.5.1: titles musi zawierać tekst nagłówka CSV
             "dc:description": f.opis,
             "datatype": _datatype(f, schema),
             "required": f.wymagalnosc == "O",
