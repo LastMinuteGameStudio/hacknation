@@ -1,6 +1,15 @@
 # Jak sprawdzić AEDane (dla jury)
 
-Wystarczy przeglądarka. Nic nie trzeba instalować.
+## Masz 2 minuty?
+
+1. **[Nagranie: portal dane.gov.pl scala wykazy AED (101 s)](prezentacja/zrzuty/portal-nagranie.mp4)**. To
+   nasza zmiana w kodzie portalu: dostawca zaznacza „Wykaz AED”, portal sprawdza dane i łączy wykazy wszystkich
+   dostawców w jeden zbiór.
+2. **[Mapa AED z całej Polski](https://tuaed.wkrynski.dev/mapa)** i **[prototyp](https://tuaed.wkrynski.dev)**:
+   dysponent wgrywa swój arkusz, dostaje plik we wzorcowym formacie pod stałym adresem i dodaje go na dane.gov.pl.
+3. **[Prezentacja](prezentacja/AEDane-Misja-AED.pptx)**: problem, rozwiązanie i akcja „Daj dane, daj życie”.
+
+Gdy masz więcej czasu, sprawdź sam, jak niżej. Wystarczy przeglądarka.
 
 ## 1. Prototyp: dysponent publikuje dane o AED (5 minut)
 
