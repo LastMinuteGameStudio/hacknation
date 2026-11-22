@@ -225,7 +225,7 @@ def create_main_aed_dataset(licencja: str) -> "Dataset":
             title=settings.MAIN_AED_DATASET_DEFAULT_TITLE,
             notes=settings.MAIN_AED_DATASET_DEFAULT_DESC,
             organization=institution,
-            update_notification_recipient_email=settings.MAIN_AED_DATASET_UPDATE_NOTIFICATION_EMAIL or None,
+            update_notification_recipient_email=settings.MAIN_AED_DATASET_UPDATE_NOTIFICATION_EMAIL or "",
             has_dynamic_data=False,
             has_high_value_data=False,
             has_high_value_data_from_ec_list=False,

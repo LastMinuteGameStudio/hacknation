@@ -141,3 +141,23 @@ def test_bez_poprawnych_wykazow_nic_nie_tworzy():
     assert summary["skipped_count"] == 1
     assert summary_from_result(build_main_aed_list([]))["records_count"] == 0
     assert zly.pk
+
+
+def test_schemat_wykazu_aed_wszystkie_kolumny_tekstowe():
+    """Zgadnięte typy (integer, date) nie mogą odrzucać pliku v0.5 przed walidacją zakresu."""
+    from mcod.resources.tasks.process_resource_file_data import _aed_list_tabular_data_schema
+
+    tds = {
+        "fields": [
+            {"name": "nr_budynku", "type": "integer", "format": "default"},
+            {"name": "lon", "type": "date", "format": "any"},
+        ],
+        "missingValues": [""],
+    }
+    wynik = _aed_list_tabular_data_schema(tds)
+    assert [(f["name"], f["type"], f["format"]) for f in wynik["fields"]] == [
+        ("nr_budynku", "string", "default"),
+        ("lon", "string", "default"),
+    ]
+    assert wynik["missingValues"] == [""]
+    assert tds["fields"][0]["type"] == "integer"
