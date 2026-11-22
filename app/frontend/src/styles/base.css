@@ -219,6 +219,14 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 @media (min-width: 1000px) { .filtry { grid-template-columns: repeat(4, 1fr); } }
 input[type="search"] { font: inherit; width: 100%; min-height: 44px; padding: 0.4rem 0.6rem; border: 2px solid var(--kolor-ramka);
   border-radius: var(--promien); background: #fff; color: var(--kolor-tekst); }
+/* Tabela wszystkich AED (od 700 px): bez zawijania, przewijana w poziomie wewnątrz ramki */
+@media (min-width: 700px) {
+  .tabela-aed-ramka { border: 1px solid var(--kolor-tlo-alt); border-radius: var(--promien); }
+  .tabela-aed-ramka:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 2px; }
+  .tabela-aed { width: max-content; min-width: 100%; }
+  .tabela-aed th, .tabela-aed td { white-space: nowrap; word-break: normal; padding: 0.6rem 0.9rem; }
+  .tabela-aed thead th { position: sticky; top: 0; }
+}
 .stronicowanie { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: center; margin: 1rem 0; }
 .stronicowanie-stan { padding: 0 0.5rem; font-weight: 600; }
 @media (max-width: 699px) {

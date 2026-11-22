@@ -236,7 +236,7 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
       </p>
 
       {wiersze && naStronie.length > 0 && (
-        <div className="tabela-przewijana">
+        <div className="tabela-przewijana tabela-aed-ramka" tabIndex={0} role="region" aria-label="Tabela AED (przewijana w poziomie)">
           <table className="tabela-karty tabela-aed">
             <caption className="wizualnie-ukryte">
               AED, strona {strona} z {stron}. Nazwa prowadzi do punktu na mapie.
