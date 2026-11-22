@@ -32,7 +32,7 @@ export function Kopiuj({ wartosc, etykieta, id }: { wartosc: string; etykieta: s
         Kopiuj<span className="wizualnie-ukryte"> {etykieta}</span>
       </button>
       <span role="status" className="drobny">
-        {stan === "ok" ? "Skopiowano." : stan === "blad" ? "Zaznaczono adres. Skopiuj go skrótem Ctrl+C." : ""}
+        {stan === "ok" ? "Skopiowano." : stan === "blad" ? "Zaznaczono adres. Skopiuj go skrótem Ctrl+C (na Macu Cmd+C)." : ""}
       </span>
     </div>
   );

@@ -101,13 +101,21 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .mapowanie td:first-child { font-weight: 600; word-break: break-word; }
 .przyklady { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; color: var(--kolor-tekst-drugi); font-size: 0.85rem; font-weight: 400; word-break: break-word; }
 .przyklady-etykieta { flex-basis: 100%; }
-.przyklad-wartosc { font-family: ui-monospace, Consolas, monospace; color: var(--kolor-tekst, inherit); background: var(--kolor-tlo-jasne); border: 1px solid var(--kolor-tlo-alt); border-radius: 4px; padding: 0.05rem 0.4rem; max-width: 100%; }
+.przyklad-wartosc { font-family: ui-monospace, Consolas, monospace; color: var(--kolor-tekst, inherit); background: var(--kolor-tlo-jasne); border: 1px solid var(--kolor-tlo-alt); border-radius: 4px; padding: 0.05rem 0.4rem; max-width: 100%;
+  /* długie wartości (np. opisy) przycięte wizualnie do 2 linii; czytnik ekranu odczyta całość */
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .przyklad-pusty { font-style: italic; }
 .pewnosc { display: inline-block; font-size: 0.85rem; font-weight: 600; padding: 0.05rem 0.45rem; border-radius: 999px; border: 1px solid; margin-top: 0.3rem; }
 .pewnosc-wysoka { color: var(--kolor-glowny-ciemny); background: var(--kolor-ok-tlo); }
 .pewnosc-srednia { color: var(--kolor-ostrzezenie); background: var(--kolor-ostrzezenie-tlo); }
 .pewnosc-niska { color: var(--kolor-blad); background: var(--kolor-blad-tlo); }
 .powod { display: block; font-size: 0.85rem; color: var(--kolor-tekst-drugi); }
+/* Szeroki ekran: lista wyboru pola zawsze czytelna, kolumna z przykładami nie zabiera całej szerokości (E1/E2). */
+@media (min-width: 700px) {
+  .mapowanie td:nth-child(1) { width: 40%; }
+  .mapowanie select { min-width: 15rem; }
+  .mapowanie td:nth-child(3) { min-width: 9rem; }
+}
 @media (max-width: 699px) {
   .mapowanie thead { position: absolute; left: -9999px; }
   .mapowanie, .mapowanie tbody, .mapowanie tr, .mapowanie td { display: block; width: 100%; }
