@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from typing import Iterator
 
 from fastapi import Depends, FastAPI, File, Form, Query, UploadFile
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -49,6 +50,7 @@ async def _lifespan(_app: FastAPI):
 
 
 app = FastAPI(title="Misja AED: konwerter danych dostawców", version="0.2.0", lifespan=_lifespan)
+app.add_middleware(GZipMiddleware, minimum_size=1024)  # agregat GeoJSON: 11 MB → ok. 1 MB
 
 
 def get_db() -> Iterator[Session]:

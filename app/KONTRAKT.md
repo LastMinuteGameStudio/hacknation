@@ -119,11 +119,15 @@ Zbiór może być odświeżany z pliku pod stałym adresem (np. CSV na stronie u
 |---|---|
 | `/d/{slug}.csv` | pola publiczne v0.5 w kolejności z zakresu; RFC 4180: UTF-8 bez BOM, przecinek, CRLF, cudzysłowy tylko gdy potrzebne; daty ISO 8601; kropka dziesiętna; `Content-Type: text/csv; charset=utf-8` |
 | `/d/{slug}.json` | `{"metadane": {...}, "rekordy": [ {pole: wartość} ]}` |
+| `/d/{slug}.geojson` | S2: `AedFeatureCollection` (RFC 7946) z polami publicznymi w `properties`, plus `metadane` jak w `.json` (foreign member) |
 | `/d/{slug}.csv-metadata.json` | CSVW (wzór: `zakres-danych/szablon-aed-publiczny.csv-metadata.json`), `url` wskazuje na CSV |
 | `/d/aed-polska.csv` | agregat: `dane/wynik/aed_unikalne.csv` (z OSM) + zbiory z bazy; kolumny pochodzenia przy każdym rekordzie |
 | `/d/aed-polska-bez-osm.csv` | jak wyżej, bez rekordów z OSM (`zrodlo == "osm"` w `dane/wynik`) |
+| `/d/aed-polska.geojson`, `/d/aed-polska-bez-osm.geojson` | S2: te same rekordy co w CSV agregatu (ta sama kolejność i liczba), `AedFeatureCollection` z kolumnami agregatu w `properties` |
 
 Agregat: kolumny to pola publiczne v0.5 + `zrodlo` i `licencja_zrodla` (dla zbiorów z bazy: `zrodlo = "tuaed:<slug>"`, `licencja_zrodla = "CC0 1.0"`, `status_walidacji = "oczekuje"`, bo dostawców nie weryfikujemy; Wojtek, 22.11). Rekord dostawcy jest główny: rekord z `dane/wynik` bliżej niż 30 m od rekordu dostawcy dostaje `duplikat_id_aed` = jego `id_aed` (nic nie jest usuwane). W agregacie `id_aed` rekordów z bazy ma prefiks `<slug>:`, żeby identyfikatory różnych dostawców się nie zderzały.
+
+GeoJSON (S2): `Content-Type: application/geo+json`, `Access-Control-Allow-Origin: *`, kompresja gzip (agregat z OSM: ok. 11 MB, po kompresji ok. 1,3 MB). Każdy rekord to `{"type": "Feature", "id": id_aed, "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": {pole: wartość}}`. Współrzędne są liczbami w kolejności [długość, szerokość]. W `properties` są tylko pola z wartością: puste i „X” są pomijane (konwencja `dane/wynik/*.geojson`), wartości są tekstem jak w CSV. Rekord bez współrzędnych ma `geometry: null`. Plik agregatu jest w pamięci i odświeża się po każdej publikacji i synchronizacji.
 | `/szablon.csv`, `/szablon.xlsx` | `zakres-danych/szablon-aed-publiczny.*` |
 
 ### GET `/api/zdrowie`

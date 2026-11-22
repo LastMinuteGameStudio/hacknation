@@ -121,6 +121,26 @@ export interface SynchronizacjaOut {
   liczba_rekordow: number;
 }
 
+/** S2: GeoJSON (RFC 7946) z /d/{slug}.geojson i /d/aed-polska[-bez-osm].geojson. */
+export interface GeoPunkt {
+  type: "Point";
+  coordinates: [number, number]; // [lon, lat]
+}
+
+export interface AedFeature {
+  type: "Feature";
+  id: string | null; // id_aed
+  geometry: GeoPunkt | null;
+  /** Pola z wartością (puste i „X” pominięte). Agregat: pola publiczne + zrodlo, licencja_zrodla. */
+  properties: Record<string, string>;
+}
+
+export interface AedFeatureCollection {
+  type: "FeatureCollection";
+  metadane?: Record<string, unknown>; // tylko /d/{slug}.geojson
+  features: AedFeature[];
+}
+
 export interface BladApi {
   kod: string;
   komunikat: string;

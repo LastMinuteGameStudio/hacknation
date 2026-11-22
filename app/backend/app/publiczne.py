@@ -17,15 +17,16 @@ from .importy import SCHEMA, _iso, blad
 CSV = "text/csv; charset=utf-8"
 JSON = "application/json; charset=utf-8"
 CSVW = "application/csvm+json; charset=utf-8"
+GEOJSON = "application/geo+json"  # RFC 7946: UTF-8 z definicji, bez parametru charset
 NAGLOWKI = {"Access-Control-Allow-Origin": "*", "Cache-Control": "no-cache"}  # dane otwarte: dostęp z innych domen
 
 
 def rozbij_nazwe(nazwa: str) -> tuple[str, str]:
     """„k7q2m9xa.csv-metadata.json” → („k7q2m9xa”, „csv-metadata.json”)."""
-    for rozszerzenie in ("csv-metadata.json", "csv", "json"):
+    for rozszerzenie in ("csv-metadata.json", "csv", "json", "geojson"):
         if nazwa.endswith("." + rozszerzenie):
             return nazwa[: -len(rozszerzenie) - 1], rozszerzenie
-    raise blad(404, "NIE_ZNALEZIONO", "Nie ma takiego pliku. Dostępne: .csv, .json, .csv-metadata.json.")
+    raise blad(404, "NIE_ZNALEZIONO", "Nie ma takiego pliku. Dostępne: .csv, .json, .geojson, .csv-metadata.json.")
 
 
 def _zbior(db: Session, slug: str) -> Zbior:
@@ -64,7 +65,8 @@ def metadane(z: Zbior, liczba: Optional[int] = None) -> dict:
 
 def plik(db: Session, nazwa: str) -> Response:
     if nazwa in agregat.PLIKI:
-        return Response(agregat.plik(db, nazwa), media_type=CSV,
+        typ = CSV if agregat.PLIKI[nazwa][1] == "csv" else GEOJSON
+        return Response(agregat.plik(db, nazwa), media_type=typ,
                         headers=NAGLOWKI | {"Content-Disposition": f'inline; filename="{nazwa}"'})
     slug, rodzaj = rozbij_nazwe(nazwa)
     z = _zbior(db, slug)
@@ -76,4 +78,7 @@ def plik(db: Session, nazwa: str) -> Response:
     if rodzaj == "csv":
         return Response(core.to_csv(recs, SCHEMA, public_only=True), media_type=CSV,
                         headers=NAGLOWKI | {"Content-Disposition": f'inline; filename="aed-{slug}.csv"'})
+    if rodzaj == "geojson":
+        tresc = agregat.geojson([agregat.feature(r, SCHEMA.publiczne) for r in recs], metadane=metadane(z, len(recs)))
+        return Response(tresc, media_type=GEOJSON, headers=NAGLOWKI)
     return Response(core.to_json(recs, SCHEMA, metadane(z, len(recs))), media_type=JSON, headers=NAGLOWKI)

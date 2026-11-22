@@ -125,3 +125,24 @@ class SynchronizacjaOut(BaseModel):
     ostatnia_proba: Optional[str] = None
     ostatni_sukces: Optional[str] = None
     liczba_rekordow: int
+
+
+# --- S2: GeoJSON (RFC 7946) dla /d/{slug}.geojson i /d/aed-polska*.geojson. Opis formatu; endpointy zwracają gotowe bajty.
+
+
+class GeoPunkt(BaseModel):
+    type: Literal["Point"] = "Point"
+    coordinates: list[float]  # [lon, lat]
+
+
+class AedFeature(BaseModel):
+    type: Literal["Feature"] = "Feature"
+    id: Optional[str] = None  # id_aed
+    geometry: Optional[GeoPunkt]
+    properties: dict[str, str]  # pola z wartością (bez pustych i „X”)
+
+
+class AedFeatureCollection(BaseModel):
+    type: Literal["FeatureCollection"] = "FeatureCollection"
+    metadane: Optional[dict] = None  # tylko /d/{slug}.geojson
+    features: list[AedFeature]
