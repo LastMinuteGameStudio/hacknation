@@ -1,0 +1,486 @@
+[
+ {
+  "ekran": "01-start",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "02-krok1",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "03-krok1-bledy",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "04-krok2-pusty",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "05-krok2-mapowanie",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "06-krok2-walidacja-bledy",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "07-krok2-walidacja-ok",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "08-krok3-zgoda",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "09-krok3-opublikowane",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "10-edycja-zrodlo",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "ekran": "11-edycja-wstrzymana",
+  "szer": 320,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 320,
+  "cw": 320,
+  "male": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "01-start",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "02-krok1",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "03-krok1-bledy",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "04-krok2-pusty",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "05-krok2-mapowanie",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "06-krok2-walidacja-bledy",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "07-krok2-walidacja-ok",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "08-krok3-zgoda",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "09-krok3-opublikowane",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "10-edycja-zrodlo",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 320,
+  "ekran": "11-edycja-wstrzymana",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "ekran": "01-start",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "02-krok1",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "03-krok1-bledy",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "04-krok2-pusty",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "05-krok2-mapowanie",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "06-krok2-walidacja-bledy",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "07-krok2-walidacja-ok",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "08-krok3-zgoda",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "09-krok3-opublikowane",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "10-edycja-zrodlo",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "11-edycja-wstrzymana",
+  "szer": 768,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 768,
+  "cw": 768,
+  "male": []
+ },
+ {
+  "ekran": "01-start",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "02-krok1",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "03-krok1-bledy",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "04-krok2-pusty",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "05-krok2-mapowanie",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "06-krok2-walidacja-bledy",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "07-krok2-walidacja-ok",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "08-krok3-zgoda",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "09-krok3-opublikowane",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "10-edycja-zrodlo",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "ekran": "11-edycja-wstrzymana",
+  "szer": 1440,
+  "wcag": [],
+  "bestPractice": [],
+  "przewijanie": false,
+  "sw": 1440,
+  "cw": 1440,
+  "male": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "01-start",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "02-krok1",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "03-krok1-bledy",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "04-krok2-pusty",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "05-krok2-mapowanie",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "06-krok2-walidacja-bledy",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "07-krok2-walidacja-ok",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "08-krok3-zgoda",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "09-krok3-opublikowane",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "10-edycja-zrodlo",
+  "wynik": 100,
+  "nieudane": []
+ },
+ {
+  "lighthouse": true,
+  "szer": 1440,
+  "ekran": "11-edycja-wstrzymana",
+  "wynik": 100,
+  "nieudane": []
+ }
+]
