@@ -44,7 +44,7 @@ Inne pliki do wypróbowania: [krosno.csv](https://raw.githubusercontent.com/Last
 | 1.6 | „Dalej: publikacja”, zaznacz zgodę na CC0 1.0, „Opublikuj” | Stały adres `…/d/<slug>.csv`, prywatny link do aktualizacji, instrukcja dodania zasobu na dane.gov.pl („link”, „Aktualizacja automatyczna: dziennie”, pole **„Wykaz AED”**, licencja CC0 1.0), „Metadane zbioru do skopiowania” (tytuł, opis, słowa kluczowe, kategoria Zdrowie) i linki JSON i CSVW | [09-krok3-zgoda](prezentacja/zrzuty/09-krok3-zgoda-1440.png), [09-krok3-publikacja](prezentacja/zrzuty/09-krok3-publikacja-1440.png) |
 | 1.7 | Kliknij „Dane w CSV” (przeglądarka otworzy albo pobierze plik) | Plik CSV: przecinki, UTF-8, kolumny wzorcowego zakresu v0.5 w stałej kolejności, telefon i e-mail usunięte | [08-csv-w-przegladarce](prezentacja/zrzuty/08-csv-w-przegladarce-1440.png) |
 | 1.8 | Otwórz prywatny link do aktualizacji (skopiuj go z kroku 1.6) | Strona „Wgraj nową wersję danych” i sekcja „Źródło automatyczne” | [09-edycja-zrodlo-automatyczne](prezentacja/zrzuty/09-edycja-zrodlo-automatyczne-1440.png) |
-| 1.9 | Wgraj [przemysl.csv](https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/app/backend/tests/fixtury/przemysl.csv) (eksport z 2026 r., inny format geometrii). Ustaw ponownie trzy wartości z kroku 1.4, bo strona ich nie pamięta. Potem „Sprawdź dane”, zgoda i „Opublikuj” | Mapowanie kolumn podpowiada się samo, a publikacja podmienia dane **pod tym samym adresem** z **tymi samymi `id_aed`** | [przed](prezentacja/zrzuty/09-sync-0-csv-przed-1440.png) i [po](prezentacja/zrzuty/09-sync-4-csv-po-1440.png) (te same `id_aed`) |
+| 1.9 | Wgraj [przemysl.csv](https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/app/backend/tests/fixtury/przemysl.csv) (eksport z 2026 r., inny format geometrii), „Sprawdź dane”, zgoda i „Opublikuj” | Mapowanie kolumn i wartości z kroku 1.4 podpowiadają się z poprzedniej publikacji, a publikacja podmienia dane **pod tym samym adresem** z **tymi samymi `id_aed`** | [przed](prezentacja/zrzuty/09-sync-0-csv-przed-1440.png) i [po](prezentacja/zrzuty/09-sync-4-csv-po-1440.png) (te same `id_aed`) |
 | 1.10 | (opcjonalnie) W „Źródło automatyczne” wklej adres pliku na stronie urzędu i „Włącz i pobierz teraz” | Stan „Aktywna”, ZSYNCHRONIZOWANO. Zmiana kolumn w źródle wstrzymuje synchronizację i nie psuje danych | [ustawienie](prezentacja/zrzuty/09-sync-1-ustawienie-1440.png), [aktywna](prezentacja/zrzuty/09-sync-2-aktywna-1440.png), [nowy format](prezentacja/zrzuty/09-sync-3-zsynchronizowano-1440.png), [wstrzymana](prezentacja/zrzuty/09-sync-5-wstrzymana-1440.png) |
 | 1.11 | Otwórz https://tuaed.wkrynski.dev/mapa | Mapa AED z całej Polski z popupem szczegółów. Wybór: wszystkie AED albo bez OpenStreetMap | [10-mapa](prezentacja/zrzuty/10-mapa-1440.png), [telefon](prezentacja/zrzuty/10-mapa-320.png), [popup](prezentacja/audyt/zrzuty/mapa-popup-1440.png) |
 | 1.12 | Otwórz https://tuaed.wkrynski.dev/dane | „Zebrane dane o AED”: „Zbiory dostawców” (każdy z plikami CSV, JSON, GeoJSON i CSVW), liczba AED według pochodzenia, tabela „Wszystkie AED” z wyszukiwaniem i pliki zbiorcze | [10-dane](prezentacja/zrzuty/10-dane-1440.png), [telefon](prezentacja/zrzuty/10-dane-320.png) |
@@ -169,9 +169,14 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 
 **Bez uruchamiania portalu (pokaz scalania, ok. 1 minuta):**
 
+<<<<<<< HEAD
 1. `git clone --depth 1 -b portal-aed https://github.com/LastMinuteGameStudio/hacknation hacknation-portal && cd hacknation-portal/portal`
 2. `python3 -m venv .venv && .venv/bin/pip install openpyxl && .venv/bin/python tuaed_pokaz_scalania.py --offline`
    (Python ≥ 3.8, bez Django i bazy). Bez
+=======
+1. `git clone https://github.com/LastMinuteGameStudio/hacknation && cd hacknation && git checkout portal-aed && cd portal`
+2. `pip install openpyxl && python tuaed_pokaz_scalania.py --offline` (Python ≥ 3.8, bez Django i bazy). Bez
+>>>>>>> a101ee7 (JURY.md sekcja 3: pokaz scalania bez portalu (tuaed_pokaz_scalania.py A: 46 AED, 2 duplikaty, 2 wykazy pominięte), sprawdzony offline)
    `--offline` skrypt pobiera wykazy Przemyśla i Krosna z demo. Skrypt używa tego samego kodu, który wywołuje
    zadanie portalu ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)).
 3. Oczekiwany wynik: **46 AED z 4 wykazów, licencja CC BY 4.0.**
@@ -202,8 +207,8 @@ Instrukcję przeszliśmy jak juror. Sprawdzone:
 - **Linki:** wszystkie 75 linków w tym pliku (pliki na `main` i `portal-aed`, adresy raw, adresy demo) działają.
   Ścieżki demo z sekcji 2 (`/d/…`, `/szablon.*`, `/api/schemat`, `/docs`, `/mapa`, `/dane`) dają HTTP 200.
 - **Sekcja 1:** przejście automatem (Playwright) z etykietami jak w tabeli, na lokalnym stacku z kroku 0: 23 z 24
-  oczekiwań spełnione. Jedyna różnica: przy aktualizacji (1.9) strona nie pamięta wartości z kroku 1.4, więc
-  w opisie kroku jest teraz polecenie, żeby ustawić je ponownie. Zrzuty kreatora odświeżone na demo
+  oczekiwań spełnione. Jedyna różnica: przy aktualizacji (1.9) strona nie pamiętała wartości z kroku 1.4.
+  B i C to poprawili (main 2cef05b), a powtórny przebieg na lokalnym stacku dał **24 z 24**. Zrzuty kreatora odświeżone na demo
   (nowa nawigacja, „Wykaz AED” i metadane w kroku 3), zrzuty mapy i `/dane` dodane.
 - **Krok 0:** świeży klon, `docker compose` z `.env.example`: działa. Dopisana zmiana `BASE_URL` (bez niej linki
   wskazują demo). Testy: na Pythonie 3.12 **223 passed**. Na systemowym 3.9 nie instaluje się `psycopg-binary`,

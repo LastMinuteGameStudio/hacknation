@@ -96,6 +96,7 @@ def test_pelny_przebieg_i_edycja():
     zb = c.get(f"/api/zbiory/{slug}?token={token}").json()
     assert zb["liczba_rekordow"] == 21 and zb["dysponent"]["nazwa"] == DYSPONENT["nazwa"]
     assert zb["mapowanie"] == _mapowanie(imp)
+    assert zb["wartosci_stale"] == STALE
 
     # ponowne wgranie (mniejszy plik) zastępuje rekordy pod tym samym slugiem
     r = c.post(f"/api/zbiory/{slug}/importy?token=zly", files={"plik": ("krosno.csv", b"a\n1\n", "text/csv")})
@@ -137,3 +138,30 @@ def test_walidacja_z_adres_pelny_bez_bledow_ulicy():
     w = c.post(f"/api/importy/{imp['import_id']}/walidacja",
                json={"mapowanie": m, "dysponent": DYSPONENT, "wartosci_stale": stale}).json()
     assert not [k for k in w["komunikaty"] if k["pole"] in ("nazwa_ulicy", "miejscowosc") and k["poziom"] == "blad"]
+
+
+def test_wartosci_stale_zbioru_domyslne_przy_ponownym_wgraniu():
+    imp = _wgraj()
+    assert _waliduj(imp)["mozna_publikowac"]
+    p = c.post(f"/api/importy/{imp['import_id']}/publikacja").json()
+    s, t = p["slug"], p["token_edycji"]
+    assert c.get(f"/api/zbiory/{s}?token={t}").json()["wartosci_stale"] == STALE
+
+    # ponowne wgranie bez wartości stałych: biorą się ze zbioru, walidacja bez błędów pól O
+    imp2 = _wgraj(f"/api/zbiory/{s}/importy?token={t}")
+    w = _waliduj(imp2, stale={})
+    assert w["mozna_publikowac"] and w["liczba_bledow"] == 0, w["komunikaty"][:3]
+
+    # przysłana wartość ma pierwszeństwo, pusty string usuwa wartość ze zbioru
+    imp3 = _wgraj(f"/api/zbiory/{s}/importy?token={t}")
+    w = _waliduj(imp3, stale={"dostepnosc": "klienci", "dostepny_24_7": ""})
+    assert not w["mozna_publikowac"]
+    assert {k["pole"] for k in w["komunikaty"] if k["kod"] == "BRAK_POLA_OBOWIAZKOWEGO"} == {"dostepny_24_7"}
+    c.post(f"/api/importy/{imp2['import_id']}/publikacja")
+    assert c.get(f"/api/zbiory/{s}?token={t}").json()["wartosci_stale"] == STALE
+
+
+def test_nowy_import_nie_bierze_wartosci_stalych_innego_zbioru():
+    imp = _wgraj()
+    w = _waliduj(imp, stale={})
+    assert not w["mozna_publikowac"]

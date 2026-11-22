@@ -91,6 +91,7 @@ def zbior_out(db: Session, z: Zbior) -> ZbiorOut:
         zaktualizowano=_iso(z.zaktualizowano),
         liczba_rekordow=n,
         mapowanie=z.mapowanie or {},
+        wartosci_stale=z.wartosci_stale or {},
     )
 
 
@@ -197,14 +198,25 @@ def zgrupuj(msgs: list[Message]) -> list[Message]:
     return wynik
 
 
+def wartosci_stale(db: Session, imp: Import, z_body: dict[str, str]) -> dict[str, str]:
+    """Import powiązany ze zbiorem: wartości stałe z ostatniej publikacji są domyślne, przysłane z frontu mają
+    pierwszeństwo, a pusty string usuwa wartość. Nowy import: tylko to, co przysłał front."""
+    baza: dict[str, str] = {}
+    if imp.zbior_id is not None:
+        z = db.get(Zbior, imp.zbior_id)
+        baza = dict((z.wartosci_stale if z else None) or {})
+    return {k: v for k, v in {**baza, **z_body}.items() if v != ""}
+
+
 def waliduj(db: Session, import_id: str, body: WalidacjaIn) -> WalidacjaOut:
     imp = _import(db, import_id)
     t = _czytaj(imp.plik_nazwa, imp.plik, imp.arkusz)
     mapowanie = {k: v for k, v in body.mapowanie.items() if k in t.columns}
     d = body.dysponent
+    stale = wartosci_stale(db, imp, body.wartosci_stale)
     provider = Provider(nazwa=d.nazwa, typ=d.typ, telefon=d.telefon, email=d.email, slug=imp.slug)
     wyniki = core.normalize_table(
-        t, mapowanie, SCHEMA, provider, date.today(), core.Geokoder(DbGeocodeCache()), dict(body.wartosci_stale)
+        t, mapowanie, SCHEMA, provider, date.today(), core.Geokoder(DbGeocodeCache()), stale
     )
     publikowane = [r for r in wyniki if not r.pominiety]
     msgs = list(t.messages) + [m for r in wyniki for m in r.messages] + core.validate_records(publikowane, SCHEMA)
@@ -221,7 +233,7 @@ def waliduj(db: Session, import_id: str, body: WalidacjaIn) -> WalidacjaOut:
         mozna_publikowac=liczba_bledow == 0 and len(publikowane) > 0,
     )
     imp.mapowanie = body.mapowanie
-    imp.wartosci_stale = dict(body.wartosci_stale)
+    imp.wartosci_stale = stale
     imp.dysponent = d.model_dump()
     imp.rekordy = [
         {"wiersz": r.wiersz, "dane": r.record, "komunikaty": [asdict(m) for m in r.messages]} for r in publikowane

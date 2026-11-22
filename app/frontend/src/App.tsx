@@ -63,6 +63,9 @@ export default function App() {
       .zbior(edycja.slug, edycja.token)
       .then((z) => {
         setDysponent(z.dysponent);
+        // Wartości „Ustaw dla wszystkich AED w pliku” z poprzedniej publikacji (pole dodaje B w ZbiorOut).
+        const stale = (z as { wartosci_stale?: Record<string, string> | null }).wartosci_stale;
+        if (stale && Object.keys(stale).length) setDane((d) => ({ ...d, wartosciStale: { ...stale } }));
         setKrok("dane");
       })
       .catch((e) =>

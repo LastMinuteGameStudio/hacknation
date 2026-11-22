@@ -104,6 +104,7 @@ class ZbiorOut(BaseModel):
     zaktualizowano: str
     liczba_rekordow: int
     mapowanie: dict[str, Optional[str]]
+    wartosci_stale: dict[str, str] = {}  # z ostatniej publikacji; kreator podpowiada je przy ponownym wgraniu
 
 
 class ZdrowieOut(BaseModel):
