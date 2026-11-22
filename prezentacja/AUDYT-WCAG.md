@@ -35,7 +35,7 @@ Dodatkowo tabela mapowania dla `przemysl_2024.csv` (długie opisy) przy 320, 768
 - **Kontrast**: wzór WCAG dla wszystkich par kolorów z `tokens.css` (tabela niżej). axe sprawdza też kontrast wyrenderowanego tekstu.
 - Środowisko lokalne: `vite build` + `vite preview` (proxy do backendu FastAPI na 127.0.0.1:8000), nie tunel ani demo.
 
-Skrypty: `prezentacja/audyt/skrypty/` (`audyt.mjs`, `klawiatura.mjs`, `odstepy.mjs`, `mapa.mjs`). Raporty: `prezentacja/audyt/lighthouse-po-{320,1440}.{html,json}`, `axe-przed.json`, `axe-po.json`. Zrzuty: `prezentacja/audyt/zrzuty/`.
+Skrypty: `prezentacja/audyt/skrypty/` (`audyt.mjs`, `klawiatura.mjs`, `odstepy.mjs`, `mapa.mjs`, `dane.mjs`). Raporty: `prezentacja/audyt/lighthouse-po-{320,1440}.{html,json}`, `axe-przed.json`, `axe-po.json`. Zrzuty: `prezentacja/audyt/zrzuty/`.
 
 ## Klawiatura (WCAG 2.1.1, 2.4.3, 2.4.7, 2.4.11)
 
@@ -96,6 +96,24 @@ Sprawdzona tymi samymi narzędziami (axe-core, Playwright) przy 320, 768 i 1440 
 Poprawka w trakcie: Escape nie zamykał popupu, bo Leaflet obsługuje klawisze tylko przy fokusie na kontenerze mapy. Dodaliśmy własną obsługę Escape z powrotem fokusu na punkt (WCAG 2.1.2, 2.4.3).
 
 Ograniczenia mapy: kafelki OSM to obraz bez tekstu dla czytnika ekranu (stąd alternatywa pod mapą); przejście Tabem po wszystkich punktach przy dużym przybliżeniu jest długie, dlatego pełna lista jest w CSV.
+
+## Zebrane dane (/dane, dodane po audycie kreatora)
+
+Sprawdzone axe-core i Playwright przy 320, 768 i 1440 px, na starcie, po filtrach i stronicowaniu oraz po przejściu do mapy z wybranym AED: 0 naruszeń WCAG, bez poziomego przewijania strony, 0 celów poniżej 24 px. Kreator po zmianach na stronie startowej sprawdzony ponownie: axe 0 na 33 ekranach, Lighthouse 100 na 22 migawkach.
+
+| Sprawdzenie | Wynik |
+|---|---|
+| Tabele | prawdziwe `<table>` z `<caption>`, `th scope="col"` i `th scope="row"`; poniżej 700 px wiersze jako karty z etykietami kolumn |
+| Filtry | każde pole ma `<label>`, formularz ma `role="search"`; wyszukiwanie bez polskich znaków i wielkości liter („lodz piotrkowska” znajduje „Łódź, Piotrkowska”) |
+| Liczba wyników | `role="status"`, np. „Znaleziono 254 AED, strona 1 z 6.”; wyszukiwanie z opóźnieniem 350 ms, więc czytnik nie ogłasza każdej litery |
+| Stronicowanie | 50 wierszy na stronę, przyciski z tekstem w `nav aria-label`; po zmianie strony fokus na nagłówku „Wyniki” |
+| Przejście do mapy | nazwa obiektu to link `/mapa?aed=<id_aed>` (cały wiersz klikalny myszą); mapa przybliża się do punktu, otwiera popup i przenosi do niego fokus |
+| Pliki zbiorów | linki CSV / JSON / GeoJSON / CSVW z ukrytym dopiskiem nazwy dysponenta, żeby się odróżniały na liście linków |
+
+Poprawki w trakcie:
+- przyciski opcji przełącznika miały 22 px, a linki z nazwą w kartach 20 px wysokości; teraz mają 24 px (WCAG 2.5.8);
+- na mapie punkty o tych samych współrzędnych po rozłożeniu klastra nachodziły na siebie (axe: target-size); odstęp rozkładania jest teraz dwukrotny;
+- `/mapa?aed=` nie otwierał popupu (wywołanie przed przeliczeniem klastrów); naprawione.
 
 ## Znane ograniczenia
 
