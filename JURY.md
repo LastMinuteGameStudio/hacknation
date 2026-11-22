@@ -164,12 +164,23 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 5. Panel: Zasoby → „Wykaz zbiorczy AED”. Raport pokazuje, które wykazy dołączono, a które pominięto i dlaczego
    (błędy walidacji albo licencja spoza CC0 i CC BY 4.0). _(zrzut)_
 
-**Bez uruchamiania portalu:**
-- Logika scalania nie zależy od Django ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)) i ma 18 testów
-  ([test_aed_merge.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_merge.py)) oraz testy z bazą
-  ([test_aed_list.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_list.py)).
-- Ten sam wynik (45 AED, 1 duplikat, CC BY 4.0) daje uruchomienie `merge.py` na trzech powyższych plikach,
-  sprawdzone 22.11.
+**Bez uruchamiania portalu (pokaz scalania, ok. 1 minuta):**
+
+1. `git clone https://github.com/LastMinuteGameStudio/hacknation && cd hacknation && git checkout portal-aed && cd portal`
+2. `pip install openpyxl && python tuaed_pokaz_scalania.py --offline` (Python ≥ 3.8, bez Django i bazy). Bez
+   `--offline` skrypt pobiera wykazy Przemyśla i Krosna z demo. Skrypt używa tego samego kodu, który wywołuje
+   zadanie portalu ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)).
+3. Oczekiwany wynik: **46 AED z 4 wykazów, licencja CC BY 4.0.**
+   - 2 duplikaty, oba rekordy zostają: `szpital-krosno-1 → uczelnia-przemysl-1` (ten sam numer seryjny) i
+     `szpital-krosno-2 → qy7g6px5-26c91c` (ok. 15 m).
+   - 2 wykazy pominięte: „Fundacja (pokaz)” z powodu licencji CC BY-NC 4.0 i „Gmina (pokaz)”, bo wartość
+     „dla wszystkich” jest spoza słownika `dostepnosc`.
+4. Pliki wynikowe: [wykaz-zbiorczy.csv](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/pokaz/wykaz-zbiorczy.csv) (RFC 4180, UTF-8 bez BOM, 52 pola publiczne
+   i 5 kolumn pochodzenia, bez numerów seryjnych i telefonów), [wykaz-zbiorczy.xlsx](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/pokaz/wykaz-zbiorczy.xlsx)
+   i [raport.json](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/pokaz/raport.json) (co dołączono, co pominięto i dlaczego). Opis: WYKAZ-AED.md, sekcja „Pokaz
+   bez uruchamiania portalu”.
+5. Testy kodu portalu: 18 testów czystej logiki ([test_aed_merge.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_merge.py))
+   i testy z bazą w stylu wykazu DGA ([test_aed_list.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_list.py)).
 
 ## 4. Ograniczenia
 
