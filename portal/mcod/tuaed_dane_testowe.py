@@ -3,8 +3,9 @@
 Tworzy (idempotentnie, po e-mailu / tytule):
 - superusera `admin@tuaed.local`,
 - dwie instytucje dostawców AED z kontami redaktorów,
-- w każdej zbiór „Defibrylatory AED …” z zasobem-linkiem do pliku z TuAED (CSV v0.5)
-  i włączoną „Aktualizacją automatyczną” (codziennie, bez końca).
+- w każdej zbiór „Defibrylatory AED …” (licencja CC0 1.0) z zasobem-linkiem do pliku z TuAED (CSV v0.5),
+  oznaczonym jako „Wykaz AED” (Resource.is_aed_list) i z „Aktualizacją automatyczną” (codziennie, bez końca),
+- instytucję-właściciela zbioru zbiorczego (pk = MAIN_AED_DATASET_OWNER_ORGANIZATION_PK, domyślnie 9001).
 
 Uruchomienie (po init_mcod_db):
     docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml run --rm mcod-local-run \
@@ -22,7 +23,10 @@ import os
 
 from django.db import transaction
 
-HASLO = "TuAED-test-2026!"  # tylko lokalne demo, nie używać nigdzie indziej
+HASLO = "TuAED-test-2026!"
+# Instytucja-właściciel zbiorczego „wykazu AED” (env MAIN_AED_DATASET_OWNER_ORGANIZATION_PK w env.tuaed).
+WLASCICIEL_PK = int(os.environ.get("MAIN_AED_DATASET_OWNER_ORGANIZATION_PK") or 9001)
+WLASCICIEL_NAZWA = "Ministerstwo Cyfryzacji (test TuAED)"  # tylko lokalne demo, nie używać nigdzie indziej
 
 DOSTAWCY = [
     {
@@ -82,6 +86,13 @@ def main() -> None:
     from mcod.users.models import User
 
     _uzytkownik(User, "admin@tuaed.local", "Administrator TuAED", is_staff=True, is_superuser=True)
+    wlasciciel = Organization.objects.filter(pk=WLASCICIEL_PK).first() or Organization(pk=WLASCICIEL_PK)
+    wlasciciel.title = WLASCICIEL_NAZWA
+    wlasciciel.slug = "mc-test-tuaed"
+    wlasciciel.institution_type = Organization.INSTITUTION_TYPE_STATE
+    wlasciciel.email = "aed@mc.test"
+    wlasciciel.status = "published"
+    wlasciciel.save()
     kategoria = _kategoria(Category)
     dzis = datetime.date.today()
 
@@ -100,6 +111,7 @@ def main() -> None:
         ds = Dataset.objects.filter(title=d["zbior"], organization=org).first() or Dataset(title=d["zbior"], organization=org)
         ds.notes = OPIS_ZBIORU
         ds.update_frequency = "daily"
+        ds.license_chosen = Dataset.LICENSE_CC0  # do wykazu AED wchodzą tylko CC0 1.0 i CC BY 4.0
         ds.has_dynamic_data = False
         ds.has_high_value_data = False
         ds.has_research_data = False
@@ -118,6 +130,7 @@ def main() -> None:
         res.has_high_value_data = False
         res.has_research_data = False
         res.data_date = dzis
+        res.is_aed_list = True  # „Wykaz AED” w panelu (ścieżka A)
         res.is_auto_data_date = True  # „Aktualizacja automatyczna” w panelu
         res.data_date_update_period = "daily"
         res.automatic_data_date_start = dzis
@@ -127,4 +140,5 @@ def main() -> None:
 
         print(f"{org.title}: redaktor {redaktor.email}, zbiór #{ds.pk}, zasób #{res.pk} → {res.link}")
 
+    print(f"Właściciel wykazu zbiorczego: {wlasciciel.title} (pk {wlasciciel.pk})")
     print(f"Superuser: admin@tuaed.local. Hasło wszystkich kont testowych: {HASLO}")

@@ -52,7 +52,15 @@ $DC run --rm mcod-local-run python manage.py shell -c "from mcod.tuaed_dane_test
 | `redaktor.przemysl@tuaed.local` | redaktor instytucji „Urząd Miejski w Przemyślu (test TuAED)” | jw. |
 | `redaktor.krosno@tuaed.local` | redaktor instytucji „Urząd Miasta Krosna (test TuAED)” | jw. |
 
-Każda instytucja dostaje zbiór „Defibrylatory AED w …” z zasobem-linkiem do CSV z TuAED (domyślnie demo: `/d/kznsks42.csv` i `/d/qy7g6px5.csv`; inne adresy: zmienne `TUAED_URL_1`, `TUAED_URL_2`) i włączoną „Aktualizacją automatyczną” (codziennie, bez końca). Fixture `init_mcod_db` dodaje też konta `admin@mcod.local` i `pelnomocnik@mcod.local` z nieznanym hasłem (nie używamy ich).
+Skrypt zakłada też instytucję-właściciela zbiorczego wykazu „Ministerstwo Cyfryzacji (test TuAED)” o pk 9001 (`MAIN_AED_DATASET_OWNER_ORGANIZATION_PK` w `env.tuaed`). Każda instytucja dostawcy dostaje zbiór „Defibrylatory AED w …” (CC0 1.0) z zasobem „Wykaz AED” (`is_aed_list`) jako linkiem do CSV z TuAED (domyślnie demo: `/d/kznsks42.csv` i `/d/qy7g6px5.csv`; inne adresy: zmienne `TUAED_URL_1`, `TUAED_URL_2`) i włączoną „Aktualizacją automatyczną” (codziennie, bez końca). Fixture `init_mcod_db` dodaje też konta `admin@mcod.local` i `pelnomocnik@mcod.local` z nieznanym hasłem (nie używamy ich).
+
+## Wykaz AED: scalenie i testy (ścieżka A)
+```bash
+# scalenie wykazów dostawców w zbiór zbiorczy (normalnie robi to Celery beat):
+$DC run --rm mcod-local-run python manage.py shell -c "from mcod.resources.tasks import create_main_aed_resource_task as t; print(t.apply().result)"
+# testy wykazu AED:
+$DC run --rm mcod-local-run python -m pytest mcod/resources/tests/test_aed_merge.py mcod/resources/tests/test_aed_list.py
+```
 
 ## Zasób-link i „Aktualizacja automatyczna”: jak to działa w kodzie
 - W panelu: Zbiory danych → zbiór → Zasoby → Dodaj → link do pliku. Pole „Aktualizacja automatyczna” (`Resource.is_auto_data_date`) z okresem (codziennie / co tydzień / co miesiąc), datą startu i opcją „bez końca”.
