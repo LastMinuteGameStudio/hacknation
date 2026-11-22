@@ -22,6 +22,27 @@ odróżnić te zbiory w agregacie. Każdy zrzut jest w dwóch szerokościach: `-
 | `08-csv-w-przegladarce` | 8 | Wynikowy CSV pobrany bez logowania: nagłówki HTTP (`text/csv; charset=utf-8`, CORS `*`) i pierwsze wiersze w zakresie v0.5. |
 | `10-docs-api` | 10 | Dokumentacja API (OpenAPI, `/docs`) dla odbiorców i integratorów. |
 
+### Synchronizacja z URL źródła (S1), zbiór `kznsks42`
+
+Źródło udające eksport z CMS miasta to plik w publicznym repo:
+`https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/demo-zrodlo/demo/przemysl.csv` (branch
+`demo-zrodlo`, bez merge do main). Między etapami podmieniamy go commitami. Synchronizacja zostaje
+**włączona** (raz dziennie, stan „Aktywna”) na prezentację.
+
+| Plik | Slajd | Podpis |
+|---|---|---|
+| `09-sync-0-csv-przed` | 9 | CSV `/d/kznsks42.csv` przed synchronizacją (dane z wgranego `przemysl_2024.csv`): `id_aed` i `data_aktualizacji`. |
+| `09-sync-1-ustawienie` | 9 | Dysponent wkleja adres pliku na stronie urzędu i wybiera „raz dziennie”. |
+| `09-sync-2-aktywna` | 9 | Po „Włącz i pobierz teraz”: stan „Aktywna”, ZSYNCHRONIZOWANO, 21 AED. |
+| `09-sync-3-zsynchronizowano` | 9 | CMS zmienił format geometrii z `{"lat","long"}` na `[lon, lat]`. „Synchronizuj teraz”: ZSYNCHRONIZOWANO bez żadnej ręcznej poprawki. |
+| `09-sync-4-csv-po` | 9, 8 | Ten sam URL i te same `id_aed` co na `09-sync-0`, nowa `data_aktualizacji`. Portal pobiera świeże dane bez zmian po swojej stronie. |
+| `09-sync-5-wstrzymana` | 9 | Z eksportu zniknęła kolumna `geometry`: stan „Wstrzymana”, ZMIANA_STRUKTURY („brak kolumn: geometry”). Opublikowane dane zostają bez zmian. |
+| `09-sync-6-przywrocona` (+ `-strona`) | 9 | Plik naprawiony, „Zapisz i pobierz teraz”: znów „Aktywna” (BEZ_ZMIAN). |
+
+Skrypt: `zrob_zrzuty_sync.py --etap zrodlo|nowy-format|wstrzymana|przywroc` (link edycji z `ZRZUTY_TOKEN_PLIK`).
+Przed każdym etapem trzeba podmienić plik na branchu i poczekać, aż raw.githubusercontent.com przestanie
+podawać starą wersję z cache (u nas ok. 5 minut).
+
 Dowód zgodności pliku z wymaganiami portalu (nagłówki, RFC 4180, UTF-8, CSVW): [`DOWOD-URL.md`](DOWOD-URL.md).
 
 ## Jak odtworzyć
