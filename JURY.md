@@ -12,12 +12,15 @@ telefon (`-320.png`). Niżej podajemy wersję 1440.
 
 ## 0. Przygotowanie (tylko jeśli demo nie działa)
 
-1. Zainstaluj Dockera i sklonuj repo: `git clone https://github.com/LastMinuteGameStudio/hacknation`.
-2. `cd hacknation/app && cp .env.example .env && docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build`
-3. Otwórz http://localhost:8000. W dalszych krokach zamiast `https://tuaed.wkrynski.dev` wpisuj
-   `http://localhost:8000`.
-4. Testy automatyczne (opcjonalnie): `cd app/backend && python -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python -m pytest -q`
-   Wynik: **222 passed**, w tym testy na 10 prawdziwych i syntetycznych plikach dysponentów.
+1. Zainstaluj Dockera i sklonuj repo: `git clone --depth 1 https://github.com/LastMinuteGameStudio/hacknation`.
+2. `cd hacknation/app && cp .env.example .env`, a potem w `.env` ustaw `BASE_URL=http://localhost:8000`. Bez tej
+   zmiany linki do opublikowanych plików wskazywałyby demo.
+3. `docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d` (pierwsza budowa trwa kilka minut).
+4. Otwórz http://localhost:8000. W dalszych krokach zamiast `https://tuaed.wkrynski.dev` wpisuj
+   `http://localhost:8000`. Mapa i agregat lokalnie zawierają tylko zbiory wgrane na tym komputerze.
+5. Testy automatyczne (opcjonalnie, **Python 3.12**; na starszym Pythonie nie zainstaluje się sterownik bazy):
+   `cd app/backend && python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python -m pytest -q`
+   Wynik: **223 passed**, w tym testy na 10 prawdziwych i syntetycznych plikach dysponentów.
 
 ## 1. Prototyp od początku do końca (ok. 5 minut)
 
@@ -33,18 +36,18 @@ Inne pliki do wypróbowania: [krosno.csv](https://raw.githubusercontent.com/Last
 
 | # | Co zrobić | Co powinno być widać | Bez demo |
 |---|---|---|---|
-| 1.1 | Otwórz https://tuaed.wkrynski.dev | Strona startowa: 3 kroki, szablony CSV i XLSX do pobrania, przycisk „Zacznij” | [09-start](prezentacja/zrzuty/09-start-1440.png) |
+| 1.1 | Otwórz https://tuaed.wkrynski.dev | Strona startowa „Opublikuj dane o defibrylatorach na dane.gov.pl, w 3 prostych krokach”: szablony CSV i XLSX do pobrania, przycisk „Zacznij”. U góry nawigacja: „Opublikuj dane”, „Mapa AED”, „Zebrane dane” | [09-start](prezentacja/zrzuty/09-start-1440.png) |
 | 1.2 | „Zacznij”. Wpisz nazwę, np. `Urząd Miejski w Przemyślu (jury)`, typ „Jednostka samorządu terytorialnego”, „Dalej: dane” | Formularz dysponenta. Telefon i e-mail są opcjonalne i oznaczone „nie publikujemy” | [09-krok1-dysponent](prezentacja/zrzuty/09-krok1-dysponent-1440.png) |
 | 1.3 | Wybierz pobrany `przemysl_2024.csv`, „Wgraj plik” | Tabela „Dopasuj kolumny”: dla 17 kolumn podpowiedź pola z pewnością. `geometry` → współrzędne, a 8 kolumn CMS (opis, galeria, linki…) → „nie importuj” | [09-krok2-mapowanie](prezentacja/zrzuty/09-krok2-mapowanie-1440.png), [cała tabela](prezentacja/zrzuty/09-krok2-mapowanie-tabela-1440.png) |
 | 1.4 | W „Ustaw dla wszystkich AED w pliku” wybierz: wewnątrz budynku „Nie”, dostęp „Dostępny dla każdego”, całą dobę „Tak” | Pola obowiązkowe, których nie ma w pliku, ustawia się raz dla całego pliku | [09-krok2-wartosci-stale](prezentacja/zrzuty/09-krok2-wartosci-stale-1440.png) |
 | 1.5 | „Sprawdź dane” | „Do publikacji: 21, Błędy: 0”, ostrzeżenia zbiorcze z opisem po polsku (np. „Cecha ulicy w 18 wierszach”). Rozwiń „Podgląd wyniku” | [09-krok2-walidacja](prezentacja/zrzuty/09-krok2-walidacja-1440.png), [podgląd](prezentacja/zrzuty/09-krok2-podglad-wyniku-1440.png) |
-| 1.6 | „Dalej: publikacja”, zaznacz zgodę na CC0 1.0, „Opublikuj” | Stały adres `…/d/<slug>.csv`, prywatny link do aktualizacji i instrukcja dodania zasobu na dane.gov.pl z „Aktualizacją automatyczną”. Linki JSON i CSVW | [09-krok3-zgoda](prezentacja/zrzuty/09-krok3-zgoda-1440.png), [09-krok3-publikacja](prezentacja/zrzuty/09-krok3-publikacja-1440.png) |
-| 1.7 | Kliknij „Dane w CSV” | Plik CSV: przecinki, UTF-8, kolumny wzorcowego zakresu v0.5 w stałej kolejności, telefon i e-mail usunięte | [08-csv-w-przegladarce](prezentacja/zrzuty/08-csv-w-przegladarce-1440.png) |
+| 1.6 | „Dalej: publikacja”, zaznacz zgodę na CC0 1.0, „Opublikuj” | Stały adres `…/d/<slug>.csv`, prywatny link do aktualizacji, instrukcja dodania zasobu na dane.gov.pl („link”, „Aktualizacja automatyczna: dziennie”, pole **„Wykaz AED”**, licencja CC0 1.0), „Metadane zbioru do skopiowania” (tytuł, opis, słowa kluczowe, kategoria Zdrowie) i linki JSON i CSVW | [09-krok3-zgoda](prezentacja/zrzuty/09-krok3-zgoda-1440.png), [09-krok3-publikacja](prezentacja/zrzuty/09-krok3-publikacja-1440.png) |
+| 1.7 | Kliknij „Dane w CSV” (przeglądarka otworzy albo pobierze plik) | Plik CSV: przecinki, UTF-8, kolumny wzorcowego zakresu v0.5 w stałej kolejności, telefon i e-mail usunięte | [08-csv-w-przegladarce](prezentacja/zrzuty/08-csv-w-przegladarce-1440.png) |
 | 1.8 | Otwórz prywatny link do aktualizacji (skopiuj go z kroku 1.6) | Strona „Wgraj nową wersję danych” i sekcja „Źródło automatyczne” | [09-edycja-zrodlo-automatyczne](prezentacja/zrzuty/09-edycja-zrodlo-automatyczne-1440.png) |
-| 1.9 | Wgraj [przemysl.csv](https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/app/backend/tests/fixtury/przemysl.csv) (eksport z 2026 r., inny format geometrii), sprawdź i opublikuj | Mapowanie podpowiada się samo, a publikacja podmienia dane **pod tym samym adresem** z **tymi samymi `id_aed`** | [przed](prezentacja/zrzuty/09-sync-0-csv-przed-1440.png) i [po](prezentacja/zrzuty/09-sync-4-csv-po-1440.png) (te same `id_aed`) |
+| 1.9 | Wgraj [przemysl.csv](https://raw.githubusercontent.com/LastMinuteGameStudio/hacknation/main/app/backend/tests/fixtury/przemysl.csv) (eksport z 2026 r., inny format geometrii). Ustaw ponownie trzy wartości z kroku 1.4, bo strona ich nie pamięta. Potem „Sprawdź dane”, zgoda i „Opublikuj” | Mapowanie kolumn podpowiada się samo, a publikacja podmienia dane **pod tym samym adresem** z **tymi samymi `id_aed`** | [przed](prezentacja/zrzuty/09-sync-0-csv-przed-1440.png) i [po](prezentacja/zrzuty/09-sync-4-csv-po-1440.png) (te same `id_aed`) |
 | 1.10 | (opcjonalnie) W „Źródło automatyczne” wklej adres pliku na stronie urzędu i „Włącz i pobierz teraz” | Stan „Aktywna”, ZSYNCHRONIZOWANO. Zmiana kolumn w źródle wstrzymuje synchronizację i nie psuje danych | [ustawienie](prezentacja/zrzuty/09-sync-1-ustawienie-1440.png), [aktywna](prezentacja/zrzuty/09-sync-2-aktywna-1440.png), [nowy format](prezentacja/zrzuty/09-sync-3-zsynchronizowano-1440.png), [wstrzymana](prezentacja/zrzuty/09-sync-5-wstrzymana-1440.png) |
-| 1.11 | Otwórz https://tuaed.wkrynski.dev/mapa | Mapa AED z całej Polski z popupem szczegółów. Wybór: wszystkie AED albo bez OpenStreetMap | [mapa](prezentacja/audyt/zrzuty/mapa-popup-1440.png), [telefon](prezentacja/audyt/zrzuty/mapa-320.png) |
-| 1.12 | Otwórz https://tuaed.wkrynski.dev/dane | Zebrane dane: liczba AED według pochodzenia, tabela z wyszukiwaniem, „Zbiory dostawców” i pliki CSV i GeoJSON do pobrania | [dane](prezentacja/audyt/zrzuty/dane-1440.png), [telefon](prezentacja/audyt/zrzuty/dane-karty-320.png) |
+| 1.11 | Otwórz https://tuaed.wkrynski.dev/mapa | Mapa AED z całej Polski z popupem szczegółów. Wybór: wszystkie AED albo bez OpenStreetMap | [10-mapa](prezentacja/zrzuty/10-mapa-1440.png), [telefon](prezentacja/zrzuty/10-mapa-320.png), [popup](prezentacja/audyt/zrzuty/mapa-popup-1440.png) |
+| 1.12 | Otwórz https://tuaed.wkrynski.dev/dane | „Zebrane dane o AED”: „Zbiory dostawców” (każdy z plikami CSV, JSON, GeoJSON i CSVW), liczba AED według pochodzenia, tabela „Wszystkie AED” z wyszukiwaniem i pliki zbiorcze | [10-dane](prezentacja/zrzuty/10-dane-1440.png), [telefon](prezentacja/zrzuty/10-dane-320.png) |
 
 Zbiór na prezentację z włączoną synchronizacją: https://tuaed.wkrynski.dev/d/kznsks42.csv. Zbiory, które
 opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)” w nazwie dysponenta.
@@ -166,8 +169,9 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 
 **Bez uruchamiania portalu (pokaz scalania, ok. 1 minuta):**
 
-1. `git clone https://github.com/LastMinuteGameStudio/hacknation && cd hacknation && git checkout portal-aed && cd portal`
-2. `pip install openpyxl && python tuaed_pokaz_scalania.py --offline` (Python ≥ 3.8, bez Django i bazy). Bez
+1. `git clone --depth 1 -b portal-aed https://github.com/LastMinuteGameStudio/hacknation hacknation-portal && cd hacknation-portal/portal`
+2. `python3 -m venv .venv && .venv/bin/pip install openpyxl && .venv/bin/python tuaed_pokaz_scalania.py --offline`
+   (Python ≥ 3.8, bez Django i bazy). Bez
    `--offline` skrypt pobiera wykazy Przemyśla i Krosna z demo. Skrypt używa tego samego kodu, który wywołuje
    zadanie portalu ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)).
 3. Oczekiwany wynik: **46 AED z 4 wykazów, licencja CC BY 4.0.**
@@ -191,3 +195,20 @@ Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją aut
 - Dane OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM.
 - Demo działa na tunelu z komputera zespołu. Jeśli jest niedostępne, prosimy o drogę „bez demo” albo krok 0.
 - AED w pojazdach są poza zakresem.
+
+## Przebieg kontrolny (22.11.2026, ścieżka D)
+
+Instrukcję przeszliśmy jak juror. Sprawdzone:
+- **Linki:** wszystkie 75 linków w tym pliku (pliki na `main` i `portal-aed`, adresy raw, adresy demo) działają.
+  Ścieżki demo z sekcji 2 (`/d/…`, `/szablon.*`, `/api/schemat`, `/docs`, `/mapa`, `/dane`) dają HTTP 200.
+- **Sekcja 1:** przejście automatem (Playwright) z etykietami jak w tabeli, na lokalnym stacku z kroku 0: 23 z 24
+  oczekiwań spełnione. Jedyna różnica: przy aktualizacji (1.9) strona nie pamięta wartości z kroku 1.4, więc
+  w opisie kroku jest teraz polecenie, żeby ustawić je ponownie. Zrzuty kreatora odświeżone na demo
+  (nowa nawigacja, „Wykaz AED” i metadane w kroku 3), zrzuty mapy i `/dane` dodane.
+- **Krok 0:** świeży klon, `docker compose` z `.env.example`: działa. Dopisana zmiana `BASE_URL` (bez niej linki
+  wskazują demo). Testy: na Pythonie 3.12 **223 passed**. Na systemowym 3.9 nie instaluje się `psycopg-binary`,
+  stąd uwaga o wersji.
+- **Sekcja 2:** `DOWOD-URL.md` 21/21 dla `kznsks42`, agregat `/d/aed-polska.csv` ma 19 871 wierszy.
+- **Sekcja 3:** `python tuaed_pokaz_scalania.py` ze świeżego klonu `portal-aed`, online i `--offline`: **46 AED z 4
+  wykazów, 2 duplikaty, 2 wykazy pominięte, CC BY 4.0**, zgodnie z opisem. Portalu w Dockerze jeszcze nie
+  uruchamialiśmy, więc kroki 1–5 sekcji 3 i ich zrzuty czekają.

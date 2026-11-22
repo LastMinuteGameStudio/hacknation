@@ -1,6 +1,6 @@
 # Dowód: plik pod stałym URL pobierany tak jak przez dane.gov.pl
 
-Wygenerowane przez `prezentacja/zrzuty/sprawdz_url.py` (2026-11-22 00:36 UTC). Zbiór demo z dysponentem „Urząd Miejski w Przemyślu (demo)”, opublikowany przez `zrob_zrzuty.py` z pliku `przemysl_2024.csv`.
+Wygenerowane przez `prezentacja/zrzuty/sprawdz_url.py` (2026-11-22 06:21 UTC). Zbiór demo z dysponentem „Urząd Miejski w Przemyślu (demo)”, opublikowany przez `zrob_zrzuty.py` z pliku `przemysl_2024.csv`.
 
 ## Zapytanie
 
@@ -18,7 +18,7 @@ content-type: text/csv; charset=utf-8
 content-disposition: inline; filename="aed-kznsks42.csv"
 access-control-allow-origin: *
 cache-control: max-age=14400
-last-modified: Sun, 22 Nov 2026 00:36:10 GMT
+last-modified: Sun, 22 Nov 2026 06:21:55 GMT
 ```
 
 ## Pierwsze wiersze (surowo, `\r\n` na końcu linii)
