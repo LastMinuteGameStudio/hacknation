@@ -184,3 +184,21 @@ def test_rozpoznanie_zasobu_wykazu_zbiorczego():
         plik.name = "resources/20261122/wykaz-zbiorczy-aed-20261122.csv"
         with mock.patch.object(Resource, "main_file", new_callable=mock.PropertyMock, return_value=plik):
             assert is_main_aed_resource(inny)
+
+
+def test_komunikat_sukcesu_wykazu_w_zakladce_walidacji():
+    """Przy SUCCESS zakładka walidacji danych pokazuje komunikat wykazu AED zamiast pustego wiersza."""
+    import json
+
+    from mcod.resources.models import TaskResult
+    from mcod.resources.tasks.process_resource_file_data import _aed_success_message
+
+    assert _aed_success_message(12, 0) == "Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."
+    assert "Ostrzeżenia (bez wpływu na publikację): 2" in _aed_success_message(12, 2)
+    assert _aed_success_message(49, None).startswith("Wykaz zbiorczy AED")
+
+    wynik = json.dumps(json.dumps({"indexed": 12, "aed_message": "Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."}))
+    task = TaskResult(result=wynik, status="SUCCESS")
+    assert task.message == ["Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."]
+    assert task.recommendation == [""]
+    assert TaskResult(result=json.dumps(json.dumps({"indexed": 3})), status="SUCCESS").message == [""]

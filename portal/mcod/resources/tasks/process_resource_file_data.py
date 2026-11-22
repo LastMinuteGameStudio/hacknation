@@ -1,7 +1,7 @@
 import json
 import logging
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, Dict
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from celery.signals import task_failure, task_postrun, task_prerun
 from django.apps import apps
@@ -57,15 +57,26 @@ def _aed_list_tabular_data_schema(tds: Dict[str, Any]) -> Dict[str, Any]:
     return tds
 
 
-def _validate_aed_list(resource: "Resource") -> None:
+def _validate_aed_list(resource: "Resource") -> int:
     """Wykaz AED: walidacja wg zakresu v0.5 (i licencji). Błędy trafiają do wyników walidacji danych zasobu
     tak jak błędy goodtables (lista słowników z kluczami code i message). Opis: portal/WYKAZ-AED.md."""
     from mcod.resources.aed_utils import AEDListValidationError, validate_aed_resource_or_raise
 
     try:
-        validate_aed_resource_or_raise(resource)
+        komunikaty = validate_aed_resource_or_raise(resource)
     except AEDListValidationError as exc:
         raise ResourceDataValidationError([k.as_dict() for k in exc.komunikaty])
+    return len(komunikaty)  # same ostrzeżenia, błędy kończą się wyjątkiem wyżej
+
+
+def _aed_success_message(indexed: int, warnings: Optional[int]) -> str:
+    """Komunikat w zakładce walidacji danych (TaskResult.message) przy SUCCESS: zamiast pustego wiersza."""
+    if warnings is None:
+        return f"Wykaz zbiorczy AED w zakresie v0.5, liczba rekordów: {indexed}."
+    tekst = f"Wykaz AED zgodny z zakresem v0.5, liczba rekordów: {indexed}."
+    if warnings:
+        tekst += f" Ostrzeżenia (bez wpływu na publikację): {warnings}, szczegóły w logu walidacji."
+    return tekst
 
 
 @extended_shared_task(
@@ -112,11 +123,16 @@ def process_resource_file_data_task(resource_id: int, /):
     Resource.objects.filter(pk=resource_id).update(tabular_data_schema=tds)
     resource: "Resource" = Resource.objects.get(pk=resource_id)
     resource.data.validate()
+    aed_warnings = None
     if resource.is_aed_list:
-        _validate_aed_list(resource)
+        aed_warnings = _validate_aed_list(resource)
 
     success, failed = resource.data.index(force=True)
     logger.info(f"process_resource_file_data_task: {success=}, {failed=}")
+
+    aed_message = None
+    if resource.is_aed_list or _is_main_aed_resource(resource):
+        aed_message = _aed_success_message(success, aed_warnings)
 
     if success:
         logger.info("process_resource_file_data_task: scheduling increase_openness_score_task for resource %s", resource_id)
@@ -133,6 +149,7 @@ def process_resource_file_data_task(resource_id: int, /):
             "path": resource.main_file.path,
             "resource_id": resource_id,
             "url": resource.file_url,
+            **({"aed_message": aed_message} if aed_message else {}),
         }
     )
 
