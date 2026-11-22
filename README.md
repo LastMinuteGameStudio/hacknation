@@ -1,34 +1,71 @@
-# HackNation
+# TuAED: opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach
 
-Projekt na hackathon HackNation 2026. Zadanie: **06 Misja AED** (Ministerstwo Cyfryzacji).
+Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** (Ministerstwo Cyfryzacji).
 
-## Zadania
+- **Prototyp:** https://tuaed.wkrynski.dev (kreator dla dostawcy, mapa AED, zebrane dane, API w `/docs`)
+- **Prezentacja:** [prezentacja/TuAED-Misja-AED.pptx](prezentacja/TuAED-Misja-AED.pptx)
+- **Wzorcowy zakres danych (xlsx):** [zakres-danych/wzorcowy-zakres-danych-AED.xlsx](zakres-danych/wzorcowy-zakres-danych-AED.xlsx)
 
-Pełna lista i przegląd zadań: [zadania/README.md](zadania/README.md)
-Wybór zadania i ranking trudności: [zadania/WNIOSKI.md](zadania/WNIOSKI.md)
+> Wersja robocza opisu (22.11.2026). Uzupełniamy ją do końca hackathonu.
 
-### Wybrane zadanie
+## Problem
 
-**[06 Misja AED (MC)](zadania/06-mc-misja-aed)**: zebranie danych o defibrylatorach w jeden zbiór pod dane.gov.pl, wzorcowy schemat oraz nazwa akcji, logo i księga znaku.
+Przy nagłym zatrzymaniu krążenia liczy się każda minuta, a defibrylatora AED może użyć każdy. Trzeba jednak wiedzieć, gdzie jest najbliższe urządzenie, czy jest dostępne i czy działa. W Polsce nie ma krajowego rejestru AED. Dane są rozproszone u wielu dysponentów (gminy, urzędy, OSP, szkoły, firmy) i publikowane w różnych formach: API z tokenem, mapy Google, tabele HTML, PDF, CSV z własnym układem kolumn. Na dane.gov.pl jest kilka zbiorów AED, każdy w innym schemacie, a część nie jest aktualizowana. Za jakość danych na portalu odpowiada dostawca, więc rozwiązanie musi ułatwić publikację samym dysponentom, a nie publikować dane za nich.
 
-- [Notatki zespołu](zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md)
-- [Research](zadania/06-mc-misja-aed/RESEARCH.md)
-- [Źródła danych o AED](zadania/06-mc-misja-aed/ZRODLA-DANYCH.md)
-- [Zestawienie źródeł AED (runda 2)](zadania/06-mc-misja-aed/ZESTAWIENIE-ZRODEL.md)
-- [Wzorce zagraniczne](zadania/06-mc-misja-aed/WZORCE-ZAGRANICZNE.md)
-- [Stan prawny i źródła państwowe](zadania/06-mc-misja-aed/STAN-PRAWNY.md)
-- [Pytania do organizatora](zadania/06-mc-misja-aed/PYTANIA-DO-ORGANIZATORA.md)
-- [Checklista wymagań](zadania/06-mc-misja-aed/CHECKLISTA.md)
-- [Wzorcowy zakres danych AED (xlsx, CSV, CSVW)](zakres-danych/), szkic v0.4
+## Rozwiązanie
 
-## Opis
+**TuAED** to akcja i narzędzie dla dysponentów AED. Dysponent wgrywa swój arkusz, TuAED zamienia go na wspólny, wzorcowy format i wystawia pod stałym adresem, który dysponent dodaje na dane.gov.pl jako zasób z „Aktualizacją automatyczną”. Dzięki temu dane o AED od wszystkich dostawców trafiają na portal w jednym formacie i pozostają aktualne.
 
-_TODO: krótki opis problemu i rozwiązania._
+1. **Wzorcowy zakres danych v0.5:** 58 pól (14 obowiązkowych, 18 zalecanych, 26 fakultatywnych), słowniki, szablony CSV i XLSX, metadane CSVW. 52 pola są publiczne, 6 zostaje w ewidencji dysponenta. Godziny dostępności są w strukturze, nie w wolnym tekście.
+2. **Kreator w 3 krokach:** dysponent, wgranie pliku (CSV, XLSX, GeoJSON) z automatycznym mapowaniem kolumn i walidacją, publikacja. Wynik: CSV (RFC 4180, UTF-8), JSON, GeoJSON i CSVW na licencji CC0 1.0 pod stałym URL oraz instrukcja dodania zasobu na dane.gov.pl.
+3. **Aktualizacja bez zmiany adresu:** prywatny link edycji albo synchronizacja z URL źródła (np. eksport z CMS miasta). Przy zmianie struktury pliku synchronizacja się wstrzymuje, a opublikowane dane zostają bez zmian.
+4. **Agregat ogólnopolski:** `/d/aed-polska.csv` i `.geojson` łączą 18 858 unikalnych AED z 15 źródeł (z OpenStreetMap i bez niego) oraz zbiory wgrane przez dostawców. Przy każdym rekordzie są kolumny pochodzenia (źródło, licencja, data, status weryfikacji).
+5. **Strona dla odbiorców:** mapa AED i tabela z wyszukiwaniem i filtrami.
+
+Mapowanie kolumn działa bez AI (synonimy z realnych plików i analiza zawartości) i trafia w 100% na 10 plikach testowych. Brakujące współrzędne uzupełnia geokoder GUGiK. Front spełnia WCAG 2.2 AA (axe-core: 0 naruszeń, Lighthouse: 100) i działa od 320 px szerokości.
+
+## Gdzie co jest
+
+| Wymaganie z treści zadania | Gdzie |
+|---|---|
+| Prototyp | https://tuaed.wkrynski.dev, kod w [app/](app/) ([app/README.md](app/README.md)) |
+| Prezentacja (zrzuty, kroki użytkownika, ograniczenia) | [prezentacja/](prezentacja/), zrzuty w [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) |
+| Wzorcowy zakres danych (xlsx) | [zakres-danych/](zakres-danych/) |
+| Dane zebrane z wielu źródeł | [dane/](dane/) (skrypty i wynik agregacji) |
+| Zgodność z dane.gov.pl | [prezentacja/zrzuty/DOWOD-URL.md](prezentacja/zrzuty/DOWOD-URL.md), [zadania/06-mc-misja-aed/RESEARCH.md](zadania/06-mc-misja-aed/RESEARCH.md) |
+| WCAG i responsywność | [prezentacja/AUDYT-WCAG.md](prezentacja/AUDYT-WCAG.md) |
+| Logotyp i księga znaku | w przygotowaniu |
+| Kod źródłowy | to repozytorium |
 
 ## Uruchomienie
 
-_TODO_
+Wymaga Dockera.
+
+```bash
+cd app
+cp .env.example .env
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Aplikacja działa pod http://localhost:8000. Szczegóły (wersja z tunelem, uruchomienie bez Dockera, testy): [app/README.md](app/README.md).
+
+## Ograniczenia
+
+- Publikacji na produkcyjnym dane.gov.pl nie sprawdziliśmy, bo nie mamy konta dostawcy. Działanie „Aktualizacji automatycznej” znamy z kodu portalu.
+- Geokodujemy do 200 adresów na plik. W agregacie 63 AED nie ma współrzędnych.
+- Dane z OpenStreetMap mają licencję ODbL, dlatego agregat ma też wersję bez OSM.
+- Duplikaty między zbiorami różnych dostawców nie są jeszcze oznaczane.
+- Zgubionego linku edycji nie da się odzyskać (prototyp nie ma logowania).
+- AED w pojazdach są poza zakresem.
+
+## Materiały robocze
+
+- [Treść zadania i checklista wymagań](zadania/06-mc-misja-aed/)
+- [Notatki i decyzje zespołu](zadania/06-mc-misja-aed/NOTATKI-ZESPOLU.md)
+- [Źródła danych o AED](zadania/06-mc-misja-aed/ZESTAWIENIE-ZRODEL.md)
+- [Plan i kontrakt API aplikacji](app/PLAN.md), [app/KONTRAKT.md](app/KONTRAKT.md)
+- [Przegląd wszystkich zadań hackathonu](zadania/README.md)
 
 ## Zespół
 
-_TODO_
+_Do uzupełnienia._
