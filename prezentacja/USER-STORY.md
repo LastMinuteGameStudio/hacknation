@@ -4,8 +4,8 @@ Schemat przepływu: [`schemat-przeplywu.svg`](schemat-przeplywu.svg) (ręczny SV
 
 Kolumna 📷 wskazuje zrzuty ścieżki D w [`zrzuty/`](zrzuty/README.md). Numer w nazwie to numer slajdu z
 `SZKIC-SLAJDOW.md`, a każdy zrzut jest w wersji `-1440.png` i `-320.png`. Zrzuty kreatora zrobiono na pliku
-Przemyśla, więc ilustrują kroki obu historii. „Brak zrzutu” oznacza krok, który działa, ale nie ma jeszcze zrzutu:
-do synchronizacji potrzebny jest publiczny adres źródła ze zmienionym plikiem.
+Przemyśla, więc ilustrują kroki obu historii. Zrzuty synchronizacji (`09-sync-*`) pochodzą z publicznego demo
+(zbiór `kznsks42`, źródło podmieniane commitami: format 2024 → nowy format geometrii → zmiana struktury → naprawa).
 
 Obie historie działają w prototypie (także na demo https://tuaed.wkrynski.dev). Historia 1 korzysta z pliku
 `app/backend/tests/fixtury/syntetyczny_gmina.xlsx`, historia 2 z plików Przemyśla (`przemysl_2024.csv` → `przemysl.csv`).
@@ -32,7 +32,7 @@ Nie zna CSV ani schematów danych. Chce, żeby AED z gminy były widoczne dla dy
 | 5 | **Krok 3, Publikacja:** zaznacza zgodę na licencję CC0 1.0 i klika „Opublikuj” | Daje stały adres `/d/{slug}.csv` oraz JSON i metadane CSVW. Prywatny link edycji pokazuje tylko raz i przypomina, żeby go zapisać | [`09-krok3-zgoda`](zrzuty/09-krok3-zgoda-1440.png), [`09-krok3-publikacja`](zrzuty/09-krok3-publikacja-1440.png) |
 | 6 | W panelu dane.gov.pl dodaje zasób jako link do `/d/{slug}.csv` i włącza **„Aktualizacja automatyczna: codziennie”** | Instrukcja krok po kroku jest w kroku 3 kreatora | [`09-krok3-publikacja`](zrzuty/09-krok3-publikacja-1440.png) (instrukcja) |
 | 7 | **Po pół roku:** w świetlicy wymieniono AED, a w ośrodku zdrowia zmieniły się godziny. Anna poprawia swój arkusz i otwiera zapisany link edycji | Pamięta poprzednie mapowanie, więc kreator od razu proponuje te same pola | [`09-edycja-zrodlo-automatyczne`](zrzuty/09-edycja-zrodlo-automatyczne-1440.png) |
-| 8 | Klika „Opublikuj” | **Adres URL się nie zmienia.** Te same AED mają te same `id_aed`. dane.gov.pl pobiera nową wersję w nocy, bez logowania się do portalu | brak zrzutu |
+| 8 | Klika „Opublikuj” | **Adres URL się nie zmienia.** Te same AED mają te same `id_aed`. dane.gov.pl pobiera nową wersję w nocy, bez logowania się do portalu | [`09-sync-0-csv-przed`](zrzuty/09-sync-0-csv-przed-1440.png), [`09-sync-4-csv-po`](zrzuty/09-sync-4-csv-po-1440.png) (ten sam URL i `id_aed` przed i po aktualizacji) |
 
 **Efekt.** Gmina po raz pierwszy publikuje AED w formacie zgodnym ze wzorcowym zakresem v0.5. Aktualizacja to
 „popraw Excel i wgraj przez link”: pięć minut raz na jakiś czas, bez znajomości CSV.
@@ -50,10 +50,10 @@ Miasto nie chce zmieniać CMS ani pamiętać o ręcznym wgrywaniu.
 |---|---|---|
 | 1 | Urzędnik raz przechodzi kreator z eksportem z CMS. TuAED mapuje go bez poprawek: rozbija geometrię JSON na szerokość i długość, a 8 kolumn CMS (opis marketingowy, galeria, linki) pomija | [`09-krok2-mapowanie-tabela`](zrzuty/09-krok2-mapowanie-tabela-1440.png), [`09-krok2-wartosci-stale`](zrzuty/09-krok2-wartosci-stale-1440.png) |
 | 2 | Publikacja daje stały URL z CSV zgodnym z v0.5 zamiast eksportu z CMS | [`08-csv-w-przegladarce`](zrzuty/08-csv-w-przegladarce-1440.png) |
-| 3 | Na stronie edycji (prywatny link), w sekcji **„Źródło automatyczne”**, wkleja adres eksportu z CMS i wybiera częstotliwość (np. co 24 h) | [`09-edycja-zrodlo-automatyczne-sekcja`](zrzuty/09-edycja-zrodlo-automatyczne-sekcja-1440.png) |
-| 4 | TuAED od razu pobiera plik i dalej robi to sam według harmonogramu: zapamiętane mapowanie → walidacja → publikacja pod tym samym slugiem. Status „aktywna”, komunikat **ZSYNCHRONIZOWANO**. Gdy plik się nie zmienił: **BEZ_ZMIAN** | brak zrzutu |
-| 5 | CMS zmienia format geometrii z `{"lat","long"}` na `[lon, lat]`. Przy następnej synchronizacji TuAED rozpoznaje nowy format, a **URL i `id_aed` zostają te same**. Nikt w urzędzie nic nie robi | brak zrzutu |
-| 6 | Zabezpieczenie: gdy w źródle zniknie zmapowana kolumna albo pojawi się nowa (**ZMIANA_STRUKTURY**) lub zmieni się ponad połowa AED (**ZA_DUZA_ZMIANA**), synchronizacja jest **wstrzymana**, a opublikowane dane zostają bez zmian. Dysponent potwierdza zmianę („Synchronizuj teraz” z potwierdzeniem) albo wgrywa plik z nowym mapowaniem | brak zrzutu |
+| 3 | Na stronie edycji (prywatny link), w sekcji **„Źródło automatyczne”**, wkleja adres eksportu z CMS, wybiera częstotliwość (np. „raz dziennie”) i klika „Włącz i pobierz teraz” | [`09-edycja-zrodlo-automatyczne-sekcja`](zrzuty/09-edycja-zrodlo-automatyczne-sekcja-1440.png), [`09-sync-1-ustawienie`](zrzuty/09-sync-1-ustawienie-1440.png) |
+| 4 | TuAED od razu pobiera plik i dalej robi to sam według harmonogramu: zapamiętane mapowanie → walidacja → publikacja pod tym samym slugiem. Status „aktywna”, komunikat **ZSYNCHRONIZOWANO**. Gdy plik się nie zmienił: **BEZ_ZMIAN** | [`09-sync-2-aktywna`](zrzuty/09-sync-2-aktywna-1440.png), [`09-sync-3-zsynchronizowano`](zrzuty/09-sync-3-zsynchronizowano-1440.png) |
+| 5 | CMS zmienia format geometrii z `{"lat","long"}` na `[lon, lat]`. Przy następnej synchronizacji TuAED rozpoznaje nowy format, a **URL i `id_aed` zostają te same**. Nikt w urzędzie nic nie robi | [`09-sync-0-csv-przed`](zrzuty/09-sync-0-csv-przed-1440.png), [`09-sync-4-csv-po`](zrzuty/09-sync-4-csv-po-1440.png) |
+| 6 | Zabezpieczenie: gdy w źródle zniknie zmapowana kolumna albo pojawi się nowa (**ZMIANA_STRUKTURY**) lub zmieni się ponad połowa AED (**ZA_DUZA_ZMIANA**), synchronizacja jest **wstrzymana**, a opublikowane dane zostają bez zmian. Po naprawie pliku w źródle dysponent klika „Zapisz i pobierz teraz” i synchronizacja znów jest aktywna. Przy ZA_DUZA_ZMIANA kreator pyta wprost: „Potwierdź zmianę i opublikuj”. Przy innej strukturze pliku można też wgrać plik z nowym mapowaniem | [`09-sync-5-wstrzymana`](zrzuty/09-sync-5-wstrzymana-1440.png), [`09-sync-6-przywrocona`](zrzuty/09-sync-6-przywrocona-1440.png) |
 
 **Efekt.** Dane z CMS miasta codziennie trafiają na dane.gov.pl w ujednoliconym formacie, bez zmian w systemie
 miasta i bez ręcznej pracy. Błędne źródło nie nadpisze dobrych danych.
