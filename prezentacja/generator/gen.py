@@ -34,6 +34,15 @@ S("s02",[title("s02","Dane o AED leżą w kilkunastu źródłach i każde ma inn
 # 3 rozwiazanie
 img("s03","s03_img",RAW+"slajdy/schemat-przeplywu.png",0.5,1.3,9.0,4.0,2880,1620)
 S("s03",[title("s03","TuAED zamienia plik dysponenta w stały, otwarty zbiór na dane.gov.pl")])
+# 3b portal: wykaz AED na wzor DGA
+kroki_p=[("1","Dostawca publikuje swój wykaz i zaznacza „Wykaz AED”"),("2","Portal sprawdza plik według zakresu v0.5"),("3","Co noc portal scala wykazy w jeden zbiór")]
+els=[title("s3b","Portal dane.gov.pl sam skleja wykazy dostawców w jeden zbiór AED")]
+for i,(n,t) in enumerate(kroki_p):
+    y=1.45+i*1.27
+    els+=[card(f"s3b_k{i}",0.5,y,4.3,1.12), T(f"s3b_n{i}",0.62,y+0.12,0.6,0.85,n,size=32,bold=True,color=GR), T(f"s3b_t{i}",1.25,y+0.14,3.45,0.9,t,size=16,bold=True)]
+els.append(T("s3b_b",5.15,1.45,4.35,3.7,"Wzór: istniejący w portalu wykaz danych chronionych (DGA)\nTylko wykazy dostawców na CC0 1.0 albo CC BY 4.0\nPrzy każdym AED instytucja, zasób, data i licencja\nAED od dwóch dostawców: oba zostają, drugi oznaczony jako duplikat\n18 testów logiki scalania przechodzi",size=15,bullets=True,space_below=8))
+els.append(T("s3b_f",0.5,5.12,9.0,0.4,"Kod: branch portal-aed, portal/WYKAZ-AED.md. Zbiór wynikowy: „Defibrylatory AED: wykaz zbiorczy” (CSV i XLSX).",size=10,color=MU))
+S("s3b",els)
 # 4 kreator: jeden krok na slajd, duzy zrzut
 kroki=[("s04","Krok 1: dysponent podaje nazwę i typ instytucji","09-krok1-dysponent",2880,1860,
         "Typ instytucji wybiera z listy: gmina, szkoła, OSP, firma\nTelefon i e-mail są opcjonalne i nie trafiają do pliku publicznego"),
@@ -113,7 +122,7 @@ img("s13","s13_logo",KV+"logo_text_no_bg.png",5.8,3.7,3.7,1.4,4803,1361)
 S("s13",els)
 # 14 ograniczenia
 S("s14",[title("s14","Ograniczenia prototypu"),
-  T("s14_b",0.5,1.4,9.0,3.9,"Bez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl; mechanizm znamy z kodu portalu\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nTen sam urząd może opublikować zbiór dwa razy; duplikatów między dostawcami jeszcze nie oznaczamy\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
+  T("s14_b",0.5,1.4,9.0,3.9,"Wykaz AED w portalu ma kod i testy logiki; portalu z tą zmianą nie uruchomiliśmy jeszcze w całości\nBez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nDuplikaty między dostawcami oznacza wykaz w portalu; agregat na stronie TuAED jeszcze nie\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
 # 15 AI i dalsze kroki
 S("s15",[title("s15","AI przyspieszyło budowę, decyzje podjął zespół"),
   T("s15_h1",0.5,1.45,4.3,0.55,"Jak używaliśmy AI",size=20,bold=True,color=GR),
