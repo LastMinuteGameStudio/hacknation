@@ -57,7 +57,7 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
             const poch = pochodzenie(p.zrodlo);
             const nazwa = p.nazwa_obiektu || p.opis_lokalizacji || "Defibrylator AED";
             const adr = adres(p) ?? "";
-            const zrodloTekst = poch === "tuaed" ? `TuAED: ${p.dysponent_nazwa ?? ""}` : poch === "osm" ? "OpenStreetMap" : p.zrodlo;
+            const zrodloTekst = poch === "tuaed" ? `AEDane: ${p.dysponent_nazwa ?? ""}` : poch === "osm" ? "OpenStreetMap" : p.zrodlo;
             return {
               id: f.id ?? p.id_aed,
               nazwa,
@@ -155,7 +155,7 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
     <section aria-labelledby="aed-naglowek">
       <h2 id="aed-naglowek">Wszystkie AED</h2>
       <p>
-        Te same dane co na mapie: zbiór zbiorczy z dostawców TuAED, otwartych danych urzędów i OpenStreetMap. Kliknij
+        Te same dane co na mapie: zbiór zbiorczy z dostawców AEDane, otwartych danych urzędów i OpenStreetMap. Kliknij
         nazwę, żeby zobaczyć AED na mapie. Całość pobierzesz jako <a href={URL_DANYCH[zakres].csv}>CSV</a> lub{" "}
         <a href={URL_DANYCH[zakres].geojson}>GeoJSON</a>.
       </p>

@@ -12,7 +12,7 @@ export function pochodzenie(zrodlo: string | undefined): Pochodzenie {
 }
 
 export const POCHODZENIE_NAZWA: Record<Pochodzenie, string> = {
-  tuaed: "Od dostawcy przez TuAED",
+  tuaed: "Od dostawcy przez AEDane",
   urzad: "Otwarte dane urzędów i instytucji",
   osm: "OpenStreetMap",
 };

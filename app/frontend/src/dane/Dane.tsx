@@ -6,7 +6,7 @@ import { Zbiory } from "./Zbiory";
 
 export default function Dane({ schemat }: { schemat: SchematOut | null }) {
   useEffect(() => {
-    document.title = "Zebrane dane o AED | TuAED";
+    document.title = "Zebrane dane o AED | AEDane";
   }, []);
   return (
     <div>

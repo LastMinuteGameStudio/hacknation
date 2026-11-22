@@ -49,7 +49,7 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
   const pokazanoWybrany = useRef(false);
 
   useEffect(() => {
-    document.title = "Mapa AED | TuAED";
+    document.title = "Mapa AED | AEDane";
     if (!kontener.current || mapa.current) return;
     const waska = window.innerWidth < 600;
     const m = L.map(kontener.current, { center: [52.0, 19.3], zoom: waska ? 5 : 6, minZoom: 5, maxZoom: 19, keyboard: true });
@@ -158,7 +158,7 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
         Mapa defibrylatorów AED
       </h1>
       <p>
-        Wszystkie AED z naszego zbioru zbiorczego: dane od dostawców opublikowane przez TuAED, otwarte dane urzędów i
+        Wszystkie AED z naszego zbioru zbiorczego: dane od dostawców opublikowane przez AEDane, otwarte dane urzędów i
         punkty z OpenStreetMap. Kliknij punkt, żeby zobaczyć adres, dostępność i pochodzenie danych.
       </p>
 
@@ -255,7 +255,7 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
         </table>
       )}
       <p className="drobny">
-        Dane z OpenStreetMap są na licencji ODbL 1.0 (© współtwórcy OpenStreetMap). Dane od dostawców przez TuAED są na
+        Dane z OpenStreetMap są na licencji ODbL 1.0 (© współtwórcy OpenStreetMap). Dane od dostawców przez AEDane są na
         CC0 1.0. Licencje pozostałych źródeł są w kolumnie „licencja_zrodla”.
       </p>
     </section>

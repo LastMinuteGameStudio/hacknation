@@ -88,7 +88,7 @@ export default function App() {
   // WCAG 2.4.2 / 2.4.3: tytuł strony i fokus na nagłówek po zmianie kroku.
   useEffect(() => {
     if (POZA_KREATOREM) return;
-    document.title = `${tytul} | TuAED`;
+    document.title = `${tytul} | AEDane`;
     if (pierwszyRender.current) {
       pierwszyRender.current = false;
       return;

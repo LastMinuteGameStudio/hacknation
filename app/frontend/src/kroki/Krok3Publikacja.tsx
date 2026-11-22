@@ -144,7 +144,7 @@ export function Krok3Publikacja({ importId, dysponentNazwa, walidacja, edycja, p
               <dt>Kategoria</dt>
               <dd>Zdrowie</dd>
               <dt>Częstotliwość aktualizacji</dt>
-              <dd>codziennie (zasób aktualizuje się automatycznie z TuAED)</dd>
+              <dd>codziennie (zasób aktualizuje się automatycznie z AEDane)</dd>
               <dt>Licencja</dt>
               <dd>CC0 1.0</dd>
             </dl>

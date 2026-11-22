@@ -35,7 +35,7 @@ export function Zbiory({ schemat }: { schemat: SchematOut | null }) {
     <section aria-labelledby="zbiory-naglowek">
       <h2 id="zbiory-naglowek">Zbiory dostawców</h2>
       <p>
-        Dane opublikowane przez instytucje w TuAED. Każdy zbiór ma stały adres, który dostawca dodał na dane.gov.pl.
+        Dane opublikowane przez instytucje w AEDane. Każdy zbiór ma stały adres, który dostawca dodał na dane.gov.pl.
       </p>
       {!zbiory && !blad && (
         <p role="status" className="ladowanie">
