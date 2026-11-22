@@ -34,16 +34,16 @@ S("s02",[title("s02","Dane o AED leżą w kilkunastu źródłach i każde ma inn
 # 3 rozwiazanie
 img("s03","s03_img",RAW+"slajdy/schemat-przeplywu.png",0.5,1.3,9.0,4.0,2880,1620)
 S("s03",[title("s03","TuAED zamienia plik dysponenta w stały, otwarty zbiór na dane.gov.pl")])
-# 4 kreator
-shots=[("09-krok1-dysponent",2880,1860,"1. Dysponent: nazwa i typ instytucji, kontakt niepubliczny"),
-       ("09-krok2-mapowanie",2880,1512,"2. Dane: plik w dowolnym układzie, podpowiedź pól, sprawdzenie"),
-       ("09-krok3-publikacja",2880,2408,"3. Publikacja: stały URL i instrukcja dla dane.gov.pl")]
-els=[title("s04","Urzędnik publikuje swój arkusz w 3 krokach, bez znajomości CSV")]
-for i,(f,iw,ih,cap) in enumerate(shots):
-    x=0.5+i*3.07
-    img("s04",f"s04_i{i}",RAW+f"zrzuty/{f}-1440.png",x,1.45,2.86,2.45,iw,ih,align="top")
-    els.append(T(f"s04_c{i}",x,4.05,2.86,0.95,cap,size=14))
-S("s04",els)
+# 4 kreator: jeden krok na slajd, duzy zrzut
+kroki=[("s04","Krok 1: dysponent podaje nazwę i typ instytucji","09-krok1-dysponent",2880,1860,
+        "Typ instytucji wybiera z listy: gmina, szkoła, OSP, firma\nTelefon i e-mail są opcjonalne i nie trafiają do pliku publicznego"),
+       ("s4b","Krok 2: TuAED sam rozpoznaje kolumny z pliku urzędu","09-krok2-mapowanie",2880,1512,
+        "Dysponent wgrywa swój arkusz CSV, XLSX lub GeoJSON\nDla każdej kolumny widzi podpowiedź pola i jej pewność\nBłędy blokują publikację, ostrzeżenia mówią, co poprawić"),
+       ("s4c","Krok 3: dysponent dostaje stały adres do wklejenia na dane.gov.pl","09-krok3-publikacja",2880,2408,
+        "Zgoda na licencję CC0 1.0\nPrywatny link do aktualizacji pod tym samym adresem\nInstrukcja: dodaj zasób jako link i włącz Aktualizację automatyczną")]
+for sid,tt,f,iw,ih,txt in kroki:
+    img(sid,sid+"_img",RAW+f"zrzuty/{f}-1440.png",3.35,1.45,6.15,3.85,iw,ih)
+    S(sid,[title(sid,tt), T(sid+"_b",0.5,1.45,2.65,3.85,txt,size=16,bullets=True,space_below=10)])
 # 5 jak dziala
 cards=[("Wczytuje","CSV, XLSX i GeoJSON, także z tytułem nad tabelą, scalonymi komórkami i stopką"),
        ("Mapuje","synonimy z realnych plików i analiza zawartości kolumn"),
