@@ -20,8 +20,8 @@ def S(id,els): slides.append(dict(id="sld"+id[1:],layout="BLANK",elements=els))
 
 # 1 tytul
 img("s01","s01_logo",KV+"logo_text_no_bg.png",0.75,0.7,4.2,1.25,4803,1361,align="left")
-S("s01",[T("s01_t",0.75,2.1,8.5,1.45,"Opublikuj dane o defibrylatorach na dane.gov.pl",size=36,bold=True),
-         T("s01_s",0.75,3.65,8.5,0.55,"W 3 PROSTYCH KROKACH",size=20,bold=True,color=GR),
+S("s01",[T("s01_t",0.75,2.1,8.5,0.95,"Daj dane, daj życie",size=40,bold=True),
+         T("s01_s",0.75,3.1,8.5,1.1,"Opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach",size=20,bold=True,color=GR),
          T("s01_f",0.75,4.75,8.5,0.4,"HackNation 2026 · Wyzwanie 06: Misja AED · demo: tuaed.wkrynski.dev",size=12,color=MU)])
 # 2 problem
 S("s02",[title("s02","Dane o AED leżą w kilkunastu źródłach i każde ma inny format"),
@@ -110,7 +110,8 @@ S("s11",els)
 # 12 akcja
 img("s12","s12_logo",KV+"logo_vertical.png",0.6,1.45,3.6,3.5,2941,2370)
 S("s12",[title("s12","Akcja AEDane zaprasza dysponentów AED do publikacji danych"),
-  T("s12_h",4.6,1.5,4.9,1.3,"„Opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach”",size=22,bold=True,color=GR),
+  T("s12_h",4.6,1.45,4.9,0.65,"„Daj dane, daj życie”",size=28,bold=True,color=GR),
+  T("s12_p",4.6,2.1,4.9,0.75,"Opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach",size=16,color=MU),
   T("s12_b",4.6,2.95,4.9,2.1,"Do kogo: gminy, urzędy, OSP, szkoły, firmy, czyli dysponenci AED\nCo zyskują: ich AED trafiają do map, aplikacji i do dyspozytorów\nIle to kosztuje: jeden arkusz, który już mają",size=16,bullets=True,space_below=8)])
 # 13 ksiega
 els=[title("s13","Księga znaku AEDane w skrócie")]

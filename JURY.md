@@ -116,7 +116,7 @@ opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)�
 
 ### 2.7 Akcja: nazwa, hasło, logotyp, księga znaku (pkt 2 i 4, 25% oceny)
 
-1. Nazwa akcji: **AEDane**. Logo jest w nagłówku prototypu ([kod SVG](app/frontend/src/components/Logo.tsx)).
+1. Nazwa akcji: **AEDane**, hasło: **„Daj dane, daj życie”**. Logo jest w nagłówku prototypu ([kod SVG](app/frontend/src/components/Logo.tsx)).
 2. Logotyp i księga znaku są w katalogu [visual/](visual/) (autor: Kuba).
    - JPG: [Logo.jpg](visual/Logo.jpg)
    - PNG: [Logo.png](visual/Logo.png), wersje z tłem i bez tła, poziome i pionowe (`logo_*.png`)

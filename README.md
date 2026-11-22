@@ -1,5 +1,7 @@
 # AEDane: opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach
 
+**Hasło akcji: „Daj dane, daj życie”**
+
 Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** (Ministerstwo Cyfryzacji).
 
 - **Instrukcja dla jury (krok po kroku, każde wymaganie):** [JURY.md](JURY.md)
