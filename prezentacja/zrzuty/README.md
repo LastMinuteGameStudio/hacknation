@@ -50,7 +50,7 @@ Dowód zgodności pliku z wymaganiami portalu (nagłówki, RFC 4180, UTF-8, CSVW
 ```bash
 python3 -m venv /tmp/pw && /tmp/pw/bin/pip install playwright && /tmp/pw/bin/playwright install chromium
 /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty.py          # publikuje nowy zbiór „(demo)” i robi 26 PNG
-python3 prezentacja/zrzuty/sprawdz_url.py                      # DOWOD-URL.md dla ostatniego zbioru
+python3 prezentacja/zrzuty/sprawdz_url.py https://tuaed.wkrynski.dev/d/kznsks42.csv   # DOWOD-URL.md
 ```
 
 - Każde uruchomienie `zrob_zrzuty.py` publikuje **nowy** zbiór demo. Slug ostatniego jest w
@@ -63,3 +63,13 @@ python3 prezentacja/zrzuty/sprawdz_url.py                      # DOWOD-URL.md dl
   z adresem i nagłówkami odpowiedzi.
 - Przycisk wyboru pliku ma napis „Choose File”, bo pochodzi z interfejsu Chromium, nie z aplikacji. W polskiej
   przeglądarce będzie „Wybierz plik”.
+
+## Zbiory na publicznym demo
+
+| Slug | Rola | Do posprzątania? |
+|---|---|---|
+| `kznsks42` | Zbiór na prezentację: synchronizacja z `demo-zrodlo` włączona, zrzuty `09-sync-*`, `DOWOD-URL.md` | nie |
+| `gh4e9uju` | Ostatnie uruchomienie `zrob_zrzuty.py` (zrzuty kreatora po poprawkach B i C, `08-csv-w-przegladarce`) | tak, po prezentacji |
+| `cfseuu37`, `r9ba4cvw` | Próbne przebiegi skryptu | tak |
+
+Wszystkie mają dysponenta „Urząd Miejski w Przemyślu (demo)”. Sprzątanie należy do Grzana. Skrypty niczego nie usuwają.
