@@ -52,6 +52,9 @@ services:
 
   mcod-local-admin:
     <<: *zaleznosci
+    # --noasgi: zwykły runserver WSGI zamiast daphne z channels 2.4 (z asgiref 3.8 przy pierwszym
+    # wejściu pojedyncze /static/*.js wisiały bez odpowiedzi). Websockety są tylko dla bokeh (statystyki).
+    command: ["python", "manage.py", "runserver", "--noasgi", "0:8001"]
     ports:
       - "127.0.0.1:8101:8001"  # panel admina
   mcod-local-api:
