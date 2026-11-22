@@ -92,6 +92,8 @@ Skrypt nie używa Django ani bazy. Przepuszcza wykazy przez ten sam kod (`mcod/r
 
 Wynik: 46 AED z 4 wykazów, 2 duplikaty oznaczone (oba rekordy zostają), licencja wykazu CC BY 4.0, bo jeden dołączony wykaz ma CC BY.
 
+Skrypt wysyła własny nagłówek User-Agent, bo Cloudflare przed TuAED odrzuca domyślny User-Agent `Python-urllib` (błąd 403). Portal tego problemu nie ma: pobiera linki biblioteką requests z przeglądarkowym User-Agent (`mcod/resources/link_validation.py`).
+
 ## Ograniczenia
 
 - `id_aed` jest unikalny w wykazie dostawcy, ale nie w całym wykazie zbiorczym. Para (`zrodlo_zasob_id`, `id_aed`) jest unikalna. `duplikat_id_aed` wskazuje `id_aed` rekordu głównego, a jego dostawcę podają kolumny pochodzenia rekordu głównego.
