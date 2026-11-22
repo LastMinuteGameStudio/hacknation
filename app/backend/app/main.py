@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import mimetypes
 import os
 from contextlib import asynccontextmanager
 from typing import Iterator
@@ -31,6 +32,10 @@ from .api_models import (
 from .config import STATIC_DIR, ZAKRES_DIR
 from .db import SessionLocal, db_ok, init_db
 from .importy import SCHEMA
+
+# Czcionki frontu (/fonts/*.woff2): w obrazie python:slim brak wpisów w /etc/mime.types, więc szły jako text/plain.
+mimetypes.add_type("font/woff2", ".woff2")
+mimetypes.add_type("font/woff", ".woff")
 
 _baza_gotowa = False
 

@@ -59,3 +59,11 @@ def test_szablony():
     r = c.get("/szablon.csv")
     assert r.status_code == 200 and r.text.splitlines()[0].startswith("id_aed")
     assert c.get("/szablon.xlsx").status_code == 200
+
+
+def test_czcionki_woff2_maja_typ_font():
+    import mimetypes
+
+    import app.main  # noqa: F401  (rejestruje typy)
+
+    assert mimetypes.guess_type("noto-sans-latin-400-normal.woff2")[0] == "font/woff2"
