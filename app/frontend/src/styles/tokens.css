@@ -23,5 +23,6 @@
   --kolor-fokus: #1a4e8a;
   --promien: 8px;
   --odstep: 1rem;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-systemowy: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* napis logo bez zmian do decyzji o nazwie i logo */
 }

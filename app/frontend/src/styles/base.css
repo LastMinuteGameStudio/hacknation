@@ -32,7 +32,7 @@ code, .url { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-s
   padding-top: 0.6rem; padding-bottom: 0.6rem; }
 .logo { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--kolor-tekst);
   min-height: 44px; border-radius: var(--promien); }
-.logo-napis { font-weight: 800; font-style: italic; font-size: 1.6rem; letter-spacing: -0.01em; }
+.logo-napis { font-family: var(--font-systemowy); font-weight: 800; font-style: italic; font-size: 1.6rem; letter-spacing: -0.01em; }
 .logo-aed { color: var(--kolor-glowny-ciemny); }
 .naglowek-podpis { color: var(--kolor-tekst-drugi); font-size: 0.95rem; }
 .stopka { background: var(--kolor-tlo-alt); margin-top: 2rem; font-size: 0.95rem; }
