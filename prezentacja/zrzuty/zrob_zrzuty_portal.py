@@ -6,7 +6,8 @@ scalenie: create_main_aed_resource_task). Skrypt tylko czyta i robi zrzuty, nicz
 Uruchomienie (hasło wyłącznie ze zmiennej środowiskowej, nie w repo):
     python3 -m venv /tmp/pw && /tmp/pw/bin/pip install playwright && /tmp/pw/bin/playwright install chromium
     PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py \
-        [--url http://localhost:8101] [--login admin@tuaed.local] [--zasob-z-bledem 'tytuł zasobu']
+        [--url http://localhost:8101] [--login admin@tuaed.local] [--zasob-z-bledem 'tytuł zasobu'] \
+        [--ekrany 01,02a,02b,03a,03b,04] [--zasob-id 40207]
 Kolejność: najpierw test e2e D (portal/tuaed_e2e.sh), który zakłada zasób z błędem słownika, potem ten skrypt.
 
 Ekrany (podpisy w README.md, sekcja „Portal dane.gov.pl: wykaz AED”):
@@ -76,10 +77,23 @@ RAPORT_JS = """() => {
 }"""
 
 
+def statyczne_z_ponowieniem(route) -> None:
+    """Lokalny panel (daphne w dockerze na macOS) potrafi zawiesić pojedyncze żądanie /static/*.js na zawsze,
+    przez co strona nigdy nie kończy ładowania. Pobieramy statyczne pliki sami, z limitem i ponowieniem."""
+    for _ in range(4):
+        try:
+            route.fulfill(response=route.fetch(timeout=5_000))
+            return
+        except Exception:
+            continue
+    route.abort()
+
+
 class Portal:
-    def __init__(self, page: Page, baza: str):
+    def __init__(self, page: Page, baza: str, ekrany: set[str] | None = None):
         self.p = page
         self.baza = baza
+        self.ekrany = ekrany  # None = wszystkie
         self.zapisane: list[str] = []
         self.pominiete: list[str] = []
 
@@ -87,7 +101,12 @@ class Portal:
         self.p.goto(self.baza + sciezka, wait_until="domcontentloaded")
         self.p.wait_for_load_state("networkidle", timeout=30_000)
 
+    def chce(self, *kody: str) -> bool:
+        return self.ekrany is None or any(k in self.ekrany for k in kody)
+
     def zrob(self, nazwa: str, pelna: bool = True) -> None:
+        if not self.chce(nazwa.split("-")[1]):
+            return
         self.p.evaluate(MASKUJ_JS, MASKA)
         plik = KATALOG / f"{nazwa}.png"
         self.p.screenshot(path=str(plik), full_page=pelna, animations="disabled",
@@ -131,9 +150,11 @@ class Portal:
         return True
 
 
-def ekran_formularz_i_walidacja(pt: Portal) -> None:
+def ekran_formularz_i_walidacja(pt: Portal, zasob_id: str | None = None) -> None:
     print("1, 2a: zasób-wykaz dostawcy (formularz i walidacja)")
-    if not pt.otworz_z_listy("/resources/resource/", ZBIOR_DOSTAWCY, re.compile(re.escape(ZBIOR_DOSTAWCY))):
+    if zasob_id:
+        pt.idz(f"/resources/resource/{zasob_id}/change/")
+    elif not pt.otworz_z_listy("/resources/resource/", ZBIOR_DOSTAWCY, re.compile(re.escape(ZBIOR_DOSTAWCY))):
         pt.pomin("portal-01", f"nie ma zasobu „{ZBIOR_DOSTAWCY}” (czy uruchomiono tuaed_dane_testowe.py?)")
         return
     adres_zasobu = pt.p.url.split("#")[0]
@@ -146,6 +167,8 @@ def ekran_formularz_i_walidacja(pt: Portal) -> None:
     else:
         pt.pomin("portal-01", f"brak pola „{ETYKIETA_WYKAZ}” w formularzu (migracja 0075 zastosowana?)")
 
+    if not pt.chce("02a"):
+        return
     pt.p.goto(adres_zasobu, wait_until="networkidle")
     if pt.zakladka("data"):
         pt.zrob("portal-02a-walidacja-poprawny")
@@ -207,7 +230,12 @@ def main() -> None:
     ap.add_argument("--login", default=os.environ.get("PORTAL_LOGIN", "admin@tuaed.local"))
     # Zasób z błędem słownika zakłada test e2e D (portal/tuaed_e2e.sh): dostepnosc = „dla wszystkich”.
     ap.add_argument("--zasob-z-bledem", default=os.environ.get("PORTAL_ZASOB_Z_BLEDEM", ZASOB_Z_BLEDEM))
+    ap.add_argument("--ekrany", default=None,
+                    help="tylko wybrane ekrany, np. 01 albo 01,02a (domyślnie wszystkie)")
+    ap.add_argument("--zasob-id", default=os.environ.get("PORTAL_ZASOB_ID"),
+                    help="pk zasobu-wykazu dostawcy (ekrany 01, 02a) zamiast wyszukiwania na liście")
     a = ap.parse_args()
+    ekrany = {e.strip() for e in a.ekrany.split(",")} if a.ekrany else None
     haslo = os.environ.get("PORTAL_HASLO")
     if not haslo:
         sys.exit("Ustaw PORTAL_HASLO (hasło konta testowego z portal/URUCHOMIENIE-TUAED.md). Hasła nie trzymamy w repo.")
@@ -215,14 +243,21 @@ def main() -> None:
     with sync_playwright() as pw:
         przegl = pw.chromium.launch(args=["--lang=pl-PL"])
         ctx = przegl.new_context(viewport={"width": 1440, "height": 900}, locale="pl-PL", device_scale_factor=2)
-        pt = Portal(ctx.new_page(), a.url.rstrip("/"))
+        ctx.route("**/static/**", statyczne_z_ponowieniem)
+        pt = Portal(ctx.new_page(), a.url.rstrip("/"), ekrany)
         pt.zaloguj(a.login, haslo)
-        for krok in (ekran_formularz_i_walidacja, lambda p: ekran_blad_slownika(p, a.zasob_z_bledem),
-                     ekran_zbior_zbiorczy, ekran_raport):
+        kroki = ((("01", "02a"), lambda p: ekran_formularz_i_walidacja(p, a.zasob_id)),
+                 (("02b",), lambda p: ekran_blad_slownika(p, a.zasob_z_bledem)),
+                 (("03a", "03b"), ekran_zbior_zbiorczy),
+                 (("04",), ekran_raport))
+        for kody, krok in kroki:
+            if not pt.chce(*kody):
+                continue
             try:
                 krok(pt)
             except Exception as e:  # jeden ekran nie blokuje pozostałych
                 pt.pomin(getattr(krok, "__name__", "ekran"), f"{type(e).__name__}: {e}")
+        ctx.unroute_all(behavior="ignoreErrors")
         przegl.close()
 
     print("\nzapisane:", ", ".join(pt.zapisane) or "brak")
