@@ -239,6 +239,8 @@ class TaskResult(TaskResultOrig):
         result = json.loads(self.result) if self.result else {}
         if isinstance(result, str):
             result = json.loads(result)
+        if isinstance(result, dict) and "exc_type" not in result and result.get("aed_message"):
+            return [result["aed_message"]]  # wykaz AED: komunikat przy SUCCESS (process_resource_file_data_task)
         exc_message = self._get_exc_message(result)
         error = self.find_es_parse_errors(exc_message)
         error_code = self._find_error_code(result)

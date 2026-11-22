@@ -13,8 +13,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_SSL = False
 NO_REPLY_EMAIL = "no-reply@mcod.local"
 
-ELASTICSEARCH_DSL_INDEX_SETTINGS = {"number_of_shards": 1, "number_of_replicas": 0, "timeout": 1}
-ELASTICSEARCH_HISTORIES_IDX_SETTINGS = {"number_of_shards": 1, "number_of_replicas": 0, "timeout": 1}
+# Bez "timeout" z local.py.sample: ES 6.8 odrzuca index.timeout (illegal_argument_exception).
+ELASTICSEARCH_DSL_INDEX_SETTINGS = {"number_of_shards": 1, "number_of_replicas": 0}
+ELASTICSEARCH_HISTORIES_IDX_SETTINGS = {"number_of_shards": 1, "number_of_replicas": 0}
 
 CELERY_TASK_ALWAYS_EAGER = False
 

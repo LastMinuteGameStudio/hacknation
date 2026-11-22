@@ -43,7 +43,8 @@ def _rekord(id_aed, lat, lon, **kw):
 
 def _tabela(rekordy):
     buf = io.StringIO(newline="")
-    w = csv.DictWriter(buf, fieldnames=list(rekordy[0].keys()), lineterminator="\r\n")
+    kolumny = list(dict.fromkeys(k for r in rekordy for k in r))
+    w = csv.DictWriter(buf, fieldnames=kolumny, restval="", lineterminator="\r\n")
     w.writeheader()
     w.writerows(rekordy)
     return read_table(buf.getvalue().encode("utf-8"), "csv")
@@ -141,3 +142,63 @@ def test_bez_poprawnych_wykazow_nic_nie_tworzy():
     assert summary["skipped_count"] == 1
     assert summary_from_result(build_main_aed_list([]))["records_count"] == 0
     assert zly.pk
+
+
+def test_schemat_wykazu_aed_wszystkie_kolumny_tekstowe():
+    """Zgadnięte typy (integer, date) nie mogą odrzucać pliku v0.5 przed walidacją zakresu."""
+    from mcod.resources.tasks.process_resource_file_data import _aed_list_tabular_data_schema
+
+    tds = {
+        "fields": [
+            {"name": "nr_budynku", "type": "integer", "format": "default"},
+            {"name": "lon", "type": "date", "format": "any"},
+        ],
+        "missingValues": [""],
+    }
+    wynik = _aed_list_tabular_data_schema(tds)
+    assert [(f["name"], f["type"], f["format"]) for f in wynik["fields"]] == [
+        ("nr_budynku", "string", "default"),
+        ("lon", "string", "default"),
+    ]
+    assert wynik["missingValues"] == [""]
+    assert tds["fields"][0]["type"] == "integer"
+
+
+@pytest.mark.django_db
+def test_rozpoznanie_zasobu_wykazu_zbiorczego():
+    """Wykaz zbiorczy ma is_aed_list=False, a też musi dostać schemat tekstowy (inaczej id „SZP-1” ≠ integer)."""
+    from django.conf import settings
+
+    from mcod.resources.aed_utils import is_main_aed_resource
+
+    wlasciciel = OrganizationFactory()
+    zbior = DatasetFactory(organization=wlasciciel, title=settings.MAIN_AED_DATASET_DEFAULT_TITLE)
+    zbiorczy = ResourceFactory(dataset=zbior, is_aed_list=False)
+    inny = ResourceFactory(dataset=DatasetFactory(organization=wlasciciel, title="Inny zbiór"), is_aed_list=False)
+    with override_settings(MAIN_AED_DATASET_OWNER_ORGANIZATION_PK=str(wlasciciel.pk)):
+        assert is_main_aed_resource(zbiorczy)
+        assert not is_main_aed_resource(inny)
+    with override_settings(MAIN_AED_DATASET_OWNER_ORGANIZATION_PK=None):
+        assert not is_main_aed_resource(zbiorczy)
+        plik = mock.Mock()
+        plik.name = "resources/20261122/wykaz-zbiorczy-aed-20261122.csv"
+        with mock.patch.object(Resource, "main_file", new_callable=mock.PropertyMock, return_value=plik):
+            assert is_main_aed_resource(inny)
+
+
+def test_komunikat_sukcesu_wykazu_w_zakladce_walidacji():
+    """Przy SUCCESS zakładka walidacji danych pokazuje komunikat wykazu AED zamiast pustego wiersza."""
+    import json
+
+    from mcod.resources.models import TaskResult
+    from mcod.resources.tasks.process_resource_file_data import _aed_success_message
+
+    assert _aed_success_message(12, 0) == "Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."
+    assert "Ostrzeżenia (bez wpływu na publikację): 2" in _aed_success_message(12, 2)
+    assert _aed_success_message(49, None).startswith("Wykaz zbiorczy AED")
+
+    wynik = json.dumps(json.dumps({"indexed": 12, "aed_message": "Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."}))
+    task = TaskResult(result=wynik, status="SUCCESS")
+    assert task.message == ["Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 12."]
+    assert task.recommendation == [""]
+    assert TaskResult(result=json.dumps(json.dumps({"indexed": 3})), status="SUCCESS").message == [""]
