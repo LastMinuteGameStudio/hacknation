@@ -577,6 +577,9 @@ class Resource(ExtendedModel):
     automatic_data_date_end = models.DateField(verbose_name=_("Data date end date update"), blank=True, null=True)
     endless_data_date_update = models.BooleanField(verbose_name=_("Endless data date update"), default=False)
     contains_protected_data = models.BooleanField(verbose_name=_("Contains protected data list"), default=False)
+    # Wykaz AED (zakres danych o defibrylatorach v0.5): zasób z flagą jest walidowany wg zakresu
+    # i trafia do wykazu zbiorczego (create_main_aed_resource_task). Opis: portal/WYKAZ-AED.md.
+    is_aed_list = models.BooleanField(verbose_name="Wykaz AED", default=False)
 
     def __str__(self):
         return self.title
@@ -1642,6 +1645,41 @@ class AggregatedDGAInfo(models.Model):
         if self.resource and self.resource.dataset.is_published and not self.resource.dataset.is_removed:
             return self.resource.dataset
 
+        return None
+
+
+class AggregatedAEDInfo(models.Model):
+    """Informacje o wykazie zbiorczym AED (jeden wiersz, wzór: AggregatedDGAInfo)."""
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    resource = models.ForeignKey(Resource, on_delete=models.SET_NULL, null=True, verbose_name="Zasób wykazu zbiorczego")
+    sources_count = models.PositiveIntegerField(default=0, verbose_name="Dołączone wykazy dostawców")
+    skipped_count = models.PositiveIntegerField(default=0, verbose_name="Pominięte wykazy")
+    records_count = models.PositiveIntegerField(default=0, verbose_name="Liczba AED")
+    duplicates_count = models.PositiveIntegerField(default=0, verbose_name="Oznaczone duplikaty")
+    license_name = models.CharField(max_length=20, blank=True, default="", verbose_name="Licencja wykazu")
+    report = JSONField(default=dict, blank=True, verbose_name="Raport scalania")
+
+    class Meta:
+        verbose_name = "Wykaz zbiorczy AED"
+        verbose_name_plural = "Wykaz zbiorczy AED"
+
+    def save(self, *args, **kwargs):
+        if not self.id and AggregatedAEDInfo.objects.exists():
+            raise ValidationError("There can be only one AggregatedAEDInfo instance")
+        return super().save(*args, **kwargs)
+
+    @property
+    def main_aed_resource(self) -> Optional[Resource]:
+        if self.resource and self.resource.is_published and not self.resource.is_removed:
+            return self.resource
+        return None
+
+    @property
+    def main_aed_dataset(self) -> Optional[Dataset]:
+        if self.resource and self.resource.dataset.is_published and not self.resource.dataset.is_removed:
+            return self.resource.dataset
         return None
 
 

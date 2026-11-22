@@ -51,6 +51,7 @@ from mcod.resources.models import (
     RESOURCE_TYPE_FILE,
     RESOURCE_TYPE_FILE_CHANGE,
     RESOURCE_TYPE_WEBSITE,
+    AggregatedAEDInfo,
     Resource,
     ResourceFile,
     ResourceTrash,
@@ -406,6 +407,7 @@ class ResourceAdmin(HistoryMixin, ModelAdmin):  # MRO matters here for unescape
                             *has_high_value_data_from_ec_list,
                             *has_research_data,
                             *contains_protected_data,
+                            "is_aed_list",
                             "status",
                             *special_signs,
                             "show_tabular_view",
@@ -530,6 +532,13 @@ class ResourceAdmin(HistoryMixin, ModelAdmin):  # MRO matters here for unescape
                         {
                             "classes": ("suit-tab", "suit-tab-general"),
                             "fields": ("contains_protected_data",),
+                        },
+                    ),
+                    (
+                        None,
+                        {
+                            "classes": ("suit-tab", "suit-tab-general"),
+                            "fields": ("is_aed_list",),
                         },
                     ),
                     (
@@ -1031,3 +1040,23 @@ admin.site.unregister(CrontabSchedule)
 admin.site.unregister(SolarSchedule)
 admin.site.unregister(ClockedSchedule)
 admin.site.unregister(PeriodicTask)
+
+
+@admin.register(AggregatedAEDInfo)
+class AggregatedAEDInfoAdmin(admin.ModelAdmin):
+    """Wykaz zbiorczy AED: podgląd ostatniego scalania (tylko do odczytu). Opis: portal/WYKAZ-AED.md."""
+
+    list_display = ("resource", "records_count", "sources_count", "skipped_count", "duplicates_count",
+                    "license_name", "updated_at")
+    readonly_fields = ("resource", "records_count", "sources_count", "skipped_count", "duplicates_count",
+                       "license_name", "report", "created_at", "updated_at")
+    fields = readonly_fields
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_module_permission(self, request):
+        return request.user.is_superuser

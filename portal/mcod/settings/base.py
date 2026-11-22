@@ -399,6 +399,7 @@ METADATA_MEDIA_ROOT = str(ROOT_DIR.path(MEDIA_ROOT, "datasets", "catalog"))
 DGA_RESOURCE_CREATION_STAGING_ROOT = str(ROOT_DIR.path(MEDIA_ROOT, "dga_temp"))
 BROKEN_LINKS_CREATION_STAGING_ROOT = str(ROOT_DIR.path(MEDIA_ROOT, "broken_links_temp"))
 MAIN_DGA_RESOURCE_XLSX_CREATION_ROOT = str(ROOT_DIR.path(MEDIA_ROOT, "main_dga"))
+MAIN_AED_RESOURCE_CREATION_ROOT = str(ROOT_DIR.path(MEDIA_ROOT, "main_aed"))
 
 MEDIA_URL = "/media/"
 ACADEMY_URL = "%s%s" % (MEDIA_URL, "academy")
@@ -967,6 +968,8 @@ CELERY_TASK_ROUTES = {
     "mcod.submissions.tasks.generate_statistical_report_for_all_submissions_task": {"queue": "reports"},
     "mcod.resources.tasks.check_link_protocol": {"queue": "resources"},
     "mcod.resources.tasks.create_main_dga_resource_task": {"queue": "resources"},
+    "mcod.resources.tasks.create_main_aed_resource_task": {"queue": "resources"},
+    "mcod.resources.tasks.finalize_main_aed_resource_task": {"queue": "resources"},
     "mcod.resources.tasks.delete_es_resource_tabular_data_index": {"queue": "indexing_data"},
     "mcod.resources.tasks.delete_es_resource_tabular_data_indexes_for_organization": {"queue": "indexing_data"},
     "mcod.resources.tasks.entrypoint_process_resource_file_validation_task": {"queue": "resources"},
@@ -1723,6 +1726,28 @@ MAIN_DGA_XLSX_FILE_NAME_PREFIX = "Wykaz zasobów chronionych DGA – wykaz zbior
 MAIN_DGA_XLSX_WORKSHEET_NAME = "Arkusz 1"
 MAIN_DGA_DATASET_UPDATE_NOTIFICATION_EMAIL = "chronionedane@cyfra.gov.pl"
 MAIN_DGA_DATASET_CATEGORIES_TITLES = ["Rząd i sektor publiczny"]
+
+# Wykaz zbiorczy AED (create_main_aed_resource_task, portal/WYKAZ-AED.md).
+# Właściciel zbioru „Defibrylatory AED: wykaz zbiorczy” (instytucja prowadząca portal).
+MAIN_AED_DATASET_OWNER_ORGANIZATION_PK = env("MAIN_AED_DATASET_OWNER_ORGANIZATION_PK", default=None)
+MAIN_AED_DATASET_DEFAULT_TITLE = "Defibrylatory AED: wykaz zbiorczy"
+MAIN_AED_DATASET_DEFAULT_DESC = (
+    "Wykaz zbiorczy automatycznych defibrylatorów zewnętrznych (AED) w Polsce, scalony codziennie z wykazów AED "
+    "publikowanych na dane.gov.pl przez dysponentów (zasoby oznaczone jako „Wykaz AED”). Format: wzorcowy zakres "
+    "danych o AED v0.5. Każdy rekord ma kolumny pochodzenia: instytucję, identyfikator i adres zasobu źródłowego, "
+    "datę aktualizacji i licencję źródła. Gdy dwa wykazy opisują ten sam AED (ten sam numer seryjny albo do 30 m), "
+    "oba rekordy zostają, a późniejszy ma w kolumnie duplikat_id_aed identyfikator rekordu głównego."
+)
+MAIN_AED_RESOURCE_DEFAULT_TITLE = "Defibrylatory AED: wykaz zbiorczy (CSV)"
+MAIN_AED_RESOURCE_DEFAULT_DESC = (
+    "Wykaz zbiorczy AED w formacie CSV (RFC 4180, UTF-8). Ten sam wykaz w formacie XLSX jest dołączony jako plik "
+    "dodatkowy zasobu."
+)
+MAIN_AED_FILE_NAME_PREFIX = "wykaz-zbiorczy-aed"
+MAIN_AED_XLSX_WORKSHEET_NAME = "Wykaz AED"
+MAIN_AED_DATASET_CATEGORIES_TITLES = ["Zdrowie"]
+MAIN_AED_DATASET_TAGS_NAMES = ["AED", "defibrylator", "wykaz AED"]
+MAIN_AED_DATASET_UPDATE_NOTIFICATION_EMAIL = env("MAIN_AED_DATASET_UPDATE_NOTIFICATION_EMAIL", default="")
 MAIN_DGA_DATASET_TAGS_NAMES = [
     "DGA",
     "wykaz zasobów chronionych danych",

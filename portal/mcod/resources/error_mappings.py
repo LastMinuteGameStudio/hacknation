@@ -1,4 +1,17 @@
 recommendations = {
+    # Wykaz AED (zakres danych o AED v0.5, portal/WYKAZ-AED.md)
+    "aed-brak-kolumny": "Nazwij kolumny tak jak pola wzorcowego zakresu danych o AED v0.5 (np. id_aed, "
+    "szerokosc_geograficzna, dlugosc_geograficzna). Plik w tym formacie przygotujesz w kreatorze TuAED.",
+    "aed-powtorzona-kolumna": "Usuń albo przemianuj powtórzoną kolumnę w nagłówku.",
+    "aed-brak-wierszy": "Uzupełnij wykaz o co najmniej jeden AED.",
+    "aed-brak-pola-obowiazkowego": "Uzupełnij pole obowiązkowe w podanym wierszu.",
+    "aed-wartosc-spoza-slownika": "Użyj jednej z wartości słownika zakresu v0.5 podanych w komunikacie.",
+    "aed-zly-format": "Popraw format wartości zgodnie z opisem w komunikacie.",
+    "aed-poza-polska": "Sprawdź współrzędne: szerokość 49–55, długość 14–24 (WGS84), czy nie są zamienione miejscami.",
+    "aed-duplikat-id": "Identyfikator AED musi być unikalny w wykazie.",
+    "aed-duplikat-nr-seryjnego": "Ten sam numer seryjny występuje dwa razy: usuń powtórzony AED albo popraw numer.",
+    "aed-licencja": "Ustaw w zbiorze licencję CC0 1.0 albo CC BY 4.0, żeby wykaz trafił do wykazu zbiorczego AED.",
+    "aed-odczyt": "Opublikuj wykaz AED jako plik CSV (UTF-8) albo XLSX.",
     "zero-data-rows": "Uzupełnij plik danymi",
     "io-error": "Sprawdź: \n"
     "- czy plik znajduje się we wskazanej lokalizacji,\n"

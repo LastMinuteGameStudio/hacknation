@@ -264,6 +264,19 @@ class ResourceForm(forms.ModelForm, HighValueDataFormValidatorMixin):
         ),
         widget=CheckboxSelect(attrs={"class": "inline"}),
     )
+    is_aed_list = forms.ChoiceField(
+        required=False,
+        initial=False,
+        label="Wykaz AED",
+        choices=[(True, _("Yes")), (False, _("No"))],
+        help_text=(
+            "Wskazanie TAK oznacza, że zasób jest wykazem automatycznych defibrylatorów zewnętrznych (AED) "
+            "w formacie wzorcowego zakresu danych o AED v0.5 (plik CSV albo XLSX, nazwy kolumn jak pola zakresu). "
+            "Portal sprawdzi wykaz z zakresem, a poprawny wykaz z licencją CC0 1.0 albo CC BY 4.0 dołączy "
+            "codziennie do zbioru „Defibrylatory AED: wykaz zbiorczy”."
+        ),
+        widget=CheckboxSelect(attrs={"class": "inline"}),
+    )
     confirm_save = forms.CharField(required=False, widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
@@ -277,6 +290,9 @@ class ResourceForm(forms.ModelForm, HighValueDataFormValidatorMixin):
             )
             # https://stackoverflow.com/a/42629593/1845230
             self.fields["related_resource"].widget.choices = self.fields["related_resource"].choices
+
+    def clean_is_aed_list(self) -> bool:
+        return self.cleaned_data.get("is_aed_list") in (True, "True")
 
     def clean_confirm_save(self) -> bool:
         confirm_save_str: str = self.cleaned_data.get(SAVE_CONFIRMATION_FIELD, "false")
@@ -332,6 +348,9 @@ class ResourceForm(forms.ModelForm, HighValueDataFormValidatorMixin):
             # DGA Resource.
             if not is_main_dga_resource and organization:
                 self._remove_dga_flag_from_current_dga_resource_if_needed(data, organization)
+
+        if data.get("is_aed_list") and data.get("file"):
+            self._validate_aed_file(data["file"])
 
         self.validate_high_value_data_flags_conflict(data)
         if organization:
@@ -450,6 +469,26 @@ class ResourceForm(forms.ModelForm, HighValueDataFormValidatorMixin):
                     "contains_protected_data",
                     _("The saved file has a different structure than that required for the list of protected data."),
                 )
+
+    def _validate_aed_file(self, file: UploadedFile) -> None:
+        """Wykaz AED: przy wgraniu pliku sprawdzamy format i kolumny pól obowiązkowych zakresu v0.5.
+        Pełna walidacja wierszy odbywa się w zadaniu walidacji danych (process_resource_file_data_task)."""
+        from mcod.resources.aed.reader import BladOdczytu, read_table
+        from mcod.resources.aed.schema import load_zakres
+        from mcod.resources.aed.validation import bledy, validate_table
+
+        extension = os.path.splitext(file.name or "")[1].lower().lstrip(".")
+        try:
+            file.seek(0)
+            tabela = read_table(file.read(), extension)
+        except BladOdczytu as exc:
+            self.add_error("is_aed_list", str(exc))
+            return
+        finally:
+            file.seek(0)
+        naglowek = [k for k in bledy(validate_table(tabela, load_zakres())) if k.wiersz == 1 or k.kod == "BRAK_WIERSZY"]
+        for k in naglowek:
+            self.add_error("is_aed_list", k.komunikat)
 
     def _remove_dga_flag_from_current_dga_resource_if_needed(
         self,
@@ -597,6 +636,7 @@ class ChangeResourceForm(ResourceForm, UnEscapeWidgetMixin):
         data["has_high_value_data"] = instance.has_high_value_data
         data["has_research_data"] = instance.has_research_data
         data["contains_protected_data"] = instance.contains_protected_data
+        data["is_aed_list"] = instance.is_aed_list
         data["has_high_value_data_from_ec_list"] = instance.has_high_value_data_from_ec_list
         return data
 
@@ -711,6 +751,7 @@ class AddResourceInlineForm(AddResourceForm):
     # business rules (that only a single DGA resource exists in a Dataset)
     # would add too much technical complexity
     contains_protected_data = forms.CharField(initial="False", widget=forms.HiddenInput(), required=False)
+    is_aed_list = forms.CharField(initial="False", widget=forms.HiddenInput(), required=False)
 
 
 class TrashResourceForm(forms.ModelForm):
