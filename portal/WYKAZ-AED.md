@@ -6,7 +6,7 @@ Mechanizm jest wzorowany na istniejącym w portalu wykazie chronionych danych DG
 
 ## Jak to wygląda dla dostawcy
 
-1. Redaktor instytucji dodaje w panelu zasób z plikiem CSV albo XLSX w zakresie v0.5. Taki plik przygotowuje kreator TuAED. Albo podaje link do pliku, na przykład stały adres TuAED `/d/{slug}.csv` z automatyczną aktualizacją.
+1. Redaktor instytucji dodaje w panelu zasób z plikiem CSV albo XLSX w zakresie v0.5. Taki plik przygotowuje kreator AEDane. Albo podaje link do pliku, na przykład stały adres AEDane `/d/{slug}.csv` z automatyczną aktualizacją.
 2. Zaznacza **„Wykaz AED: Tak”**. Opis pola w formularzu wyjaśnia, co to oznacza.
 3. Przy zapisie portal od razu sprawdza format pliku i kolumny pól obowiązkowych. Jeśli są błędy, pokazuje je przy polu.
 4. Po publikacji pełna walidacja zakresu v0.5 jest częścią zwykłej walidacji danych zasobu. Błędy widać w panelu w tym samym miejscu i w tej samej formie co inne błędy walidacji danych, razem z numerem wiersza, nazwą kolumny i zaleceniem.
@@ -16,7 +16,7 @@ Mechanizm jest wzorowany na istniejącym w portalu wykazie chronionych danych DG
 
 | Reguła | Szczegóły |
 |---|---|
-| Co trafia do wykazu zbiorczego | Opublikowane zasoby z flagą „Wykaz AED” od **wszystkich** dostawców. Tylko wykazy dostawców: bez OpenStreetMap i bez danych zebranych przez TuAED ze stron miast (decyzja zespołu). |
+| Co trafia do wykazu zbiorczego | Opublikowane zasoby z flagą „Wykaz AED” od **wszystkich** dostawców. Tylko wykazy dostawców: bez OpenStreetMap i bez danych zebranych przez AEDane ze stron miast (decyzja zespołu). |
 | Wykaz z błędami | Wykaz z co najmniej jednym błędem walidacji zakresu v0.5 jest pomijany w całości. Ostrzeżenia, np. brak pól zalecanych, nie blokują dołączenia. |
 | Licencja | Dołączane są tylko zbiory z licencją CC0 1.0 albo CC BY 4.0. Wykaz z inną licencją (BY-SA, BY-NC, BY-ND i ich połączenia) jest pomijany, a w walidacji zasobu pojawia się komunikat, że nie zostanie dołączony z powodu licencji. |
 | Licencja wykazu zbiorczego | CC0 1.0, gdy wszystkie dołączone wykazy mają CC0. W przeciwnym razie CC BY 4.0. |
@@ -32,7 +32,7 @@ Wykaz czytamy z surowego pliku zasobu, a nie z `tabular_data` portalu. Rzutowani
 
 | Plik | Zmiana |
 |---|---|
-| `mcod/resources/aed/` (nowy) | Czysta logika bez Django: `schema.py` (zakres v0.5 z kopii `zakres/zakres-pol.csv` i `zakres/slowniki.csv`), `reader.py` (odczyt CSV/XLSX jako tekst), `validation.py` (walidacja przeniesiona z rdzenia TuAED `aed_core/validate.py` i rozszerzona o kontrolę nagłówka), `merge.py` (scalanie, duplikaty, licencje, eksport CSV/XLSX). |
+| `mcod/resources/aed/` (nowy) | Czysta logika bez Django: `schema.py` (zakres v0.5 z kopii `zakres/zakres-pol.csv` i `zakres/slowniki.csv`), `reader.py` (odczyt CSV/XLSX jako tekst), `validation.py` (walidacja przeniesiona z rdzenia AEDane `aed_core/validate.py` i rozszerzona o kontrolę nagłówka), `merge.py` (scalanie, duplikaty, licencje, eksport CSV/XLSX). |
 | `mcod/resources/aed_utils.py` (nowy) | Integracja z modelami, odpowiednik `dga_utils.py`: wybór zasobów, walidacja zasobu, tworzenie zbioru i zasobu wykazu zbiorczego, zapis `AggregatedAEDInfo`, sprzątanie. |
 | `mcod/resources/tasks/aed.py` (nowy) | `create_main_aed_resource_task` (scalanie, pliki, nowy zasób) i `finalize_main_aed_resource_task` (czeka na walidację portalu z ponawianiem, potem podmienia wykaz). Odpowiednik `tasks/dga.py`. |
 | `mcod/resources/models.py` | Pole `Resource.is_aed_list` („Wykaz AED”) i model `AggregatedAEDInfo` (zasób, liczba wykazów, pominiętych, AED, duplikatów, licencja, raport JSON). |
@@ -92,7 +92,7 @@ Skrypt nie używa Django ani bazy. Przepuszcza wykazy przez ten sam kod (`mcod/r
 
 Wynik: 46 AED z 4 wykazów, 2 duplikaty oznaczone (oba rekordy zostają), licencja wykazu CC BY 4.0, bo jeden dołączony wykaz ma CC BY.
 
-Skrypt wysyła własny nagłówek User-Agent, bo Cloudflare przed TuAED odrzuca domyślny User-Agent `Python-urllib` (błąd 403). Portal tego problemu nie ma: pobiera linki biblioteką requests z przeglądarkowym User-Agent (`mcod/resources/link_validation.py`).
+Skrypt wysyła własny nagłówek User-Agent, bo Cloudflare przed AEDane odrzuca domyślny User-Agent `Python-urllib` (błąd 403). Portal tego problemu nie ma: pobiera linki biblioteką requests z przeglądarkowym User-Agent (`mcod/resources/link_validation.py`).
 
 ## Ograniczenia
 
