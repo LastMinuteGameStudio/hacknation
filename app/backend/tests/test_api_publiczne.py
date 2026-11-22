@@ -41,7 +41,12 @@ def test_json_i_csvw():
     m = c.get(f"/d/{p['slug']}.csv-metadata.json")
     assert m.status_code == 200
     assert m.json()["url"] == p["url_csv"]
-    assert [k["name"] for k in m.json()["tableSchema"]["columns"]] == SCHEMA.publiczne
+    kolumny = m.json()["tableSchema"]["columns"]
+    assert [k["name"] for k in kolumny] == SCHEMA.publiczne
+    # CSVW §5.5.1: nagłówek CSV musi być wśród titles kolumny
+    naglowek = c.get(f"/d/{p['slug']}.csv").text.splitlines()[0].split(",")
+    for h, k in zip(naglowek, kolumny):
+        assert h in k["titles"] and k["titles"][1] == SCHEMA.pole(h).nazwa
 
 
 def test_brak_zbioru_i_zle_rozszerzenie():
