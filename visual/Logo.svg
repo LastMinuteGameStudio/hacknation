@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="1270.6617mm"
-   height="360.00006mm"
-   viewBox="0 0 1270.6617 360.00006"
+   width="1439.0273mm"
+   height="360.00003mm"
+   viewBox="0 0 1439.0273 360.00003"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#ffffff"
      inkscape:document-units="mm"
-     inkscape:zoom="0.0890853"
-     inkscape:cx="14177.423"
-     inkscape:cy="5590.1479"
+     inkscape:zoom="0.03149641"
+     inkscape:cx="18430.672"
+     inkscape:cy="4349.7021"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -35,8 +35,8 @@
     <inkscape:page
        x="0"
        y="0"
-       width="1270.6617"
-       height="360.00006"
+       width="1439.0273"
+       height="360.00003"
        id="page2"
        margin="0"
        bleed="0" />
@@ -47,12 +47,12 @@
      inkscape:label="Warstwa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-4024.1602,581.13067)">
+     transform="translate(-4911.9579,656.73454)">
     <g
        id="g16-0-3"
        style="fill:#008c15;fill-opacity:1"
-       transform="matrix(4.0000008,0,0,4.0000008,5527.9478,-615.53867)"
-       inkscape:export-filename="logo_text_no_bg.png"
+       transform="matrix(4.0000008,0,0,4.0000008,6415.7454,-691.14252)"
+       inkscape:export-filename="logo_text.svg"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <path
@@ -69,7 +69,7 @@
            id="tspan16-4-17"
            style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Semi-Bold';fill:#008c15;fill-opacity:1;stroke:none;stroke-width:4.79042"
            x="-253.85716"
-           y="76.180695">TuAED</tspan></text>
+           y="76.180695">AEDane</tspan></text>
     </g>
   </g>
 </svg>
