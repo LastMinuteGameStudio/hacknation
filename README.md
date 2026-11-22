@@ -1,4 +1,4 @@
-# TuAED: opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach
+# AEDane: opublikuj dane o defibrylatorach na dane.gov.pl w 3 prostych krokach
 
 Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** (Ministerstwo Cyfryzacji).
 
@@ -15,7 +15,7 @@ Przy nagłym zatrzymaniu krążenia liczy się każda minuta, a defibrylatora AE
 
 ## Rozwiązanie
 
-**TuAED** to akcja i narzędzie dla dysponentów AED. Dysponent wgrywa swój arkusz, TuAED zamienia go na wspólny, wzorcowy format i wystawia pod stałym adresem, który dysponent dodaje na dane.gov.pl jako zasób z „Aktualizacją automatyczną”. Dzięki temu dane o AED od wszystkich dostawców trafiają na portal w jednym formacie i pozostają aktualne.
+**AEDane** to akcja i narzędzie dla dysponentów AED. Dysponent wgrywa swój arkusz, AEDane zamienia go na wspólny, wzorcowy format i wystawia pod stałym adresem, który dysponent dodaje na dane.gov.pl jako zasób z „Aktualizacją automatyczną”. Dzięki temu dane o AED od wszystkich dostawców trafiają na portal w jednym formacie i pozostają aktualne.
 
 1. **Wzorcowy zakres danych v0.5:** 58 pól (14 obowiązkowych, 18 zalecanych, 26 fakultatywnych), słowniki, szablony CSV i XLSX, metadane CSVW. 52 pola są publiczne, 6 zostaje w ewidencji dysponenta. Godziny dostępności są w strukturze, nie w wolnym tekście.
 2. **Kreator w 3 krokach:** dysponent, wgranie pliku (CSV, XLSX, GeoJSON) z automatycznym mapowaniem kolumn i walidacją, publikacja. Wynik: CSV (RFC 4180, UTF-8), JSON, GeoJSON i CSVW na licencji CC0 1.0 pod stałym URL oraz instrukcja dodania zasobu na dane.gov.pl.

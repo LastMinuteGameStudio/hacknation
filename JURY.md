@@ -1,4 +1,4 @@
-# Instrukcja dla jury: TuAED (06 Misja AED)
+# Instrukcja dla jury: AEDane (06 Misja AED)
 
 Ta instrukcja prowadzi krok po kroku przez prototyp i wskazuje, gdzie sprawdzić każde wymaganie z treści
 zadania ([TRESC.md](zadania/06-mc-misja-aed/TRESC.md), punkty 2–5). Każdy krok ma dwie drogi:
@@ -116,14 +116,14 @@ opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)�
 
 ### 2.7 Akcja: nazwa, hasło, logotyp, księga znaku (pkt 2 i 4, 25% oceny)
 
-1. Nazwa akcji: **TuAED**. Logo jest w nagłówku prototypu ([kod SVG](app/frontend/src/components/Logo.tsx)).
-2. Logotyp i księga znaku są na branchu `kvba`, w katalogu [visual/](https://github.com/LastMinuteGameStudio/hacknation/tree/kvba/visual). Na `main` trafią po decyzji zespołu.
-   - JPG: [Logo.jpg](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/Logo.jpg)
-   - PNG: [Logo.png](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/Logo.png), wersje z tłem i bez tła, poziome i pionowe (`logo_*.png`)
-   - PDF: [Logo.pdf](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/Logo.pdf)
-   - format otwarty SVG: [Logo.svg](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/Logo.svg), wersje monochromatyczne, negatywowe i pionowe (`logo_*.svg`)
-   - księga znaku PDF: [podstawowa_ksiega_znaku.pdf](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/podstawowa_ksiega_znaku.pdf)
-   - kolory (#008C15, #1A4E8A) i czcionka (Noto Sans): [GRAPHICS.md](https://github.com/LastMinuteGameStudio/hacknation/blob/kvba/visual/GRAPHICS.md)
+1. Nazwa akcji: **AEDane**. Logo jest w nagłówku prototypu ([kod SVG](app/frontend/src/components/Logo.tsx)).
+2. Logotyp i księga znaku są w katalogu [visual/](visual/) (autor: Kuba).
+   - JPG: [Logo.jpg](visual/Logo.jpg)
+   - PNG: [Logo.png](visual/Logo.png), wersje z tłem i bez tła, poziome i pionowe (`logo_*.png`)
+   - PDF: [Logo.pdf](visual/Logo.pdf)
+   - format otwarty SVG: [Logo.svg](visual/Logo.svg), wersje monochromatyczne, negatywowe i pionowe (`logo_*.svg`)
+   - księga znaku PDF: [podstawowa_ksiega_znaku.pdf](visual/podstawowa_ksiega_znaku.pdf)
+   - kolory (#008C15, #1A4E8A) i czcionka (Noto Sans): [GRAPHICS.md](visual/GRAPHICS.md)
 
 ### 2.8 Wymagania formalne (pkt 4)
 
@@ -133,8 +133,8 @@ opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)�
 | Prezentacja (min. 5 slajdów, zrzuty, kroki użytkownika, ograniczenia) | [prezentacja/TuAED-Misja-AED.pptx](prezentacja/TuAED-Misja-AED.pptx), zrzuty: [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) |
 | Prototyp | https://tuaed.wkrynski.dev, sekcja 1 tej instrukcji |
 | Wzorcowy zakres danych (xlsx) | [zakres-danych/wzorcowy-zakres-danych-AED.xlsx](zakres-danych/wzorcowy-zakres-danych-AED.xlsx) |
-| Kod źródłowy | to repozytorium: [app/](app/) (TuAED), [dane/skrypty/](dane/skrypty/) (agregacja), portal: sekcja 3 |
-| Logotyp i księga znaku | 2.7 (branch `kvba`, [visual/](https://github.com/LastMinuteGameStudio/hacknation/tree/kvba/visual)) |
+| Kod źródłowy | to repozytorium: [app/](app/) (AEDane), [dane/skrypty/](dane/skrypty/) (agregacja), portal: sekcja 3 |
+| Logotyp i księga znaku | 2.7 (branch `kvba`, [visual/](visual/)) |
 
 ## 3. Zmiany w portalu dane.gov.pl (wykaz AED)
 
