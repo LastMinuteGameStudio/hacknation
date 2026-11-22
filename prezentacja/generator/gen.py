@@ -43,6 +43,13 @@ for i,(n,t) in enumerate(kroki_p):
 els.append(T("s3b_b",5.15,1.45,4.35,3.7,"Wzór: istniejący w portalu wykaz danych chronionych (DGA)\nTylko wykazy dostawców na CC0 1.0 albo CC BY 4.0\nPrzy każdym AED instytucja, zasób, data i licencja\nAED od dwóch dostawców: oba zostają, drugi oznaczony jako duplikat\nPokaz: 4 wykazy, 46 AED, 2 duplikaty, 2 wykazy pominięte (licencja BY-NC, błąd danych)\n18 testów logiki scalania przechodzi",size=14,bullets=True,space_below=8))
 els.append(T("s3b_f",0.5,5.12,9.0,0.4,"Kod: branch portal-aed, portal/WYKAZ-AED.md. Zbiór wynikowy: „Defibrylatory AED: wykaz zbiorczy” (CSV i XLSX).",size=10,color=MU))
 S("s3b",els)
+# 3c portal uruchomiony: zrzuty panelu
+img("s3c","s3c_i1",RAW+"zrzuty/portal-01-formularz-wykaz-aed.png",0.5,1.4,4.4,3.2,2880,1800,align="top")
+img("s3c","s3c_i2",RAW+"zrzuty/portal-04-wykaz-zbiorczy-raport.png",5.1,1.4,4.4,3.2,2880,2460,align="top")
+S("s3c",[title("s3c","Działa w portalu dane.gov.pl: 3 dostawców, 45 AED, 1 duplikat"),
+  T("s3c_c1",0.5,4.65,4.4,0.45,"Dostawca zaznacza „Wykaz AED” przy swoim zasobie",size=14,color=MU),
+  T("s3c_c2",5.1,4.65,4.4,0.45,"Raport scalania: dołączone i pominięte wykazy z powodem",size=14,color=MU),
+  T("s3c_f",0.5,5.12,9.0,0.4,"Portal mcod-backend 2.62.3 z naszą zmianą uruchomiony w Dockerze. Test end-to-end: 5/5. Nagranie: prezentacja/zrzuty/portal-nagranie.mp4",size=10,color=MU)])
 # 4 kreator: jeden krok na slajd, duzy zrzut
 kroki=[("s04","Krok 1: dysponent podaje nazwę i typ instytucji","09-krok1-dysponent",2880,1860,
         "Typ instytucji wybiera z listy: gmina, szkoła, OSP, firma\nTelefon i e-mail są opcjonalne i nie trafiają do pliku publicznego"),
@@ -123,7 +130,7 @@ img("s13","s13_logo",KV+"logo_text_no_bg.png",5.8,3.7,3.7,1.4,4803,1361)
 S("s13",els)
 # 14 ograniczenia
 S("s14",[title("s14","Ograniczenia prototypu"),
-  T("s14_b",0.5,1.4,9.0,3.9,"Wykaz AED w portalu ma kod i testy logiki; portalu z tą zmianą nie uruchomiliśmy jeszcze w całości\nBez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nDuplikaty między dostawcami oznacza wykaz w portalu; agregat na stronie AEDane jeszcze nie\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
+  T("s14_b",0.5,1.4,9.0,3.9,"Portal z wykazem AED działa lokalnie (test end-to-end 5/5), ale nie na produkcyjnym dane.gov.pl\nBez konta dostawcy nie sprawdziliśmy publikacji na produkcyjnym dane.gov.pl\nGeokodujemy do 200 adresów na plik; w agregacie 63 AED nie ma współrzędnych\nDane z OpenStreetMap mają licencję ODbL, więc agregat ma też wersję bez OSM\nDuplikaty między dostawcami oznacza wykaz w portalu; agregat na stronie AEDane jeszcze nie\nZgubionego linku edycji nie da się odzyskać, bo MVP nie ma logowania\nAED w pojazdach są poza zakresem",size=16,bullets=True,space_below=8)])
 # 15 AI i dalsze kroki
 S("s15",[title("s15","AI przyspieszyło budowę, decyzje podjął zespół"),
   T("s15_h1",0.5,1.45,4.3,0.55,"Jak używaliśmy AI",size=20,bold=True,color=GR),
