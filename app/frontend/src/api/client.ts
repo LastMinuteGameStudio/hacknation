@@ -3,6 +3,8 @@ import type {
   ImportOut,
   PublikacjaOut,
   SchematOut,
+  SynchronizacjaIn,
+  SynchronizacjaOut,
   WalidacjaIn,
   WalidacjaOut,
   ZbiorOut,
@@ -33,6 +35,24 @@ export const api = {
 
   zbior: (slug: string, token: string) =>
     fetch(`/api/zbiory/${encodeURIComponent(slug)}?token=${encodeURIComponent(token)}`).then((r) => json<ZbiorOut>(r)),
+
+  zrodlo: (slug: string, token: string) =>
+    fetch(`/api/zbiory/${encodeURIComponent(slug)}/zrodlo?token=${encodeURIComponent(token)}`).then((r) =>
+      json<SynchronizacjaOut>(r),
+    ),
+
+  ustawZrodlo: (slug: string, token: string, body: SynchronizacjaIn) =>
+    fetch(`/api/zbiory/${encodeURIComponent(slug)}/zrodlo?token=${encodeURIComponent(token)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then((r) => json<SynchronizacjaOut>(r)),
+
+  synchronizuj: (slug: string, token: string, wymus = false) =>
+    fetch(
+      `/api/zbiory/${encodeURIComponent(slug)}/synchronizacja?token=${encodeURIComponent(token)}${wymus ? "&wymus=true" : ""}`,
+      { method: "POST" },
+    ).then((r) => json<SynchronizacjaOut>(r)),
 
   wgrajPlik: (plik: File, arkusz?: string, edycja?: { slug: string; token: string }) => {
     const fd = new FormData();

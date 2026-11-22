@@ -74,7 +74,10 @@ export function Krok3Publikacja({ importId, walidacja, edycja, publikacja, setPu
                 Pokazujemy go tylko teraz. Zapisz go np. w notatkach albo w dokumentacji urzędu.
               </p>
             </div>
-            <p>Przez ten link wgrasz nową wersję pliku pod ten sam adres.</p>
+            <p>
+              Przez ten link wgrasz nową wersję pliku pod ten sam adres. Możesz tam też podać adres swojego pliku na
+              stronie urzędu, a będziemy go pobierać automatycznie.
+            </p>
             <Kopiuj id="url-edycji" etykieta="prywatny link do aktualizacji" wartosc={publikacja.url_edycji} />
           </>
         )}

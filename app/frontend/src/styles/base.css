@@ -141,3 +141,5 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .instrukcja { padding-left: 1.4rem; }
 .instrukcja li { margin: 0.4rem 0; }
 .ladowanie { color: var(--kolor-tekst-drugi); }
+.zrodlo { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); padding: 0 1rem 0.75rem; margin: 1.25rem 0; }
+.zrodlo h2 { margin-top: 1rem; }

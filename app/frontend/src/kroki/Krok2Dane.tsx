@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { api, ApiError } from "../api/client";
 import type { Dysponent, ImportOut, Mapowanie, PoleSchematu, SchematOut, WalidacjaOut } from "../api/types";
 import { Komunikaty } from "../components/Komunikaty";
@@ -45,6 +45,8 @@ interface Props {
   setStan: (s: StanDanych) => void;
   onWstecz: (() => void) | null;
   onDalej: () => void;
+  /** Dodatkowa sekcja nad wgraniem pliku (w edycji: źródło automatyczne). */
+  dodatek?: ReactNode;
 }
 
 function opisPewnosci(p: number): { klasa: string; tekst: string } {
@@ -64,7 +66,7 @@ function liczba(n: number, jeden: string, kilka: string, wiele: string) {
   return `${n} ${slowo}`;
 }
 
-export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz, onDalej }: Props) {
+export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz, onDalej, dodatek }: Props) {
   const [wybranyPlik, setWybranyPlik] = useState<File | null>(stan.plik);
   const [bladPliku, setBladPliku] = useState<string | null>(null);
   const [wgrywam, setWgrywam] = useState(false);
@@ -196,6 +198,9 @@ export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz,
           </p>
         </div>
       )}
+
+      {dodatek}
+      {dodatek && <h2>Albo wgraj nowy plik ręcznie</h2>}
 
       <form onSubmit={wyslijPlik}>
         <div className="pole">

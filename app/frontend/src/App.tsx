@@ -8,6 +8,7 @@ import { Krok1Dysponent } from "./kroki/Krok1Dysponent";
 import { Krok2Dane, PUSTY_STAN, type StanDanych } from "./kroki/Krok2Dane";
 import { Krok3Publikacja } from "./kroki/Krok3Publikacja";
 import { Start } from "./kroki/Start";
+import { ZrodloAutomatyczne } from "./components/ZrodloAutomatyczne";
 
 type Krok = "start" | "dysponent" | "dane" | "publikacja" | "edycja-wczytywanie";
 type Edycja = { slug: string; token: string };
@@ -142,6 +143,7 @@ export default function App() {
             setStan={setDane}
             onWstecz={edycja ? null : () => setKrok("dysponent")}
             onDalej={() => setKrok("publikacja")}
+            dodatek={edycja && <ZrodloAutomatyczne slug={edycja.slug} token={edycja.token} schemat={schemat} />}
           />
         )}
 
