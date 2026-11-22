@@ -1,23 +1,12 @@
 import type {
   BladApi,
-  Dysponent,
-  Mapowanie,
   ImportOut,
   PublikacjaOut,
   SchematOut,
   WalidacjaIn,
   WalidacjaOut,
+  ZbiorOut,
 } from "./types";
-
-/** GET /api/zbiory/{slug}?token=… (KONTRAKT.md, „Edycja przez prywatny link”). Brak w types.ts, więc typ lokalnie. */
-export interface ZbiorOut {
-  slug: string;
-  dysponent: Dysponent;
-  utworzono: string;
-  zaktualizowano: string;
-  liczba_rekordow: number;
-  mapowanie: Mapowanie;
-}
 
 export class ApiError extends Error {
   constructor(public status: number, public blad: BladApi) {
