@@ -143,8 +143,8 @@ export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz,
     e.preventDefault();
     const plik = wybranyPlik;
     let blad: string | null = null;
-    if (!plik) blad = "Wybierz plik CSV lub XLSX.";
-    else if (!/\.(csv|xlsx)$/i.test(plik.name)) blad = "Ten plik ma inny format. Wgraj plik CSV albo XLSX.";
+    if (!plik) blad = "Wybierz plik CSV, XLSX lub GeoJSON.";
+    else if (!/\.(csv|xlsx|geojson|json)$/i.test(plik.name)) blad = "Ten plik ma inny format. Wgraj plik CSV, XLSX albo GeoJSON.";
     else if (plik.size > MAX_MB * 1024 * 1024) blad = `Plik jest większy niż ${MAX_MB} MB. Podziel go na mniejsze części.`;
     setBladPliku(blad);
     if (blad || !plik) {
@@ -206,12 +206,12 @@ export function Krok2Dane({ schemat, dysponent, edycja, stan, setStan, onWstecz,
         <div className="pole">
           <label htmlFor="plik">Plik z listą AED</label>
           <span id="plik-podp" className="podpowiedz">
-            CSV lub XLSX, do {MAX_MB} MB i 20 000 wierszy. Pierwszy wiersz tabeli to nazwy kolumn.
+            CSV, XLSX lub GeoJSON, do {MAX_MB} MB i 20 000 wierszy. W arkuszu pierwszy wiersz tabeli to nazwy kolumn.
           </span>
           <input
             id="plik"
             type="file"
-            accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept=".csv,.xlsx,.geojson,.json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/geo+json,application/json"
             onChange={(e) => {
               setWybranyPlik(e.target.files?.[0] ?? null);
               setBladPliku(null);

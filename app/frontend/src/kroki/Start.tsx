@@ -15,7 +15,7 @@ export function Start({ onZacznij }: { onZacznij: () => void }) {
           <strong>Podaj, kto odpowiada za urządzenia.</strong> Nazwa instytucji i jej typ.
         </li>
         <li>
-          <strong>Wgraj plik CSV lub XLSX.</strong> Twój własny układ kolumn wystarczy. Podpowiemy, która kolumna
+          <strong>Wgraj plik CSV, XLSX lub GeoJSON.</strong> Twój własny układ kolumn wystarczy. Podpowiemy, która kolumna
           to które pole, i sprawdzimy dane.
         </li>
         <li>

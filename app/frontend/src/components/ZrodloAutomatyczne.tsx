@@ -133,7 +133,7 @@ export function ZrodloAutomatyczne({ slug, token, schemat }: Props) {
 
           <form onSubmit={zapisz} noValidate>
             <div className="pole">
-              <label htmlFor="zrodlo-url">Adres pliku CSV lub XLSX</label>
+              <label htmlFor="zrodlo-url">Adres pliku CSV, XLSX lub GeoJSON</label>
               <span id="zrodlo-url-podp" className="podpowiedz">
                 Publiczny adres, np. https://www.krosno.pl/dane/aed.csv. Układ kolumn musi być taki jak w ostatnio
                 wgranym pliku.
