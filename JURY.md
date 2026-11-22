@@ -7,6 +7,22 @@ zadania ([TRESC.md](zadania/06-mc-misja-aed/TRESC.md), punkty 2–5). Każdy kro
 - **Bez demo:** gdy adres jest zablokowany w Waszej sieci, ten sam stan pokazuje zrzut ekranu albo plik w repo.
   Prototyp można też uruchomić lokalnie (Docker, krok 0).
 
+## Do kliknięcia (bez instalowania czegokolwiek)
+
+| Co | Link |
+|---|---|
+| Prototyp AEDane (kreator, mapa, dane, API) | https://tuaed.wkrynski.dev |
+| **Portal dane.gov.pl z wykazem AED (panel, nasza zmiana w kodzie portalu)** | https://unto-attend-uncle-adopt.trycloudflare.com, konto `jury@tuaed.local`, hasło w formularzu zgłoszenia |
+| API tego portalu: zbiory AED | https://package-colours-charitable-database.trycloudflare.com/1.4/datasets?q=AED |
+| Wykaz zbiorczy AED scalony przez portal (CSV) | https://package-colours-charitable-database.trycloudflare.com/media/resources/20261122/wykaz-zbiorczy-aed-20261122.csv |
+| Prezentacja | [prezentacja/AEDane-Misja-AED.pptx](prezentacja/AEDane-Misja-AED.pptx) |
+| Zrzuty i nagranie panelu portalu | [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) (pliki `portal-*`) |
+
+W panelu portalu (konto redaktora Urzędu Miejskiego w Przemyślu) zobaczysz: zasób z zaznaczonym polem „Wykaz AED”,
+zakładkę walidacji według wzorcowego zakresu v0.5 i zbiór „Defibrylatory AED: wykaz zbiorczy” (3 dostawców,
+45 AED, 1 duplikat oznaczony `duplikat_id_aed`). Portal działa na komputerze zespołu i jest wystawiony tylko na czas
+oceny. Gdy link nie działa, ten sam stan pokazują zrzuty, nagranie i sekcja 3 (pokaz scalania jedną komendą).
+
 Zrzuty są w [prezentacja/zrzuty/](prezentacja/zrzuty/README.md), każdy w wersji na komputer (`-1440.png`) i
 telefon (`-320.png`). Niżej podajemy wersję 1440.
 
