@@ -11,7 +11,13 @@ import { Start } from "./kroki/Start";
 import { ZrodloAutomatyczne } from "./components/ZrodloAutomatyczne";
 
 const Mapa = lazy(() => import("./mapa/Mapa"));
-const NA_MAPIE = /^\/mapa\/?$/.test(window.location.pathname);
+const Dane = lazy(() => import("./dane/Dane"));
+const STRONA: "kreator" | "mapa" | "dane" = /^\/mapa\/?$/.test(window.location.pathname)
+  ? "mapa"
+  : /^\/dane\/?$/.test(window.location.pathname)
+    ? "dane"
+    : "kreator";
+const POZA_KREATOREM = STRONA !== "kreator";
 
 type Krok = "start" | "dysponent" | "dane" | "publikacja" | "edycja-wczytywanie";
 type Edycja = { slug: string; token: string };
@@ -79,7 +85,7 @@ export default function App() {
 
   // WCAG 2.4.2 / 2.4.3: tytuł strony i fokus na nagłówek po zmianie kroku.
   useEffect(() => {
-    if (NA_MAPIE) return;
+    if (POZA_KREATOREM) return;
     document.title = `${tytul} | TuAED`;
     if (pierwszyRender.current) {
       pierwszyRender.current = false;
@@ -100,13 +106,18 @@ export default function App() {
           <nav className="nawigacja" aria-label="Główna">
             <ul>
               <li>
-                <a href="/" aria-current={!NA_MAPIE ? "page" : undefined}>
+                <a href="/" aria-current={STRONA === "kreator" ? "page" : undefined}>
                   Opublikuj dane
                 </a>
               </li>
               <li>
-                <a href="/mapa" aria-current={NA_MAPIE ? "page" : undefined}>
+                <a href="/mapa" aria-current={STRONA === "mapa" ? "page" : undefined}>
                   Mapa AED
+                </a>
+              </li>
+              <li>
+                <a href="/dane" aria-current={STRONA === "dane" ? "page" : undefined}>
+                  Zebrane dane
                 </a>
               </li>
             </ul>
@@ -114,16 +125,21 @@ export default function App() {
         </div>
       </header>
       <main id="tresc" className="kontener">
-        {NA_MAPIE && (
+        {STRONA === "mapa" && (
           <Suspense fallback={<p role="status">Wczytuję mapę…</p>}>
             <Mapa schemat={schemat} />
           </Suspense>
         )}
-        {!NA_MAPIE && nazwaKroku && <Postep kroki={kroki} biezacy={krok} />}
+        {STRONA === "dane" && (
+          <Suspense fallback={<p role="status">Wczytuję…</p>}>
+            <Dane schemat={schemat} />
+          </Suspense>
+        )}
+        {!POZA_KREATOREM && nazwaKroku && <Postep kroki={kroki} biezacy={krok} />}
 
-        {!NA_MAPIE && krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
+        {!POZA_KREATOREM && krok === "start" && <Start onZacznij={() => setKrok("dysponent")} />}
 
-        {!NA_MAPIE && krok === "edycja-wczytywanie" && (
+        {!POZA_KREATOREM && krok === "edycja-wczytywanie" && (
           <section aria-labelledby="naglowek-kroku">
             <h1 id="naglowek-kroku" tabIndex={-1}>
               Aktualizacja danych
@@ -143,7 +159,7 @@ export default function App() {
           </section>
         )}
 
-        {!NA_MAPIE && krok === "dysponent" && (
+        {!POZA_KREATOREM && krok === "dysponent" && (
           <Krok1Dysponent
             schemat={schemat}
             bladSchematu={bladSchematu}
@@ -156,7 +172,7 @@ export default function App() {
           />
         )}
 
-        {!NA_MAPIE && krok === "dane" && dysponent && (
+        {!POZA_KREATOREM && krok === "dane" && dysponent && (
           <Krok2Dane
             schemat={schemat}
             dysponent={dysponent}
@@ -169,7 +185,7 @@ export default function App() {
           />
         )}
 
-        {!NA_MAPIE && krok === "publikacja" && dane.imp && dane.walidacja && (
+        {!POZA_KREATOREM && krok === "publikacja" && dane.imp && dane.walidacja && (
           <Krok3Publikacja
             importId={dane.imp.import_id}
             walidacja={dane.walidacja}

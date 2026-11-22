@@ -3,21 +3,18 @@ import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
-import type { AedFeatureCollection, SchematOut } from "../api/types";
+import type { SchematOut } from "../api/types";
+import { fmt, URL_DANYCH, wczytajAgregat, type Zakres } from "../lib/agregat";
 import { budujPopup, pochodzenie, POCHODZENIE_NAZWA, tytul, type Pochodzenie } from "./popup";
 
 // leaflet.markercluster (UMD) rozszerza globalne L.
 (window as unknown as { L: typeof L }).L = L;
 const klaster = import("leaflet.markercluster");
 
-type Zakres = "z-osm" | "bez-osm";
-const URL_DANYCH: Record<Zakres, { geojson: string; csv: string }> = {
-  "z-osm": { geojson: "/d/aed-polska.geojson", csv: "/d/aed-polska.csv" },
-  "bez-osm": { geojson: "/d/aed-polska-bez-osm.geojson", csv: "/d/aed-polska-bez-osm.csv" },
-};
 const KOLEJNOSC: Pochodzenie[] = ["tuaed", "urzad", "osm"];
+/** /mapa?aed=<id_aed>: po wczytaniu przybliż do punktu i otwórz popup (wejście z /dane). */
+const WYBRANY_AED = new URLSearchParams(window.location.search).get("aed");
 
-const fmt = (n: number) => n.toLocaleString("pl-PL");
 
 function ikonaPunktu(p: Record<string, string>, poch: Pochodzenie) {
   const etykieta = document.createElement("span");
@@ -43,12 +40,13 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
   const kontener = useRef<HTMLDivElement>(null);
   const mapa = useRef<L.Map | null>(null);
   const warstwa = useRef<L.MarkerClusterGroup | null>(null);
-  const cache = useRef<Partial<Record<Zakres, AedFeatureCollection>>>({});
   const schematRef = useRef(schemat);
   schematRef.current = schemat;
   const [zakres, setZakres] = useState<Zakres>("z-osm");
   const [stan, setStan] = useState<"laduje" | "ok" | "blad">("laduje");
   const [liczby, setLiczby] = useState<Record<Pochodzenie, number> | null>(null);
+  const [wybrany, setWybrany] = useState<{ nazwa: string } | "brak" | null>(null);
+  const pokazanoWybrany = useRef(false);
 
   useEffect(() => {
     document.title = "Mapa AED | TuAED";
@@ -95,18 +93,29 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
       setStan("laduje");
       try {
         await klaster;
-        let dane = cache.current[zakres];
-        if (!dane) {
-          const r = await fetch(URL_DANYCH[zakres].geojson);
-          if (!r.ok) throw new Error(String(r.status));
-          dane = (await r.json()) as AedFeatureCollection;
-          cache.current[zakres] = dane;
-        }
+        const dane = await wczytajAgregat(zakres);
         if (anulowane || !mapa.current) return;
+        let doPokazania: L.Marker | null = null;
         const grupa = L.markerClusterGroup({
           chunkedLoading: true,
+          chunkProgress: (zrobione: number, wszystkie: number) => {
+            if (zrobione !== wszystkie || !doPokazania || pokazanoWybrany.current) return;
+            pokazanoWybrany.current = true;
+            const mk = doPokazania;
+            // Po zakończeniu przeliczania klastrów (chunkProgress woła nas jeszcze w trakcie onAdd).
+            window.setTimeout(() => {
+              try {
+                grupa.zoomToShowLayer(mk, () => mk.openPopup());
+              } catch {
+                mapa.current?.setView(mk.getLatLng(), 18);
+                mk.openPopup();
+              }
+            }, 0);
+          },
           showCoverageOnHover: false,
           maxClusterRadius: 60,
+          // Punkty o tych samych współrzędnych rozkładane szerzej: cele 24 px bez nakładania (WCAG 2.5.8).
+          spiderfyDistanceMultiplier: 2,
           iconCreateFunction: ikonaKlastra,
         });
         const zliczone: Record<Pochodzenie, number> = { tuaed: 0, urzad: 0, osm: 0 };
@@ -119,6 +128,10 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
           zliczone[poch]++;
           const mk = L.marker([lat, lon], { icon: ikonaPunktu(p, poch), keyboard: true });
           mk.bindPopup(() => budujPopup(p, schematRef.current), { maxWidth: 280, autoPanPadding: [16, 16] });
+          if (WYBRANY_AED && f.id === WYBRANY_AED && !pokazanoWybrany.current) {
+            doPokazania = mk;
+            setWybrany({ nazwa: tytul(p) });
+          }
           markery.push(mk);
         }
         grupa.addLayers(markery);
@@ -126,6 +139,7 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
         grupa.addTo(mapa.current);
         warstwa.current = grupa;
         setLiczby(zliczone);
+        if (WYBRANY_AED && !doPokazania && !pokazanoWybrany.current) setWybrany("brak");
         setStan("ok");
       } catch {
         if (!anulowane) setStan("blad");
@@ -175,6 +189,17 @@ export default function Mapa({ schemat }: { schemat: SchematOut | null }) {
             ? "Nie udało się wczytać danych mapy. Dane możesz pobrać z linków niżej."
             : `Na mapie: ${fmt(suma)} AED.`}
       </p>
+
+      {WYBRANY_AED && wybrany && (
+        <div className={`ramka ${wybrany === "brak" ? "ramka-ostrzezenie" : "ramka-info"}`}>
+          <p>
+            {wybrany === "brak"
+              ? "Nie znaleźliśmy wybranego AED na mapie. Mógł zostać usunięty albo jest poza wybranym zakresem."
+              : `Pokazuję wybrany AED: ${wybrany.nazwa}.`}{" "}
+            <a href="/dane">Wróć do listy zebranych danych</a>
+          </p>
+        </div>
+      )}
 
       <ul className="legenda" aria-label="Legenda">
         {KOLEJNOSC.filter((k) => zakres === "z-osm" || k !== "osm").map((k) => (

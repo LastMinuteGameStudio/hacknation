@@ -164,7 +164,7 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .przelacznik { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); padding: 0.25rem 1rem 0.5rem; margin: 1rem 0; }
 .przelacznik legend { font-weight: 700; padding: 0 0.3rem; }
 .przelacznik label { display: flex; align-items: center; gap: 0.5rem; min-height: 36px; }
-.przelacznik input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--kolor-glowny-ciemny); }
+.przelacznik input { width: 24px; height: 24px; margin: 0; flex: none; accent-color: var(--kolor-glowny-ciemny); }
 .mapa-stan { font-weight: 600; }
 .mapa { height: 70vh; min-height: 360px; max-height: 720px; width: 100%; border: 2px solid var(--kolor-ramka); border-radius: var(--promien); }
 .mapa:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 2px; }
@@ -195,3 +195,29 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .tabela-liczb th[scope="row"] { font-weight: 400; }
 .tabela-liczb td, .tabela-liczb thead th:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .tabela-liczb tbody tr:last-child th, .tabela-liczb tbody tr:last-child td { font-weight: 700; border-top: 2px solid var(--kolor-ramka); border-bottom: none; }
+
+/* /dane: tabele, które poniżej 700 px stają się kartami */
+.wiersz-pod { display: block; font-weight: 400; }
+.tabela-karty th[scope="row"] { font-weight: 600; }
+.tabela-karty td, .tabela-karty th { word-break: break-word; }
+.pliki { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+.pliki a { display: inline-block; padding: 0.15rem 0; min-height: 24px; }
+.wiersz-klikalny { cursor: pointer; }
+.tabela-karty th[scope="row"] a { display: inline-block; min-height: 24px; padding: 0.1rem 0; }
+.wiersz-klikalny:hover { background: var(--kolor-tlo-jasne); }
+.filtry { display: grid; grid-template-columns: 1fr; gap: 0 1rem; margin: 1rem 0; }
+.filtry .pole { margin: 0.5rem 0; max-width: none; }
+@media (min-width: 700px) { .filtry { grid-template-columns: repeat(2, 1fr); } .filtry-pelne { grid-column: 1 / -1; } }
+@media (min-width: 1000px) { .filtry { grid-template-columns: repeat(4, 1fr); } }
+input[type="search"] { font: inherit; width: 100%; min-height: 44px; padding: 0.4rem 0.6rem; border: 2px solid var(--kolor-ramka);
+  border-radius: var(--promien); background: #fff; color: var(--kolor-tekst); }
+.stronicowanie { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: center; margin: 1rem 0; }
+.stronicowanie-stan { padding: 0 0.5rem; font-weight: 600; }
+@media (max-width: 699px) {
+  .tabela-karty thead { position: absolute; left: -9999px; }
+  .tabela-karty, .tabela-karty tbody, .tabela-karty tr, .tabela-karty td, .tabela-karty th[scope="row"] { display: block; width: 100%; }
+  .tabela-karty tr { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); margin-bottom: 0.75rem; padding: 0.25rem 0.5rem; }
+  .tabela-karty td, .tabela-karty th[scope="row"] { border: 0; padding: 0.25rem 0; }
+  .tabela-karty td[data-etykieta]::before { content: attr(data-etykieta); display: block; font-size: 0.85rem; font-weight: 600; color: var(--kolor-tekst-drugi); }
+  .tabela-karty th[scope="row"] { font-size: 1.05rem; }
+}
