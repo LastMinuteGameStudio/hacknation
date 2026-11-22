@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1719.6595mm"
+   height="634.5061mm"
+   viewBox="0 0 1719.6595 634.5061"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="hacknation paleta.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#ffffff"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.06299282"
+     inkscape:cx="22986.747"
+     inkscape:cy="3492.4615"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="1719.6595"
+       height="634.5061"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-1576.667,-1619.5234)">
+    <rect
+       style="fill:#008c15;fill-opacity:1;stroke:none;stroke-width:25.9086;stroke-linecap:round;stroke-opacity:1"
+       id="rect16"
+       width="1719.6597"
+       height="634.50623"
+       x="1576.6671"
+       y="1619.5232" />
+    <g
+       id="g17"
+       transform="matrix(4.0000008,0,0,4.0000008,3214.2079,1722.3683)"
+       style="fill:#ffffff;fill-opacity:1">
+      <path
+         id="path16"
+         style="fill:#ffffff;fill-opacity:1;stroke-width:1.5456;stroke-linecap:round"
+         d="m -346.65721,8.6019926 a 29.289454,28.833691 0 0 0 -7.5808,0.98293 29.289454,28.833691 0 0 0 -20.711,20.3886964 29.289454,28.833691 0 0 0 7.5809,27.85041 l 41.4213,40.777959 41.4214,-40.777959 a 29.289454,28.833691 0 0 0 7.58079,-27.85041 29.289454,28.833691 0 0 0 -20.71041,-20.3886964 29.289454,28.833691 0 0 0 -28.29178,7.4622564 29.289454,28.833691 0 0 0 -20.7104,-8.4451864 z m 19.57239,13.3213764 a 1.3018787,1.2816207 0 0 1 1.33748,1.13478 l 2.80551,24.08174 a 2.9316121,2.8859943 0 0 0 2.91229,2.55713 h 11.09657 a 1.607783,1.5827649 0 0 1 1.43467,2.29681 l -16.74091,32.59144 a 1.3197078,1.2991722 0 0 1 -2.48963,-0.4489 l -2.5744,-23.83587 a 2.9073636,2.8621231 0 0 0 -2.89081,-2.55936 h -10.73776 a 1.6360254,1.6105678 0 0 1 -1.4714,-2.31462 l 16.19166,-32.78279 a 1.3018787,1.2816207 0 0 1 1.12673,-0.72036 z" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:63.8718px;line-height:1;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Semi-Bold';writing-mode:lr-tb;direction:ltr;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:4.79042;stroke-linecap:round"
+         x="-253.85716"
+         y="76.180695"
+         id="text17"><tspan
+           sodipodi:role="line"
+           id="tspan17"
+           style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Semi-Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:4.79042"
+           x="-253.85716"
+           y="76.180695">AEDane</tspan></text>
+    </g>
+  </g>
+</svg>
