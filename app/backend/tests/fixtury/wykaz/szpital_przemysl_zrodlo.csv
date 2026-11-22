@@ -1,0 +1,4 @@
+id,nazwa,lat,lon,ulica,nr,kod,miasto,wewnatrz,dostep,24h,seryjny
+SZP-1,Szpital Wojewódzki – wejście od ul. Słowackiego,49.7813443,22.7750936,Juliusza Słowackiego,12,37-700,Przemyśl,tak,publiczny,tak,SN-SZP-1
+SZP-2,Szpital Wojewódzki – izba przyjęć,49.7810435,22.7771083,Juliusza Słowackiego,21,37-700,Przemyśl,tak,publiczny,tak,SN-SZP-2
+SZP-3,Szpital Wojewódzki – budynek główny,49.7905000,22.7630000,Monte Cassino,18,37-700,Przemyśl,tak,publiczny,tak,SN-SZP-3
