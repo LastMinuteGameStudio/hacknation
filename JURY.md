@@ -135,17 +135,41 @@ opublikujecie, będą widoczne w agregacie, dlatego prosimy o dopisek „(jury)�
 
 ## 3. Zmiany w portalu dane.gov.pl (wykaz AED)
 
-_Szkielet: sekcję uzupełnimy, gdy będą gotowe `portal/WYKAZ-AED.md` i `portal/URUCHOMIENIE-TUAED.md`._
+Kod portalu (mcod-backend 2.62.3) z naszymi zmianami jest na branchu `portal-aed`, w katalogu `portal/`. Pierwszy
+commit to czysty kod portalu, kolejne to zmiany. Opis zmian: [portal/WYKAZ-AED.md](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/WYKAZ-AED.md).
+Uruchomienie: [portal/URUCHOMIENIE-TUAED.md](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/URUCHOMIENIE-TUAED.md).
 
-Pomysł: na wzór wykazu DGA w kodzie portalu (mcod-backend 2.62.3) dostawca oznacza zasób flagą **„wykaz AED”**.
-Portal waliduje go względem zakresu v0.5, a zadanie okresowe scala wykazy wszystkich dostawców w jeden zbiór.
-Duplikat (ten sam numer seryjny albo do 30 m) nie jest usuwany, tylko dostaje `duplikat_id_aed`.
+Na wzór istniejącego w portalu wykazu DGA dostawca zaznacza na zasobie **„Wykaz AED: Tak”** (`Resource.is_aed_list`).
+Portal waliduje taki zasób według zakresu v0.5. Codziennie o 3:45 zadanie `create_main_aed_resource_task` scala
+poprawne wykazy wszystkich dostawców w zbiór **„Defibrylatory AED: wykaz zbiorczy”** (CSV i XLSX). AED zgłoszony
+przez dwóch dostawców (ten sam numer seryjny albo do 30 m) nie jest usuwany, tylko dostaje `duplikat_id_aed`.
 
-1. Uruchomienie lokalnego portalu: _(portal/URUCHOMIENIE-TUAED.md)_
-2. Panel admina: dodanie zasobu z flagą „wykaz AED”: _(zrzut)_
-3. Dwóch dostawców publikuje wykazy, a zadanie scalające tworzy jeden zbiór: _(zrzut, wynik testu e2e)_
-4. Duplikat między dostawcami z `duplikat_id_aed`: _(zrzut, fragment pliku)_
-5. Kod zmian i testy: _(portal/WYKAZ-AED.md, ścieżki do plików)_
+Dane testowe: trzech dostawców, każdy z zasobem-linkiem z „Aktualizacją automatyczną”.
+
+| Dostawca | Wykaz | Licencja |
+|---|---|---|
+| Urząd Miejski w Przemyślu (test TuAED) | https://tuaed.wkrynski.dev/d/kznsks42.csv (21 AED) | CC0 1.0 |
+| Urząd Miasta Krosna (test TuAED) | https://tuaed.wkrynski.dev/d/qy7g6px5.csv (21 AED) | CC0 1.0 |
+| Szpital Wojewódzki w Przemyślu (test TuAED) | [szpital_przemysl_v05.csv](app/backend/tests/fixtury/wykaz/szpital_przemysl_v05.csv) (3 AED: jeden 15 m od AED Przemyśla, jeden 45 m od innego) | CC BY 4.0 |
+
+1. Uruchom portal lokalnie według URUCHOMIENIE-TUAED.md i wczytaj dane testowe. Panel: http://localhost:8101.
+2. Zaloguj się jako redaktor szpitala i otwórz zasób jego zbioru. Pole „Wykaz AED: Tak” ma opis; błędy zakresu
+   v0.5 widać w wynikach walidacji zasobu. _(zrzut)_
+3. Uruchom scalanie: `python manage.py shell -c "from mcod.resources.tasks import create_main_aed_resource_task as t; print(t.apply().result)"`.
+4. Oczekiwany wynik: **45 AED, 1 duplikat**, licencja wykazu zbiorczego **CC BY 4.0** (jeden dostawca ma CC BY).
+   Rekord „ADM Centrum” z wykazu Przemyśla ma `duplikat_id_aed` wskazujący AED szpitala. Wykazy są
+   przetwarzane alfabetycznie według instytucji, więc oznaczony jest rekord z wykazu przetworzonego później. AED
+   oddalony o 45 m nie jest oznaczony. Kolumny pochodzenia: `zrodlo_instytucja`, `zrodlo_zasob_id`, `zrodlo_url`,
+   `zrodlo_data_aktualizacji`, `licencja_zrodla`. _(zrzut, fragment pliku)_
+5. Panel: Zasoby → „Wykaz zbiorczy AED”. Raport pokazuje, które wykazy dołączono, a które pominięto i dlaczego
+   (błędy walidacji albo licencja spoza CC0 i CC BY 4.0). _(zrzut)_
+
+**Bez uruchamiania portalu:**
+- Logika scalania nie zależy od Django ([mcod/resources/aed/](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/aed/)) i ma 18 testów
+  ([test_aed_merge.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_merge.py)) oraz testy z bazą
+  ([test_aed_list.py](https://github.com/LastMinuteGameStudio/hacknation/blob/portal-aed/portal/mcod/resources/tests/test_aed_list.py)).
+- Ten sam wynik (45 AED, 1 duplikat, CC BY 4.0) daje uruchomienie `merge.py` na trzech powyższych plikach,
+  sprawdzone 22.11.
 
 ## 4. Ograniczenia
 
