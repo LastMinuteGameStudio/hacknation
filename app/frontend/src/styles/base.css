@@ -156,9 +156,17 @@ thead th { background: var(--kolor-tlo-jasne); font-size: 0.95rem; }
 .zrodlo h2 { margin-top: 1rem; }
 
 /* Nawigacja w nagłówku */
-.nawigacja ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0; padding: 0; }
-.nawigacja a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.25rem; font-weight: 600; color: var(--kolor-info); }
-.nawigacja a[aria-current="page"] { color: var(--kolor-tekst); text-decoration-thickness: 3px; text-decoration-color: var(--kolor-glowny-ciemny); }
+/* Nawigacja jako zakładki-pigułki: bez podkreśleń, bieżąca strona wypełniona zielenią kampanii */
+.nawigacja ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.375rem; margin: 0; padding: 0; }
+.nawigacja a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem; border-radius: 999px;
+  font-weight: 600; color: var(--kolor-tekst); text-decoration: none; border: 2px solid transparent;
+  transition: background-color 0.15s, border-color 0.15s; }
+.nawigacja a:hover { background: var(--kolor-tlo-jasne); border-color: var(--kolor-tlo-alt); }
+.nawigacja a[aria-current="page"] { background: var(--kolor-glowny-ciemny); border-color: var(--kolor-glowny-ciemny); color: #fff; }
+.nawigacja a[aria-current="page"]:hover { background: var(--kolor-glowny-hover); border-color: var(--kolor-glowny-hover); }
+.nawigacja a:focus-visible { outline: 3px solid var(--kolor-fokus); outline-offset: 2px; }
+@media (max-width: 479px) { .nawigacja a { padding: 0 0.8rem; font-size: 0.95rem; } }
+@media (prefers-reduced-motion: reduce) { .nawigacja a { transition: none; } }
 
 /* Mapa (S2) */
 .przelacznik { border: 2px solid var(--kolor-tlo-alt); border-radius: var(--promien); padding: 0.25rem 1rem 0.5rem; margin: 1rem 0; }
