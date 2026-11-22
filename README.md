@@ -2,6 +2,7 @@
 
 Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** (Ministerstwo Cyfryzacji).
 
+- **Instrukcja dla jury (krok po kroku, każde wymaganie):** [JURY.md](JURY.md)
 - **Prototyp:** https://tuaed.wkrynski.dev (kreator dla dostawcy, mapa AED, zebrane dane, API w `/docs`)
 - **Prezentacja:** [prezentacja/TuAED-Misja-AED.pptx](prezentacja/TuAED-Misja-AED.pptx)
 - **Wzorcowy zakres danych (xlsx):** [zakres-danych/wzorcowy-zakres-danych-AED.xlsx](zakres-danych/wzorcowy-zakres-danych-AED.xlsx)
@@ -25,6 +26,8 @@ Przy nagłym zatrzymaniu krążenia liczy się każda minuta, a defibrylatora AE
 Mapowanie kolumn działa bez AI (synonimy z realnych plików i analiza zawartości) i trafia w 100% na 10 plikach testowych. Brakujące współrzędne uzupełnia geokoder GUGiK. Front spełnia WCAG 2.2 AA (axe-core: 0 naruszeń, Lighthouse: 100) i działa od 320 px szerokości.
 
 ## Gdzie co jest
+
+Ponumerowane kroki sprawdzenia każdego wymagania, także bez dostępu do demo: **[JURY.md](JURY.md)**.
 
 | Wymaganie z treści zadania | Gdzie |
 |---|---|
