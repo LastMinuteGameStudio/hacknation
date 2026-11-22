@@ -28,8 +28,8 @@ Gdy masz więcej czasu, sprawdź sam, jak niżej. Wystarczy przeglądarka.
 Dopisaliśmy do kodu portalu „wykaz AED”. Dostawca zaznacza pole przy zasobie, portal sprawdza dane, a co noc
 łączy wykazy wszystkich dostawców w jeden ogólnopolski zbiór.
 
-1. Wejdź na **https://unto-attend-uncle-adopt.trycloudflare.com**. Login: `jury@tuaed.local`, hasło jest w
-   formularzu zgłoszenia.
+1. Wejdź na **https://unto-attend-uncle-adopt.trycloudflare.com**. Login: `jury@tuaed.local`, hasło: `Jury-3d15e7d5-AED`
+   (konto testowe redaktora).
 2. Zasoby → „Defibrylatory AED w Przemyślu (CSV)”: pole **„Wykaz AED”** jest zaznaczone, a zakładka walidacji pokazuje
    wynik sprawdzenia danych.
 3. Scalony zbiór pobierzesz bez logowania:
