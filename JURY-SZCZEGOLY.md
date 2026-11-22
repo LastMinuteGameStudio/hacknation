@@ -14,9 +14,9 @@ zadania ([TRESC.md](zadania/06-mc-misja-aed/TRESC.md), punkty 2–5). Każdy kro
 | Co | Link |
 |---|---|
 | Prototyp AEDane (kreator, mapa, dane, API) | https://tuaed.wkrynski.dev |
-| **Portal dane.gov.pl z wykazem AED (panel, nasza zmiana w kodzie portalu)** | https://unto-attend-uncle-adopt.trycloudflare.com, konto `jury@tuaed.local`, hasło w formularzu zgłoszenia |
-| API tego portalu: zbiory AED | https://package-colours-charitable-database.trycloudflare.com/1.4/datasets?q=AED |
-| Wykaz zbiorczy AED scalony przez portal (CSV) | https://package-colours-charitable-database.trycloudflare.com/media/resources/20261122/wykaz-zbiorczy-aed-20261122.csv |
+| **Portal dane.gov.pl z wykazem AED (panel, nasza zmiana w kodzie portalu)** | https://portal-admin.wkrynski.dev, konto `jury@tuaed.local`, hasło w formularzu zgłoszenia |
+| API tego portalu: zbiory AED | https://portal-api.wkrynski.dev/1.4/datasets?q=AED |
+| Wykaz zbiorczy AED scalony przez portal (CSV) | https://portal-api.wkrynski.dev/media/resources/20261122/wykaz-zbiorczy-aed-20261122.csv |
 | Prezentacja | [prezentacja/AEDane-Misja-AED.pptx](prezentacja/AEDane-Misja-AED.pptx) |
 | Zrzuty i nagranie panelu portalu | [prezentacja/zrzuty/](prezentacja/zrzuty/README.md) (pliki `portal-*`) |
 
