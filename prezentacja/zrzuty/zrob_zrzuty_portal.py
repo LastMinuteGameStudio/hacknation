@@ -62,18 +62,57 @@ MASKUJ_JS = r"""(maska) => {
 PODSWIETL_JS = """(el) => { el.style.outline = '4px solid #008c15'; el.style.outlineOffset = '4px';
   el.style.borderRadius = '6px'; el.scrollIntoView({block: 'center'}); }"""
 
-# Raport scalania (JSONField, tylko do odczytu) pokazujemy jako sformatowany JSON.
-RAPORT_JS = """() => {
+# Raport scalania (JSONField, tylko do odczytu; admin pokazuje go jako repr słownika Pythona) zamieniamy
+# na czytelne tabele: każda lista obiektów (dołączone, pominięte, …) to osobna tabela.
+RAPORT_JS = r"""() => {
   const el = document.querySelector('.field-report .readonly, .field-report p, .field-report div.readonly');
   if (!el) return false;
-  try {
-    const dane = JSON.parse(el.textContent);
-    const pre = document.createElement('pre');
-    pre.textContent = JSON.stringify(dane, null, 2);
-    pre.style.cssText = 'white-space:pre-wrap;font:13px/1.45 ui-monospace,Menlo,monospace;max-width:1100px;margin:0';
-    el.replaceWith(pre);
-    return true;
-  } catch (e) { return false; }
+  let t = el.textContent.trim();
+  let dane;
+  try { dane = JSON.parse(t); } catch (e) {
+    // repr Pythona → JSON: apostrofy jako ograniczniki napisów, None/True/False.
+    const j = t.replace(/'((?:[^'\\]|\\.)*)'/g, (_, w) => JSON.stringify(w.replace(/\\'/g, "'")))
+               .replace(/\bNone\b/g, 'null').replace(/\bTrue\b/g, 'true').replace(/\bFalse\b/g, 'false');
+    try { dane = JSON.parse(j); } catch (e2) { return false; }
+  }
+  const NAZWY = {dolaczone: 'Dołączone wykazy dostawców', pominiete: 'Pominięte wykazy (z powodem)',
+    duplikaty: 'Oznaczone duplikaty', instytucja: 'Instytucja', liczba_aed: 'Liczba AED', licencja: 'Licencja',
+    zasob_id: 'Zasób', powod: 'Powód', bledy: 'Błędy'};
+  const n = k => NAZWY[k] || k;
+  const fmt = v => Array.isArray(v) ? v.join('; ') : (v && typeof v === 'object') ? JSON.stringify(v) : (v ?? '');
+  const box = document.createElement('div');
+  box.style.cssText = 'font:14px/1.45 "Helvetica Neue",Arial,sans-serif;max-width:1150px';
+  for (const [klucz, wart] of Object.entries(dane)) {
+    const h = document.createElement('h4');
+    h.textContent = n(klucz) + (Array.isArray(wart) ? ` (${wart.length})` : '');
+    h.style.cssText = 'margin:14px 0 6px;font-size:16px;color:#008c15';
+    box.appendChild(h);
+    if (Array.isArray(wart) && wart.length && typeof wart[0] === 'object') {
+      const KOLEJNOSC = ['instytucja', 'liczba_aed', 'licencja', 'powod', 'bledy', 'zasob_id'];
+      const poz = k => (KOLEJNOSC.indexOf(k) + 1) || 99;
+      const kol = [...new Set(wart.flatMap(o => Object.keys(o)))].sort((x, y) => poz(x) - poz(y)).filter(k => !(k === 'bledy' && wart.every(o => !o.bledy || !o.bledy.length)));
+      const tab = document.createElement('table');
+      tab.style.cssText = 'border-collapse:collapse;width:100%;background:#fff';
+      tab.innerHTML = '<tr>' + kol.map(k => `<th style="text-align:left;padding:6px 10px;background:#333;color:#fff">${n(k)}</th>`).join('') + '</tr>';
+      for (const o of wart) {
+        const tr = document.createElement('tr');
+        for (const k of kol) {
+          const td = document.createElement('td');
+          td.textContent = fmt(o[k]);
+          td.style.cssText = 'padding:6px 10px;border-bottom:1px solid #ddd;vertical-align:top';
+          tr.appendChild(td);
+        }
+        tab.appendChild(tr);
+      }
+      box.appendChild(tab);
+    } else {
+      const d = document.createElement('div');
+      d.textContent = Array.isArray(wart) && !wart.length ? '(brak)' : fmt(wart);
+      box.appendChild(d);
+    }
+  }
+  el.replaceWith(box);
+  return true;
 }"""
 
 

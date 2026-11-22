@@ -82,7 +82,9 @@ Skrypt `zrob_zrzuty_portal.py` (Playwright, tylko czyta). Portal i dane testowe:
 (panel `http://localhost:8101`, konto `admin@tuaed.local`). Hasło podajemy tylko w zmiennej środowiskowej:
 
 ```bash
-PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py [--zasob-z-bledem 'tytuł zasobu']
+PORTAL_HASLO='…' /tmp/pw/bin/python prezentacja/zrzuty/zrob_zrzuty_portal.py [--zasob-z-bledem 'tytuł zasobu'] \
+    [--ekrany 01,02a,02b,03a,03b,04] [--zasob-id 40207]
+PORTAL_HASLO='…' [PORTAL_HASLO_REDAKTOR='…'] /tmp/pw/bin/python prezentacja/zrzuty/nagraj_portal.py   # + pip install imageio-ffmpeg
 ```
 
 Uruchamiamy po teście e2e sesji D (`portal/tuaed_e2e.sh`): to on zakłada zasób z błędem słownika
@@ -95,8 +97,9 @@ w wyniku skryptu, a pozostałe powstają.
 | Plik | Podpis |
 |---|---|
 | `portal-01-formularz-wykaz-aed` | Formularz zasobu w panelu dostawcy: pole „Wykaz AED” (TAK/NIE) z opisem. TAK oznacza wykaz w formacie zakresu v0.5, który portal sprawdzi i co noc dołączy do zbioru „Defibrylatory AED: wykaz zbiorczy”. |
-| `portal-02a-walidacja-poprawny` | Zakładka walidacji danych zasobu-wykazu: plik zgodny z zakresem v0.5, bez błędów. |
+| `portal-02a-walidacja-poprawny` | Zakładka walidacji danych zasobu-wykazu: SUCCESS z komunikatem „Wykaz AED zgodny z zakresem v0.5, liczba rekordów: 21” (ostrzeżenia nie blokują publikacji). |
 | `portal-02b-walidacja-blad-slownika` | Ten sam widok dla wykazu z wartością spoza słownika (np. `dostepnosc`): komunikat z numerem wiersza i podpowiedzią „Użyj jednej z wartości słownika zakresu v0.5”. Taki wykaz nie trafia do wykazu zbiorczego. |
 | `portal-03a-zbior-wykaz-zbiorczy` | Zbiór „Defibrylatory AED: wykaz zbiorczy” utworzony przez portal (instytucja-właściciel, kategoria Zdrowie, słowa kluczowe AED, defibrylator, wykaz AED). |
-| `portal-03b-zasoby-csv-xlsx` | Zasoby zbioru zbiorczego: ten sam wykaz w CSV i XLSX, odświeżany po każdym scaleniu. |
-| `portal-04-wykaz-zbiorczy-raport` | „Wykaz zbiorczy AED” (wzór: wykaz DGA): liczba AED, dołączone wykazy dostawców, pominięte wykazy z powodem (licencja, błędy walidacji), oznaczone duplikaty i licencja wykazu. |
+| `portal-03b-zasoby-csv-xlsx` | Zasób zbioru zbiorczego „Defibrylatory AED: wykaz zbiorczy (CSV)”, dostępny też jako XLSX i JSON-LD, odświeżany po każdym scaleniu. |
+| `portal-04-wykaz-zbiorczy-raport` | „Wykaz zbiorczy AED” (wzór: wykaz DGA): liczba AED, dołączone wykazy dostawców, pominięte wykazy z powodem (licencja, błędy walidacji), oznaczone duplikaty i licencja wykazu. Raport scalania pokazany jako tabele (na stanie testowym: 49 AED, 5 wykazów dołączonych, 2 pominięte: licencja CC BY-NC 4.0 oraz błąd słownika, 3 duplikaty, CC BY 4.0). |
+| `portal-nagranie.mp4` | Nagranie ok. 100 s (1440×900, H.264, 2 MB): redaktor urzędu loguje się, w formularzu zasobu jest „Wykaz AED” = Tak, walidacja SUCCESS; potem administrator: wykaz z błędem słownika (FAILURE z numerem wiersza), zbiór „Defibrylatory AED: wykaz zbiorczy”, jego zasób CSV/XLSX i raport scalania. Podpisy na dole ekranu. Skrypt: `nagraj_portal.py`. |
