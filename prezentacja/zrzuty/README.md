@@ -21,6 +21,8 @@ odróżnić te zbiory w agregacie. Każdy zrzut jest w dwóch szerokościach: `-
 | `09-edycja-zrodlo-automatyczne-sekcja` | 9 | Sama sekcja „Źródło automatyczne”: adres pliku na stronie urzędu i częstotliwość pobierania. |
 | `08-csv-w-przegladarce` | 8 | Wynikowy CSV pobrany bez logowania: nagłówki HTTP (`text/csv; charset=utf-8`, CORS `*`) i pierwsze wiersze w zakresie v0.5. |
 | `10-docs-api` | 10 | Dokumentacja API (OpenAPI, `/docs`) dla odbiorców i integratorów. |
+| `10-mapa` | 10 | Mapa AED (`/mapa`): wszystkie AED albo bez OpenStreetMap, liczby według pochodzenia. Skrypt `zrob_zrzuty_strony.py` (nic nie publikuje). |
+| `10-dane` | 10 | „Zebrane dane” (`/dane`): zbiory dostawców z plikami CSV, JSON, GeoJSON i CSVW. |
 
 ### Synchronizacja z URL źródła (S1), zbiór `kznsks42`
 
@@ -69,7 +71,8 @@ python3 prezentacja/zrzuty/sprawdz_url.py https://tuaed.wkrynski.dev/d/kznsks42.
 | Slug | Rola | Do posprzątania? |
 |---|---|---|
 | `kznsks42` | Zbiór na prezentację: synchronizacja z `demo-zrodlo` włączona, zrzuty `09-sync-*`, `DOWOD-URL.md` | nie |
-| `gh4e9uju` | Ostatnie uruchomienie `zrob_zrzuty.py` (zrzuty kreatora po poprawkach B i C, `08-csv-w-przegladarce`) | tak, po prezentacji |
+| `qps44qst` | Ostatnie uruchomienie `zrob_zrzuty.py` (zrzuty kreatora z nową nawigacją i „Wykaz AED” w kroku 3) | tak, po prezentacji |
+| `gh4e9uju` | Wcześniejsze uruchomienie `zrob_zrzuty.py` | tak |
 | `cfseuu37`, `r9ba4cvw` | Próbne przebiegi skryptu | tak |
 
 Wszystkie mają dysponenta „Urząd Miejski w Przemyślu (demo)”. Sprzątanie należy do Grzana. Skrypty niczego nie usuwają.
