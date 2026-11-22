@@ -35,7 +35,8 @@ DOSTAWCY = [
         "email_instytucji": "aed@przemysl.test",
         "miasto": "Przemyśl",
         "redaktor": "redaktor.przemysl@tuaed.local",
-        "imie_nazwisko": "Redaktor Przemyśl",
+        "imie_nazwisko": "Anna Kowalska",
+        "telefon": "123456789",  # bez nazwiska i telefonu panel wymusza uzupełnienie konta zamiast pokazać zasoby
         "zbior": "Defibrylatory AED w Przemyślu",
         "url": os.environ.get("TUAED_URL_1", "https://tuaed.wkrynski.dev/d/kznsks42.csv"),
     },
@@ -45,7 +46,8 @@ DOSTAWCY = [
         "email_instytucji": "aed@krosno.test",
         "miasto": "Krosno",
         "redaktor": "redaktor.krosno@tuaed.local",
-        "imie_nazwisko": "Redaktor Krosno",
+        "imie_nazwisko": "Piotr Nowak",
+        "telefon": "123456780",  # bez nazwiska i telefonu panel wymusza uzupełnienie konta zamiast pokazać zasoby
         "zbior": "Defibrylatory AED w Krośnie",
         "url": os.environ.get("TUAED_URL_2", "https://tuaed.wkrynski.dev/d/qy7g6px5.csv"),
     },
@@ -57,7 +59,8 @@ DOSTAWCY = [
         "email_instytucji": "aed@szpital-przemysl.test",
         "miasto": "Przemyśl",
         "redaktor": "redaktor.szpital@tuaed.local",
-        "imie_nazwisko": "Redaktor Szpital",
+        "imie_nazwisko": "Katarzyna Wiśniewska",
+        "telefon": "123456781",  # bez nazwiska i telefonu panel wymusza uzupełnienie konta zamiast pokazać zasoby
         "zbior": "Defibrylatory AED w Szpitalu Wojewódzkim w Przemyślu",
         "licencja": "CC BY 4.0",
         "url": os.environ.get(
@@ -122,7 +125,9 @@ def main() -> None:
         org.status = "published"
         org.save()
 
-        redaktor = _uzytkownik(User, d["redaktor"], d["imie_nazwisko"], is_staff=True, is_superuser=False)
+        redaktor = _uzytkownik(
+            User, d["redaktor"], d["imie_nazwisko"], phone=d["telefon"], is_staff=True, is_superuser=False
+        )
         redaktor.organizations.add(org)
 
         ds = Dataset.objects.filter(title=d["zbior"], organization=org).first() or Dataset(title=d["zbior"], organization=org)
