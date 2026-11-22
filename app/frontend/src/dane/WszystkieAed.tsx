@@ -33,6 +33,10 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
   const [statusWal, setStatusWal] = useState("");
   const [strona, setStrona] = useState(1);
   const wynikiRef = useRef<HTMLHeadingElement>(null);
+  // Ramka tabeli jest przystankiem Tab (region) tylko, gdy faktycznie przewija się w poziomie (od 700 px);
+  // przy kartach nie ma czego przewijać, więc nie dokładamy pustego przystanku.
+  const ramkaRef = useRef<HTMLDivElement>(null);
+  const [przewijana, setPrzewijana] = useState(false);
 
   const slownik = (nazwa: string, kod: string | undefined) => {
     if (!kod) return "";
@@ -108,6 +112,21 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
         slowa.every((s) => w.szukaj.includes(s)),
     );
   }, [wiersze, szukajOpozn, zrodlo, dostepnosc, d247, statusWal]);
+
+  const maTabele = !!wiersze && wynik.length > 0;
+  useEffect(() => {
+    const el = ramkaRef.current;
+    if (!el) {
+      setPrzewijana(false);
+      return;
+    }
+    const sprawdz = () => setPrzewijana(el.scrollWidth > el.clientWidth + 1);
+    sprawdz();
+    const ro = new ResizeObserver(sprawdz);
+    ro.observe(el);
+    if (el.firstElementChild) ro.observe(el.firstElementChild);
+    return () => ro.disconnect();
+  }, [maTabele]);
 
   const stron = Math.max(1, Math.ceil(wynik.length / NA_STRONIE));
   const naStronie = wynik.slice((strona - 1) * NA_STRONIE, strona * NA_STRONIE);
@@ -236,7 +255,11 @@ export function WszystkieAed({ schemat }: { schemat: SchematOut | null }) {
       </p>
 
       {wiersze && naStronie.length > 0 && (
-        <div className="tabela-przewijana tabela-aed-ramka" tabIndex={0} role="region" aria-label="Tabela AED (przewijana w poziomie)">
+        <div
+          ref={ramkaRef}
+          className="tabela-przewijana tabela-aed-ramka"
+          {...(przewijana ? { tabIndex: 0, role: "region", "aria-label": "Tabela AED (przewijana w poziomie)" } : {})}
+        >
           <table className="tabela-karty tabela-aed">
             <caption className="wizualnie-ukryte">
               AED, strona {strona} z {stron}. Nazwa prowadzi do punktu na mapie.
