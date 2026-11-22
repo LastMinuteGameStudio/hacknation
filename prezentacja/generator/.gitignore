@@ -5,3 +5,4 @@ images.json
 imgmap.json
 package*.json
 *.pptx
+node_modules
