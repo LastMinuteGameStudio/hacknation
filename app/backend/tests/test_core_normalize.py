@@ -268,3 +268,16 @@ def test_limit_geokodowan():
     assert len(g.zapytania) == MAX_GEOKODOWAN
     assert sum(r.pominiety for r in rr) == 5
     assert "ZA_DUZO_DO_GEOKODOWANIA" in kody(rr[0])
+
+
+def test_wewnatrz_z_opisu_i_godziny_opisem():
+    t = Table(columns=["lat", "lon", "gdzie", "godz"], rows=[
+        ["52.1", "21.1", "na zewnątrz, przy wejściu", "24h"],
+        ["52.2", "21.2", "wewnątrz, rejestracja", "w godzinach otwarcia ośrodka"],
+        ["52.3", "21.3", "hol główny", ""]])
+    m = {"lat": "szerokosc_geograficzna", "lon": "dlugosc_geograficzna", "gdzie": "opis_lokalizacji", "godz": "_godziny"}
+    rr = normalize_table(t, m, SCHEMA, UM, DZIS)
+    assert [r.record["wewnatrz_budynku"] for r in rr] == ["false", "true", ""]
+    assert "WEWNATRZ_Z_OPISU" in kody(rr[0])
+    assert rr[1].record["dostepny_24_7"] == "nie" and "NIEZROZUMIALE_GODZINY" in kody(rr[1])
+    assert rr[0].record["dostepny_24_7"] == "tak"

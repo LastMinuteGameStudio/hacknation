@@ -551,6 +551,15 @@ def normalize_table(
             else:
                 rec[pole] = formatuj(pole, surowe, schema)
 
+        # wewnatrz_budynku z opisu lokalizacji („wewnątrz, hol”, „na zewnątrz, przy wejściu”), gdy brak osobnej kolumny
+        if not rec["wewnatrz_budynku"] and rec["opis_lokalizacji"]:
+            w = _logiczny(rec["opis_lokalizacji"])
+            if w in ("true", "false"):
+                rec["wewnatrz_budynku"] = w
+                msgs.append(_msg("info", "WEWNATRZ_Z_OPISU",
+                                 f"„Wewnątrz budynku” ustalono z opisu lokalizacji „{rec['opis_lokalizacji'][:60]}”.",
+                                 wiersz, "wewnatrz_budynku"))
+
         # wartości stałe (nie nadpisują niepustych wartości z kolumn)
         for p, v in fixed.items():
             if not rec[p]:
@@ -571,6 +580,8 @@ def normalize_table(
                 msgs.append(_msg("ostrzezenie", "NIEZROZUMIALE_GODZINY",
                                  f"Nie zrozumieliśmy godzin „{godziny_tekst[:80]}”; przenieśliśmy je do uwag.", wiersz,
                                  "godziny_pn"))
+                if not rec["dostepny_24_7"]:
+                    rec["dostepny_24_7"] = "nie"  # godziny podane opisem (np. „w godzinach otwarcia”) = nie całą dobę
         if rec["dostepny_24_7"] == "tak":
             for p in POLA_GODZIN:
                 rec[p] = "X"

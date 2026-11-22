@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schemat przepływu TuAED (E3). Ręczny SVG = źródło. Slajd 16:9 (1920×1080).
+     Paleta TuAED: #008c15 (zieleń), #5bc500 (limonka, tylko akcenty), #101820 (tekst), Noto Sans.
+     Biały tekst tylko na #008c15 i tylko duży (≥ 28 px, pogrubiony): kontrast 4,4:1 spełnia AA dla dużego tekstu. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080"
+     font-family="'Noto Sans', 'Adwaita Sans', Arial, sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">Jak dane o AED trafiają do dane.gov.pl</title>
+  <desc id="d">Dysponenci (gmina z plikiem XLSX, miasto z plikiem CSV na stronie) wgrywają dane do TuAED, które mapuje kolumny,
+    normalizuje do zakresu v0.5, geokoduje adresy w GUGiK i waliduje. Wynik jest pod stałym adresem /d/slug.csv z JSON i CSVW,
+    który dane.gov.pl pobiera codziennie (aktualizacja automatyczna). Agregat /d/aed-polska.csv łączy zbiory dysponentów z OSM.
+    Odbiorcy: dyspozytorzy 112, mapy i aplikacje, obywatele.</desc>
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#101820"/>
+    </marker>
+    <style>
+      .h { font-size: 34px; font-weight: 700; fill: #101820; }
+      .hw { font-size: 34px; font-weight: 700; fill: #ffffff; }
+      .b { font-size: 28px; fill: #101820; }
+      .bb { font-size: 28px; font-weight: 700; fill: #101820; }
+      .s { font-size: 24px; fill: #101820; }
+      .card { fill: #ffffff; stroke: #008c15; stroke-width: 4; }
+      .soft { fill: #eef6ee; stroke: #008c15; stroke-width: 4; }
+      .arrow { stroke: #101820; stroke-width: 6; fill: none; marker-end: url(#g); }
+      .dash { stroke: #101820; stroke-width: 5; fill: none; stroke-dasharray: 14 10; marker-end: url(#g); }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#fffdf8"/>
+  <rect x="0" y="0" width="1920" height="12" fill="#5bc500"/>
+  <text x="60" y="100" font-size="52" font-weight="700" fill="#101820">Jak dane o AED trafiają do dane.gov.pl</text>
+
+  <!-- 1. Dysponenci -->
+  <text x="60" y="185" class="h">Dysponenci</text>
+  <rect x="60" y="215" width="310" height="160" rx="18" class="card"/>
+  <text x="90" y="282" class="bb">Gmina</text>
+  <text x="90" y="330" class="b">arkusz XLSX</text>
+  <rect x="60" y="415" width="310" height="160" rx="18" class="card"/>
+  <text x="90" y="482" class="bb">Miasto</text>
+  <text x="90" y="530" class="b">CSV na stronie</text>
+  <rect x="60" y="690" width="310" height="160" rx="18" class="card" stroke-dasharray="14 10"/>
+  <text x="90" y="757" class="bb">OpenStreetMap</text>
+  <text x="90" y="805" class="b">i inne zbiory</text>
+
+  <!-- 2. TuAED -->
+  <rect x="440" y="150" width="540" height="740" rx="24" fill="#008c15"/>
+  <text x="710" y="210" class="hw" text-anchor="middle">TuAED</text>
+  <g>
+    <rect x="470" y="240" width="480" height="110" rx="14" fill="#ffffff"/>
+    <text x="500" y="290" class="bb">1  Wgranie pliku</text>
+    <text x="540" y="330" class="s">lub synchronizacja z URL*</text>
+    <rect x="470" y="370" width="480" height="90" rx="14" fill="#ffffff"/>
+    <text x="500" y="427" class="bb">2  Mapowanie kolumn</text>
+    <rect x="470" y="480" width="480" height="90" rx="14" fill="#ffffff"/>
+    <text x="500" y="537" class="bb">3  Normalizacja do v0.5</text>
+    <rect x="470" y="590" width="480" height="90" rx="14" fill="#ffffff"/>
+    <text x="500" y="647" class="bb">4  Geokodowanie GUGiK</text>
+    <rect x="470" y="700" width="480" height="90" rx="14" fill="#ffffff"/>
+    <text x="500" y="757" class="bb">5  Walidacja</text>
+    <text x="710" y="850" class="hw" text-anchor="middle" font-size="30">kreator w 3 krokach</text>
+  </g>
+
+  <!-- 3. Stały URL i agregat -->
+  <rect x="1050" y="215" width="360" height="290" rx="18" class="card"/>
+  <text x="1080" y="275" class="h">Stały URL</text>
+  <text x="1080" y="330" class="b">/d/{slug}.csv</text>
+  <text x="1080" y="378" class="b">+ JSON</text>
+  <text x="1080" y="426" class="b">+ CSVW (metadane)</text>
+  <text x="1080" y="474" class="s">licencja CC0 1.0</text>
+
+  <rect x="1050" y="640" width="360" height="250" rx="18" class="soft"/>
+  <text x="1080" y="700" class="h">Agregat</text>
+  <text x="1080" y="755" class="b">/d/aed-polska.csv</text>
+  <text x="1080" y="805" class="s">wszystkie źródła,</text>
+  <text x="1080" y="840" class="s">duplikaty oznaczone</text>
+
+  <!-- 4. dane.gov.pl i odbiorcy -->
+  <rect x="1490" y="215" width="380" height="290" rx="18" fill="#008c15"/>
+  <text x="1520" y="280" class="hw">dane.gov.pl</text>
+  <text x="1520" y="345" class="hw" font-size="28">Aktualizacja</text>
+  <text x="1520" y="385" class="hw" font-size="28">automatyczna:</text>
+  <text x="1520" y="425" class="hw" font-size="28">codziennie</text>
+
+  <rect x="1490" y="590" width="380" height="300" rx="18" class="card"/>
+  <text x="1520" y="650" class="h">Odbiorcy</text>
+  <text x="1520" y="710" class="b">Dyspozytorzy 112</text>
+  <text x="1520" y="765" class="b">Mapy i aplikacje</text>
+  <text x="1520" y="820" class="b">Obywatele</text>
+
+  <!-- strzałki -->
+  <path d="M370 295 L432 295" class="arrow"/>
+  <path d="M370 495 L432 495" class="arrow"/>
+  <path d="M980 360 L1042 360" class="arrow"/>
+  <path d="M1410 360 L1482 360" class="arrow"/>
+  <path d="M1680 505 L1680 582" class="arrow"/>
+  <path d="M980 760 L1042 760" class="arrow"/>
+  <path d="M1410 760 L1482 760" class="arrow"/>
+  <!-- OSM → agregat (bez kreatora), pod TuAED -->
+  <path d="M215 850 L215 960 L1230 960 L1230 898" class="dash"/>
+
+  <text x="60" y="1040" class="s">* synchronizacja z URL źródła: w planie (demo na pliku Przemyśla). Pozostałe elementy działają w prototypie.</text>
+</svg>

@@ -189,7 +189,8 @@ geocode.GugikGeocoder(cache: GeocodeCache).geocode(query: AddressQuery) -> GeoRe
 | `DOMYSLNY_STATUS` | ostrzeżenie | brak `status`, ustawiono `nieznany` |
 | `DOMYSLNA_DATA_WERYFIKACJI` | ostrzeżenie | brak `data_weryfikacji`, ustawiono datę wgrania |
 | `ROZBITO_ADRES` / `NIE_ROZBITO_ADRESU` | info / ostrzeżenie | adres z jednego pola rozbity na części / nieudane |
-| `NIEZROZUMIALE_GODZINY` | ostrzeżenie | godziny w wolnym tekście, przeniesione do `uwagi` |
+| `NIEZROZUMIALE_GODZINY` | ostrzeżenie | godziny w wolnym tekście, przeniesione do `uwagi` (gdy `dostepny_24_7` puste, ustawiamy `nie`) |
+| `WEWNATRZ_Z_OPISU` | info | `wewnatrz_budynku` ustalone z opisu lokalizacji zaczynającego się od „wewnątrz” / „na zewnątrz” |
 | `SA_BLEDY` | HTTP 409 | publikacja przy błędach |
 | `ZLY_TOKEN` | HTTP 403 | zły token edycji |
 | `NIE_ZNALEZIONO` | HTTP 404 | brak importu lub zbioru |
