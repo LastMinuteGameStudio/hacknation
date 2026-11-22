@@ -6,6 +6,11 @@
 # - wyłącza nginx (certyfikaty i /etc/hosts), Discourse (obrazy z prywatnego rejestru) i CMS (profile);
 # - włącza Celery beat (zadania okresowe, m.in. „Aktualizacja automatyczna” zasobów).
 x-zaleznosci: &zaleznosci
+  image: mcod-app:local  # jeden obraz aplikacji dla admina, API, Celery i run (bez osobnych budów)
+  # Bez montowania katalogów z hosta: macOS blokuje dockerowi dostęp do ~/Desktop („Operation not permitted”).
+  # Kod jest w obrazie (ADD . przy budowie), więc po zmianie kodu: build mcod-local-admin. Media w wolumenie.
+  volumes: !override
+    - tuaed_media:/usr/src/mcod_backend/media
   depends_on: !override
     - mcod-db
     - mcod-rabbitmq
@@ -59,8 +64,15 @@ services:
       CELERY_INSTALL_CERTIFICATES: 0
       CELERY_OPTS: "-l INFO -B --scheduler django_celery_beat.schedulers:DatabaseScheduler"
   mcod-local-tests:
-    <<: *zaleznosci
+    depends_on: !override [mcod-db, mcod-rabbitmq, mcod-redis, mcod-elasticsearch, mcod-rdfdb, mcod-smtp]
   mcod-local-tests-api:
-    <<: *zaleznosci
+    depends_on: !override [mcod-db, mcod-rabbitmq, mcod-redis, mcod-elasticsearch, mcod-rdfdb, mcod-smtp]
   mcod-local-tests-cms:
-    <<: *zaleznosci
+    depends_on: !override [mcod-db, mcod-rabbitmq, mcod-redis, mcod-elasticsearch, mcod-rdfdb, mcod-smtp]
+  mcod-local-run:
+    image: mcod-app:local  # obraz testów (docker/tests) pomijamy: za mało miejsca; pytest doinstalowujemy w kontenerze
+    volumes: !override
+      - tuaed_media:/usr/src/mcod_backend/media
+
+volumes:
+  tuaed_media:

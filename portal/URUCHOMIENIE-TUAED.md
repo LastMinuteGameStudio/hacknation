@@ -1,8 +1,7 @@
 # Lokalny portal dane.gov.pl (mcod-backend 2.62.3) dla TuAED
 
-> **Stan: szkic, jeszcze nieuruchomiony.** Pliki konfiguracyjne są gotowe. Budowa obrazów czeka na zgodę użytkownika
-> sesji B (uruchamianie kodu z nieoficjalnego mirrora). Po pierwszym udanym uruchomieniu ta sekcja zniknie,
-> a kroki zostaną poprawione według tego, co faktycznie zadziałało.
+> **Stan (22.11, ok. 08:45): uruchomione na Macu (OrbStack, Apple Silicon) według kroków poniżej.** Admin, API, Celery
+> z beat i pobieranie zasobów-linków działają. Wykaz AED (kod ścieżki A) ma jeszcze błędy do poprawki, patrz tablica.
 
 Kod: `portal/` = mirror https://github.com/olekstomek/mcod-backend-dane.gov.pl (commit `00a0813`), bez zmian.
 Pominięte pliki: [POMINIETE.md](POMINIETE.md). Nasze przyrosty do uruchomienia:
@@ -11,12 +10,17 @@ Pominięte pliki: [POMINIETE.md](POMINIETE.md). Nasze przyrosty do uruchomienia:
 |---|---|
 | `docker-compose.tuaed.yml` | nakładka na `docker-compose.local.yml`: porty tylko na 127.0.0.1, bez nginx, Discourse i CMS, Celery z beat |
 | `env.tuaed` | `.env` dla nakładki: `COMPOSE_PROJECT_NAME=dgp`, adresy `localhost`, forum wyłączone, ustawienia `mcod.settings.tuaed` |
-| `mcod/settings/tuaed.py` | jak `local.py.sample`, ale ciasteczka bez domeny `mcod.local` (logowanie przez `http://localhost:8101`) |
+| `mcod/settings/tuaed.py` | jak `local.py.sample`, ale ciasteczka bez domeny `mcod.local` (logowanie przez `http://localhost:8101`) i bez `index.timeout` (ES 6.8 go odrzuca) |
+| `logs/README.md` | katalog `logs/` (upstream ma go w `.gitignore`, a bez niego budowa obrazu pada na `kibana_statistics.log`) |
 
 ## Ograniczenia
 - Kontenery mają stałe nazwy (`mcod-db`, `mcod-api`…) i stałą podsieć `172.18.18.0/24`. **Na jednym komputerze działa jeden taki stack.** Testy innych sesji idą na tym samym (projekt `dgp`).
 - Obrazy aplikacji są `linux/amd64`: na Macu z Apple Silicon działają przez emulację (OrbStack/Rosetta), wolniej.
 - Paczka Fuseki (RDF) nie jest w repo. Przed budową skopiuj ją z mirrora do `docker/rdfdb/fuseki/dist/` (ten katalog jest ignorowany przez git).
+- **Kod jest w obrazie, nie montowany z hosta.** Na macOS docker nie może czytać `~/Desktop` (ochrona prywatności: „Operation not permitted”), więc nakładka wyłącza bind mounty. Po każdej zmianie kodu: `dc build mcod-local-admin && dc up -d --no-build mcod-local-admin mcod-local-api mcod-local-celery` (ok. 1 min). Media są w wolumenie `dgp_tuaed_media`.
+- **Miejsce na dysku:** obraz aplikacji ma ok. 1,4 GB (Python 3.8, Firefox, ffmpeg, Node), Elasticsearch 1,6 GB. Każda przebudowa zostawia cache, więc przy małej ilości miejsca po budowie zrób `docker builder prune -af`.
+- Obrazu testów (`docker/tests`) nie budujemy: `mcod-local-run` używa obrazu aplikacji, a pytest doinstalowujemy w kontenerze.
+- W logach są komunikaty `--- Logging error --- socket.gaierror`: jeden z handlerów logów łączy się z hostem, którego lokalnie nie ma. Nie przeszkadzają.
 
 ## Adresy (tylko 127.0.0.1)
 | Usługa | Adres |
@@ -33,18 +37,20 @@ cp env.tuaed .env
 # paczka Fuseki z mirrora (nie ma jej w repo):
 curl -L -o docker/rdfdb/fuseki/dist/apache-jena-fuseki-6.2.0.tar.gz \
   https://github.com/olekstomek/mcod-backend-dane.gov.pl/raw/main/docker/rdfdb/fuseki/dist/apache-jena-fuseki-6.2.0.tar.gz
-DC="docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml"
-$DC build mcod-db mcod-rabbitmq mcod-redis mcod-elasticsearch mcod-rdfdb mcod-local-admin
-$DC up -d mcod-db mcod-rabbitmq mcod-redis mcod-elasticsearch mcod-rdfdb mcod-smtp
-$DC run --rm mcod-local-run python manage.py init_mcod_db      # jednorazowo: migracje i dane startowe
-$DC run --rm mcod-local-run python manage.py search_index --rebuild -f   # jednorazowo: indeksy ES
-$DC up -d mcod-local-admin mcod-local-api mcod-local-celery mcod-flower
+dc() { docker compose -f docker-compose.local.yml -f docker-compose.tuaed.yml "$@"; }   # bash i zsh
+dc build mcod-db mcod-rabbitmq mcod-redis mcod-elasticsearch mcod-rdfdb mcod-local-admin   # pierwsza budowa: kilkanaście minut
+dc up -d mcod-db mcod-rabbitmq mcod-redis mcod-elasticsearch mcod-rdfdb mcod-smtp
+dc run --rm --no-deps mcod-local-run python manage.py init_mcod_db              # jednorazowo: migracje (w tym 0075 wykaz AED) i dane startowe
+dc run --rm --no-deps mcod-local-run python manage.py search_index --rebuild -f # jednorazowo: indeksy ES
+dc up -d --no-build mcod-local-admin mcod-local-api mcod-local-celery mcod-flower
+curl -I http://localhost:8101/            # 302 → logowanie
+curl -s http://localhost:8100/1.4/datasets | head -c 200
 ```
 
 ## Dane testowe (konta, instytucje, zbiory)
 Skrypt [`mcod/tuaed_dane_testowe.py`](mcod/tuaed_dane_testowe.py) (idempotentny, można uruchamiać wielokrotnie):
 ```bash
-$DC run --rm mcod-local-run python manage.py shell -c "from mcod.tuaed_dane_testowe import main; main()"
+docker exec mcod-admin python manage.py shell -c "from mcod.tuaed_dane_testowe import main; main()"
 ```
 | Konto | Rola | Hasło |
 |---|---|---|
@@ -58,9 +64,10 @@ Skrypt zakłada też instytucję-właściciela zbiorczego wykazu „Ministerstwo
 ## Wykaz AED: scalenie i testy (ścieżka A)
 ```bash
 # scalenie wykazów dostawców w zbiór zbiorczy (normalnie robi to Celery beat):
-$DC run --rm mcod-local-run python manage.py shell -c "from mcod.resources.tasks import create_main_aed_resource_task as t; print(t.apply().result)"
+docker exec mcod-admin python manage.py shell -c "from mcod.resources.tasks import create_main_aed_resource_task as t; print(t.apply().result)"
 # testy wykazu AED:
-$DC run --rm mcod-local-run python -m pytest mcod/resources/tests/test_aed_merge.py mcod/resources/tests/test_aed_list.py
+docker exec mcod-admin pip install -q pytest pytest-django   # raz na kontener
+docker exec mcod-admin python -m pytest mcod/resources/tests/test_aed_merge.py mcod/resources/tests/test_aed_list.py -x -q
 ```
 
 ## Zasób-link i „Aktualizacja automatyczna”: jak to działa w kodzie
