@@ -63,17 +63,6 @@ def metadane(z: Zbior, liczba: Optional[int] = None) -> dict:
     return m
 
 
-def popraw_titles(m: dict) -> dict:
-    """CSVW §5.5.1: `titles` musi zawierać tekst nagłówka CSV (nazwę pola), inaczej walidator zgłasza niezgodność
-    kolumn. Polską nazwę zostawiamy jako drugi tytuł. Idempotentne (gdy rdzeń już to robi, nic się nie zmienia)."""
-    for k in m.get("tableSchema", {}).get("columns", []):
-        t = k.get("titles")
-        tytuly = [t] if isinstance(t, str) else list(t or [])
-        if k.get("name") and k["name"] not in tytuly:
-            k["titles"] = [k["name"], *tytuly]
-    return m
-
-
 def plik(db: Session, nazwa: str) -> Response:
     if nazwa in agregat.PLIKI:
         typ = CSV if agregat.PLIKI[nazwa][1] == "csv" else GEOJSON
@@ -82,7 +71,7 @@ def plik(db: Session, nazwa: str) -> Response:
     slug, rodzaj = rozbij_nazwe(nazwa)
     z = _zbior(db, slug)
     if rodzaj == "csv-metadata.json":
-        m = popraw_titles(core.csvw_metadata(SCHEMA, f"{BASE_URL}/d/{slug}.csv", tytul(z)))
+        m = core.csvw_metadata(SCHEMA, f"{BASE_URL}/d/{slug}.csv", tytul(z))
         m["dc:modified"] = _iso(z.zaktualizowano)
         return Response(json.dumps(m, ensure_ascii=False, indent=1).encode("utf-8"), media_type=CSVW, headers=NAGLOWKI)
     recs = rekordy(db, z.id)
