@@ -14,7 +14,7 @@ Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** 
 
 ## Wyniki
 
-Średnia ocena jury: **7.93** (średnia wszystkich zespołów: 3.16).
+**Byliśmy finalistami hackathonu.** Średnia ocena jury: **7.93** (średnia wszystkich zespołów: 3.16).
 
 ![Wyniki zespołu w zadaniu Misja AED - Dane Na Ratunek](wyniki/wyniki-hackathon.png)
 
