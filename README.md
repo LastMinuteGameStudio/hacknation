@@ -12,6 +12,12 @@ Projekt na hackathon HackNation 2026, zadanie **06 Misja AED: Dane na ratunek** 
 
 > Wersja robocza opisu (22.11.2026). Uzupełniamy ją do końca hackathonu.
 
+## Wyniki
+
+Średnia ocena jury: **7.93** (średnia wszystkich zespołów: 3.16).
+
+![Wyniki zespołu w zadaniu Misja AED - Dane Na Ratunek](wyniki/wyniki-hackathon.png)
+
 ## Problem
 
 Przy nagłym zatrzymaniu krążenia liczy się każda minuta, a defibrylatora AED może użyć każdy. Trzeba jednak wiedzieć, gdzie jest najbliższe urządzenie, czy jest dostępne i czy działa. W Polsce nie ma krajowego rejestru AED. Dane są rozproszone u wielu dysponentów (gminy, urzędy, OSP, szkoły, firmy) i publikowane w różnych formach: API z tokenem, mapy Google, tabele HTML, PDF, CSV z własnym układem kolumn. Na dane.gov.pl jest kilka zbiorów AED, każdy w innym schemacie, a część nie jest aktualizowana. Za jakość danych na portalu odpowiada dostawca, więc rozwiązanie musi ułatwić publikację samym dysponentom, a nie publikować dane za nich.
